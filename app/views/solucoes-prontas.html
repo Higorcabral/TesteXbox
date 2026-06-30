@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soluções Prontas — Hifera Company</title>
+<meta name="description" content="Sistemas plug and play prontos para uso. Implementação rápida, preço acessível, estrutura profissional.">
+<link rel="icon" type="image/png" href="../../public/img/logo/HiferaIcon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../public/css/styles.css">
+<script src="../../app/controllers/ThemeController.js"></script>
+<script src="../../app/controllers/InteractiveCardsController.js" defer></script>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="home.html" class="logo">
+      <img src="../../public/img/logo/HiferaIcon.png" alt="Hifera Company" class="logo-img">
+      <span class="logo-text-block">
+        <strong>HIFERA <span class="grad-text">COMPANY</span></strong>
+        <small>Hub Digital</small>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="solucoes-prontas.html" class="active">Soluções Prontas</a></li>
+      <li><a href="personalizadas.html">Personalizadas</a></li>
+      <li><a href="automacao.html">Automação</a></li>
+      <li><a href="sobre.html">Sobre</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Alternar tema">
+        <svg class="tt-icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="tt-icon sun"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <span class="tt-thumb">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/></svg>
+        </span>
+      </button>
+      <a href="login.html" class="nav-login" aria-label="Entrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        <span class="label">Entrar</span>
+      </a>
+      <a href="sobre.html#contato" class="nav-cta">Falar com especialista</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <div class="breadcrumb fade-up d1">
+      <a href="home.html">Início</a>
+      <span class="sep">/</span>
+      <span>Soluções Prontas</span>
+    </div>
+    <h1 class="fade-up d2">
+      Sistemas <span class="grad-text">plug and play</span><br>prontos para escalar seu dia a dia.
+    </h1>
+    <p class="lead fade-up d3">
+      Soluções já desenvolvidas, testadas e prontas para uso. Implementação em dias, curva de aprendizado
+      curta e valor entregue desde o primeiro mês. Ideais para profissionais e empresas que precisam
+      profissionalizar a operação sem esperar meses por um sistema sob medida.
+    </p>
+    <div class="btn-row fade-up d4" style="margin-top: 32px;">
+      <a href="#catalogo" class="btn-primary">Ver catálogo <span class="arrow">→</span></a>
+      <a href="sobre.html#contato" class="btn-ghost">Quero implantar <span class="arrow">→</span></a>
+    </div>
+  </div>
+</header>
+
+<section id="catalogo">
+  <div class="container">
+    <h2 class="section-title">Catálogo completo</h2>
+    <p class="section-intro">
+      Cada solução é entregue configurada, treinada e pronta para uso. Sem instalação complexa,
+      sem manutenção pesada, sem dores de cabeça.
+    </p>
+
+    <div id="catalog-grid" class="catalog-expanded"></div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="section-title">Como funciona a <span class="grad-text">implantação</span>.</h2>
+    <p class="section-intro">Processo direto: do primeiro contato ao sistema rodando, em poucos dias.</p>
+
+    <div class="process">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Diagnóstico</h4>
+        <p>Conversa rápida para entender seu cenário e indicar qual solução pronta encaixa melhor.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Configuração</h4>
+        <p>Personalizamos o sistema com suas categorias, usuários, dados iniciais e identidade visual.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Treinamento</h4>
+        <p>Sessão prática para você e sua equipe usarem o sistema com confiança desde o primeiro dia.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>Suporte contínuo</h4>
+        <p>Acompanhamento, ajustes finos e novas funcionalidades conforme sua operação evolui.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2 class="section-title">Perguntas <span class="grad-text">frequentes</span>.</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <h4>Em quanto tempo o sistema fica no ar?</h4>
+        <p>A maioria das soluções é entregue funcional em até 5 dias úteis após a aprovação do escopo. Tempo total depende da quantidade de dados a serem importados e do nível de personalização visual.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Posso adaptar uma solução pronta às minhas regras de negócio?</h4>
+        <p>Sim. Toda solução tem camadas de configuração e podemos adicionar ajustes específicos por demanda — sem precisar migrar para um projeto sob medida.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Preciso ter conhecimento técnico para usar?</h4>
+        <p>Não. As soluções são projetadas para uso por equipes não técnicas e incluem treinamento na implantação. Se você sabe usar planilhas, sabe usar nossos sistemas.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Os dados ficam seguros?</h4>
+        <p>Sim. Toda solução roda em infraestrutura com backup automático, acesso por permissões e criptografia em trânsito. Dados sensíveis seguem boas práticas da LGPD.</p>
+      </div>
+      <div class="faq-item">
+        <h4>E se eu precisar crescer e a solução pronta ficar pequena?</h4>
+        <p>Sem problema. Migramos seus dados para uma solução personalizada sob medida, mantendo todo histórico e treinamento de uso. O caminho é evolutivo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2>Comece com algo que já <span class="grad-text">funciona.</span></h2>
+    <p>Diga qual é a sua dor — agendamento, financeiro, estoque, vendas — e indicamos qual solução pronta encaixa.</p>
+    <div class="btn-row">
+      <a href="sobre.html#contato" class="btn-primary">Falar com especialista <span class="arrow">→</span></a>
+      <a href="personalizadas.html" class="btn-ghost">Preciso de algo sob medida <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="home.html" class="logo">
+          <img src="../../public/img/logo/HiferaIcon.png" alt="Hifera Company" class="logo-img">
+          <span class="logo-text-block">
+            <strong>HIFERA <span class="grad-text">COMPANY</span></strong>
+            <small>Hub Digital</small>
+          </span>
+        </a>
+        <p class="footer-tagline">Tecnologia, automação e gestão inteligente para empresas que querem escalar com eficiência.</p>
+      </div>
+      <div class="footer-col"><h6>Soluções</h6><ul><li><a href="solucoes-prontas.html">Prontas</a></li><li><a href="personalizadas.html">Personalizadas</a></li><li><a href="automacao.html">Automação</a></li></ul></div>
+      <div class="footer-col"><h6>Empresa</h6><ul><li><a href="sobre.html">Sobre</a></li><li><a href="sobre.html#idealizadores">Idealizadores</a></li><li><a href="sobre.html#contato">Contato</a></li></ul></div>
+      <div class="footer-col"><h6>Contato</h6><ul><li><a href="#">contato@hiferacompany.com</a></li><li><a href="#">WhatsApp</a></li><li><a href="#">LinkedIn</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Hifera Company · Todos os direitos reservados</span>
+      <span>Feito com tecnologia que trabalha por você</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../../app/models/ApiModel.js"></script>
+<script src="../../app/models/AuthModel.js"></script>
+<script src="../../app/models/SeedModel.js"></script>
+<script src="../../app/controllers/CatalogController.js"></script>
+</body>
+</html>

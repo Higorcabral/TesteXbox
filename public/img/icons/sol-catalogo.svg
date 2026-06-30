@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5de0e6"/><stop offset="1" stop-color="#004aad"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.7">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#ffffff" fill-opacity="0.06"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="400" fill="url(#g)"/>
+  <rect width="600" height="400" fill="url(#dots)"/>
+  <rect width="600" height="400" fill="url(#glow)"/>
+  <g transform="translate(300 180)" stroke="#ffffff" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-80 -55 L-10 -55 A20 20 0 0 1 10 -35 L10 70 A15 15 0 0 0 -5 55 L-80 55 Z"/>
+    <path d="M80 -55 L10 -55 A20 20 0 0 0 -10 -35 L-10 70 A15 15 0 0 1 5 55 L80 55 Z"/>
+  </g>
+  <text x="300" y="350" font-family="Poppins, sans-serif" font-size="18" font-weight="600" letter-spacing="3" fill="#ffffff" text-anchor="middle" fill-opacity="0.85">CATÁLOGO DIGITAL</text>
+</svg>
