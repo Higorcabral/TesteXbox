@@ -41,8 +41,20 @@
     var priceText = esc(s.price || 'Sob consulta');
     var hasRealPrice = /R\$/i.test(s.price || '');
 
+    /* Se a solução tem demoUrl, o card vira link direto para o demo funcional
+       (abre em nova aba); caso contrário, aponta para detalhe.html?id=... */
+    var hasDemo = !!s.demoUrl;
+    var href = hasDemo ? s.demoUrl : ('detalhe.html?id=' + encodeURIComponent(s.id));
+    var linkAttrs = hasDemo
+      ? ' target="_blank" rel="noopener"'
+      : '';
+    var ctaLabel = hasDemo ? (s.demoLabel || 'Experimentar demo') : 'Ver detalhes';
+    var demoBadge = hasDemo
+      ? '<span class="ci-demo-badge">Demo ao vivo</span>'
+      : '';
+
     return '' +
-      '<a class="catalog-item ecommerce" href="detalhe.html?id=' + encodeURIComponent(s.id) + '">' +
+      '<a class="catalog-item ecommerce' + (hasDemo ? ' has-demo' : '') + '" href="' + esc(href) + '"' + linkAttrs + '>' +
         '<div class="ci-photo">' +
           '<img src="' + esc(s.image) + '" alt="' + esc(s.title) + '" loading="lazy">' +
           '<span class="ci-badge">' + esc(statusLabel(s.status)) + '</span>' +
@@ -64,7 +76,8 @@
           '<p>' + esc(s.shortDescription || s.longDescription || '') + '</p>' +
           '<ul class="feature-list">' + features + '</ul>' +
           '<div class="ci-foot">' +
-            '<span class="ci-cta">Ver detalhes <span class="arrow">→</span></span>' +
+            demoBadge +
+            '<span class="ci-cta">' + esc(ctaLabel) + ' <span class="arrow">→</span></span>' +
           '</div>' +
         '</div>' +
       '</a>';

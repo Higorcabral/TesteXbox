@@ -815,6 +815,35 @@ section.tight { padding: 60px 0; }
   margin-top: auto;
   padding-top: 14px;
   border-top: 1px dashed var(--line);
+  gap: 10px;
+}
+/* Badge "Demo ao vivo" — só aparece em soluções com demoUrl */
+.catalog-item.ecommerce .ci-demo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(93,224,230,0.16), rgba(0,74,173,0.12));
+  border: 1px solid rgba(93,224,230,0.28);
+  color: var(--cyan);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.catalog-item.ecommerce .ci-demo-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+  animation: pulse 2s ease-in-out infinite;
+}
+/* Efeito extra no hover pra cards com demo (chama atenção) */
+.catalog-item.ecommerce.has-demo:hover {
+  border-color: rgba(93,224,230,0.55);
 }
 .catalog-item.ecommerce .ci-cta {
   margin-top: 0;

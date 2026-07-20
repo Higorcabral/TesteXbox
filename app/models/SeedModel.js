@@ -46,7 +46,10 @@
         'Exportação': 'PDF, Excel, CSV'
       },
       price: 'R$ 397/mês',
-      status: 'available'
+      status: 'available',
+      /* Demo funcional integrado — CTA do card abre este link em nova aba */
+      demoUrl: '../../apps/ledger/',
+      demoLabel: 'Experimentar demo'
     },
     {
       id: 'sol-dashboards',

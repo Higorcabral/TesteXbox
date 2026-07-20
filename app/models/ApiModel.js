@@ -6,9 +6,9 @@
 (function (global) {
   'use strict';
 
-  /* v2: fotos ecommerce + preços de exemplo. Bumping versão força reseed. */
-  var STORAGE_KEY = 'hifera.solutions.v2';
-  var SEED_FLAG = 'hifera.seeded.v2';
+  /* v3: adiciona demoUrl na solução Financeiro (Ledger integrado). */
+  var STORAGE_KEY = 'hifera.solutions.v3';
+  var SEED_FLAG = 'hifera.seeded.v3';
 
   function read() {
     try {
