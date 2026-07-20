@@ -38,21 +38,34 @@
       return '<li>' + esc(f) + '</li>';
     }).join('');
 
+    var priceText = esc(s.price || 'Sob consulta');
+    var hasRealPrice = /R\$/i.test(s.price || '');
+
     return '' +
-      '<a class="catalog-item" href="detalhe.html?id=' + encodeURIComponent(s.id) + '">' +
+      '<a class="catalog-item ecommerce" href="detalhe.html?id=' + encodeURIComponent(s.id) + '">' +
         '<div class="ci-photo">' +
           '<img src="' + esc(s.image) + '" alt="' + esc(s.title) + '" loading="lazy">' +
           '<span class="ci-badge">' + esc(statusLabel(s.status)) + '</span>' +
         '</div>' +
         '<div class="ci-body">' +
           '<div class="ci-head">' +
-            '<div class="ci-icon">' + iconHTML(s.icon) + '</div>' +
-            '<span class="ci-price">' + esc(s.price || 'Sob consulta') + '</span>' +
+            '<div class="ci-title-block">' +
+              '<div class="ci-icon">' + iconHTML(s.icon) + '</div>' +
+              '<div class="ci-title-text">' +
+                '<h4>' + esc(s.title) + '</h4>' +
+                '<small>Solução pronta · Hifera</small>' +
+              '</div>' +
+            '</div>' +
+            '<div class="ci-price-block">' +
+              (hasRealPrice ? '<span class="ci-price-prefix">A partir de</span>' : '') +
+              '<span class="ci-price">' + priceText + '</span>' +
+            '</div>' +
           '</div>' +
-          '<h4>' + esc(s.title) + '</h4>' +
           '<p>' + esc(s.shortDescription || s.longDescription || '') + '</p>' +
           '<ul class="feature-list">' + features + '</ul>' +
-          '<span class="ci-cta">Ver detalhes <span class="arrow">→</span></span>' +
+          '<div class="ci-foot">' +
+            '<span class="ci-cta">Ver detalhes <span class="arrow">→</span></span>' +
+          '</div>' +
         '</div>' +
       '</a>';
   }

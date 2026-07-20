@@ -6,8 +6,9 @@
 (function (global) {
   'use strict';
 
-  var STORAGE_KEY = 'hifera.solutions.v1';
-  var SEED_FLAG = 'hifera.seeded.v1';
+  /* v2: fotos ecommerce + preços de exemplo. Bumping versão força reseed. */
+  var STORAGE_KEY = 'hifera.solutions.v2';
+  var SEED_FLAG = 'hifera.seeded.v2';
 
   function read() {
     try {
