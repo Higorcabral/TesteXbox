@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stoqly · Envios</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app" id="app"></div>
+
+  <script src="js/mock-data.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script>
+    let selected = SHIPMENTS[0].id;
+    let statusFilter = '';
+
+    function filtered() {
+      return statusFilter ? SHIPMENTS.filter(s => s.status === statusFilter) : SHIPMENTS;
+    }
+
+    function render() {
+      const shipment = SHIPMENTS.find(s => s.id === selected) || SHIPMENTS[0];
+
+      document.getElementById('app').innerHTML = `
+        ${renderSidebar('envios')}
+        <main class="main">
+          <div class="page-header">
+            <div>
+              <h1 class="page-title">Envios & Entregas</h1>
+              <p class="page-subtitle">Acompanhamento em tempo real de pedidos</p>
+            </div>
+            <div class="flex gap-2">
+              <button class="btn">📊 Relatório</button>
+              <button class="btn btn-primary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                Novo pedido
+              </button>
+            </div>
+          </div>
+
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-label">Total de pedidos</div>
+              <div class="kpi-value tabular">${SHIPMENTS.length}</div>
+              <div class="kpi-delta up">últimos 7 dias</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Em preparação</div>
+              <div class="kpi-value tabular" style="color:var(--warning)">${SHIPMENTS.filter(s=>s.status==='preparacao').length}</div>
+              <div class="kpi-delta">aguardando picking</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Em trânsito</div>
+              <div class="kpi-value tabular" style="color:var(--info)">${SHIPMENTS.filter(s=>s.status==='em_transito').length}</div>
+              <div class="kpi-delta">a caminho do cliente</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Entregues</div>
+              <div class="kpi-value tabular" style="color:var(--success)">${SHIPMENTS.filter(s=>s.status==='entregue').length}</div>
+              <div class="kpi-delta up">100% no prazo</div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Pedidos ativos</div>
+                <div class="flex gap-2">
+                  <select id="statusFilter" class="form-select" style="width:auto;font-size:12px;padding:5px 10px">
+                    <option value="">Todos</option>
+                    <option value="preparacao" ${statusFilter==='preparacao'?'selected':''}>Preparação</option>
+                    <option value="em_transito" ${statusFilter==='em_transito'?'selected':''}>Em trânsito</option>
+                    <option value="entregue" ${statusFilter==='entregue'?'selected':''}>Entregues</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Pedido</th>
+                      <th>Cliente</th>
+                      <th>Destino</th>
+                      <th>Transp.</th>
+                      <th>Status</th>
+                      <th style="text-align:right">Valor</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${filtered().map(s => {
+                      const b = shipmentBadge(s.status);
+                      return `
+                        <tr class="row-select" data-id="${s.id}" style="cursor:pointer; ${s.id===shipment.id?'background:var(--primary-lighter)':''}">
+                          <td class="mono font-semibold">${s.id}</td>
+                          <td>
+                            <div class="product-name">${s.customer}</div>
+                            <div class="text-sm text-muted">${s.items} itens · ${s.created}</div>
+                          </td>
+                          <td class="text-sm">${s.destination}</td>
+                          <td class="text-sm">${s.carrier}</td>
+                          <td><span class="badge ${b.cls}"><span class="badge-dot"></span>${b.label}</span></td>
+                          <td class="tabular font-semibold" style="text-align:right">${fmtBRL(s.total)}</td>
+                        </tr>
+                      `;
+                    }).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Detalhes · ${shipment.id}</div>
+                  <div class="text-sm text-muted mt-2">${shipment.customer}</div>
+                </div>
+                <span class="badge ${shipmentBadge(shipment.status).cls}">
+                  <span class="badge-dot"></span>${shipmentBadge(shipment.status).label}
+                </span>
+              </div>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:12px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); margin-bottom:16px">
+                <div>
+                  <div class="text-sm text-muted">Destino</div>
+                  <div class="font-semibold mt-2">${shipment.destination}</div>
+                </div>
+                <div>
+                  <div class="text-sm text-muted">Transportadora</div>
+                  <div class="font-semibold mt-2">${shipment.carrier}</div>
+                </div>
+                <div>
+                  <div class="text-sm text-muted">Rastreio</div>
+                  <div class="mono mt-2">${shipment.tracking}</div>
+                </div>
+                <div>
+                  <div class="text-sm text-muted">ETA</div>
+                  <div class="font-semibold mt-2">${shipment.eta}</div>
+                </div>
+                <div>
+                  <div class="text-sm text-muted">Itens</div>
+                  <div class="font-semibold mt-2">${shipment.items} produtos</div>
+                </div>
+                <div>
+                  <div class="text-sm text-muted">Valor</div>
+                  <div class="font-semibold mt-2 tabular">${fmtBRL(shipment.total)}</div>
+                </div>
+              </div>
+
+              <div class="text-sm font-semibold mb-3">Progresso da entrega</div>
+              <ul class="timeline">
+                ${shipment.steps.map(step => {
+                  const cls = step.status === 'done' ? 'done' : (step.status === 'pending' ? 'pending' : '');
+                  return `
+                    <li class="timeline-item">
+                      <span class="timeline-dot ${cls}"></span>
+                      <div class="timeline-title">${step.title}</div>
+                      <div class="timeline-time">${step.time}</div>
+                    </li>
+                  `;
+                }).join('')}
+              </ul>
+
+              <div class="flex gap-2 mt-4" style="border-top:1px solid var(--border); padding-top:16px">
+                <button class="btn btn-sm" style="flex:1">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+                  Nota Fiscal
+                </button>
+                <button class="btn btn-sm" style="flex:1">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 4l8 8 8-8"/></svg>
+                  Notificar
+                </button>
+                <button class="btn btn-sm btn-primary" style="flex:1">Atualizar status</button>
+              </div>
+            </div>
+          </div>
+        </main>
+      `;
+
+      document.getElementById('statusFilter').addEventListener('change', (e) => {
+        statusFilter = e.target.value;
+        render();
+      });
+
+      document.querySelectorAll('.row-select').forEach(tr => {
+        tr.addEventListener('click', () => {
+          selected = tr.dataset.id;
+          render();
+        });
+      });
+    }
+
+    render();
+  </script>
+</body>
+</html>

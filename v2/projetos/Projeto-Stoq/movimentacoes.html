@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stoqly · Movimentações</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app" id="app"></div>
+
+  <script src="js/mock-data.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script>
+    function moveBadge(type) {
+      if (type === 'entrada') return { label: 'Entrada', cls: 'badge-success', icon: '↓' };
+      if (type === 'saida') return { label: 'Saída', cls: 'badge-danger', icon: '↑' };
+      return { label: 'Ajuste', cls: 'badge-warning', icon: '≈' };
+    }
+
+    const entradas = MOVEMENTS.filter(m => m.type === 'entrada').reduce((s,m) => s + m.qty, 0);
+    const saidas = MOVEMENTS.filter(m => m.type === 'saida').reduce((s,m) => s + m.qty, 0);
+    const ajustes = MOVEMENTS.filter(m => m.type === 'ajuste').length;
+
+    document.getElementById('app').innerHTML = `
+      ${renderSidebar('movimentacoes')}
+      <main class="main">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Movimentações</h1>
+            <p class="page-subtitle">Histórico de entradas, saídas e ajustes de estoque</p>
+          </div>
+          <div class="flex gap-2">
+            <button class="btn">📅 Últimos 7 dias</button>
+            <button class="btn btn-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Nova movimentação
+            </button>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Entradas (7d)</div>
+            <div class="kpi-value tabular" style="color:var(--success)">+${entradas}</div>
+            <div class="kpi-delta up">${MOVEMENTS.filter(m=>m.type==='entrada').length} operações</div>
+            <div class="kpi-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Saídas (7d)</div>
+            <div class="kpi-value tabular" style="color:var(--danger)">−${saidas}</div>
+            <div class="kpi-delta down">${MOVEMENTS.filter(m=>m.type==='saida').length} operações</div>
+            <div class="kpi-icon" style="background:#fee2e2;color:#b91c1c"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Ajustes (7d)</div>
+            <div class="kpi-value tabular">${ajustes}</div>
+            <div class="kpi-delta">Inventário cíclico</div>
+            <div class="kpi-icon" style="background:#fef3c7;color:#b45309"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 019-9 9.75 9.75 0 016.74 2.74L21 8M21 3v5h-5M21 12a9 9 0 01-9 9 9.75 9.75 0 01-6.74-2.74L3 16M3 21v-5h5"/></svg></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Giro médio</div>
+            <div class="kpi-value tabular">42 <span style="font-size:12px;color:var(--text-muted);font-weight:400">dias</span></div>
+            <div class="kpi-delta up">↑ Melhoria em 3d</div>
+            <div class="kpi-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 6l-9.5 9.5-5-5L1 18"/></svg></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Histórico completo</div>
+            <div class="flex gap-2">
+              <select class="form-select" style="width:auto; font-size:12px; padding:5px 10px">
+                <option>Todos os tipos</option>
+                <option>Entradas</option>
+                <option>Saídas</option>
+                <option>Ajustes</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Tipo</th>
+                  <th>Item</th>
+                  <th style="text-align:right">Quantidade</th>
+                  <th>Motivo</th>
+                  <th>Responsável</th>
+                  <th>Data / Hora</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${MOVEMENTS.map(m => {
+                  const b = moveBadge(m.type);
+                  return `
+                    <tr>
+                      <td class="mono">${m.id}</td>
+                      <td><span class="badge ${b.cls}">${b.icon} ${b.label}</span></td>
+                      <td>
+                        <div class="product-name">${m.name}</div>
+                        <div class="product-sku">${m.sku}</div>
+                      </td>
+                      <td class="tabular font-semibold" style="text-align:right;color:${m.type==='entrada'?'var(--success)':(m.type==='saida'?'var(--danger)':'var(--warning)')}">
+                        ${m.type==='entrada'?'+':m.type==='saida'?'−':''}${Math.abs(m.qty)}
+                      </td>
+                      <td class="text-sm">${m.reason}</td>
+                      <td>
+                        <div class="flex gap-2" style="align-items:center">
+                          <div class="product-icon" style="width:24px;height:24px;font-size:10px">${initials(m.user)}</div>
+                          <span class="text-sm">${m.user}</span>
+                        </div>
+                      </td>
+                      <td class="mono text-sm text-muted">${m.date}</td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    `;
+  </script>
+</body>
+</html>

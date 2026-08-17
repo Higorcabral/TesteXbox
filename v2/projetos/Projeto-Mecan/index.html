@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motor 47 — Oficina & Diagnóstico</title>
+  <meta name="description" content="Oficina mecânica premium com agendamento online, diagnóstico eletrônico e serviços especializados.">
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <header class="header header--over">
+    <div class="container header__inner">
+      <a href="index.html" class="brand">
+        <img src="assets/img/logo.svg" alt="" class="brand__mark">
+        <span class="brand__wm">
+          <strong>Motor 47</strong>
+          <small>Oficina · Diagnóstico</small>
+        </span>
+      </a>
+      <nav class="nav">
+        <a href="index.html" class="is-active">Início</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#sobre">Performance</a>
+        <a href="#contato">Contato</a>
+        <a href="tel:+551140044700" class="nav__phone">
+          <span>☎</span> (11) 4004-4700
+        </a>
+        <a href="agendamento.html" class="btn btn--primary btn--sm">Agendar</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO FULL-VIEWPORT SLIDER -->
+  <section class="hero-full" id="hero-slider">
+    <div class="hero-slide is-active" style="background-image:url('https://images.unsplash.com/photo-1600661653561-629509216228?auto=format&fit=crop&w=2000&q=80');">
+      <div class="hero-slide__content">
+        <span class="eyebrow eyebrow--light">Motor 47 · Oficina & Diagnóstico</span>
+        <h1>OFICINA ESPECIALIZADA EM PERFORMANCE</h1>
+        <p>Prontos para atender as principais marcas: Audi, BMW, Land Rover, Mercedes-Benz, Porsche, Volvo e exóticos.</p>
+        <a href="#servicos" class="btn btn--outline">Saiba mais</a>
+      </div>
+    </div>
+
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1517672651691-24622a91b550?auto=format&fit=crop&w=2000&q=80');">
+      <div class="hero-slide__content">
+        <span class="eyebrow eyebrow--light">Diagnóstico eletrônico em 45 min</span>
+        <h1>ENGENHARIA APLICADA A CADA REPARO</h1>
+        <p>Scanner OBD-II de última geração, técnicos certificados e peças originais em todo serviço.</p>
+        <a href="agendamento.html" class="btn btn--outline">Agendar agora</a>
+      </div>
+    </div>
+
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2000&q=80');">
+      <div class="hero-slide__content">
+        <span class="eyebrow eyebrow--light">6 meses de garantia · Peças originais</span>
+        <h1>SEU CARRO NAS MÃOS CERTAS</h1>
+        <p>Transparência do orçamento à entrega. Acompanhe cada etapa do serviço direto pelo WhatsApp.</p>
+        <a href="#servicos" class="btn btn--outline">Ver serviços</a>
+      </div>
+    </div>
+
+    <button class="hero-arrow hero-arrow--prev" aria-label="Anterior">‹</button>
+    <button class="hero-arrow hero-arrow--next" aria-label="Próximo">›</button>
+
+    <div class="hero-dots" id="hero-dots"></div>
+
+    <a href="#features" class="hero-scroll" aria-label="Rolar para baixo">
+      <span></span>
+    </a>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section container" id="features">
+    <div class="section-head">
+      <h2>Por que a Motor 47?</h2>
+      <p>Estrutura de concessionária com atendimento próximo. Aqui você sabe o que está pagando e por quê.</p>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <div class="feature__icon">⚡</div>
+        <h3>Diagnóstico rápido</h3>
+        <p>Scanner OBD-II lê todos os módulos e entrega laudo em até 45 minutos.</p>
+      </div>
+      <div class="feature">
+        <div class="feature__icon">🔧</div>
+        <h3>Peças originais</h3>
+        <p>Trabalhamos apenas com peças originais ou linha premium homologada.</p>
+      </div>
+      <div class="feature">
+        <div class="feature__icon">🛡️</div>
+        <h3>Garantia estendida</h3>
+        <p>6 meses de garantia em serviço e 12 meses em peças aplicadas.</p>
+      </div>
+      <div class="feature">
+        <div class="feature__icon">📱</div>
+        <h3>Acompanhe online</h3>
+        <p>Receba updates do serviço direto no WhatsApp com foto do reparo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS -->
+  <section class="section container" id="servicos">
+    <div class="section-head">
+      <h2>Nossos serviços</h2>
+      <p>Valores transparentes. Sem letras miúdas, sem taxa escondida.</p>
+    </div>
+    <div class="services" id="services-grid"></div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section--sm container" id="sobre">
+    <div class="cta-band">
+      <div>
+        <h3>Pronto pra revisar seu carro?</h3>
+        <p>Escolha o serviço, o horário que te convém e receba a confirmação.</p>
+      </div>
+      <a href="agendamento.html" class="btn btn--primary">Agendar agora →</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="contato">
+    <div class="container footer__inner">
+      <div>
+        <div class="brand" style="margin-bottom:8px;">
+          <img src="assets/img/logo.svg" alt="" class="brand__mark">
+          <span class="brand__wm"><strong>Motor 47</strong><small>Oficina · Diagnóstico</small></span>
+        </div>
+        <p id="footer-endereco"></p>
+        <p id="footer-horario"></p>
+      </div>
+      <div>
+        <p><strong>Central de agendamento</strong></p>
+        <p id="footer-tel"></p>
+        <p><a href="login.html" class="text-mute">Acesso interno →</a></p>
+      </div>
+      <div>
+        <p class="text-mute">© 2026 Motor 47 — Todos os direitos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp floating button -->
+  <a href="https://wa.me/551140044700" target="_blank" rel="noopener" class="wa-fab" aria-label="Contato pelo WhatsApp">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+      <path d="M20.52 3.48A11.86 11.86 0 0 0 12 0C5.37 0 0 5.37 0 12a11.9 11.9 0 0 0 1.64 6.05L0 24l6.13-1.6A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52ZM12 21.82a9.8 9.8 0 0 1-5-1.36l-.36-.21-3.64.95.97-3.55-.23-.37A9.82 9.82 0 1 1 12 21.82Zm5.4-7.36c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.66.15-.2.3-.76.96-.94 1.16-.17.2-.34.22-.63.07-.3-.15-1.25-.46-2.38-1.46-.88-.79-1.47-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.34.45-.51.15-.17.2-.29.3-.49.1-.2.05-.37-.02-.52-.07-.15-.66-1.6-.91-2.19-.24-.58-.48-.5-.66-.5h-.56c-.2 0-.52.07-.79.37-.27.3-1.03 1.01-1.03 2.46 0 1.44 1.06 2.84 1.2 3.03.15.2 2.08 3.18 5.03 4.46.7.3 1.25.49 1.68.63.7.22 1.34.19 1.85.11.56-.08 1.75-.71 2-1.4.24-.68.24-1.27.17-1.4-.07-.13-.27-.2-.57-.35Z"/>
+    </svg>
+    <span>Contato pelo WhatsApp</span>
+  </a>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/hero.js"></script>
+</body>
+</html>

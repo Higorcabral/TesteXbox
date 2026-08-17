@@ -201,7 +201,7 @@
     el('btn-new').addEventListener('click', function () { openModal(null); });
     el('btn-logout').addEventListener('click', function (e) {
       e.preventDefault();
-      Auth.logout().then(function () { window.location.href = 'home.html'; });
+      Auth.logout().then(function () { window.location.href = '../../index.html'; });
     });
     el('search').addEventListener('input', function (ev) {
       state.search = ev.target.value;

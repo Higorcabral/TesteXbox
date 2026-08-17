@@ -1,7 +1,8 @@
 /* =================================================================
-   ThemeController — gerencia o switch entre tema claro e escuro
-   Persiste a escolha em localStorage. Respeita preferência do SO
-   na primeira visita.
+   ThemeController — switch entre tema claro e escuro
+   Persiste em localStorage. Respeita preferência do SO na 1ª visita.
+   Usa delegação de evento — o botão pode ser injetado dinamicamente
+   depois deste script rodar.
    ================================================================= */
 (function (global) {
   'use strict';
@@ -14,8 +15,7 @@
   }
 
   function systemPrefersLight() {
-    return global.matchMedia &&
-           global.matchMedia('(prefers-color-scheme: light)').matches;
+    return global.matchMedia && global.matchMedia('(prefers-color-scheme: light)').matches;
   }
 
   function resolveInitial() {
@@ -34,10 +34,7 @@
     if (!toggle) return;
     var isLight = theme === 'light';
     toggle.setAttribute('aria-pressed', String(isLight));
-    toggle.setAttribute(
-      'aria-label',
-      isLight ? 'Alternar para tema escuro' : 'Alternar para tema claro'
-    );
+    toggle.setAttribute('aria-label', isLight ? 'Alternar para tema escuro' : 'Alternar para tema claro');
     toggle.title = isLight ? 'Tema claro ativo' : 'Tema escuro ativo';
   }
 
@@ -48,23 +45,22 @@
     apply(next);
   }
 
-  function bind() {
-    var toggleBtn = document.getElementById('theme-toggle');
-    if (toggleBtn && !toggleBtn.__bound) {
-      toggleBtn.addEventListener('click', toggle);
-      toggleBtn.__bound = true;
-    }
-    syncToggleState(document.documentElement.getAttribute(ATTR) || 'dark');
-  }
-
   /* Aplica o tema o quanto antes para evitar flash visual */
   apply(resolveInitial());
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bind);
-  } else {
-    bind();
-  }
+  /* Delegação: pega qualquer #theme-toggle, mesmo se injetado depois */
+  document.addEventListener('click', function (e) {
+    var t = e.target && e.target.closest && e.target.closest('#theme-toggle');
+    if (t) { toggle(); }
+  });
+
+  /* Sincroniza o estado do botão assim que ele existir */
+  var mo = new MutationObserver(function () {
+    if (document.getElementById('theme-toggle')) {
+      syncToggleState(document.documentElement.getAttribute(ATTR) || 'dark');
+    }
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
 
   global.Theme = { apply: apply, toggle: toggle };
 })(window);

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel — Motor 47</title>
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <div class="admin">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <div class="brand">
+          <img src="assets/img/logo.svg" alt="" class="brand__mark">
+          <span class="brand__wm">
+            <strong>Motor 47</strong>
+            <small>Painel</small>
+          </span>
+        </div>
+      </div>
+
+      <nav class="sidebar__nav">
+        <a href="#dashboard" data-view="dashboard" class="is-active">
+          <span>▤</span> Dashboard
+        </a>
+        <a href="#agendamentos" data-view="agendamentos">
+          <span>◷</span> Agendamentos
+        </a>
+        <a href="#servicos" data-view="servicos">
+          <span>⚙</span> Serviços
+        </a>
+        <a href="index.html">
+          <span>↗</span> Ver site
+        </a>
+        <a href="#logout" id="logout-btn">
+          <span>⏻</span> Sair
+        </a>
+      </nav>
+
+      <div class="sidebar__user">
+        <div class="avatar">AD</div>
+        <div>
+          <div style="font-weight:600;">Administrador</div>
+          <div class="text-mute" style="font-size:11px;">admin@motor47.com</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <!-- Dashboard View -->
+      <section id="view-dashboard">
+        <div class="main__head">
+          <div>
+            <h1>Dashboard</h1>
+            <p id="dash-date"></p>
+          </div>
+          <a href="agendamento.html" class="btn btn--ghost btn--sm">+ Novo agendamento</a>
+        </div>
+
+        <div class="kpis" id="kpis"></div>
+
+        <div class="dash-row">
+          <div class="panel">
+            <div class="panel__head">
+              <div>
+                <h3>Faturamento dos últimos 7 dias</h3>
+                <p>Somente serviços concluídos</p>
+              </div>
+              <select id="chart-range" class="btn btn--ghost btn--sm" style="padding:6px 10px;">
+                <option value="7">7 dias</option>
+                <option value="14">14 dias</option>
+                <option value="30">30 dias</option>
+              </select>
+            </div>
+            <div class="chart-wrap">
+              <div class="chart" id="chart"></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head">
+              <div>
+                <h3>Mix de serviços</h3>
+                <p>Últimos 30 dias</p>
+              </div>
+            </div>
+            <div class="mix-list" id="mix"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head">
+            <div>
+              <h3>Próximos agendamentos</h3>
+              <p>Hoje e próximos dias</p>
+            </div>
+            <a href="#agendamentos" class="btn btn--ghost btn--sm" data-view="agendamentos">Ver todos →</a>
+          </div>
+          <div class="table-wrap">
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Hora</th>
+                  <th>Cliente</th>
+                  <th>Veículo</th>
+                  <th>Serviço</th>
+                  <th>Valor</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="proximos"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Agendamentos View -->
+      <section id="view-agendamentos" class="hide">
+        <div class="main__head">
+          <div>
+            <h1>Agendamentos</h1>
+            <p>Todos os agendamentos registrados</p>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <select id="filter-status" class="btn btn--ghost btn--sm" style="padding:6px 10px;">
+              <option value="">Todos os status</option>
+              <option value="pending">Pendentes</option>
+              <option value="confirmed">Confirmados</option>
+              <option value="done">Concluídos</option>
+              <option value="canceled">Cancelados</option>
+            </select>
+            <input type="search" id="filter-search" placeholder="Buscar cliente/placa..." style="padding:8px 12px;background:var(--bg-2);border:1px solid var(--border);border-radius:8px;color:var(--text);min-width:220px;">
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="table-wrap">
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Hora</th>
+                  <th>Cliente</th>
+                  <th>Telefone</th>
+                  <th>Veículo</th>
+                  <th>Serviço</th>
+                  <th>Valor</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="ag-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Serviços View -->
+      <section id="view-servicos" class="hide">
+        <div class="main__head">
+          <div>
+            <h1>Catálogo de serviços</h1>
+            <p>Preços e duração de cada serviço oferecido</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="table-wrap">
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Serviço</th>
+                  <th>Categoria</th>
+                  <th>Duração</th>
+                  <th>Preço</th>
+                  <th>Executados (30d)</th>
+                  <th>Receita (30d)</th>
+                </tr>
+              </thead>
+              <tbody id="svc-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast">✓</div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>

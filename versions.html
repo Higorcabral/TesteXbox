@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escolha uma versão · Hifera Company</title>
+<meta name="theme-color" content="#0f0f10">
+
+<link rel="icon" type="image/png" href="public/img/logo/HiferaIcon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    background: #0f0f10;
+    color: #ececec;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+  .bg-glow {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse at 20% -10%, rgba(93,224,230,0.10), transparent 55%),
+      radial-gradient(ellipse at 80% 0%, rgba(0,74,173,0.18), transparent 55%),
+      radial-gradient(ellipse at 50% 110%, rgba(93,224,230,0.06), transparent 50%);
+  }
+  header {
+    padding: 48px 24px 24px;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 32px;
+  }
+  .brand img {
+    height: 84px;
+    margin: -16px -20px -16px -6px;
+    transform: translateY(5px);
+  }
+  .brand strong {
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.05em;
+  }
+  .brand small {
+    display: block;
+    font-size: 10.5px;
+    color: #a1a1aa;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+  .brand .grad {
+    background: linear-gradient(135deg, #5de0e6 0%, #004aad 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #a1a1aa;
+    padding: 6px 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 999px;
+    margin-bottom: 24px;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: #5de0e6;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #5de0e6;
+  }
+  h1 {
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    font-weight: 700;
+    margin: 0 0 20px;
+  }
+  h1 .grad {
+    background: linear-gradient(135deg, #5de0e6 0%, #004aad 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .lead {
+    font-size: 17px;
+    color: #a1a1aa;
+    line-height: 1.55;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  main {
+    flex: 1;
+    padding: 24px;
+    max-width: 1240px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 28px;
+    background: #17171a;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 320ms cubic-bezier(0.2,0.8,0.2,1),
+                border-color 320ms cubic-bezier(0.16,1,0.3,1),
+                box-shadow 320ms cubic-bezier(0.16,1,0.3,1);
+    animation: cardIn 640ms cubic-bezier(0.2,0.8,0.2,1) both;
+  }
+  .card:nth-child(1) { animation-delay: 80ms; }
+  .card:nth-child(2) { animation-delay: 160ms; }
+  .card:nth-child(3) { animation-delay: 240ms; }
+  @keyframes cardIn { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,0.18);
+    box-shadow: 0 24px 60px -20px rgba(0,0,0,0.7);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(400px circle at var(--mx,50%) var(--my,50%),
+                rgba(93,224,230,0.10), transparent 42%);
+    opacity: 0;
+    transition: opacity 320ms;
+    z-index: -1;
+    pointer-events: none;
+  }
+  .card:hover::before { opacity: 1; }
+
+  .card-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    margin-bottom: 20px;
+    align-self: flex-start;
+  }
+  .card-tag.v1 { background: rgba(93,224,230,0.10); color: #5de0e6; border: 1px solid rgba(93,224,230,0.25); }
+  .card-tag.v2 { background: rgba(255,255,255,0.06); color: #ececec; border: 1px solid rgba(255,255,255,0.14); }
+  .card-tag.v3 { background: linear-gradient(135deg, rgba(93,224,230,0.15), rgba(0,74,173,0.15)); color: #ececec; border: 1px solid rgba(93,224,230,0.30); }
+
+  .card-preview {
+    position: relative;
+    height: 180px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    overflow: hidden;
+    margin-bottom: 24px;
+    background: #0f0f10;
+  }
+
+  /* V1 preview. Minimalista */
+  .prev-v1 { background: linear-gradient(180deg, #17171a 0%, #0f0f10 100%); position: relative; }
+  .prev-v1::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 30%, rgba(93,224,230,0.15), transparent 60%),
+      radial-gradient(ellipse at 70% 60%, rgba(0,74,173,0.18), transparent 60%);
+  }
+  .prev-v1 .lines {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+  .prev-v1 .lines span {
+    display: block;
+    height: 8px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+    border-radius: 999px;
+  }
+  .prev-v1 .lines span:nth-child(1) { width: 40%; }
+  .prev-v1 .lines span:nth-child(2) { width: 60%; }
+  .prev-v1 .lines span:nth-child(3) { width: 30%; margin-top: 12px; background: linear-gradient(90deg, #5de0e6, #004aad); }
+
+  /* V2 preview. Cinemática */
+  .prev-v2 {
+    background:
+      linear-gradient(180deg, rgba(15,15,16,0.4) 0%, rgba(15,15,16,0.95) 100%),
+      url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&auto=format&q=80');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .prev-v2::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 100%, rgba(0,74,173,0.25), transparent 60%);
+  }
+  .prev-v2 .kinetic {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: #fff;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+  .prev-v2 .kinetic span:nth-child(2) {
+    background: linear-gradient(135deg, #5de0e6 0%, #004aad 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* V3 preview. Editorial */
+  .prev-v3 {
+    background: #0f0f10;
+    position: relative;
+    overflow: hidden;
+  }
+  .prev-v3 .marquee {
+    position: absolute;
+    top: 12px; left: -20px; right: -20px;
+    display: flex;
+    gap: 24px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    white-space: nowrap;
+    animation: marquee 18s linear infinite;
+  }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+  .prev-v3 .big-type {
+    position: absolute;
+    inset: 40px 20px 20px;
+    display: flex;
+    align-items: flex-end;
+    font-size: 42px;
+    line-height: 0.9;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    color: #ececec;
+  }
+  .prev-v3 .big-type em {
+    font-style: italic;
+    background: linear-gradient(135deg, #5de0e6 0%, #004aad 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .prev-v3 .dot {
+    position: absolute;
+    bottom: 20px; right: 20px;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #5de0e6 0%, #004aad 100%);
+  }
+
+  h3 { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .card p { font-size: 14px; color: #a1a1aa; line-height: 1.55; margin: 0 0 24px; }
+
+  .traits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+  .trait {
+    padding: 4px 10px;
+    font-size: 11px;
+    color: #a1a1aa;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 999px;
+  }
+
+  .cta {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    background: linear-gradient(135deg, #5de0e6 0%, #004aad 100%);
+    color: #fff;
+    border-radius: 999px;
+    align-self: flex-start;
+    box-shadow: 0 8px 24px -8px rgba(0,74,173,0.55);
+    transition: transform 220ms cubic-bezier(0.2,0.8,0.2,1),
+                box-shadow 220ms;
+  }
+  .card:hover .cta { transform: translateX(2px); box-shadow: 0 14px 34px -8px rgba(0,74,173,0.75); }
+  .arrow { transition: transform 220ms cubic-bezier(0.2,0.8,0.2,1); }
+  .card:hover .arrow { transform: translateX(4px); }
+
+  footer {
+    padding: 32px 24px;
+    text-align: center;
+    font-size: 12px;
+    color: #71717a;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin-top: 48px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<header>
+  <a class="brand" href="#" style="text-decoration:none;color:inherit;">
+    <img src="public/img/logo/HiferaIcon.png" alt="">
+    <span>
+      <strong>HIFERA <span class="grad">COMPANY</span></strong>
+      <small>Hub Digital</small>
+    </span>
+  </a>
+  <div class="eyebrow"><span>Escolha uma proposta</span></div>
+  <h1>Três apostas de <span class="grad">design.</span><br>Uma escolha.</h1>
+  <p class="lead">
+    Cada versão a seguir é uma home completa com uma estratégia visual diferente.
+    Explorem juntos, comparem. E me digam qual leva para o público real.
+  </p>
+</header>
+
+<main>
+  <div class="grid">
+
+    <!-- V1 -->
+    <a class="card" href="index.html">
+      <span class="card-tag v1">Versão 1</span>
+      <div class="card-preview prev-v1">
+        <div class="lines"><span></span><span></span><span></span></div>
+      </div>
+      <h3>Clean minimalista</h3>
+      <p>Estilo macOS/Apple. Minimalismo com detalhes tecnológicos sutis. Bento grid, tipografia contida, gradiente pontual, escuta antes de falar.</p>
+      <div class="traits">
+        <span class="trait">Minimalista</span>
+        <span class="trait">Clean</span>
+        <span class="trait">Corporativo confiável</span>
+        <span class="trait">Rápido de escanear</span>
+      </div>
+      <span class="cta">Ver versão 1 <span class="arrow">→</span></span>
+    </a>
+
+    <!-- V2 -->
+    <a class="card" href="v2/index.html">
+      <span class="card-tag v2">Versão 2</span>
+      <div class="card-preview prev-v2">
+        <div class="kinetic"><span>Humano.</span><span>&nbsp;Real.</span></div>
+      </div>
+      <h3>Cinemática &amp; humana</h3>
+      <p>Inspirada em desecsecurity.com. Imagens grandes ligadas ao conteúdo, storytelling em scroll, parallax, transições envolventes. Vende sensação antes de vender lista.</p>
+      <div class="traits">
+        <span class="trait">Cinemática</span>
+        <span class="trait">Imagens grandes</span>
+        <span class="trait">Storytelling</span>
+        <span class="trait">Parallax</span>
+      </div>
+      <span class="cta">Ver versão 2 <span class="arrow">→</span></span>
+    </a>
+
+    <!-- V3 -->
+    <a class="card" href="v3/index.html">
+      <span class="card-tag v3">Versão 3</span>
+      <div class="card-preview prev-v3">
+        <div class="marquee">
+          <span>Automação</span><span>·</span><span>Sob medida</span><span>·</span><span>PME</span><span>·</span><span>Sem processo manual</span><span>·</span>
+          <span>Automação</span><span>·</span><span>Sob medida</span><span>·</span><span>PME</span><span>·</span><span>Sem processo manual</span><span>·</span>
+        </div>
+        <div class="big-type">Tempo <em>é&nbsp;</em>tudo.</div>
+        <div class="dot"></div>
+      </div>
+      <h3>Editorial &amp; estúdio</h3>
+      <p>Tipografia gigante, layout assimétrico, marquee/ticker, mais atitude e cor. No espírito "human + animações" da Fernanda, mas por um caminho editorial. Visual de estúdio criativo.</p>
+      <div class="traits">
+        <span class="trait">Tipografia forte</span>
+        <span class="trait">Assimétrico</span>
+        <span class="trait">Playful</span>
+        <span class="trait">Kinetic type</span>
+      </div>
+      <span class="cta">Ver versão 3 <span class="arrow">→</span></span>
+    </a>
+
+  </div>
+</main>
+
+<footer>
+  Três direções, uma marca. Página temporária apenas para apresentação. Decida com a Fernanda e me diga qual seguir.
+</footer>
+
+<script>
+  /* Spotlight nos cards */
+  document.querySelectorAll('.card').forEach(function (c) {
+    c.addEventListener('pointermove', function (e) {
+      var rect = c.getBoundingClientRect();
+      c.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
+      c.style.setProperty('--my', (e.clientY - rect.top) + 'px');
+    });
+  });
+</script>
+
+</body>
+</html>

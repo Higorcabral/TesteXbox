@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stoqly · Cadastro</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app" id="app"></div>
+
+  <script src="js/mock-data.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script>
+    const nextSku = () => {
+      const nums = ITEMS.map(i => parseInt(i.id.split('-')[1])).sort((a,b)=>b-a);
+      return 'SKU-' + (nums[0] + 1);
+    };
+
+    document.getElementById('app').innerHTML = `
+      ${renderSidebar('cadastro')}
+      <main class="main">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Cadastro de item</h1>
+            <p class="page-subtitle">Adicione um novo produto ao inventário</p>
+          </div>
+          <a href="estoque.html" class="btn">← Voltar ao estoque</a>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Informações do produto</div>
+              <span class="badge badge-info"><span class="badge-dot"></span>Novo</span>
+            </div>
+
+            <form id="itemForm">
+              <div class="form-grid">
+                <div class="form-field full">
+                  <label class="form-label">Nome do item *</label>
+                  <input class="form-input" type="text" placeholder="Ex: Notebook Dell Latitude 5540" required>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label">SKU</label>
+                  <input class="form-input mono" type="text" value="${nextSku()}" readonly>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label">Categoria *</label>
+                  <select class="form-select" required>
+                    <option value="">Selecione...</option>
+                    ${CATEGORIES.map(c => `<option>${c}</option>`).join('')}
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label">Quantidade inicial *</label>
+                  <input class="form-input" type="number" min="0" placeholder="0" required>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label">Unidade</label>
+                  <select class="form-select">
+                    <option>UN — Unidade</option>
+                    <option>CX — Caixa</option>
+                    <option>KG — Quilograma</option>
+                    <option>L — Litro</option>
+                    <option>M — Metro</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label">Estoque mínimo</label>
+                  <input class="form-input" type="number" min="0" placeholder="10">
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label">Estoque máximo</label>
+                  <input class="form-input" type="number" min="0" placeholder="50">
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label">Preço unitário (R$) *</label>
+                  <input class="form-input" type="number" step="0.01" min="0" placeholder="0,00" required>
+                </div>
+
+                <div class="form-field">
+                  <label class="form-label">Localização</label>
+                  <select class="form-select">
+                    <option value="">Selecione...</option>
+                    ${LOCATIONS.map(l => `<option>${l}</option>`).join('')}
+                  </select>
+                </div>
+
+                <div class="form-field full">
+                  <label class="form-label">Fornecedor</label>
+                  <select class="form-select">
+                    <option value="">Selecione...</option>
+                    ${SUPPLIERS.map(s => `<option>${s}</option>`).join('')}
+                  </select>
+                </div>
+
+                <div class="form-field full">
+                  <label class="form-label">Código de barras / EAN</label>
+                  <input class="form-input mono" type="text" placeholder="0000000000000">
+                </div>
+
+                <div class="form-field full">
+                  <label class="form-label">Descrição</label>
+                  <textarea class="form-textarea" placeholder="Detalhes técnicos, observações, especificações..."></textarea>
+                </div>
+              </div>
+
+              <div class="flex gap-2 mt-4" style="justify-content:flex-end; border-top:1px solid var(--border); padding-top:16px;">
+                <button type="reset" class="btn">Limpar</button>
+                <button type="button" class="btn">Salvar rascunho</button>
+                <button type="submit" class="btn btn-primary">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                  Cadastrar item
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div>
+            <div class="card mb-3" style="margin-bottom:16px">
+              <div class="card-title mb-3">Dicas de cadastro</div>
+              <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:10px;">
+                <li class="flex gap-2" style="align-items:flex-start">
+                  <div style="color:var(--primary);flex-shrink:0;margin-top:2px">✓</div>
+                  <div class="text-sm">Use nomes descritivos e padronizados para facilitar busca.</div>
+                </li>
+                <li class="flex gap-2" style="align-items:flex-start">
+                  <div style="color:var(--primary);flex-shrink:0;margin-top:2px">✓</div>
+                  <div class="text-sm">Defina estoque mínimo para receber alertas automáticos.</div>
+                </li>
+                <li class="flex gap-2" style="align-items:flex-start">
+                  <div style="color:var(--primary);flex-shrink:0;margin-top:2px">✓</div>
+                  <div class="text-sm">SKU é gerado automaticamente, mas pode ser editado.</div>
+                </li>
+                <li class="flex gap-2" style="align-items:flex-start">
+                  <div style="color:var(--primary);flex-shrink:0;margin-top:2px">✓</div>
+                  <div class="text-sm">A localização acelera o fluxo de picking no CD.</div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Últimos cadastros</div>
+                <a href="estoque.html" class="link text-sm">Ver todos →</a>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                ${ITEMS.slice().reverse().slice(0, 5).map(item => `
+                  <div class="flex gap-3" style="align-items:center; padding:8px 0; border-bottom:1px solid var(--border);">
+                    <div class="product-icon">${initials(item.name)}</div>
+                    <div style="flex:1; min-width:0">
+                      <div class="product-name" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${item.name}</div>
+                      <div class="text-sm text-muted">${item.category} · ${item.id}</div>
+                    </div>
+                    <div class="text-sm tabular font-semibold">${fmtBRL(item.price)}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    `;
+
+    document.getElementById('itemForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('✓ Item cadastrado com sucesso! (mock)');
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rubra CRM — Painel comercial</title>
+  <meta name="description" content="Painel comercial da Rubra CRM (empresa fictícia). Estrutura MVC em HTML, CSS e JS puros." />
+
+  <!-- View: estilos por camada -->
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- View: sidebar (montada por SidebarView) -->
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="main">
+      <!-- View: topbar (montada por TopbarView) -->
+      <header class="topbar" id="topbar"></header>
+
+      <main class="content">
+        <!-- Cabeçalho da página (conteúdo fixo) -->
+        <div class="page-head">
+          <div>
+            <h1>Painel comercial</h1>
+            <p>Bem-vinda, Mariana. Você tem <strong style="color:var(--text)">4 negócios</strong> aguardando aprovação hoje.</p>
+          </div>
+          <div class="head-actions" id="headActions">
+            <button class="btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              Últimos 30 dias
+            </button>
+            <button class="btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+              Exportar
+            </button>
+          </div>
+        </div>
+
+        <!-- Slots renderizados pelas Views -->
+        <section class="kpi-grid" id="kpiGrid"></section>
+
+        <section class="row">
+          <div class="card" id="pipeline"></div>
+          <div class="card" id="tasks"></div>
+        </section>
+
+        <section class="row-3">
+          <div class="card" id="deals"></div>
+          <div class="card" id="activity"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Model -->
+  <script src="js/models/data.js"></script>
+
+  <!-- Views -->
+  <script src="js/views/icons.view.js"></script>
+  <script src="js/views/sidebar.view.js"></script>
+  <script src="js/views/topbar.view.js"></script>
+  <script src="js/views/kpi.view.js"></script>
+  <script src="js/views/pipeline.view.js"></script>
+  <script src="js/views/deals.view.js"></script>
+  <script src="js/views/tasks.view.js"></script>
+  <script src="js/views/activity.view.js"></script>
+
+  <!-- Controllers + bootstrap -->
+  <script src="js/controllers/theme.controller.js"></script>
+  <script src="js/controllers/app.controller.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

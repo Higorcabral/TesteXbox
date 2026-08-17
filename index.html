@@ -4,93 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hifera Company</title>
+<meta name="description" content="Automação empresarial com jeito humano. Sistemas prontos, projetos sob medida e automações que rodam por você.">
+<meta name="theme-color" content="#0a0a0b">
 <link rel="icon" type="image/png" href="public/img/logo/HiferaIcon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<meta http-equiv="refresh" content="0; url=v2/">
+<link rel="canonical" href="v2/">
+<script>window.location.replace('v2/');</script>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; }
   body {
-    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
-    background: #1C1C1C;
-    color: #ECECEC;
+    font-family: system-ui, -apple-system, sans-serif;
+    background: #0a0a0b;
+    color: #ececec;
     display: grid;
     place-items: center;
-    overflow: hidden;
-    -webkit-font-smoothing: antialiased;
+    height: 100vh;
+    margin: 0;
   }
-
-  .splash {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 44px;
-    animation: fadeIn 0.6s ease-out both;
-  }
-
-  .splash-logo {
-    height: 140px;
-    width: auto;
-    animation: logoIn 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  }
-
-  .progress {
-    width: 200px;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.08);
+  a {
+    color: #5de0e6;
+    padding: 12px 24px;
+    border: 1px solid rgba(255,255,255,0.14);
     border-radius: 999px;
-    overflow: hidden;
-    position: relative;
+    text-decoration: none;
+    transition: background 200ms;
   }
-  .progress-bar {
-    position: absolute;
-    top: 0; left: 0; bottom: 0;
-    width: 0%;
-    background: linear-gradient(90deg, #5de0e6 0%, #004aad 100%);
-    border-radius: 999px;
-    animation: progress 3s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-  @keyframes logoIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes progress {
-    from { width: 0%; }
-    to   { width: 100%; }
-  }
-
-  .fade-out { animation: fadeOut 0.4s ease-out forwards; }
-  @keyframes fadeOut { to { opacity: 0; } }
-
-  @media (max-width: 480px) {
-    .splash-logo { height: 110px; }
-    .progress { width: 160px; }
-    .splash { gap: 36px; }
-  }
+  a:hover { background: rgba(255,255,255,0.06); }
 </style>
 </head>
 <body>
-
-<main class="splash" id="splash">
-  <img class="splash-logo" src="public/img/logo/HiferaLogo2.png" alt="Hifera Company">
-  <div class="progress"><div class="progress-bar"></div></div>
-</main>
-
-<script>
-  (function () {
-    var DELAY = 3000;
-    var target = 'app/views/home.html';
-    setTimeout(function () {
-      document.getElementById('splash').classList.add('fade-out');
-      setTimeout(function () { window.location.replace(target); }, 380);
-    }, DELAY);
-  })();
-</script>
+<a href="v2/">Abrir Hifera Company →</a>
 </body>
 </html>

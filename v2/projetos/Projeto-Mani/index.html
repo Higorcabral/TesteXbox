@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belle Studio — Beleza & Cuidado</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="logo">
+                <span class="logo-icon">✦</span>
+                <span class="logo-text">Belle<em>Studio</em></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#profissionais">Profissionais</a></li>
+                <li><a href="#galeria">Galeria</a></li>
+                <li><a href="#agendamento">Agendar</a></li>
+                <li><a href="admin.html" class="btn-admin">Admin</a></li>
+            </ul>
+            <button class="menu-toggle" aria-label="Menu">☰</button>
+        </div>
+    </nav>
+
+    <header id="hero" class="hero">
+        <div class="hero-content">
+            <span class="hero-eyebrow">Salão de beleza premium</span>
+            <h1>Sua beleza,<br><em>nosso ritual</em></h1>
+            <p>Manicure, cabelo e cuidados especiais em um ambiente pensado para você relaxar e se sentir incrível.</p>
+            <div class="hero-actions">
+                <a href="#agendamento" class="btn-primary">Agendar horário</a>
+                <a href="#servicos" class="btn-secondary">Ver serviços</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80" alt="Salão de beleza" onerror="this.style.display='none'">
+        </div>
+    </header>
+
+    <section id="servicos" class="section">
+        <div class="section-header">
+            <span class="eyebrow">Nossos serviços</span>
+            <h2>Cuidado completo <em>para você</em></h2>
+            <p>Desde uma manicure caprichada até um novo visual — tudo com produtos premium e profissionais experientes.</p>
+        </div>
+        <div class="services-grid" id="servicesGrid"></div>
+    </section>
+
+    <section id="profissionais" class="section section-alt">
+        <div class="section-header">
+            <span class="eyebrow">Time</span>
+            <h2>Nossos <em>profissionais</em></h2>
+            <p>Especialistas apaixonados pelo que fazem.</p>
+        </div>
+        <div class="pros-grid" id="prosGrid"></div>
+    </section>
+
+    <section id="galeria" class="section">
+        <div class="section-header">
+            <span class="eyebrow">Galeria</span>
+            <h2>Nossos <em>trabalhos</em></h2>
+        </div>
+        <div class="gallery" id="gallery"></div>
+    </section>
+
+    <section id="agendamento" class="section section-alt">
+        <div class="section-header">
+            <span class="eyebrow">Agende seu horário</span>
+            <h2>Reserve o seu <em>momento</em></h2>
+            <p>Escolha o serviço, o profissional e o melhor dia para você.</p>
+        </div>
+
+        <div class="booking-card">
+            <div class="booking-steps">
+                <div class="step active" data-step="1"><span>1</span> Serviço</div>
+                <div class="step" data-step="2"><span>2</span> Profissional</div>
+                <div class="step" data-step="3"><span>3</span> Data & Hora</div>
+                <div class="step" data-step="4"><span>4</span> Seus dados</div>
+            </div>
+
+            <div class="booking-content">
+                <div class="booking-step" data-step="1">
+                    <h3>Qual serviço você deseja?</h3>
+                    <div class="service-picker" id="servicePicker"></div>
+                </div>
+
+                <div class="booking-step hidden" data-step="2">
+                    <h3>Escolha a profissional</h3>
+                    <div class="pro-picker" id="proPicker"></div>
+                </div>
+
+                <div class="booking-step hidden" data-step="3">
+                    <h3>Selecione o dia e horário</h3>
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <button class="cal-nav" id="prevMonth">‹</button>
+                            <span id="calMonth"></span>
+                            <button class="cal-nav" id="nextMonth">›</button>
+                        </div>
+                        <div class="calendar" id="calendar"></div>
+                    </div>
+                    <div class="time-slots-container hidden" id="timeSlotsContainer">
+                        <h4>Horários disponíveis para <span id="selectedDateLabel"></span></h4>
+                        <div class="time-slots" id="timeSlots"></div>
+                    </div>
+                </div>
+
+                <div class="booking-step hidden" data-step="4">
+                    <h3>Confirme seus dados</h3>
+                    <form id="clientForm" class="client-form">
+                        <div class="form-row">
+                            <label>
+                                Nome completo
+                                <input type="text" name="name" required>
+                            </label>
+                            <label>
+                                Telefone
+                                <input type="tel" name="phone" placeholder="(11) 99999-9999" required>
+                            </label>
+                        </div>
+                        <label>
+                            E-mail
+                            <input type="email" name="email" required>
+                        </label>
+                        <label>
+                            Observações (opcional)
+                            <textarea name="notes" rows="3" placeholder="Alguma preferência ou informação importante?"></textarea>
+                        </label>
+
+                        <div class="booking-summary">
+                            <h4>Resumo do agendamento</h4>
+                            <div class="summary-row"><span>Serviço</span><strong id="sumService">—</strong></div>
+                            <div class="summary-row"><span>Profissional</span><strong id="sumPro">—</strong></div>
+                            <div class="summary-row"><span>Data</span><strong id="sumDate">—</strong></div>
+                            <div class="summary-row"><span>Horário</span><strong id="sumTime">—</strong></div>
+                            <div class="summary-row total"><span>Total</span><strong id="sumPrice">—</strong></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="booking-actions">
+                <button class="btn-secondary" id="prevStep" disabled>Voltar</button>
+                <button class="btn-primary" id="nextStep">Continuar</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="toast" id="toast"></div>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div>
+                <div class="logo logo-footer">
+                    <span class="logo-icon">✦</span>
+                    <span class="logo-text">Belle<em>Studio</em></span>
+                </div>
+                <p>Beleza, cuidado e um momento só seu.</p>
+            </div>
+            <div>
+                <h4>Contato</h4>
+                <p>Rua das Flores, 123<br>São Paulo, SP</p>
+                <p>(11) 4002-8922</p>
+            </div>
+            <div>
+                <h4>Horário</h4>
+                <p>Ter–Sex: 09h às 20h</p>
+                <p>Sáb: 09h às 18h</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 Belle Studio</span>
+            <a href="admin.html">Acesso administrativo</a>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

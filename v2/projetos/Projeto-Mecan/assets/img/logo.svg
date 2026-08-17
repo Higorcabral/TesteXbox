@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Motor 47">
+  <defs>
+    <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff6b1a"/>
+      <stop offset="100%" stop-color="#ffa552"/>
+    </linearGradient>
+    <linearGradient id="brandShine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.25)"/>
+      <stop offset="45%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Racing hex badge -->
+  <path d="M24 2.5 L43.5 13 L43.5 35 L24 45.5 L4.5 35 L4.5 13 Z" fill="url(#brandGrad)"/>
+  <path d="M24 2.5 L43.5 13 L43.5 35 L24 45.5 L4.5 35 L4.5 13 Z" fill="url(#brandShine)"/>
+
+  <!-- Inner hex line -->
+  <path d="M24 7.5 L38.5 15.5 L38.5 32.5 L24 40.5 L9.5 32.5 L9.5 15.5 Z"
+        fill="none" stroke="rgba(10,10,11,0.22)" stroke-width="1.2"/>
+
+  <!-- Speed line accents -->
+  <rect x="11" y="35.5" width="6" height="1.4" rx="0.7" fill="rgba(10,10,11,0.35)"/>
+  <rect x="31" y="35.5" width="6" height="1.4" rx="0.7" fill="rgba(10,10,11,0.35)"/>
+
+  <!-- "M" letterform as path (geometric) -->
+  <path d="M12.5 30.5 L12.5 15.5 L16 15.5 L24 24 L32 15.5 L35.5 15.5 L35.5 30.5 L32.2 30.5 L32.2 20.6 L26 27.2 L22 27.2 L15.8 20.6 L15.8 30.5 Z"
+        fill="#0a0a0b"/>
+
+  <!-- 47 subscript -->
+  <text x="24" y="12" text-anchor="middle"
+        font-family="Inter, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif"
+        font-weight="800" font-size="5.5" fill="#0a0a0b" letter-spacing="0.1em">47</text>
+</svg>

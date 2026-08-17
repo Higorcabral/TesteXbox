@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acesso interno — Motor 47</title>
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <main class="login">
+    <div class="login__card">
+      <div class="login__brand">
+        <img src="assets/img/logo.svg" alt="" class="brand__mark">
+        <span class="brand__wm">
+          <strong>Motor 47</strong>
+          <small>Oficina · Diagnóstico</small>
+        </span>
+      </div>
+      <h1>Painel administrativo</h1>
+      <p class="muted">Acesso restrito à equipe da oficina.</p>
+
+      <form id="login-form" autocomplete="off">
+        <div id="err" class="err hide"></div>
+
+        <div class="field">
+          <label for="user">Usuário</label>
+          <input type="text" id="user" name="user" placeholder="admin" required autofocus>
+        </div>
+
+        <div class="field">
+          <label for="pwd">Senha</label>
+          <input type="password" id="pwd" name="pwd" placeholder="••••••" required>
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--block">Entrar no painel</button>
+      </form>
+
+      <div class="login__hint">
+        <strong>Ambiente de demonstração.</strong> Use <code>admin</code> / <code>admin</code> para acessar.
+      </div>
+
+      <div class="mt-16" style="text-align:center;font-size:13px;">
+        <a href="index.html" class="text-mute">← Voltar ao site</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const form = document.getElementById("login-form");
+      const err = document.getElementById("err");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const u = document.getElementById("user").value.trim();
+        const p = document.getElementById("pwd").value.trim();
+
+        if (u === "admin" && p === "admin") {
+          sessionStorage.setItem("motor47.auth", JSON.stringify({
+            user: u,
+            at: Date.now(),
+          }));
+          window.location.href = "admin.html";
+        } else {
+          err.textContent = "Usuário ou senha incorretos. Use admin / admin.";
+          err.classList.remove("hide");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

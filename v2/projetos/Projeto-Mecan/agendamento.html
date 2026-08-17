@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendar serviço — Motor 47</title>
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header__inner">
+      <a href="index.html" class="brand">
+        <img src="assets/img/logo.svg" alt="" class="brand__mark">
+        <span class="brand__wm">
+          <strong>Motor 47</strong>
+          <small>Oficina · Diagnóstico</small>
+        </span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Início</a>
+        <a href="index.html#servicos">Serviços</a>
+        <a href="agendamento.html" class="is-active">Agendar</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="container">
+    <div style="padding:64px 0 24px;max-width:640px;">
+      <span class="eyebrow">Agendamento em 3 passos</span>
+      <h1 style="font-size:clamp(28px,4vw,44px);letter-spacing:-0.02em;line-height:1.1;margin:8px 0 12px;font-weight:800;">
+        Escolha o serviço, a data e pronto.
+      </h1>
+      <p class="text-dim">Confirmação instantânea. Você pode reagendar até 12h antes sem custo.</p>
+    </div>
+  </section>
+
+  <section class="container booking">
+    <!-- FORM -->
+    <form class="card" id="booking-form" autocomplete="off">
+      <h2>Dados do agendamento</h2>
+      <p class="muted">Preencha os dados abaixo para reservar seu horário.</p>
+
+      <div class="field">
+        <label for="servico">Serviço desejado</label>
+        <select id="servico" name="servico" required></select>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="nome">Nome completo</label>
+          <input type="text" id="nome" name="nome" placeholder="Ex.: Rafael Nogueira" required>
+        </div>
+        <div class="field">
+          <label for="telefone">Telefone / WhatsApp</label>
+          <input type="tel" id="telefone" name="telefone" placeholder="(11) 9 9999-9999" required>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="carro">Modelo do veículo</label>
+          <input type="text" id="carro" name="carro" placeholder="Ex.: Honda Civic 2022" required>
+        </div>
+        <div class="field">
+          <label for="placa">Placa</label>
+          <input type="text" id="placa" name="placa" placeholder="ABC-1D23" required maxlength="8" style="text-transform:uppercase;">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="data">Data preferida</label>
+        <input type="date" id="data" name="data" required>
+      </div>
+
+      <div class="field">
+        <div class="slots-head">
+          <h3>Horário</h3>
+          <small class="text-mute" id="slots-hint">Selecione uma data</small>
+        </div>
+        <div class="slots" id="slots"></div>
+      </div>
+
+      <div class="field">
+        <label for="obs">Observações (opcional)</label>
+        <textarea id="obs" name="obs" rows="3" placeholder="Ex.: barulho no freio traseiro"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--block">Confirmar agendamento</button>
+    </form>
+
+    <!-- SUMMARY -->
+    <aside class="card" style="align-self:start;position:sticky;top:96px;">
+      <h2>Resumo</h2>
+      <p class="muted">Revise antes de confirmar.</p>
+
+      <div id="summary">
+        <div class="summary__item">
+          <span>Serviço</span>
+          <span id="s-servico">—</span>
+        </div>
+        <div class="summary__item">
+          <span>Duração</span>
+          <span id="s-duracao">—</span>
+        </div>
+        <div class="summary__item">
+          <span>Data</span>
+          <span id="s-data">—</span>
+        </div>
+        <div class="summary__item">
+          <span>Horário</span>
+          <span id="s-horario">—</span>
+        </div>
+        <div class="summary__total">
+          <span>Total estimado</span>
+          <span id="s-total">R$ 0,00</span>
+        </div>
+      </div>
+
+      <div class="mt-24" style="padding:14px;background:var(--bg-2);border-radius:10px;font-size:12px;color:var(--text-dim);">
+        💡 Valor final pode variar após diagnóstico. Você é avisado antes de qualquer cobrança adicional.
+      </div>
+    </aside>
+  </section>
+
+  <div class="toast" id="toast">✓ Agendamento confirmado com sucesso.</div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/agendamento.js"></script>
+</body>
+</html>

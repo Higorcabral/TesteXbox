@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stoqly · Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app" id="app"></div>
+
+  <script src="js/mock-data.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script>
+    function totalItems() { return ITEMS.reduce((s, i) => s + i.stock, 0); }
+    function totalValue() { return ITEMS.reduce((s, i) => s + i.stock * i.price, 0); }
+    function lowStock() { return ITEMS.filter(i => i.stock < i.min); }
+    function activeShipments() { return SHIPMENTS.filter(s => s.status !== 'entregue').length; }
+
+    function categoryTotals() {
+      const map = {};
+      CATEGORIES.forEach(c => map[c] = 0);
+      ITEMS.forEach(i => { map[i.category] += i.stock * i.price; });
+      return map;
+    }
+
+    function renderBarChart() {
+      const cats = categoryTotals();
+      const max = Math.max(...Object.values(cats));
+      return Object.entries(cats).map(([cat, val]) => {
+        const h = Math.max(4, (val / max) * 160);
+        return `
+          <div class="bar" style="height:${h}px" title="${cat}: ${fmtBRL(val)}">
+            <div class="bar-value">${(val/1000).toFixed(0)}k</div>
+            <div class="bar-label">${cat.slice(0,4)}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderShipmentDonut() {
+      const counts = {
+        preparacao: SHIPMENTS.filter(s => s.status === 'preparacao').length,
+        em_transito: SHIPMENTS.filter(s => s.status === 'em_transito').length,
+        entregue: SHIPMENTS.filter(s => s.status === 'entregue').length,
+      };
+      const total = counts.preparacao + counts.em_transito + counts.entregue;
+      const circ = 2 * Math.PI * 60;
+      const prep = (counts.preparacao / total) * circ;
+      const trans = (counts.em_transito / total) * circ;
+      const deliv = (counts.entregue / total) * circ;
+
+      return `
+        <div class="donut-container">
+          <svg viewBox="0 0 160 160" width="160" height="160">
+            <circle cx="80" cy="80" r="60" fill="none" stroke="#f1f5f9" stroke-width="18"/>
+            <circle cx="80" cy="80" r="60" fill="none" stroke="#f59e0b" stroke-width="18"
+              stroke-dasharray="${prep} ${circ}" stroke-dashoffset="0" transform="rotate(-90 80 80)"/>
+            <circle cx="80" cy="80" r="60" fill="none" stroke="#3b82f6" stroke-width="18"
+              stroke-dasharray="${trans} ${circ}" stroke-dashoffset="${-prep}" transform="rotate(-90 80 80)"/>
+            <circle cx="80" cy="80" r="60" fill="none" stroke="#10b981" stroke-width="18"
+              stroke-dasharray="${deliv} ${circ}" stroke-dashoffset="${-(prep+trans)}" transform="rotate(-90 80 80)"/>
+          </svg>
+          <div class="donut-center">
+            <div class="donut-value">${total}</div>
+            <div class="donut-label">Pedidos</div>
+          </div>
+        </div>
+      `;
+    }
+
+    document.getElementById('app').innerHTML = `
+      ${renderSidebar('dashboard')}
+      <main class="main">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Dashboard</h1>
+            <p class="page-subtitle">Visão geral do estoque · atualizado agora</p>
+          </div>
+          <div class="flex gap-2">
+            <button class="btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+              Exportar
+            </button>
+            <a href="cadastro.html" class="btn btn-primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Novo item
+            </a>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Itens em estoque</div>
+            <div class="kpi-value">${fmtNum(totalItems())}</div>
+            <div class="kpi-delta up">↑ 4,2% vs. mês anterior</div>
+            <div class="kpi-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Valor total do estoque</div>
+            <div class="kpi-value">${fmtBRL(totalValue())}</div>
+            <div class="kpi-delta up">↑ 2,8% vs. mês anterior</div>
+            <div class="kpi-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Alertas de estoque baixo</div>
+            <div class="kpi-value" style="color: var(--danger)">${lowStock().length}</div>
+            <div class="kpi-delta down">Requerem atenção</div>
+            <div class="kpi-icon" style="background:#fee2e2;color:#b91c1c">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01"/></svg>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Pedidos ativos</div>
+            <div class="kpi-value">${activeShipments()}</div>
+            <div class="kpi-delta up">${SHIPMENTS.filter(s=>s.status==='em_transito').length} em trânsito</div>
+            <div class="kpi-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7V8z"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Valor do estoque por categoria</div>
+                <div class="text-sm text-muted mt-2">Distribuição financeira em BRL</div>
+              </div>
+              <span class="badge badge-neutral">últimos 30 dias</span>
+            </div>
+            <div class="bar-chart">${renderBarChart()}</div>
+            <div class="chart-legend">
+              ${CATEGORIES.map(c => `
+                <div class="legend-item">
+                  <span class="badge-dot" style="background:var(--primary)"></span>${c}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Status de pedidos</div>
+              <a href="envios.html" class="link text-sm">Ver todos →</a>
+            </div>
+            ${renderShipmentDonut()}
+            <div class="chart-legend" style="flex-direction:column; gap:8px; margin-top:16px;">
+              <div class="flex-between" style="width:100%">
+                <div class="legend-item"><span class="badge-dot" style="background:#f59e0b"></span>Preparação</div>
+                <span class="font-semibold tabular">${SHIPMENTS.filter(s => s.status === 'preparacao').length}</span>
+              </div>
+              <div class="flex-between" style="width:100%">
+                <div class="legend-item"><span class="badge-dot" style="background:#3b82f6"></span>Em trânsito</div>
+                <span class="font-semibold tabular">${SHIPMENTS.filter(s => s.status === 'em_transito').length}</span>
+              </div>
+              <div class="flex-between" style="width:100%">
+                <div class="legend-item"><span class="badge-dot" style="background:#10b981"></span>Entregue</div>
+                <span class="font-semibold tabular">${SHIPMENTS.filter(s => s.status === 'entregue').length}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Itens com estoque baixo</div>
+              <a href="estoque.html" class="link text-sm">Ver estoque →</a>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Categoria</th>
+                    <th style="text-align:right">Atual / Mín</th>
+                    <th>Nível</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${lowStock().slice(0, 6).map(item => {
+                    const st = stockStatus(item);
+                    return `
+                      <tr>
+                        <td>
+                          <div class="product-cell">
+                            <div class="product-icon">${initials(item.name)}</div>
+                            <div>
+                              <div class="product-name">${item.name}</div>
+                              <div class="product-sku">${item.id}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="text-sm text-muted">${item.category}</td>
+                        <td class="tabular" style="text-align:right">
+                          <span class="font-semibold" style="color:var(--danger)">${item.stock}</span>
+                          <span class="text-muted"> / ${item.min}</span>
+                        </td>
+                        <td>
+                          <div class="progress">
+                            <div class="progress-bar ${progressClass(item)}" style="width:${stockPercent(item)}%"></div>
+                          </div>
+                        </td>
+                        <td><span class="badge ${st.badge}"><span class="badge-dot"></span>${st.label}</span></td>
+                      </tr>
+                    `;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Últimas movimentações</div>
+              <a href="movimentacoes.html" class="link text-sm">Ver todas →</a>
+            </div>
+            <ul class="timeline">
+              ${MOVEMENTS.slice(0, 6).map(m => {
+                const isIn = m.type === 'entrada';
+                const isOut = m.type === 'saida';
+                const color = isIn ? 'var(--success)' : (isOut ? 'var(--danger)' : 'var(--warning)');
+                return `
+                  <li class="timeline-item">
+                    <span class="timeline-dot" style="background:${color};box-shadow:0 0 0 2px ${color}"></span>
+                    <div class="timeline-title">
+                      ${isIn ? '＋' : (isOut ? '−' : '≈')} ${Math.abs(m.qty)} × ${m.name}
+                    </div>
+                    <div class="text-sm text-muted">${m.reason} · ${m.user}</div>
+                    <div class="timeline-time">${m.date}</div>
+                  </li>
+                `;
+              }).join('')}
+            </ul>
+          </div>
+        </div>
+      </main>
+    `;
+  </script>
+</body>
+</html>

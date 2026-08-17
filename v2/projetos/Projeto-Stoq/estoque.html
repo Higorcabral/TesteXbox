@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stoqly · Estoque</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app" id="app"></div>
+
+  <script src="js/mock-data.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script>
+    let filter = { q: '', cat: '', status: '' };
+
+    function filtered() {
+      return ITEMS.filter(i => {
+        if (filter.q) {
+          const q = filter.q.toLowerCase();
+          if (!i.name.toLowerCase().includes(q) && !i.id.toLowerCase().includes(q)) return false;
+        }
+        if (filter.cat && i.category !== filter.cat) return false;
+        if (filter.status) {
+          const s = stockStatus(i).label;
+          if (filter.status === 'low' && s !== 'Baixo' && s !== 'Sem estoque') return false;
+          if (filter.status === 'ok' && s !== 'OK') return false;
+          if (filter.status === 'warn' && s !== 'Atenção') return false;
+        }
+        return true;
+      });
+    }
+
+    function renderTable() {
+      const rows = filtered();
+      if (rows.length === 0) {
+        return `<div class="empty">Nenhum item encontrado com esses filtros.</div>`;
+      }
+      return `
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Categoria</th>
+                <th>Local</th>
+                <th style="text-align:right">Estoque</th>
+                <th>Nível</th>
+                <th style="text-align:right">Preço</th>
+                <th style="text-align:right">Valor total</th>
+                <th>Status</th>
+                <th>Fornecedor</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map(item => {
+                const st = stockStatus(item);
+                return `
+                  <tr>
+                    <td>
+                      <div class="product-cell">
+                        <div class="product-icon">${initials(item.name)}</div>
+                        <div>
+                          <div class="product-name">${item.name}</div>
+                          <div class="product-sku">${item.id}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-sm">${item.category}</td>
+                    <td class="mono">${item.location}</td>
+                    <td class="tabular font-semibold" style="text-align:right">${item.stock}</td>
+                    <td style="min-width:100px">
+                      <div class="progress">
+                        <div class="progress-bar ${progressClass(item)}" style="width:${stockPercent(item)}%"></div>
+                      </div>
+                      <div class="text-sm text-muted mono mt-2" style="font-size:10px">${item.min} min · ${item.max} max</div>
+                    </td>
+                    <td class="tabular text-sm" style="text-align:right">${fmtBRL(item.price)}</td>
+                    <td class="tabular font-semibold" style="text-align:right">${fmtBRL(item.stock * item.price)}</td>
+                    <td><span class="badge ${st.badge}"><span class="badge-dot"></span>${st.label}</span></td>
+                    <td class="text-sm text-muted">${item.supplier}</td>
+                    <td>
+                      <button class="btn btn-sm" title="Editar">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                      </button>
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div class="flex-between mt-3">
+          <div class="text-sm text-muted">Mostrando <b>${rows.length}</b> de <b>${ITEMS.length}</b> itens</div>
+          <div class="flex gap-2">
+            <button class="btn btn-sm">← Anterior</button>
+            <button class="btn btn-sm btn-primary">1</button>
+            <button class="btn btn-sm">Próxima →</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function render() {
+      const totalValor = filtered().reduce((s,i) => s + i.stock * i.price, 0);
+      const totalUnid = filtered().reduce((s,i) => s + i.stock, 0);
+      const lowCount = ITEMS.filter(i => i.stock < i.min).length;
+
+      document.getElementById('app').innerHTML = `
+        ${renderSidebar('estoque')}
+        <main class="main">
+          <div class="page-header">
+            <div>
+              <h1 class="page-title">Estoque</h1>
+              <p class="page-subtitle">${ITEMS.length} SKUs cadastrados · Última sincronização há 2 min</p>
+            </div>
+            <div class="flex gap-2">
+              <button class="btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                Exportar CSV
+              </button>
+              <a href="cadastro.html" class="btn btn-primary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                Novo item
+              </a>
+            </div>
+          </div>
+
+          ${lowCount > 0 ? `
+            <div class="alert alert-warning">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:2px"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01"/></svg>
+              <div>
+                <b>${lowCount} itens</b> estão abaixo do estoque mínimo. Considere gerar ordens de compra.
+              </div>
+            </div>
+          ` : ''}
+
+          <div class="kpi-grid" style="margin-bottom:16px">
+            <div class="kpi-card">
+              <div class="kpi-label">SKUs filtrados</div>
+              <div class="kpi-value tabular">${filtered().length}</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Unidades totais</div>
+              <div class="kpi-value tabular">${fmtNum(totalUnid)}</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Valor filtrado</div>
+              <div class="kpi-value tabular">${fmtBRL(totalValor)}</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Alertas ativos</div>
+              <div class="kpi-value tabular" style="color:var(--danger)">${lowCount}</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="toolbar">
+              <div class="search-box">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                <input id="search" type="text" placeholder="Buscar por nome ou SKU..." value="${filter.q}">
+              </div>
+              <select id="cat" class="form-select" style="width:auto">
+                <option value="">Todas as categorias</option>
+                ${CATEGORIES.map(c => `<option ${filter.cat===c?'selected':''}>${c}</option>`).join('')}
+              </select>
+              <select id="status" class="form-select" style="width:auto">
+                <option value="">Todos os status</option>
+                <option value="ok" ${filter.status==='ok'?'selected':''}>OK</option>
+                <option value="warn" ${filter.status==='warn'?'selected':''}>Atenção</option>
+                <option value="low" ${filter.status==='low'?'selected':''}>Estoque baixo</option>
+              </select>
+              <button id="clear" class="btn">Limpar</button>
+            </div>
+
+            ${renderTable()}
+          </div>
+        </main>
+      `;
+
+      document.getElementById('search').addEventListener('input', (e) => { filter.q = e.target.value; render(); requestAnimationFrame(() => document.getElementById('search').focus()); });
+      document.getElementById('cat').addEventListener('change', (e) => { filter.cat = e.target.value; render(); });
+      document.getElementById('status').addEventListener('change', (e) => { filter.status = e.target.value; render(); });
+      document.getElementById('clear').addEventListener('click', () => { filter = { q:'', cat:'', status:'' }; render(); });
+    }
+
+    render();
+  </script>
+</body>
+</html>
