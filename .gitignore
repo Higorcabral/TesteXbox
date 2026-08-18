@@ -43,4 +43,4 @@ build/
 *.temp
 
 # ===== Arquivos de trabalho / drag & drop acidentais =====
-v2/assets/ManualServices
+assets/ManualServices
