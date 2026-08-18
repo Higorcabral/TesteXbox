@@ -6,13 +6,31 @@
 <title>Hifera Company · Automação com alma humana</title>
 <meta name="description" content="Automação empresarial pensada por pessoas para pessoas. Sistemas que respeitam sua operação e crescem com você.">
 <meta name="theme-color" content="#0a0a0b">
+<link rel="canonical" href="https://higorcabral.github.io/TesteXbox/v2/">
+
+<!-- Open Graph / preview ao compartilhar (WhatsApp, LinkedIn, Telegram) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Hifera Company">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://higorcabral.github.io/TesteXbox/v2/">
+<meta property="og:title" content="Hifera Company · Automação com alma humana">
+<meta property="og:description" content="Automação empresarial pensada por pessoas para pessoas. Sistemas que respeitam sua operação e crescem com você.">
+<meta property="og:image" content="https://higorcabral.github.io/TesteXbox/v2/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Logo da Hifera Company">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hifera Company · Automação com alma humana">
+<meta name="twitter:description" content="Automação empresarial pensada por pessoas para pessoas. Sistemas que respeitam sua operação e crescem com você.">
+<meta name="twitter:image" content="https://higorcabral.github.io/TesteXbox/v2/assets/og-cover.png">
 
 <link rel="icon" type="image/png" href="../public/img/logo/HiferaIcon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
@@ -25,13 +43,13 @@
 <nav class="nav" id="nav">
   <div class="nav-inner">
     <a href="#top" class="nav-brand">
-      <img src="../public/img/logo/HiferaIcon.png" alt="">
+      <img src="../public/img/logo/HiferaIcon.png" alt="Hifera Company">
       <span>
         <strong>HIFERA <span class="grad-text">COMPANY</span></strong>
         <small>Hub Digital</small>
       </span>
     </a>
-    <ul class="nav-links">
+    <ul class="nav-links" id="nav-menu">
       <li><a href="#manifesto">Nosso jeito</a></li>
       <li><a href="#como-fazemos">Como fazemos</a></li>
       <li><a href="#produtos">Produtos</a></li>
@@ -40,6 +58,10 @@
       <li><a href="#faq">FAQ</a></li>
     </ul>
     <a href="#contato" class="nav-cta">Vamos conversar <span>→</span></a>
+    <button type="button" class="nav-toggle" id="navToggle"
+            aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu">
+      <span class="nav-toggle-bars" aria-hidden="true"></span>
+    </button>
   </div>
 </nav>
 
@@ -260,7 +282,7 @@
         <a href="projetos/Projeto-CRM/" target="_blank" rel="noopener" class="proj-card reveal" data-delay="1">
           <div class="proj-media">
             <div class="carousel" data-carousel>
-              <img class="slide is-active" src="assets/thumbs/crm.jpg" alt="Painel comercial" loading="lazy">
+              <img class="slide is-active" src="assets/thumbs/crm.webp" alt="Painel comercial" loading="lazy">
             </div>
             <div class="proj-tag">Projeto · CRM</div>
           </div>
@@ -275,7 +297,7 @@
         <a href="projetos/Projeto-Mani/" target="_blank" rel="noopener" class="proj-card reveal" data-delay="2">
           <div class="proj-media">
             <div class="carousel" data-carousel>
-              <img class="slide is-active" src="assets/thumbs/mani.jpg" alt="Landing hero" loading="lazy">
+              <img class="slide is-active" src="assets/thumbs/mani.webp" alt="Landing hero" loading="lazy">
             </div>
             <div class="proj-tag">Projeto · Estética</div>
           </div>
@@ -290,8 +312,8 @@
         <a href="projetos/Projeto-Mecan/" target="_blank" rel="noopener" class="proj-card reveal" data-delay="3">
           <div class="proj-media">
             <div class="carousel" data-carousel>
-              <img class="slide is-active" src="assets/thumbs/mecan.jpg" alt="Hero" loading="lazy">
-              <img class="slide" src="assets/thumbs/mecan-2.jpg" alt="Agendamento" loading="lazy">
+              <img class="slide is-active" src="assets/thumbs/mecan.webp" alt="Hero" loading="lazy">
+              <img class="slide" src="assets/thumbs/mecan-2.webp" alt="Agendamento" loading="lazy">
             </div>
             <div class="proj-tag">Projeto · Automotivo</div>
           </div>
@@ -306,8 +328,8 @@
         <a href="projetos/Projeto-Stoq/" target="_blank" rel="noopener" class="proj-card reveal" data-delay="4">
           <div class="proj-media">
             <div class="carousel" data-carousel>
-              <img class="slide is-active" src="assets/thumbs/stoq.jpg" alt="Dashboard" loading="lazy">
-              <img class="slide" src="assets/thumbs/stoq-2.jpg" alt="Estoque" loading="lazy">
+              <img class="slide is-active" src="assets/thumbs/stoq.webp" alt="Dashboard" loading="lazy">
+              <img class="slide" src="assets/thumbs/stoq-2.webp" alt="Estoque" loading="lazy">
             </div>
             <div class="proj-tag">Projeto · Comércio</div>
           </div>
@@ -562,6 +584,52 @@ window.addEventListener('scroll', function () {
   if (window.scrollY > 20) nav.classList.add('is-scrolled');
   else nav.classList.remove('is-scrolled');
 }, { passive: true });
+
+/* Nav. Menu hambúrguer (drawer) abaixo de 1100px */
+(function () {
+  var toggle = document.getElementById('navToggle');
+  var menu = document.getElementById('nav-menu');
+  if (!toggle || !menu || !nav) return;
+
+  var mq = window.matchMedia('(max-width: 1099.98px)');
+
+  function open() {
+    nav.classList.add('is-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'Fechar menu');
+  }
+  function close() {
+    nav.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Abrir menu');
+  }
+  function isOpen() { return nav.classList.contains('is-open'); }
+
+  toggle.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (isOpen()) close(); else open();
+  });
+
+  /* Fecha ao clicar em um link do menu */
+  menu.addEventListener('click', function (e) {
+    if (e.target.closest('a')) close();
+  });
+
+  /* Fecha ao clicar fora */
+  document.addEventListener('click', function (e) {
+    if (isOpen() && !nav.contains(e.target)) close();
+  });
+
+  /* Fecha no Esc e devolve o foco pro botão */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && isOpen()) { close(); toggle.focus(); }
+  });
+
+  /* Volta pro menu horizontal ao passar do breakpoint */
+  function onChange(e) { if (!e.matches) close(); }
+  if (mq.addEventListener) mq.addEventListener('change', onChange);
+  else if (mq.addListener) mq.addListener(onChange);
+})();
 
 /* Reveal on scroll */
 var reveals = document.querySelectorAll('.reveal');
