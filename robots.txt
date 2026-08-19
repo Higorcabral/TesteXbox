@@ -54,3 +54,4 @@ Disallow: /
 # --- Demais robôs, incluindo Google e Bing ---
 User-agent: *
 Allow: /
+Disallow: /AdminPage/
