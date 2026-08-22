@@ -15,13 +15,20 @@ HiferaAdmin.ChartView = (function () {
 
   var Fmt = HiferaAdmin.Fmt;
 
+  var COR = {
+    cyan:   'var(--cyan-ink)',
+    amber:  'var(--amber-ink)',
+    indigo: 'var(--indigo-ink)',
+    cinza:  'var(--gray-line)'
+  };
+
   var SERIES = [
-    { chave: 'recebido', label: 'Recebido',  cor: '#5de0e6', marca: 'bloco' },
-    { chave: 'aReceber', label: 'A receber', cor: '#5de0e6', marca: 'hachura' },
-    { chave: 'gastos',   label: 'Gastos',    cor: '#f5a524', marca: 'bloco' },
-    { chave: 'meta',     label: 'Meta',      cor: '#8ba4ff', marca: 'tracejada' },
-    { chave: 'forecast', label: 'Forecast',  cor: '#5de0e6', marca: 'contorno', opcional: true },
-    { chave: 'anterior', label: 'Ano ant.',  cor: '#9aa0aa', marca: 'solida',   opcional: true }
+    { chave: 'recebido', label: 'Recebido',  cor: COR.cyan,   marca: 'bloco' },
+    { chave: 'aReceber', label: 'A receber', cor: COR.cyan,   marca: 'hachura' },
+    { chave: 'gastos',   label: 'Gastos',    cor: COR.amber,  marca: 'bloco' },
+    { chave: 'meta',     label: 'Meta',      cor: COR.indigo, marca: 'tracejada' },
+    { chave: 'forecast', label: 'Forecast',  cor: COR.cyan,   marca: 'contorno', opcional: true },
+    { chave: 'anterior', label: 'Ano ant.',  cor: COR.cinza,  marca: 'solida',   opcional: true }
   ];
 
   var W = 1000, H = 380;
@@ -97,8 +104,8 @@ HiferaAdmin.ChartView = (function () {
           '<stop offset="0%" stop-color="#ffc45c"/><stop offset="100%" stop-color="#e08c0d"/>' +
         '</linearGradient>' +
         '<pattern id="pReceber" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">' +
-          '<rect width="6" height="6" fill="rgba(93,224,230,0.16)"/>' +
-          '<line x1="0" y1="0" x2="0" y2="6" stroke="#5de0e6" stroke-width="2.4" stroke-opacity="0.75"/>' +
+          '<rect class="ch-hatch-bg" width="6" height="6"/>' +
+          '<line class="ch-hatch-ln" x1="0" y1="0" x2="0" y2="6" stroke-width="2.4"/>' +
         '</pattern>' +
       '</defs>'
     );
@@ -142,7 +149,7 @@ HiferaAdmin.ChartView = (function () {
         partes.push(
           '<rect class="ch-bar" x="' + xEsq.toFixed(1) + '" y="' + topo.toFixed(1) +
           '" width="' + barW.toFixed(1) + '" height="' + (y(pe) - topo).toFixed(1) +
-          '" rx="3" fill="url(#pReceber)" stroke="rgba(93,224,230,0.55)" stroke-width="1"/>'
+          '" rx="3" fill="url(#pReceber)" class="ch-bar-hatch" stroke-width="1"/>'
         );
       }
       if (visivel('gastos') && m.gastos > 0) {
@@ -232,13 +239,13 @@ HiferaAdmin.ChartView = (function () {
     };
 
     var html = '<div class="tip-head">' + Fmt.competencia(m.mes) + '</div>' +
-      linha('#5de0e6', 'Recebido',  m.recebido) +
-      linha('#5de0e6', 'A receber', m.aReceber, 'hachura') +
-      linha('#f5a524', 'Gastos',    m.gastos) +
-      linha('#8ba4ff', 'Meta',      m.meta);
+      linha(COR.cyan, 'Recebido',  m.recebido) +
+      linha(COR.cyan, 'A receber', m.aReceber, 'hachura') +
+      linha(COR.amber, 'Gastos',    m.gastos) +
+      linha(COR.indigo, 'Meta',      m.meta);
 
     if (visivel('forecast') && estado.forecast[i] > 0) {
-      html += linha('#5de0e6', 'Forecast', estado.forecast[i], 'contorno');
+      html += linha(COR.cyan, 'Forecast', estado.forecast[i], 'contorno');
     }
 
     var saldo = m.recebido - m.gastos;
@@ -246,7 +253,7 @@ HiferaAdmin.ChartView = (function () {
 
     if (visivel('anterior') && estado.anterior) {
       var ant = estado.anterior[i].recebido;
-      html += linha('#9aa0aa', estado.anoAnterior, ant, 'solida');
+      html += linha(COR.cinza, estado.anoAnterior, ant, 'solida');
       var variacao = ant > 0 ? ((m.recebido - ant) / ant) * 100 : (m.recebido > 0 ? 100 : 0);
       html += '<div class="tip-foot">' +
         '<span>Saldo <strong class="' + (saldo < 0 ? 'is-neg' : 'is-pos') + '">' + Fmt.moedaExata(saldo) + '</strong></span>' +

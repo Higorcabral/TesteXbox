@@ -16,8 +16,9 @@ linkado de nenhuma página pública.
 ```
 AdminPage/
 ├── index.html            login
-├── projetos.html         painel
-├── css/admin.css
+├── projetos.html         painel de projetos
+├── chamados.html         service desk
+├── css/admin.css         tokens de tema claro/escuro + componentes
 └── js/
     ├── format.js                    helpers pt-BR (moeda, datas, escape, URL/imagem segura)
     ├── app.js                       boot
@@ -27,16 +28,22 @@ AdminPage/
     │   ├── ImageModel.js            redimensiona + converte para WebP em base64
     │   ├── ProjectsModel.js         projetos, lançamentos, agregados, alertas, forecast
     │   ├── AuditModel.js            log de alterações
-    │   └── PublishModel.js          gera o vitrine-dados.js público
+    │   ├── PublishModel.js          gera o vitrine-dados.js público
+    │   └── TicketsModel.js          chamados: cascata, filas, SLA, avaliação
     ├── views/
     │   ├── KpiView.js               8 cartões de métrica
     │   ├── ChartView.js             gráfico SVG escrito à mão
     │   ├── TimelineView.js          Gantt início → entrega
     │   ├── ProjectsView.js          tabela + modal (upload, bullets, preview)
-    │   └── AuditView.js             gaveta do histórico
+    │   ├── AuditView.js             gaveta do histórico
+    │   ├── TicketsView.js           panorama, volume, filas e lista
+    │   ├── TicketFormView.js        abertura com cascata dependente
+    │   └── TicketDetailView.js      gaveta: histórico, resposta, avaliação
     └── controllers/
         ├── AuthController.js        login e guard das telas
-        └── ProjectsController.js    orquestra o painel
+        ├── ThemeController.js       claro/escuro
+        ├── ProjectsController.js    orquestra a tela de projetos
+        └── TicketsController.js     orquestra a tela de chamados
 ```
 
 Tudo em `window.HiferaAdmin.*`, carregado por `<script>` na ordem
@@ -45,8 +52,9 @@ do site.
 
 ## Dados
 
-Chaves no `localStorage`: `hifera.admin.projetos.v1` (projetos) e
-`hifera.admin.log.v1` (histórico).
+Chaves no `localStorage`: `hifera.admin.projetos.v1` (projetos),
+`hifera.admin.chamados.v1` (chamados), `hifera.admin.log.v1` (histórico) e
+`hifera.admin.tema` (claro/escuro).
 Sem nada gravado, o painel sobe com 5 projetos de exemplo (`SEED` no
 `ProjectsModel.js`) — os 4 casos da home + o Ledger como produto em destaque.
 
@@ -56,6 +64,64 @@ controle interno (status, cliente, datas, observação) e um **livro-caixa
 mensal**: cada linha é `{ mês, meta, recebido, aReceber, gastos }`.
 Os KPIs e o gráfico são sempre derivados desses lançamentos — não existe
 total digitado à mão em lugar nenhum.
+
+## Tema
+
+Escuro é o padrão — é o que combina com a vitrine. O claro entra por
+`[data-tema="claro"]` no `<html>`, guardado em `hifera.admin.tema`.
+
+Um `<script>` inline no `<head>` aplica o atributo **antes** do CSS pintar.
+Sem ele o painel pisca escuro a cada carregamento de quem usa o claro.
+
+Como o sistema funciona:
+
+| Token | Papel |
+|---|---|
+| `--on` | canal das sobreposições — branco no escuro, preto no claro. É o que faz `rgba(var(--on),.06)` servir nos dois temas |
+| `--sh` | canal das sombras |
+| `--*-ink` | versão do acento com contraste para texto e ícone |
+
+O `--*-ink` existe porque o cyan da marca (`#5de0e6`) dá 1,9:1 sobre branco:
+funciona como barra de gráfico, é ilegível como texto. No escuro os `ink`
+valem exatamente as cores originais, então nada muda lá.
+
+Ambos os temas passam AA (4.5:1 para texto normal, 3:1 para grande) nas
+duas telas.
+
+## Chamados
+
+Service desk completo, com a mesma mecânica de um portal de TI:
+
+**Cascata** — Categoria → Sistema → Módulo, cada nível destravando o
+seguinte. A folha define a **fila** automaticamente, então o solicitante
+nunca precisa saber para quem mandar. Cinco filas: Suporte a Produto,
+Automações, Web & Presença, Infra & Segurança, Dados & Relatórios.
+
+**Tipos** — Chamado (algo quebrou) e Requisição (pedido de algo novo).
+A troca redesenha o formulário: em requisição, "Operação" deixa de ser
+obrigatória e os textos de ajuda mudam.
+
+**SLA por prioridade**, contado da abertura:
+
+| Prioridade | Resposta | Solução |
+|---|---|---|
+| Urgente | 2h | 8h |
+| Alta | 4h | 24h |
+| Média | 8h | 72h |
+| Baixa | 24h | 120h |
+
+`Aguardando cliente` **pausa o relógio** — não é justo contar contra a fila
+o tempo em que a bola está do outro lado.
+
+**Atendimento** — histórico em linha do tempo separando cliente de agente,
+anexos (imagem convertida para WebP, PDF preservado), resposta com marcação
+de "esta é a solução" que resolve o chamado, mudança de status e avaliação
+de 1 a 5 estrelas com comentário opcional.
+
+**Panorama** — 8 indicadores, volume mensal de abertos contra resolvidos,
+distribuição por fila. Toda ação entra no log de alterações.
+
+Dados em `hifera.admin.chamados.v1`.
 
 ## Alertas automáticos
 

@@ -19,6 +19,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Tema antes do CSS pintar, pra não piscar escuro no claro -->
+<script>
+(function () {
+  try {
+    if (localStorage.getItem('hifera.admin.tema') === 'claro') {
+      document.documentElement.setAttribute('data-tema', 'claro');
+    }
+  } catch (e) { /* modo privado: segue no escuro */ }
+})();
+</script>
 <link rel="stylesheet" href="css/admin.css?v=3">
 </head>
 <body class="login-body">
@@ -83,8 +93,10 @@
 </main>
 
 <script src="js/models/AuthModel.js?v=3"></script>
+<script src="js/controllers/ThemeController.js?v=3"></script>
 <script src="js/controllers/AuthController.js?v=3"></script>
 <script>
+  HiferaAdmin.ThemeController.init();
   HiferaAdmin.AuthController.initLogin();
 </script>
 </body>
