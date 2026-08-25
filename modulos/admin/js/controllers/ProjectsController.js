@@ -1,7 +1,7 @@
 /* =================================================================
    HIFERA ADMIN · Controller · Gestão de Projetos
    Orquestra KPIs, gráfico, timeline, CRUD, publicação e log.
-   É o único que conhece o DOM da projetos.html.
+   É o único que conhece o DOM da admin/index.html.
    ================================================================= */
 window.HiferaAdmin = window.HiferaAdmin || {};
 
@@ -241,8 +241,7 @@ HiferaAdmin.ProjectsController = (function () {
     if (!p || !p.link) { toast('Este projeto não tem link cadastrado.', 'alerta'); return; }
     var url = Fmt.urlSegura(p.link);
     if (!url) { toast('Link inválido.', 'alerta'); return; }
-    var alvo = /^https?:\/\//i.test(url) ? url : '../' + url.replace(/^\.?\//, '');
-    window.open(alvo, '_blank', 'noopener');
+    window.open(Fmt.urlDoSite(url), '_blank', 'noopener');
   }
 
   /* --- Publicação / backup -------------------------------------------- */

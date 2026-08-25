@@ -7,7 +7,7 @@
    não toca em nada.
 
    Ordem de precedência:
-     1. localStorage 'hifera.admin.projetos.v1'  (edições do /AdminPage)
+     1. localStorage 'hifera.admin.projetos.v1'  (edições do /modulos/admin)
      2. window.HIFERA_PROJETOS                    (lista publicada no repo)
      3. o HTML que já está na página              (fallback)
    ================================================================= */

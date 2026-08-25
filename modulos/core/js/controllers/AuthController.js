@@ -8,8 +8,11 @@ HiferaAdmin.AuthController = (function () {
   'use strict';
 
   var Auth = HiferaAdmin.AuthModel;
-  var HOME = 'projetos.html';   /* pós-login: Gestão de Projetos */
-  var LOGIN = 'index.html';
+
+  /* Cada página declara onde ficam login e home em HIFERA_PATHS —
+     o controller não sabe (nem precisa saber) a profundidade da pasta. */
+  var HOME  = HiferaAdmin.Caminhos.home;    /* pós-login: Gestão de Projetos */
+  var LOGIN = HiferaAdmin.Caminhos.login;
 
   /* --- Tela de login -------------------------------------------- */
   function initLogin() {

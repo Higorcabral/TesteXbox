@@ -1,50 +1,95 @@
-# Hifera · AdminPage
+# Hifera · Módulos internos
 
-Painel interno da Hifera. Fica fora do menu do site, fora do índice dos
-buscadores (`noindex` + `Disallow: /AdminPage/` no robots.txt) e não é
-linkado de nenhuma página pública.
+Ramificações internas da Hifera, separadas do site público. Ficam fora do
+menu, fora do índice dos buscadores (`noindex` + `Disallow: /modulos/` no
+robots.txt) e não são linkadas de nenhuma página pública.
 
-## Telas
+Vivem dentro do repositório do site porque a raiz do repositório **é** a
+raiz de publicação do GitHub Pages — o que sai daqui deixa de ir para o ar.
+A separação é de pastas e de responsabilidade, não de repositório.
 
-| Arquivo | O que é |
+## Módulos
+
+| Rota | O que é |
 |---|---|
-| `index.html` | Login SSO com botão Microsoft (**mock**) |
-| `projetos.html` | Gestão de Projetos — KPIs, gráfico Meta vs Realizado e CRUD da vitrine |
+| `/modulos/` | Login SSO com botão Microsoft (**mock**) — entrada única |
+| `/modulos/admin/` | Gestão de Projetos — KPIs, gráfico Meta vs Realizado e CRUD da vitrine |
+| `/modulos/chamados/` | Service Desk — cascata, filas, SLA e avaliação |
 
 ## Estrutura (MVC, vanilla, sem build)
 
 ```
-AdminPage/
-├── index.html            login
-├── projetos.html         painel de projetos
-├── chamados.html         service desk
-├── css/admin.css         tokens de tema claro/escuro + componentes
-└── js/
-    ├── format.js                    helpers pt-BR (moeda, datas, escape, URL/imagem segura)
-    ├── app.js                       boot
-    ├── models/
-    │   ├── AuthModel.js             sessão mockada (trocar por MSAL)
-    │   ├── StoreModel.js            wrapper do localStorage
-    │   ├── ImageModel.js            redimensiona + converte para WebP em base64
-    │   ├── ProjectsModel.js         projetos, lançamentos, agregados, alertas, forecast
-    │   ├── AuditModel.js            log de alterações
-    │   ├── PublishModel.js          gera o vitrine-dados.js público
-    │   └── TicketsModel.js          chamados: cascata, filas, SLA, avaliação
-    ├── views/
-    │   ├── KpiView.js               8 cartões de métrica
-    │   ├── ChartView.js             gráfico SVG escrito à mão
-    │   ├── TimelineView.js          Gantt início → entrega
-    │   ├── ProjectsView.js          tabela + modal (upload, bullets, preview)
-    │   ├── AuditView.js             gaveta do histórico
-    │   ├── TicketsView.js           panorama, volume, filas e lista
-    │   ├── TicketFormView.js        abertura com cascata dependente
-    │   └── TicketDetailView.js      gaveta: histórico, resposta, avaliação
-    └── controllers/
-        ├── AuthController.js        login e guard das telas
-        ├── ThemeController.js       claro/escuro
-        ├── ProjectsController.js    orquestra a tela de projetos
-        └── TicketsController.js     orquestra a tela de chamados
+modulos/
+├── index.html                      login — entrada única dos dois módulos
+│
+├── core/                           compartilhado. NÃO depende de nenhum módulo
+│   ├── css/admin.css               tokens de tema claro/escuro + componentes
+│   └── js/
+│       ├── caminhos.js             resolve HIFERA_PATHS (ver "Caminhos")
+│       ├── format.js               helpers pt-BR (moeda, datas, escape, URL/imagem segura)
+│       ├── models/
+│       │   ├── AuthModel.js        sessão mockada (trocar por MSAL)
+│       │   ├── StoreModel.js       wrapper do localStorage
+│       │   ├── ImageModel.js       redimensiona + converte para WebP em base64
+│       │   ├── ProjectsModel.js    catálogo de projetos — lido pelos DOIS módulos
+│       │   └── AuditModel.js       log de alterações
+│       ├── views/AuditView.js      gaveta do histórico
+│       ├── ui/sidebar.js           gaveta do menu lateral em telas estreitas
+│       └── controllers/
+│           ├── ThemeController.js  claro/escuro
+│           └── AuthController.js   login e guard das telas
+│
+├── admin/                          MÓDULO · Gestão de Projetos
+│   ├── index.html
+│   └── js/
+│       ├── models/PublishModel.js  gera o vitrine-dados.js público
+│       ├── views/                  KpiView, ChartView, TimelineView, ProjectsView
+│       ├── controllers/ProjectsController.js
+│       └── boot.js
+│
+└── chamados/                       MÓDULO · Service Desk
+    ├── index.html
+    └── js/
+        ├── models/TicketsModel.js  cascata, filas, SLA, avaliação
+        ├── views/                  TicketsView, TicketFormView, TicketDetailView
+        ├── controllers/TicketsController.js
+        └── boot.js
 ```
+
+**Regra de dependência, em uma linha:** módulo → `core`, nunca o contrário,
+e nunca módulo → módulo. Se dois módulos passarem a precisar da mesma coisa,
+ela sobe para `core` — foi o que aconteceu com o `ProjectsModel`, que o
+formulário de chamados usa para sugerir o projeto relacionado.
+
+## Caminhos
+
+O login está a um nível da raiz do site e os módulos a dois. Antes isso era
+um `'../'` escrito à mão dentro do `format.js` e do `ProjectsController` —
+o que travava a estrutura de pastas: mover qualquer coisa quebrava as
+miniaturas e os links de "abrir projeto".
+
+Agora cada página declara os próprios caminhos no `<head>`, **antes** de
+qualquer script:
+
+```html
+<script>
+window.HIFERA_PATHS = {
+  site:  '../../',      /* raiz do site: index.html, assets/, projetos/ */
+  login: '../',         /* onde está a tela de login */
+  home:  '../admin/'    /* para onde ir depois de autenticar */
+};
+</script>
+```
+
+O `core/js/caminhos.js` normaliza isso em `HiferaAdmin.Caminhos`, e quem
+precisa de caminho usa `Fmt.assetAdmin()` (imagens) ou `Fmt.urlDoSite()`
+(links). Mover uma pasta de lugar = mexer nessas três linhas do HTML dela.
+
+## Ordem de carga
+
+`caminhos.js` → models → views → controllers → `boot.js`.
+O `caminhos.js` vem primeiro porque o `AuthController` lê `Caminhos` na
+avaliação do módulo, não em tempo de chamada.
 
 Tudo em `window.HiferaAdmin.*`, carregado por `<script>` na ordem
 model → view → controller. Sem framework, sem bundler, igual ao resto
@@ -56,7 +101,7 @@ Chaves no `localStorage`: `hifera.admin.projetos.v1` (projetos),
 `hifera.admin.chamados.v1` (chamados), `hifera.admin.log.v1` (histórico) e
 `hifera.admin.tema` (claro/escuro).
 Sem nada gravado, o painel sobe com 5 projetos de exemplo (`SEED` no
-`ProjectsModel.js`) — os 4 casos da home + o Ledger como produto em destaque.
+`core/js/models/ProjectsModel.js`) — os 4 casos da home + o Ledger como produto em destaque.
 
 Cada projeto guarda os campos do card da vitrine (título, categoria,
 segmento, ordem, descrição, link, imagens, publicado, destaque), o
@@ -159,7 +204,7 @@ Para imagens que já estão no repositório, use **Adicionar por caminho/URL**
 
 ## Como o painel chega na vitrine
 
-`../js/vitrine.js` roda na home e substitui a grade de projetos quando
+`/js/vitrine.js` roda na home e substitui a grade de projetos quando
 encontra dados, nesta ordem:
 
 1. `localStorage` — o que você editou neste navegador
@@ -195,7 +240,7 @@ o log só vira rastreabilidade de verdade junto com o MSAL.
 qualquer pessoa com o console aberto entra. Isso segura o protótipo, não
 protege nada. Para virar acesso real:
 
-1. App Registration no Entra ID (tipo SPA, redirect URI `/AdminPage/`)
+1. App Registration no Entra ID (tipo SPA, redirect URI `/modulos/`)
 2. `@azure/msal-browser` → `loginPopup({ scopes: ['User.Read'] })`
 3. Restringir por tenant/grupo e validar o token em um backend antes de
    devolver qualquer dado — enquanto for 100% estático no GitHub Pages,
@@ -207,4 +252,7 @@ protege nada. Para virar acesso real:
 python3 -m http.server 5610 --directory <raiz do HiferaWebSite>
 ```
 
-Depois abra `http://localhost:5610/AdminPage/`.
+Depois abra `http://localhost:5610/modulos/`.
+
+Sempre pela raiz do site, nunca pela pasta `modulos/` — os módulos leem
+assets em `../../assets/`, que só existem a partir da raiz.

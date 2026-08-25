@@ -80,18 +80,27 @@ HiferaAdmin.Fmt = (function () {
     return urlSegura(u);
   }
 
-  /* O painel vive em /AdminPage/, mas os caminhos dos projetos são
-     relativos à raiz do site — reapontamos para cá na hora de exibir. */
+  /* Os caminhos dos projetos são gravados relativos à RAIZ do site
+     ('projetos/Projeto-CRM/'), mas o painel roda em /modulos/<algo>/.
+     Reapontamos na hora de exibir, usando o prefixo que a própria
+     página declarou em HIFERA_PATHS.site. */
   function assetAdmin(src) {
     var u = fonteImagemSegura(src);
     if (!u) return '';
     if (/^data:/i.test(u)) return u;
     if (/^(https?:)?\/\//i.test(u) || u.charAt(0) === '/') return u;
-    return '../' + u.replace(/^\.?\//, '');
+    return HiferaAdmin.Caminhos.site + u.replace(/^\.?\//, '');
+  }
+
+  /* Mesma regra do assetAdmin, para links de navegação */
+  function urlDoSite(u) {
+    u = String(u || '');
+    return /^https?:\/\//i.test(u) ? u : HiferaAdmin.Caminhos.site + u.replace(/^\.?\//, '');
   }
 
   return {
     assetAdmin: assetAdmin,
+    urlDoSite: urlDoSite,
     fonteImagemSegura: fonteImagemSegura,
     moeda: moeda,
     moedaExata: moedaExata,

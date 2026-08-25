@@ -11,17 +11,24 @@ Site institucional da Hifera Company. HTML, CSS e JavaScript estáticos, sem fra
 ## Estrutura de pastas
 
 ```
-HiferaWebSite/
+HiferaWebSite/                 raiz do repositório = raiz do GitHub Pages
+│
+├── ── SITE PÚBLICO ──────────────────────────────────────────────
 ├── index.html              O site. Página única, com âncoras por seção
 ├── style.css               Todo o estilo do site
 ├── robots.txt              Libera buscadores, bloqueia crawlers de treino de IA
 ├── .nojekyll               Impede o GitHub Pages de processar via Jekyll
+│
+├── js/
+│   ├── vitrine-dados.js      GERADO pelo painel (/modulos/admin → Publicar)
+│   └── vitrine.js            Hidrata a grade de projetos da home
 │
 ├── assets/
 │   ├── og-cover.png          Capa 1200x630 do preview ao compartilhar
 │   ├── logo/                 HiferaIcon, HiferaLogo2, HiferaPrincipalLogo (PNG)
 │   └── thumbs/               Miniaturas dos cards de projeto (WebP, 1200px)
 │
+├── ── DEMOS / PRODUTOS ──────────────────────────────────────────
 ├── projetos/               Demos navegáveis, cada uma auto-contida
 │   ├── Projeto-CRM/          Pipeline comercial
 │   ├── Projeto-Mani/         Agenda para estúdio de manicure
@@ -31,12 +38,53 @@ HiferaWebSite/
 ├── apps/
 │   └── ledger/             Controle Financeiro — demo ao vivo do produto
 │
+├── ── ÁREA INTERNA (não pública) ────────────────────────────────
+├── modulos/                Ramificações internas. Ver modulos/README.md
+│   ├── index.html            Login (SSO mock) — entrada única
+│   ├── core/                 Compartilhado: auth, tema, storage, format
+│   ├── admin/                Gestão de Projetos
+│   └── chamados/             Service Desk
+│
 └── v2/
     └── index.html          Só um redirect para a raiz (ver abaixo)
 ```
 
 Cada pasta em `projetos/` e `apps/` é independente: tem o próprio HTML, CSS e JS,
 e não referencia nada fora de si. Dá para abrir qualquer uma isolada.
+
+`modulos/` é a exceção proposital: é área interna, compartilha um `core/` e
+depende do resto do site (assets e links de projeto), sempre por caminho
+declarado em `HIFERA_PATHS`. Detalhes em [`modulos/README.md`](modulos/README.md).
+
+---
+
+## Como as partes se conectam
+
+```
+                       ┌─────────────────────────┐
+   /modulos/admin/ ──▶ │  localStorage           │
+   (edita projetos)    │  hifera.admin.*.v1      │  só no SEU navegador
+                       └───────────┬─────────────┘
+                                   │ botão "Publicar"
+                                   ▼
+                       js/vitrine-dados.js          commitado no repo
+                                   │
+                                   ▼
+   index.html ──▶ js/vitrine.js ──▶ grade de projetos da home
+                       │
+                       └─▶ links relativos ──▶ projetos/… e apps/ledger/
+```
+
+Três coisas que valem lembrar antes de mexer:
+
+1. **Editar no painel muda a home só na sua máquina.** Para publicar de
+   verdade: *Publicar* → substituir `js/vitrine-dados.js` → commitar.
+2. **Os `link:` dos projetos são relativos à raiz do site** (`projetos/Projeto-CRM/`),
+   não à pasta do painel. Quem faz a tradução é `Fmt.urlDoSite()`.
+3. **A vitrine tem fallback triplo**: `localStorage` → `vitrine-dados.js` →
+   HTML estático da `index.html`. Nenhum dos três pode sair de sincronia sem
+   que alguém perceba — se um projeto novo só existe no painel, ele some para
+   o resto do mundo.
 
 ---
 

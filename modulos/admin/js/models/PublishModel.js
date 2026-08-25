@@ -49,7 +49,7 @@ HiferaAdmin.PublishModel = (function () {
     return '/* =================================================================\n' +
            '   HIFERA · Dados da vitrine — ARQUIVO GERADO, NÃO EDITE À MÃO\n' +
            '   -----------------------------------------------------------------\n' +
-           '   Gerado pelo painel /AdminPage em ' + carimbo + '.\n' +
+           '   Gerado pelo painel /modulos/admin em ' + carimbo + '.\n' +
            '   ' + lista.length + (lista.length === 1 ? ' projeto publicado.' : ' projetos publicados.') + '\n' +
            '\n' +
            '   Para atualizar: edite no painel e clique em "Publicar" de novo,\n' +

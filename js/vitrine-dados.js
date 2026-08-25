@@ -1,7 +1,7 @@
 /* =================================================================
    HIFERA · Dados da vitrine — ARQUIVO GERADO, NÃO EDITE À MÃO
    -----------------------------------------------------------------
-   Gerado pelo painel /AdminPage (botão "Publicar").
+   Gerado pelo painel /modulos/admin (botão "Publicar").
 
    Para atualizar: edite no painel, clique em "Publicar", troque este
    arquivo pelo que for baixado e commite. O js/vitrine.js lê daqui

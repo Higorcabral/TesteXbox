@@ -9,7 +9,7 @@
    Para virar acesso real, trocar `signIn()` por MSAL Browser
    (Entra ID / Azure AD) e mover qualquer dado sensível para um
    backend que valide o token de verdade:
-     - App Registration no Entra ID (SPA, redirect URI = /AdminPage/)
+     - App Registration no Entra ID (SPA, redirect URI = /modulos/)
      - @azure/msal-browser -> loginPopup({ scopes: ['User.Read'] })
      - o painel só renderiza depois de validar o token no servidor
    ================================================================= */

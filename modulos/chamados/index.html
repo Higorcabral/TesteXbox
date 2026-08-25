@@ -8,12 +8,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gestão de Projetos · Hifera Admin</title>
+<title>Chamados · Hifera Admin</title>
 <meta name="theme-color" content="#0a0a0b">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noai, noimageai">
 <meta name="referrer" content="no-referrer">
 
-<link rel="icon" type="image/png" href="../assets/logo/HiferaIcon.png">
+<link rel="icon" type="image/png" href="../../assets/logo/HiferaIcon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -27,7 +27,15 @@
   } catch (e) { /* modo privado: segue no escuro */ }
 })();
 </script>
-<link rel="stylesheet" href="css/admin.css?v=3">
+<!-- Onde este módulo está em relação ao resto. Ver core/js/caminhos.js -->
+<script>
+window.HIFERA_PATHS = {
+  site:  '../../',
+  login: '../',
+  home:  '../admin/'
+};
+</script>
+<link rel="stylesheet" href="../core/css/admin.css?v=4">
 </head>
 <body class="admin-body">
 
@@ -37,18 +45,18 @@
 
   <!-- SIDEBAR -->
   <aside class="side" id="side">
-    <a href="../" class="side-brand">
-      <img src="../assets/logo/HiferaIcon.png" alt="">
+    <a href="../../" class="side-brand">
+      <img src="../../assets/logo/HiferaIcon.png" alt="">
       <span><strong>HIFERA</strong><small>Admin</small></span>
     </a>
 
     <nav class="side-nav" aria-label="Navegação do painel">
       <span class="side-grupo">Operação</span>
-      <a href="projetos.html" class="side-link is-active" aria-current="page">
+      <a href="../admin/" class="side-link">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
         Gestão de Projetos
       </a>
-      <a href="chamados.html" class="side-link">
+      <a href="./" class="side-link is-active" aria-current="page">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>
         Chamados
         <span class="side-badge" id="sideBadgeChamados" hidden></span>
@@ -87,14 +95,10 @@
 
       <div class="topo-titulo">
         <span class="eyebrow"><span class="dot"></span>Painel</span>
-        <h1>Gestão de Projetos</h1>
+        <h1>Chamados</h1>
       </div>
 
       <div class="topo-dir">
-        <label class="sel-ano">
-          <span>Ano</span>
-          <select id="filtroAno" aria-label="Ano de referência"></select>
-        </label>
         <button type="button" id="btnTema"></button>
         <button type="button" class="btn-sec btn-log" id="btnLog" title="Log de alterações">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
@@ -107,93 +111,85 @@
 
     <main id="conteudo" class="admin-conteudo">
 
-      <!-- ALERTAS -->
-      <div id="bannerAlertas" hidden></div>
-
-      <!-- KPIs -->
-      <section aria-labelledby="tKpi">
+      <!-- PANORAMA -->
+      <section aria-labelledby="tPanorama">
         <div class="sec-head">
-          <h2 id="tKpi">Visão do período</h2>
-          <p>Acumulado do ano selecionado, somando todos os projetos cadastrados.</p>
+          <h2 id="tPanorama">Panorama</h2>
+          <p>Fila de atendimento, prazos e satisfação de todos os chamados registrados.</p>
         </div>
-        <div class="kpi-grid" id="kpis"></div>
+        <div id="panorama"></div>
       </section>
 
-      <!-- GRÁFICO -->
-      <section aria-labelledby="tGraf">
-        <div class="card card--grafico">
-          <div class="card-head">
-            <div>
-              <h2 id="tGraf">Meta vs Realizado</h2>
-              <p>Mês a mês: o que entrou, o que ainda entra, o que saiu e onde a meta estava.</p>
-            </div>
-            <div class="card-resumo" id="graficoResumo"></div>
-          </div>
-          <div id="grafico" class="grafico"></div>
-        </div>
-      </section>
-
-      <!-- TIMELINE -->
-      <section aria-labelledby="tTimeline">
+      <!-- VOLUME -->
+      <section aria-labelledby="tVolume">
         <div class="card">
           <div class="card-head">
             <div>
-              <h2 id="tTimeline">Linha do tempo</h2>
-              <p>Início até entrega de cada projeto. O preenchimento da barra é quanto do contrato já foi recebido.</p>
+              <h2 id="tVolume">Volume por mês</h2>
+              <p>Quantos entraram contra quantos saíram. Barra azul acima da verde é backlog crescendo.</p>
             </div>
-            <div class="tl-legenda-cores">
-              <span><i class="tl-chip tl-chip--cyan"></i>Em andamento</span>
-              <span><i class="tl-chip tl-chip--green"></i>Finalizado</span>
-              <span><i class="tl-chip tl-chip--amber"></i>Com pendência</span>
-            </div>
+            <div class="card-resumo" id="volumeResumo"></div>
           </div>
-          <div id="timeline" class="timeline"></div>
+          <div id="volume" class="grafico"></div>
         </div>
       </section>
 
-      <!-- GESTÃO DO SITE -->
-      <section aria-labelledby="tGestao">
+      <!-- FILAS -->
+      <section aria-labelledby="tFilas">
         <div class="card">
-          <div class="card-head card-head--acoes">
+          <div class="card-head">
             <div>
-              <h2 id="tGestao">Gestão do site</h2>
-              <p>Os projetos abaixo alimentam a vitrine da home e os números acima.</p>
+              <h2 id="tFilas">Distribuição por fila</h2>
+              <p>A fila sai do módulo escolhido na abertura — o solicitante nunca precisa saber para quem mandar.</p>
             </div>
-            <div class="acoes-topo">
-              <button type="button" class="btn-sec" id="btnImportar">Importar</button>
-              <input type="file" id="inputImportar" accept="application/json,.json" hidden>
-              <button type="button" class="btn-sec" id="btnExportar">Exportar</button>
-              <button type="button" class="btn-sec btn-publicar" id="btnPublicar" title="Gera js/vitrine-dados.js pronto pra commit">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>
-                Publicar
-              </button>
-              <button type="button" class="btn-pri" id="btnNovo">
+          </div>
+          <div id="filas" class="filas-box"></div>
+        </div>
+      </section>
+
+      <!-- LISTA -->
+      <section aria-labelledby="tLista">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h2 id="tLista">Chamados</h2>
+              <p>Clique no código para ver o histórico, responder e mudar o status.</p>
+            </div>
+            <div class="card-acoes">
+              <button type="button" class="btn-sec" id="btnRestaurarChamados">Restaurar exemplo</button>
+              <button type="button" class="btn-sec" id="btnExportarChamados">Exportar</button>
+              <button type="button" class="btn-pri" id="btnNovoChamado">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-                Novo projeto
+                Abrir chamado
               </button>
             </div>
           </div>
 
-          <div class="barra-filtros">
+          <div class="filtros filtros--chamados">
             <label class="busca">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-              <input type="search" id="buscaProjeto" placeholder="Buscar por título, cliente ou categoria…" aria-label="Buscar projeto">
+              <input type="search" id="buscaChamado" placeholder="Buscar por código, título, solicitante ou sistema" aria-label="Buscar chamado">
             </label>
-            <label class="sel-status">
-              <span>Status</span>
-              <select id="filtroStatus" aria-label="Filtrar por status">
-                <option value="todos">Todos</option>
-                <option value="andamento">Em andamento</option>
-                <option value="finalizado">Finalizados</option>
-                <option value="pendencia">Com pendência</option>
-                <option value="alerta">Com alerta</option>
-              </select>
-            </label>
-            <span class="contador" id="contadorProjetos"></span>
-            <button type="button" class="link-reset" id="btnRestaurar">Restaurar exemplo</button>
+            <select id="filtroStatus" aria-label="Filtrar por status">
+              <option value="abertos" selected>Em aberto</option>
+              <option value="sla">Fora do SLA</option>
+              <option value="Aberto">Aberto</option>
+              <option value="Em andamento">Em andamento</option>
+              <option value="Aguardando cliente">Aguardando cliente</option>
+              <option value="encerrados">Encerrados</option>
+              <option value="todos">Todos</option>
+            </select>
+            <select id="filtroTipo" aria-label="Filtrar por tipo">
+              <option value="todos">Chamados e requisições</option>
+              <option value="chamado">Só chamados</option>
+              <option value="requisicao">Só requisições</option>
+            </select>
+            <select id="filtroFila" aria-label="Filtrar por fila"></select>
+            <select id="filtroPrioridade" aria-label="Filtrar por prioridade"></select>
+            <span class="contador" id="contadorChamados"></span>
           </div>
 
-          <div id="tabelaProjetos"></div>
+          <div id="tabelaChamados"></div>
         </div>
       </section>
 
@@ -203,23 +199,25 @@
 
 <div id="modalRoot" class="modal"></div>
 <div id="logRoot" class="gaveta-root"></div>
+<div id="tkRoot" class="gaveta-root"></div>
 <div id="toastRoot" class="toast-root" aria-live="polite"></div>
 
-<script src="js/format.js?v=3"></script>
-<script src="js/models/StoreModel.js?v=3"></script>
-<script src="js/models/AuthModel.js?v=3"></script>
-<script src="js/models/ImageModel.js?v=3"></script>
-<script src="js/models/ProjectsModel.js?v=3"></script>
-<script src="js/models/AuditModel.js?v=3"></script>
-<script src="js/models/PublishModel.js?v=3"></script>
-<script src="js/views/KpiView.js?v=3"></script>
-<script src="js/views/ChartView.js?v=3"></script>
-<script src="js/views/TimelineView.js?v=3"></script>
-<script src="js/views/ProjectsView.js?v=3"></script>
-<script src="js/views/AuditView.js?v=3"></script>
-<script src="js/controllers/ThemeController.js?v=3"></script>
-<script src="js/controllers/AuthController.js?v=3"></script>
-<script src="js/controllers/ProjectsController.js?v=3"></script>
-<script src="js/app.js?v=3"></script>
+<script src="../core/js/caminhos.js?v=4"></script>
+<script src="../core/js/format.js?v=4"></script>
+<script src="../core/js/models/StoreModel.js?v=4"></script>
+<script src="../core/js/models/AuthModel.js?v=4"></script>
+<script src="../core/js/models/ImageModel.js?v=4"></script>
+<script src="../core/js/models/ProjectsModel.js?v=4"></script>
+<script src="../core/js/models/AuditModel.js?v=4"></script>
+<script src="../core/js/views/AuditView.js?v=4"></script>
+<script src="../core/js/ui/sidebar.js?v=4"></script>
+<script src="../core/js/controllers/ThemeController.js?v=4"></script>
+<script src="../core/js/controllers/AuthController.js?v=4"></script>
+<script src="js/models/TicketsModel.js?v=4"></script>
+<script src="js/views/TicketsView.js?v=4"></script>
+<script src="js/views/TicketFormView.js?v=4"></script>
+<script src="js/views/TicketDetailView.js?v=4"></script>
+<script src="js/controllers/TicketsController.js?v=4"></script>
+<script src="js/boot.js?v=4"></script>
 </body>
 </html>
