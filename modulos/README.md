@@ -33,6 +33,7 @@ modulos/
 │       │   ├── StoreModel.js       wrapper do localStorage
 │       │   ├── ImageModel.js       redimensiona + converte para WebP em base64
 │       │   ├── ProjectsModel.js    catálogo de projetos — lido pelos DOIS módulos
+│       │   ├── TicketsModel.js     chamados — lido por /chamados E pelo /portal
 │       │   └── AuditModel.js       log de alterações
 │       ├── views/AuditView.js      gaveta do histórico
 │       ├── ui/sidebar.js           gaveta do menu lateral em telas estreitas
@@ -61,7 +62,6 @@ modulos/
 └── chamados/                       MÓDULO · Service Desk
     ├── index.html
     └── js/
-        ├── models/TicketsModel.js  cascata, filas, SLA, avaliação
         ├── views/                  TicketsView, TicketFormView, TicketDetailView
         ├── controllers/TicketsController.js
         └── boot.js
@@ -70,7 +70,9 @@ modulos/
 **Regra de dependência, em uma linha:** módulo → `core`, nunca o contrário,
 e nunca módulo → módulo. Se dois módulos passarem a precisar da mesma coisa,
 ela sobe para `core` — foi o que aconteceu com o `ProjectsModel`, que o
-formulário de chamados usa para sugerir o projeto relacionado.
+formulário de chamados usa para sugerir o projeto relacionado, e depois com o
+`TicketsModel`, quando o [portal do cliente](../portal/README.md) passou a
+abrir chamado na mesma fila.
 
 ## Caminhos
 

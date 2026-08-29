@@ -55,3 +55,4 @@ Disallow: /
 User-agent: *
 Allow: /
 Disallow: /modulos/
+Disallow: /portal/

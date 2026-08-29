@@ -170,7 +170,7 @@ HiferaAdmin.ProjectsModel = (function () {
         mk('m1', 'Kickoff e diagnóstico da operação',    '2026-06-18', 'concluido', 'Quatro entrevistas: expedição, conferência, compras e financeiro.'),
         mk('m2', 'Modelagem de dados e protótipo',       '2026-07-10', 'concluido', 'Protótipo navegável aprovado sem ressalva.'),
         mk('m3', 'Módulo de pedidos e conferência',      '2026-08-05', 'concluido', 'Em uso pela equipe de expedição desde 11/08.'),
-        mk('m4', 'Importação da planilha atual',         '2026-09-12', 'andamento', 'Depende do histórico de 2025 que o cliente vai enviar.'),
+        mk('m4', 'Importação da planilha atual',         '2026-09-12', 'andamento', 'Aguardando o histórico de 2025 para importar.'),
         mk('m5', 'Painel de indicadores de expedição',   '2026-10-17', 'previsto',  ''),
         mk('m6', 'Treinamento e virada de chave',        '2026-11-27', 'previsto',  'Duas turmas de treinamento, manhã e tarde.')
       ],

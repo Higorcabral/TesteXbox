@@ -39,12 +39,17 @@ HiferaWebSite/                 raiz do repositório = raiz do GitHub Pages
 ├── apps/
 │   └── ledger/             Controle Financeiro — demo ao vivo do produto
 │
-├── ── ÁREA INTERNA (não pública) ────────────────────────────────
-├── modulos/                Ramificações internas. Ver modulos/README.md
+├── ── ÁREAS COM LOGIN (não públicas) ────────────────────────────
+├── modulos/                Interno da Hifera. Ver modulos/README.md
 │   ├── index.html            Login (SSO mock) — entrada única
-│   ├── core/                 Compartilhado: auth, tema, storage, format
+│   ├── core/                 Compartilhado: auth, tema, storage, format,
+│   │                         projetos e chamados
 │   ├── admin/                Portfólio + gestão de cada projeto
 │   └── chamados/             Service Desk
+│
+├── portal/                 Do CLIENTE. Ver portal/README.md
+│   ├── index.html            Entrada do cliente (mock)
+│   └── painel.html           Panorama, projeto, leads e chamados
 │
 └── v2/
     └── index.html          Só um redirect para a raiz (ver abaixo)
@@ -67,9 +72,15 @@ fictícios, e é o único lugar onde a marca aparece dentro do produto do client
         data-tela="Nome da tela"></script>
 ```
 
-`modulos/` é a exceção proposital: é área interna, compartilha um `core/` e
-depende do resto do site (assets e links de projeto), sempre por caminho
-declarado em `HIFERA_PATHS`. Detalhes em [`modulos/README.md`](modulos/README.md).
+`modulos/` e `portal/` são a exceção proposital: são áreas com login,
+compartilham o mesmo `core/` e dependem do resto do site (assets e links de
+projeto), sempre por caminho declarado em `HIFERA_PATHS`. Detalhes em
+[`modulos/README.md`](modulos/README.md) e [`portal/README.md`](portal/README.md).
+
+As duas não se confundem: **`modulos/` é de quem entrega, `portal/` é de quem
+contratou.** O que separa uma da outra não é a tela — é o
+`ClientProjectModel`, que projeta o projeto campo a campo e deixa gastos,
+margem e diário do lado de dentro.
 
 ---
 

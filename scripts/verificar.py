@@ -29,6 +29,8 @@ ROTAS_OK = [
     '/modulos/admin/',
     '/modulos/admin/projeto.html',
     '/modulos/chamados/',
+    '/portal/',
+    '/portal/painel.html',
     '/modulos/core/css/admin.css',
     '/modulos/core/js/caminhos.js',
     '/projetos/Projeto-CRM/',

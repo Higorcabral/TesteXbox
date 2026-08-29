@@ -583,7 +583,10 @@ HiferaAdmin.ProjectDetailView = (function () {
             '<textarea id="detObservacao" rows="3" placeholder="O que você precisa lembrar sobre este cliente.">' +
             Fmt.esc(p.observacao) + '</textarea></label>' +
           '<div class="fld fld--full nota-form-rodape">' +
-            '<span class="nota-dica" id="detAvisoCliente" role="status"></span>' +
+            '<span class="nota-dica">' +
+              '<a href="../../portal/" target="_blank" rel="noopener">Ver como o cliente vê ↗</a>' +
+              '<span id="detAvisoCliente" role="status"></span>' +
+            '</span>' +
             '<button type="submit" class="btn-pri">Salvar ficha do cliente</button>' +
           '</div>' +
         '</form>' +
@@ -651,8 +654,10 @@ HiferaAdmin.ProjectDetailView = (function () {
                 '<input type="date" id="mkData" value="' + Fmt.esc(marco.data) + '"></label>' +
               '<label class="fld"><span class="fld-label">Status</span>' +
                 '<select id="mkStatus">' + opcoes + '</select></label>' +
-              '<label class="fld fld--full"><span class="fld-label">Nota<em>opcional</em></span>' +
-                '<textarea id="mkNota" rows="3" placeholder="Dependência, combinado, quem aprova.">' +
+              '<label class="fld fld--full">' +
+                '<span class="fld-label">Nota<em>o cliente lê isto no portal dele</em></span>' +
+                '<textarea id="mkNota" rows="3" ' +
+                'placeholder="Dependência, combinado, quem aprova. Escreva como se fosse para o cliente — porque é.">' +
                 Fmt.esc(marco.nota) + '</textarea></label>' +
             '</div>' +
           '</fieldset>' +

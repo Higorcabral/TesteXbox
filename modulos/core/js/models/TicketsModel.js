@@ -1,5 +1,5 @@
 /* =================================================================
-   HIFERA ADMIN · Model · Chamados
+   HIFERA · Core · Model · Chamados
    -----------------------------------------------------------------
    Mesma mecânica de um service desk clássico:
      Tipo (Chamado | Requisição)
@@ -284,6 +284,45 @@ HiferaAdmin.TicketsModel = (function () {
 
   function seed() {
     return [
+      /* --- Teste com Nome Fictício ---------------------------------
+         Existem para o portal do cliente abrir com conteúdo: um em
+         andamento, um aguardando resposta do cliente (SLA pausado) e
+         um já resolvido e avaliado.                                */
+      { id: 'HIF-0017', tipo: 'chamado', titulo: 'Importação da planilha de 2025 para na metade',
+        descricao: 'Subo o arquivo de histórico e a barra trava em cerca de 60%. Não aparece mensagem de erro, a tela fica parada.',
+        categoria: 'Automação & Integração', sistema: 'Planilhas & arquivos', modulo: 'Importação em massa',
+        prioridade: 'Alta', status: 'Em andamento',
+        solicitante: 'Joana Exemplo', email: 'contato@exemplo-ficticio.test', empresa: 'Teste com Nome Fictício',
+        operacao: 'Expedição', vinculo: 'Portal de Operações — Teste Fictício',
+        aberto_em: hAtras(9), atualizado_em: hAtras(3),
+        comentarios: [
+          { autor: 'Joana Exemplo', papel: 'cliente', quando: hAtras(9), texto: 'Tentei três vezes, sempre para no mesmo ponto. O arquivo tem 41 mil linhas.' },
+          { autor: 'Higor Cabral', papel: 'agente', quando: hAtras(3), texto: 'Reproduzi aqui: a importação estoura o tempo limite acima de 30 mil linhas. Vou quebrar o processamento em lotes e te aviso hoje ainda.' }
+        ]},
+
+      { id: 'HIF-0016', tipo: 'requisicao', titulo: 'Criar acesso para a equipe da conferência',
+        descricao: 'Precisamos de quatro logins para o pessoal do turno da tarde, com permissão de conferir carga mas sem editar pedido.',
+        categoria: 'Infraestrutura & Acesso', sistema: 'Contas & permissões', modulo: 'Novo usuário',
+        prioridade: 'Média', status: 'Aguardando cliente',
+        solicitante: 'Joana Exemplo', email: 'contato@exemplo-ficticio.test', empresa: 'Teste com Nome Fictício',
+        operacao: 'Expedição', vinculo: 'Portal de Operações — Teste Fictício',
+        aberto_em: dAtras(3), atualizado_em: dAtras(1),
+        comentarios: [
+          { autor: 'Higor Cabral', papel: 'agente', quando: dAtras(1), texto: 'Perfil de conferência criado. Me manda os quatro nomes e e-mails que eu já deixo os acessos prontos.' }
+        ]},
+
+      { id: 'HIF-0015', tipo: 'requisicao', titulo: 'Incluir o total por rota no painel de expedição',
+        descricao: 'Hoje o painel mostra o total do dia. Precisamos ver quebrado por rota para saber onde está sobrando carga.',
+        categoria: 'Dados & Relatórios', sistema: 'Painéis', modulo: 'Novo indicador',
+        prioridade: 'Baixa', status: 'Resolvido',
+        solicitante: 'Joana Exemplo', email: 'contato@exemplo-ficticio.test', empresa: 'Teste com Nome Fictício',
+        operacao: 'Expedição', vinculo: 'Portal de Operações — Teste Fictício',
+        aberto_em: dAtras(16), atualizado_em: dAtras(11), resolvido_em: dAtras(11),
+        comentarios: [
+          { autor: 'Higor Cabral', papel: 'agente', quando: dAtras(11), texto: 'Indicador publicado: o painel agora tem o total por rota, com filtro de período. É só recarregar a página.', solucao: true }
+        ],
+        avaliacao: { nota: 5, comentario: 'Ficou melhor do que eu tinha pedido.', quando: dAtras(10) } },
+
       { id: 'HIF-0014', tipo: 'chamado', titulo: 'Boleto não baixa após pagamento confirmado',
         descricao: 'Cliente paga o boleto e a baixa não aparece no fluxo de caixa. Já conferimos no banco: o pagamento consta como liquidado.',
         categoria: 'Automação & Integração', sistema: 'Integrações bancárias', modulo: 'Conciliação',
@@ -485,20 +524,40 @@ HiferaAdmin.TicketsModel = (function () {
     return t;
   }
 
-  function comentar(id, texto, autor, ehSolucao) {
+  /* papel: 'agente' (padrão, painel interno) ou 'cliente' (portal).
+     Só agente marca solução — cliente não fecha o próprio chamado. */
+  function comentar(id, texto, autor, ehSolucao, papel) {
     var t = getById(id);
     if (!t || !String(texto || '').trim()) return null;
+    var ehCliente = papel === 'cliente';
+    var solucao = !!ehSolucao && !ehCliente;
     t.comentarios.push({
-      autor: autor || 'Higor Cabral', papel: 'agente',
-      quando: iso(agora()), texto: String(texto).trim(), solucao: !!ehSolucao
+      autor: autor || (ehCliente ? 'Cliente' : 'Higor Cabral'),
+      papel: ehCliente ? 'cliente' : 'agente',
+      quando: iso(agora()), texto: String(texto).trim(), solucao: solucao
     });
     t.atualizado_em = iso(agora());
-    if (ehSolucao && STATUS[t.status] && STATUS[t.status].aberto) {
+    if (solucao && STATUS[t.status] && STATUS[t.status].aberto) {
       t.status = 'Resolvido';
       t.resolvido_em = t.atualizado_em;
     }
+    /* Cliente respondendo destrava o relógio: 'Aguardando cliente'
+       pausa o SLA, e a bola acabou de voltar para a Hifera. */
+    if (ehCliente && t.status === 'Aguardando cliente') {
+      t.status = 'Em andamento';
+    }
     persistir();
     return t;
+  }
+
+  /* Só o que pertence a uma empresa. É o filtro que o portal do
+     cliente usa — ele nunca enxerga chamado de outro cliente. */
+  function porEmpresa(empresa) {
+    var alvo = String(empresa || '').trim().toLowerCase();
+    if (!alvo) return [];
+    return getAll().filter(function (t) {
+      return String(t.empresa || '').trim().toLowerCase() === alvo;
+    });
   }
 
   function avaliar(id, nota, comentario) {
@@ -609,6 +668,7 @@ HiferaAdmin.TicketsModel = (function () {
     getAll: getAll, getById: getById, salvar: salvar, remover: remover,
     mudarStatus: mudarStatus, comentar: comentar, avaliar: avaliar,
     restaurarSeed: restaurarSeed, exportarJSON: exportarJSON,
+    porEmpresa: porEmpresa,
     sla: sla, formatarHoras: formatarHoras, horasEntre: horasEntre,
     panorama: panorama, serieMensal: serieMensal
   };
