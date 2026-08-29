@@ -2012,3 +2012,10 @@ body, .card, .kpi, .side, .topbar, .tabela, .modal-caixa, .gaveta {
   .modo-troca button span { display: none; }
   .modo-troca button { padding: 6px 9px; }
 }
+
+/* Aviso de "para onde você volta" na tela de login. Aparece só quando
+   o guard barrou um link direto e guardou o destino. */
+.login-destino {
+  margin-top: 10px; font-size: 12px; color: var(--text-dim); text-align: center;
+}
+.login-destino[hidden] { display: none; }
