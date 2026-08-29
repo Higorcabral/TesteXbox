@@ -21,7 +21,8 @@ HiferaWebSite/                 raiz do repositório = raiz do GitHub Pages
 │
 ├── js/
 │   ├── vitrine-dados.js      GERADO pelo painel (/modulos/admin → Publicar)
-│   └── vitrine.js            Hidrata a grade de projetos da home
+│   ├── vitrine.js            Hidrata a grade de projetos da home
+│   └── demo.js               Faixa "Demonstração" + pop-up, injetada nas demos
 │
 ├── assets/
 │   ├── og-cover.png          Capa 1200x630 do preview ao compartilhar
@@ -42,15 +43,29 @@ HiferaWebSite/                 raiz do repositório = raiz do GitHub Pages
 ├── modulos/                Ramificações internas. Ver modulos/README.md
 │   ├── index.html            Login (SSO mock) — entrada única
 │   ├── core/                 Compartilhado: auth, tema, storage, format
-│   ├── admin/                Gestão de Projetos
+│   ├── admin/                Portfólio + gestão de cada projeto
 │   └── chamados/             Service Desk
 │
 └── v2/
     └── index.html          Só um redirect para a raiz (ver abaixo)
 ```
 
-Cada pasta em `projetos/` e `apps/` é independente: tem o próprio HTML, CSS e JS,
-e não referencia nada fora de si. Dá para abrir qualquer uma isolada.
+Cada pasta em `projetos/` e `apps/` é independente: tem o próprio HTML, CSS e JS.
+A única referência que sai da pasta é o `<script src="../../js/demo.js">` no fim
+do `<body>` — a faixa de demonstração da Hifera, que precisa da logo e dos links
+da raiz. Abrir a demo isolada continua funcionando: sem o script, ela só não
+mostra a faixa.
+
+**Toda tela nova em `projetos/` ou `apps/` precisa da faixa.** É o que deixa
+claro para quem chega por link direto que aquilo é demonstração com dados
+fictícios, e é o único lugar onde a marca aparece dentro do produto do cliente:
+
+```html
+<script src="../../js/demo.js?v=2"
+        data-raiz="../../"
+        data-projeto="Projeto-Nome"
+        data-tela="Nome da tela"></script>
+```
 
 `modulos/` é a exceção proposital: é área interna, compartilha um `core/` e
 depende do resto do site (assets e links de projeto), sempre por caminho

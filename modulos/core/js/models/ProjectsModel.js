@@ -18,6 +18,14 @@ HiferaAdmin.ProjectsModel = (function () {
     pendencia:  { label: 'Com pendência', cor: 'amber' }
   };
 
+  /* Status de um marco (entregável). Só três, de propósito: mais que
+     isso vira taxonomia que ninguém mantém. */
+  var MARCO_STATUS = {
+    previsto:  { label: 'Previsto',     cor: 'gray'  },
+    andamento: { label: 'Em execução',  cor: 'cyan'  },
+    concluido: { label: 'Concluído',    cor: 'green' }
+  };
+
   var MESES_CURTOS = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
 
   /* --- Seed --------------------------------------------------------
@@ -25,6 +33,10 @@ HiferaAdmin.ProjectsModel = (function () {
      em destaque. Números são mock de protótipo.                      */
   function l(mes, meta, recebido, aReceber, gastos) {
     return { mes: mes, meta: meta || 0, recebido: recebido || 0, aReceber: aReceber || 0, gastos: gastos || 0 };
+  }
+
+  function mk(id, titulo, data, status, nota) {
+    return { id: id, titulo: titulo, data: data, status: status, nota: nota || '' };
   }
 
   var SEED = [
@@ -130,6 +142,54 @@ HiferaAdmin.ProjectsModel = (function () {
       ]
     },
     {
+      /* Cliente de teste. Existe para exercitar a tela de gestão do
+         projeto com um caso sob medida completo — marcos, diário e
+         parcela vencida. Fica FORA da vitrine (publicado: false). */
+      id: 'proj-teste-ficticio',
+      titulo: 'Portal de Operações — Teste Fictício',
+      categoria: 'Sob medida',
+      segmento: 'Operações & logística',
+      ordem: 5,
+      descricao: 'Portal interno para centralizar pedidos, conferência de carga e indicadores de expedição, substituindo o controle em planilha.',
+      link: '',
+      novaAba: true,
+      imagens: [],
+      publicado: false,
+      destaque: false,
+      status: 'andamento',
+      cliente: 'Teste com Nome Fictício',
+      contato: {
+        nome: 'Joana Exemplo',
+        papel: 'Coordenação de Operações',
+        email: 'contato@exemplo-ficticio.test'
+      },
+      inicio: '2026-06-15',
+      entrega: '2026-11-27',
+      observacao: 'Parcela de julho segue em aberto — cobrança combinada para a próxima reunião de acompanhamento.',
+      marcos: [
+        mk('m1', 'Kickoff e diagnóstico da operação',    '2026-06-18', 'concluido', 'Quatro entrevistas: expedição, conferência, compras e financeiro.'),
+        mk('m2', 'Modelagem de dados e protótipo',       '2026-07-10', 'concluido', 'Protótipo navegável aprovado sem ressalva.'),
+        mk('m3', 'Módulo de pedidos e conferência',      '2026-08-05', 'concluido', 'Em uso pela equipe de expedição desde 11/08.'),
+        mk('m4', 'Importação da planilha atual',         '2026-09-12', 'andamento', 'Depende do histórico de 2025 que o cliente vai enviar.'),
+        mk('m5', 'Painel de indicadores de expedição',   '2026-10-17', 'previsto',  ''),
+        mk('m6', 'Treinamento e virada de chave',        '2026-11-27', 'previsto',  'Duas turmas de treinamento, manhã e tarde.')
+      ],
+      notas: [
+        { id: 'n1', data: '2026-06-15', autor: 'Higor Cabral',      texto: 'Contrato assinado. Escopo fechado em 6 marcos, entrega final em 27/11.' },
+        { id: 'n2', data: '2026-07-22', autor: 'Fernanda Rodrigues', texto: 'Levantamento de riscos: a conferência hoje depende de uma pessoa só. O portal precisa funcionar com dois perfis desde o primeiro dia.' },
+        { id: 'n3', data: '2026-08-11', autor: 'Higor Cabral',      texto: 'Módulo de pedidos em produção. Equipe usando sem suporte desde o segundo dia.' },
+        { id: 'n4', data: '2026-08-26', autor: 'Higor Cabral',      texto: 'Cobrei a parcela de julho e o histórico de 2025. Sem o histórico, o marco de importação escorrega.' }
+      ],
+      lancamentos: [
+        l('2026-06', 6000, 6000,    0, 1400),
+        l('2026-07', 6000,    0, 6000, 1250),
+        l('2026-08', 6000, 6000,    0, 1180),
+        l('2026-09', 6000,    0, 6000,  900),
+        l('2026-10', 5000,    0, 5000,  760),
+        l('2026-11', 5000,    0, 5000,  640)
+      ]
+    },
+    {
       id: 'produto-ledger',
       titulo: 'Controle Financeiro completo',
       categoria: 'Produto próprio',
@@ -191,8 +251,35 @@ HiferaAdmin.ProjectsModel = (function () {
       .replace(/^-+|-+$/g, '') || 'projeto';
   }
 
+  /* id curto e único dentro de uma lista de marcos/notas */
+  function novoId(prefixo) {
+    return prefixo + '-' + Math.random().toString(36).slice(2, 8);
+  }
+
+  function normalizarMarco(m) {
+    m = m || {};
+    return {
+      id:     m.id || novoId('mk'),
+      titulo: String(m.titulo || '').trim() || 'Marco sem título',
+      data:   m.data || '',
+      status: MARCO_STATUS[m.status] ? m.status : 'previsto',
+      nota:   String(m.nota || '').trim()
+    };
+  }
+
+  function normalizarNota(n) {
+    n = n || {};
+    return {
+      id:    n.id || novoId('nt'),
+      data:  n.data || hoje(),
+      autor: String(n.autor || '').trim(),
+      texto: String(n.texto || '').trim()
+    };
+  }
+
   function normalizarProjeto(p) {
     p = p || {};
+    var contato = p.contato || {};
     return {
       id:          p.id || (slug(p.titulo) + '-' + Math.random().toString(36).slice(2, 7)),
       titulo:      p.titulo || 'Sem título',
@@ -219,6 +306,23 @@ HiferaAdmin.ProjectsModel = (function () {
       bullets:     (Array.isArray(p.bullets) ? p.bullets : [])
                      .map(function (b) { return String(b || '').trim(); })
                      .filter(Boolean),
+      contato:     {
+                     nome:  String(contato.nome  || '').trim(),
+                     papel: String(contato.papel || '').trim(),
+                     email: String(contato.email || '').trim()
+                   },
+      marcos:      (Array.isArray(p.marcos) ? p.marcos : [])
+                     .map(normalizarMarco)
+                     .sort(function (a, b) {
+                       /* Sem data vai pro fim: é marco ainda não datado */
+                       if (!a.data) return b.data ? 1 : 0;
+                       if (!b.data) return -1;
+                       return a.data < b.data ? -1 : 1;
+                     }),
+      notas:       (Array.isArray(p.notas) ? p.notas : [])
+                     .map(normalizarNota)
+                     .filter(function (n) { return n.texto; })
+                     .sort(function (a, b) { return a.data > b.data ? -1 : 1; }),
       lancamentos: (Array.isArray(p.lancamentos) ? p.lancamentos : [])
                      .filter(function (x) { return x && x.mes; })
                      .map(function (x) {
@@ -377,14 +481,22 @@ HiferaAdmin.ProjectsModel = (function () {
   }
 
   function contagemStatus() {
-    var c = { andamento: 0, finalizado: 0, pendencia: 0, total: 0, publicados: 0, alertados: 0, alertas: 0 };
+    var c = {
+      andamento: 0, finalizado: 0, pendencia: 0,
+      total: 0, publicados: 0, alertados: 0, alertas: 0,
+      ok: 0, atencao: 0, risco: 0, clientes: 0
+    };
+    var clientes = {};
     carregar().forEach(function (p) {
       c.total++;
       if (p.publicado) c.publicados++;
       if (c[p.status] !== undefined) c[p.status]++;
+      if (p.cliente) clientes[p.cliente] = true;
+      c[saude(p).chave]++;
       var a = alertasProjeto(p);
       if (a.length) { c.alertados++; c.alertas += a.length; }
     });
+    c.clientes = Object.keys(clientes).length;
     return c;
   }
 
@@ -498,9 +610,196 @@ HiferaAdmin.ProjectsModel = (function () {
     return { inicio: ini, fim: fim < ini ? ini : fim };
   }
 
+  /* --- Marcos, progresso e saúde --------------------------------------
+     O progresso do projeto NÃO é digitado: sai da razão entre marcos
+     concluídos e marcos totais. Se ninguém cadastrou marco, a régua
+     cai para o financeiro (recebido / contratado), que é o que sempre
+     existe. Assim a barra nunca fica vazia nem mentindo.              */
+  function progresso(p) {
+    var marcos = p.marcos || [];
+    var concluidos = marcos.filter(function (m) { return m.status === 'concluido'; }).length;
+    var emExecucao = marcos.filter(function (m) { return m.status === 'andamento'; }).length;
+
+    var proximo = marcos.filter(function (m) { return m.status !== 'concluido'; })[0] || null;
+
+    if (marcos.length) {
+      return {
+        base: 'marcos',
+        total: marcos.length,
+        concluidos: concluidos,
+        emExecucao: emExecucao,
+        pct: Math.round((concluidos / marcos.length) * 100),
+        proximo: proximo
+      };
+    }
+
+    var t = totaisProjeto(p);
+    var contratado = t.recebido + t.aReceber;
+    return {
+      base: 'financeiro',
+      total: 0, concluidos: 0, emExecucao: 0,
+      pct: contratado > 0 ? Math.round((t.recebido / contratado) * 100) : 0,
+      proximo: null
+    };
+  }
+
+  /* Semáforo do projeto. Deriva de alerta + prazo + margem — nunca é
+     um campo que alguém marca à mão e esquece de atualizar. */
+  function saude(p, ref) {
+    var hojeISO = ref || hoje();
+    var motivos = [];
+    var alertas = alertasProjeto(p, hojeISO);
+
+    alertas.forEach(function (a) { motivos.push(a.label); });
+
+    var t = totaisProjeto(p);
+    if (t.recebido > 0 && (t.recebido - t.gastos) < 0) motivos.push('Resultado negativo');
+
+    /* Entrega chegando com marco em aberto ainda por fazer */
+    if (p.entrega && p.status !== 'finalizado' && p.entrega >= hojeISO) {
+      var faltam = diasEntre(hojeISO, p.entrega);
+      var pg = progresso(p);
+      if (faltam <= 30 && pg.pct < 70) {
+        motivos.push('Faltam ' + faltam + ' dias e ' + pg.pct + '% concluído');
+      }
+    }
+
+    if (p.status === 'pendencia') motivos.push('Marcado como pendência');
+
+    /* Uma pendência isolada é atenção; prazo estourado ou duas frentes
+       abertas ao mesmo tempo é risco. Atraso de entrega vai direto para
+       risco porque é o único que não se resolve com um telefonema. */
+    var atrasado = alertas.some(function (a) { return a.tipo === 'entrega-estourada'; });
+    var chave = 'ok';
+    if (atrasado || motivos.length >= 2) chave = 'risco';
+    else if (motivos.length === 1) chave = 'atencao';
+
+    return {
+      chave: chave,
+      label: chave === 'ok' ? 'Saudável' : (chave === 'atencao' ? 'Atenção' : 'Risco'),
+      motivos: motivos
+    };
+  }
+
+  /* Série de 12 meses de UM projeto — mesma forma da serieMensal geral,
+     para que a ChartView sirva as duas telas sem saber a diferença. */
+  function serieMensalProjeto(p, ano) {
+    ano = String(ano || (p.lancamentos.length
+      ? p.lancamentos[p.lancamentos.length - 1].mes.slice(0, 4)
+      : new Date().getFullYear()));
+
+    var base = [];
+    for (var m = 1; m <= 12; m++) {
+      var mm = (m < 10 ? '0' : '') + m;
+      base.push({
+        mes: ano + '-' + mm, label: MESES_CURTOS[m - 1],
+        meta: 0, recebido: 0, aReceber: 0, gastos: 0
+      });
+    }
+    var indice = {};
+    base.forEach(function (b, i) { indice[b.mes] = i; });
+
+    p.lancamentos.forEach(function (x) {
+      var i = indice[x.mes];
+      if (i === undefined) return;
+      base[i].meta     += x.meta;
+      base[i].recebido += x.recebido;
+      base[i].aReceber += x.aReceber;
+      base[i].gastos   += x.gastos;
+    });
+    return base;
+  }
+
+  function anosProjeto(p) {
+    var set = {};
+    p.lancamentos.forEach(function (x) { set[x.mes.slice(0, 4)] = true; });
+    var anos = Object.keys(set).sort();
+    return anos.length ? anos : [String(new Date().getFullYear())];
+  }
+
+  /* --- Escrita parcial -------------------------------------------------
+     A tela de gestão do projeto edita pedaços (um marco, uma nota, um
+     lançamento). Passar o projeto inteiro de volta a cada clique é
+     convite a sobrescrever o que outra aba acabou de gravar.          */
+  function atualizarCampos(id, patch) {
+    var p = getById(id);
+    if (!p) return null;
+    Object.keys(patch || {}).forEach(function (k) { p[k] = patch[k]; });
+    return salvar(p);
+  }
+
+  function salvarMarco(id, marco) {
+    var p = getById(id);
+    if (!p) return null;
+    var norm = normalizarMarco(marco);
+    var i = p.marcos.findIndex(function (m) { return m.id === norm.id; });
+    if (i >= 0) p.marcos[i] = norm;
+    else p.marcos.push(norm);
+    return salvar(p);
+  }
+
+  function removerMarco(id, marcoId) {
+    var p = getById(id);
+    if (!p) return null;
+    p.marcos = p.marcos.filter(function (m) { return m.id !== marcoId; });
+    return salvar(p);
+  }
+
+  function adicionarNota(id, nota) {
+    var p = getById(id);
+    if (!p) return null;
+    p.notas.unshift(normalizarNota(nota));
+    return salvar(p);
+  }
+
+  function removerNota(id, notaId) {
+    var p = getById(id);
+    if (!p) return null;
+    p.notas = p.notas.filter(function (n) { return n.id !== notaId; });
+    return salvar(p);
+  }
+
+  function salvarLancamentos(id, lancamentos) {
+    return atualizarCampos(id, { lancamentos: lancamentos });
+  }
+
+  /* Clientes distintos, com o que cada um representa na carteira */
+  function carteiraClientes(ano) {
+    var mapa = {};
+    getAll().forEach(function (p) {
+      var nome = p.cliente || 'Sem cliente definido';
+      if (!mapa[nome]) {
+        mapa[nome] = { cliente: nome, projetos: 0, recebido: 0, aReceber: 0, alertas: 0 };
+      }
+      var c = mapa[nome];
+      c.projetos++;
+      c.alertas += alertasProjeto(p).length;
+      p.lancamentos.forEach(function (x) {
+        if (ano && x.mes.slice(0, 4) !== String(ano)) return;
+        c.recebido += x.recebido;
+        c.aReceber += x.aReceber;
+      });
+    });
+    return Object.keys(mapa).map(function (k) { return mapa[k]; })
+      .sort(function (a, b) { return (b.recebido + b.aReceber) - (a.recebido + a.aReceber); });
+  }
+
   return {
     STATUS: STATUS,
+    MARCO_STATUS: MARCO_STATUS,
     MESES_CURTOS: MESES_CURTOS,
+    novoId: novoId,
+    progresso: progresso,
+    saude: saude,
+    serieMensalProjeto: serieMensalProjeto,
+    anosProjeto: anosProjeto,
+    atualizarCampos: atualizarCampos,
+    salvarMarco: salvarMarco,
+    removerMarco: removerMarco,
+    adicionarNota: adicionarNota,
+    removerNota: removerNota,
+    salvarLancamentos: salvarLancamentos,
+    carteiraClientes: carteiraClientes,
     slug: slug,
     getAll: getAll,
     getById: getById,

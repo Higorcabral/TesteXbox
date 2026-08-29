@@ -16,11 +16,15 @@ HiferaAdmin.ProjectsController = (function () {
   var Chart    = HiferaAdmin.ChartView;
   var Timeline = HiferaAdmin.TimelineView;
   var Vista    = HiferaAdmin.ProjectsView;
+  var Carteira = HiferaAdmin.PortfolioView;
   var LogVista = HiferaAdmin.AuditView;
   var Fmt      = HiferaAdmin.Fmt;
   var Auth     = HiferaAdmin.AuthModel;
 
+  var CHAVE_MODO = 'hifera.admin.modoLista';
+
   var filtro = { ano: null, busca: '', status: 'todos' };
+  var modo = 'cards';   /* 'cards' | 'tabela' — lembrado entre sessões */
 
   /* --- Avisos rápidos -------------------------------------------- */
   function toast(msg, tipo) {
@@ -93,6 +97,10 @@ HiferaAdmin.ProjectsController = (function () {
     }
   }
 
+  function renderCarteira() {
+    Carteira.render(document.getElementById('carteira'), { ano: filtro.ano, limite: 5 });
+  }
+
   function renderTimeline() {
     Timeline.render(document.getElementById('timeline'), Model.getAll());
   }
@@ -113,10 +121,28 @@ HiferaAdmin.ProjectsController = (function () {
 
   function renderTabela() {
     var lista = listaFiltrada();
-    Vista.renderTabela(document.getElementById('tabelaProjetos'), lista);
+    var alvo = document.getElementById('tabelaProjetos');
+
+    if (modo === 'tabela') Vista.renderTabela(alvo, lista);
+    else Vista.renderCards(alvo, lista);
+
     var cont = document.getElementById('contadorProjetos');
     if (cont) cont.textContent = lista.length + (lista.length === 1 ? ' projeto' : ' projetos');
+
+    document.querySelectorAll('[data-modo]').forEach(function (b) {
+      var ligado = b.dataset.modo === modo;
+      b.classList.toggle('is-on', ligado);
+      b.setAttribute('aria-pressed', String(ligado));
+    });
+
     renderBannerAlertas();
+  }
+
+  function trocarModo(novo) {
+    if (novo === modo) return;
+    modo = novo;
+    try { localStorage.setItem(CHAVE_MODO, modo); } catch (e) { /* modo privado */ }
+    renderTabela();
   }
 
   function renderBannerAlertas() {
@@ -161,6 +187,7 @@ HiferaAdmin.ProjectsController = (function () {
 
   function renderTudo() {
     renderDashboard();
+    renderCarteira();
     renderTimeline();
     renderTabela();
   }
@@ -234,6 +261,13 @@ HiferaAdmin.ProjectsController = (function () {
     }
     renderTabela();
     toast(estado ? 'Publicado na vitrine.' : 'Removido da vitrine (segue salvo aqui).');
+  }
+
+  /* A tela de gestão do projeto é uma página, não um modal: o que se
+     faz lá (marcos, diário, lançamentos) merece URL própria pra
+     compartilhar e voltar. */
+  function gerenciar(id) {
+    window.location.href = 'projeto.html?id=' + encodeURIComponent(id);
   }
 
   function abrir(id) {
@@ -326,6 +360,7 @@ HiferaAdmin.ProjectsController = (function () {
       selAno.addEventListener('change', function () {
         filtro.ano = selAno.value;
         renderDashboard();
+        renderCarteira();
       });
     }
 
@@ -359,6 +394,10 @@ HiferaAdmin.ProjectsController = (function () {
       if (b) b.addEventListener('click', mapa[id]);
     });
 
+    document.querySelectorAll('[data-modo]').forEach(function (b) {
+      b.addEventListener('click', function () { trocarModo(b.dataset.modo); });
+    });
+
     var input = document.getElementById('inputImportar');
     var btnImp = document.getElementById('btnImportar');
     if (btnImp && input) {
@@ -378,9 +417,15 @@ HiferaAdmin.ProjectsController = (function () {
     }
 
     Vista.definirHandlers({
+      gerenciar: gerenciar,
       editar: editar, duplicar: duplicar, excluir: excluir,
       publicar: publicar, abrir: abrir
     });
+
+    try {
+      var salvo = localStorage.getItem(CHAVE_MODO);
+      if (salvo === 'cards' || salvo === 'tabela') modo = salvo;
+    } catch (e) { /* modo privado: fica no padrão */ }
 
     montarTopo();
     montarFiltros();

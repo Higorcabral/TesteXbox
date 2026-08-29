@@ -13,7 +13,8 @@ A separação é de pastas e de responsabilidade, não de repositório.
 | Rota | O que é |
 |---|---|
 | `/modulos/` | Login SSO com botão Microsoft (**mock**) — entrada única |
-| `/modulos/admin/` | Gestão de Projetos — KPIs, gráfico Meta vs Realizado e CRUD da vitrine |
+| `/modulos/admin/` | Portfólio — KPIs, Meta vs Realizado, carteira por cliente, timeline e a lista de projetos |
+| `/modulos/admin/projeto.html?id=…` | Gestão de **um** projeto — marcos, financeiro, diário e ficha do cliente |
 | `/modulos/chamados/` | Service Desk — cascata, filas, SLA e avaliação |
 
 ## Estrutura (MVC, vanilla, sem build)
@@ -39,13 +40,23 @@ modulos/
 │           ├── ThemeController.js  claro/escuro
 │           └── AuthController.js   login e guard das telas
 │
-├── admin/                          MÓDULO · Gestão de Projetos
-│   ├── index.html
+├── admin/                          MÓDULO · Projetos
+│   ├── index.html                    portfólio: a carteira inteira
+│   ├── projeto.html                  um projeto: ?id=<id do projeto>
 │   └── js/
 │       ├── models/PublishModel.js  gera o vitrine-dados.js público
-│       ├── views/                  KpiView, ChartView, TimelineView, ProjectsView
-│       ├── controllers/ProjectsController.js
-│       └── boot.js
+│       ├── views/
+│       │   ├── KpiView.js            cartões de métrica da carteira
+│       │   ├── ChartView.js          Meta vs Realizado (serve as DUAS telas)
+│       │   ├── TimelineView.js       início→entrega de todos os projetos
+│       │   ├── PortfolioView.js      saúde da carteira + valor por cliente
+│       │   ├── ProjectsView.js       cartões, tabela e modal de cadastro
+│       │   └── ProjectDetailView.js  ficha, marcos, lançamentos, diário, cliente
+│       ├── controllers/
+│       │   ├── ProjectsController.js       DOM do index.html
+│       │   └── ProjectDetailController.js  DOM do projeto.html
+│       ├── boot.js                   entrada do index.html
+│       └── boot-projeto.js           entrada do projeto.html
 │
 └── chamados/                       MÓDULO · Service Desk
     ├── index.html
@@ -100,15 +111,27 @@ do site.
 Chaves no `localStorage`: `hifera.admin.projetos.v1` (projetos),
 `hifera.admin.chamados.v1` (chamados), `hifera.admin.log.v1` (histórico) e
 `hifera.admin.tema` (claro/escuro).
-Sem nada gravado, o painel sobe com 5 projetos de exemplo (`SEED` no
-`core/js/models/ProjectsModel.js`) — os 4 casos da home + o Ledger como produto em destaque.
+Sem nada gravado, o painel sobe com 6 projetos de exemplo (`SEED` no
+`core/js/models/ProjectsModel.js`): os 4 casos da home, o Ledger como produto
+em destaque e o **Portal de Operações — Teste Fictício**, do cliente
+"Teste com Nome Fictício".
+
+Esse último existe para exercitar a tela de gestão com um caso sob medida
+completo — seis marcos em estados diferentes, diário com quatro entradas e
+uma parcela vencida que dispara o alerta. Ele nasce com `publicado: false`,
+então **não aparece na vitrine** nem entra no `vitrine-dados.js`: é cliente
+de teste, não portfólio.
 
 Cada projeto guarda os campos do card da vitrine (título, categoria,
 segmento, ordem, descrição, link, imagens, publicado, destaque), o
-controle interno (status, cliente, datas, observação) e um **livro-caixa
-mensal**: cada linha é `{ mês, meta, recebido, aReceber, gastos }`.
-Os KPIs e o gráfico são sempre derivados desses lançamentos — não existe
-total digitado à mão em lugar nenhum.
+controle interno (status, cliente, contato, datas, observação), um
+**livro-caixa mensal** — cada linha é `{ mês, meta, recebido, aReceber,
+gastos }` —, uma lista de **marcos** (`{ título, data, status, nota }`)
+e um **diário** (`{ data, autor, texto }`).
+
+Os KPIs, o gráfico, o percentual de conclusão e o semáforo são sempre
+derivados desses dados — não existe total nem "status de saúde" digitado
+à mão em lugar nenhum. Ver "Duas telas, um modelo" logo abaixo.
 
 ## Tema
 
@@ -167,6 +190,55 @@ de 1 a 5 estrelas com comentário opcional.
 distribuição por fila. Toda ação entra no log de alterações.
 
 Dados em `hifera.admin.chamados.v1`.
+
+## Duas telas, um modelo
+
+A gestão de projetos foi separada em duas perguntas diferentes, porque
+elas nunca são feitas na mesma hora:
+
+| Tela | Pergunta que responde |
+|---|---|
+| `admin/index.html` | *Como está a carteira?* — soma de tudo, quem está em risco, quem paga |
+| `admin/projeto.html?id=…` | *Como está ESTE projeto, e o que eu faço agora?* |
+
+O portfólio mostra a lista em **cartões** (padrão) ou em **tabela**. O
+cartão é onde se decide o que fazer: capa, semáforo, barra de conclusão e
+o botão *Gerenciar*. A tabela é onde se confere número, em varredura
+vertical. A escolha fica em `hifera.admin.modoLista`.
+
+### O que é derivado, e de quê
+
+Nada nestas telas é um campo que alguém marca e esquece de atualizar:
+
+| Indicador | Regra |
+|---|---|
+| **Conclusão (%)** | marcos concluídos ÷ marcos totais. Sem marcos, cai para `recebido ÷ contratado` — a régua que sempre existe |
+| **Semáforo** | *risco* se a entrega estourou o prazo ou há duas frentes abertas; *atenção* com uma; *saudável* sem nenhuma |
+| **Contratado** | `recebido + aReceber` dos lançamentos |
+| **Carteira por cliente** | agrupa os projetos por `cliente` e soma o período selecionado |
+
+O atraso de entrega vai direto para *risco* porque é o único item da
+lista que não se resolve com um telefonema.
+
+### O que a tela do projeto edita
+
+Marco (com modal próprio), status de marco (direto na linha), lançamentos
+(grade inline, com botão de salvar que só acende quando há mudança),
+anotações do diário e a ficha do cliente. A ficha da vitrine continua no
+mesmo modal do portfólio — `ProjectsView.abrirModal` é reusado, não
+duplicado.
+
+O `?id=` que não existe na base não quebra: a tela troca o conteúdo por
+um aviso explicando que os dados do protótipo vivem no `localStorage` de
+cada máquina, com link de volta para o portfólio.
+
+### Cliente e contato — o limite
+
+O bloco de contato guarda três campos: nome, papel e e-mail. É o mínimo
+para saber com quem falar. Contrato, documento e qualquer outro dado
+pessoal ficam **fora** — este painel é 100% estático e grava tudo em
+texto puro no `localStorage` do navegador. Enquanto não houver backend
+com autenticação real (ver *Autenticação*), essa é a fronteira.
 
 ## Alertas automáticos
 

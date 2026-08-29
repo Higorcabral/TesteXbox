@@ -1,0 +1,25 @@
+# Roda a cada push e em cada pull request.
+# Pega referência quebrada, caminho absoluto e erro de maiúscula/minúscula
+# ANTES de o site ir para o ar.
+name: Verificar referências
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    name: Referências quebradas
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # O runner é Linux, que diferencia maiúscula de minúscula — então
+      # este job é também a rede de segurança contra o Mac, que não diferencia.
+      - name: Verificar referências
+        run: python3 scripts/verificar.py links

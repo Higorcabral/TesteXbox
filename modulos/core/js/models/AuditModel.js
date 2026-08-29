@@ -108,9 +108,11 @@ HiferaAdmin.AuditModel = (function () {
     if ((antes.imagens || []).length !== (depois.imagens || []).length) mudou.push('imagens');
     if ((antes.bullets || []).join('|') !== (depois.bullets || []).join('|')) mudou.push('bullets');
 
-    var la = JSON.stringify(antes.lancamentos || []);
-    var ld = JSON.stringify(depois.lancamentos || []);
-    if (la !== ld) mudou.push('financeiro');
+    var iguais = function (a, b) { return JSON.stringify(a || null) === JSON.stringify(b || null); };
+    if (!iguais(antes.lancamentos, depois.lancamentos)) mudou.push('financeiro');
+    if (!iguais(antes.contato, depois.contato))         mudou.push('contato');
+    if (!iguais(antes.marcos, depois.marcos))           mudou.push('marcos');
+    if (!iguais(antes.notas, depois.notas))             mudou.push('diário');
 
     if (!mudou.length) return 'Salvou sem alterações.';
     if (mudou.length > 4) return 'Alterou ' + mudou.length + ' campos, incluindo ' + mudou.slice(0, 3).join(', ') + '.';

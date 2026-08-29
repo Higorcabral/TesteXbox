@@ -53,7 +53,8 @@ HiferaAdmin.ProjectsView = (function () {
       '<td class="cel-projeto">' +
         '<div class="cel-thumb">' + thumb + '</div>' +
         '<div class="cel-info">' +
-          '<strong>' + Fmt.esc(p.titulo) + (p.destaque ? '<span class="tag-destaque">destaque</span>' : '') + '</strong>' +
+          '<strong><button type="button" class="cel-titulo" data-acao="gerenciar">' + Fmt.esc(p.titulo) + '</button>' +
+          (p.destaque ? '<span class="tag-destaque">destaque</span>' : '') + '</strong>' +
           '<small>' + Fmt.esc(p.categoria) + (p.segmento ? ' · ' + Fmt.esc(p.segmento) : '') + '</small>' +
           badgesAlerta(p) +
         '</div>' +
@@ -70,6 +71,7 @@ HiferaAdmin.ProjectsView = (function () {
         '<span class="switch-knob"></span></button>' +
       '</td>' +
       '<td class="cel-acoes">' +
+        botao('gerenciar','Gerenciar projeto', '<path d="M9 18l6-6-6-6"/>', 'is-forte') +
         botao('editar',   'Editar',    '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>') +
         botao('duplicar', 'Duplicar',  '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>') +
         botao('abrir',    'Abrir link','<path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>') +
@@ -85,17 +87,109 @@ HiferaAdmin.ProjectsView = (function () {
            'stroke-linecap="round" stroke-linejoin="round">' + path + '</svg></button>';
   }
 
+  /* ================================================================
+     CARTÕES
+     -----------------------------------------------------------------
+     A tabela responde "quanto?" numa varredura vertical. O cartão
+     responde "e aí, como está?" — capa, semáforo, progresso e o
+     caminho para a tela de gestão do projeto. É o modo padrão.
+     ================================================================ */
+  var TOM_SAUDE = { ok: 'green', atencao: 'amber', risco: 'red' };
+
+  function cartao(p) {
+    var t   = Model.totaisProjeto(p);
+    var pg  = Model.progresso(p);
+    var s   = Model.saude(p);
+    var contratado = t.recebido + t.aReceber;
+    var capa = p.imagens[0];
+
+    var proximo = pg.proximo
+      ? 'Próximo: ' + Fmt.esc(pg.proximo.titulo) + (pg.proximo.data ? ' · ' + Fmt.data(pg.proximo.data) : '')
+      : (pg.base === 'marcos' ? 'Todos os marcos entregues' : 'Sem marcos cadastrados');
+
+    return '<article class="pcard" data-id="' + Fmt.esc(p.id) + '">' +
+        '<div class="pcard-capa">' +
+          (capa
+            ? '<img src="' + Fmt.esc(Fmt.assetAdmin(capa.src)) + '" alt="" loading="lazy" ' +
+              'onerror="this.remove()">'
+            : '') +
+          '<span class="pcard-selos">' + pill(p.status) +
+            '<span class="saude saude--' + TOM_SAUDE[s.chave] + '" title="' +
+              Fmt.esc(s.motivos.join(' · ') || 'Sem pendência aberta') + '">' +
+              '<span class="saude-dot"></span>' + s.label + '</span>' +
+          '</span>' +
+        '</div>' +
+
+        '<div class="pcard-corpo">' +
+          '<span class="pcard-cliente">' + (p.cliente ? Fmt.esc(p.cliente) : 'Sem cliente definido') + '</span>' +
+          '<h3><button type="button" data-acao="gerenciar">' + Fmt.esc(p.titulo) + '</button></h3>' +
+          '<p class="pcard-seg">' + Fmt.esc(p.categoria) +
+            (p.segmento ? ' · ' + Fmt.esc(p.segmento) : '') + '</p>' +
+
+          '<div class="pcard-prog">' +
+            '<div class="prog-cab"><strong>' + pg.pct + '%</strong><span>' + proximo + '</span></div>' +
+            '<div class="prog-barra"><span style="width:' + pg.pct + '%"></span></div>' +
+          '</div>' +
+
+          '<dl class="pcard-num">' +
+            '<div><dt>Recebido</dt><dd>' + Fmt.moeda(t.recebido) + '</dd></div>' +
+            '<div><dt>A receber</dt><dd' + (t.aReceber > 0 ? '' : ' class="vazio"') + '>' +
+              (t.aReceber > 0 ? Fmt.moeda(t.aReceber) : '—') + '</dd></div>' +
+            '<div><dt>Contratado</dt><dd>' + Fmt.moeda(contratado) + '</dd></div>' +
+          '</dl>' +
+
+          badgesAlerta(p) +
+        '</div>' +
+
+        '<footer class="pcard-pe">' +
+          '<button type="button" class="switch' + (p.publicado ? ' is-on' : '') + '" data-acao="publicar" ' +
+            'role="switch" aria-checked="' + p.publicado + '" ' +
+            'aria-label="' + (p.publicado ? 'Despublicar' : 'Publicar') + ' ' + Fmt.esc(p.titulo) + '">' +
+            '<span class="switch-knob"></span></button>' +
+          '<span class="pcard-pe-rot">' + (p.publicado ? 'na vitrine' : 'fora da vitrine') + '</span>' +
+          '<div class="pcard-acoes">' +
+            botao('editar',   'Editar ficha', '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>') +
+            botao('duplicar', 'Duplicar',     '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>') +
+            (p.link ? botao('abrir', 'Abrir demo', '<path d="M15 3h6v6"/><path d="M10 14L21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>') : '') +
+            botao('excluir',  'Excluir',      '<path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/>', 'is-danger') +
+            '<button type="button" class="btn-sec btn-gerenciar" data-acao="gerenciar">Gerenciar' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+              'stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>' +
+          '</div>' +
+        '</footer>' +
+      '</article>';
+  }
+
+  function ligarAcoes(el, seletorPai) {
+    el.querySelectorAll('[data-acao]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var pai = btn.closest(seletorPai);
+        if (!pai) return;
+        var fn = handlers[btn.dataset.acao];
+        if (fn) fn(pai.dataset.id);
+      });
+    });
+  }
+
+  function caixaVazia(el) {
+    el.innerHTML =
+      '<div class="vazio-box">' +
+        '<strong>Nenhum projeto encontrado</strong>' +
+        '<p>Ajuste a busca ou cadastre o primeiro projeto da vitrine.</p>' +
+      '</div>';
+  }
+
+  function renderCards(el, lista) {
+    if (!el) return;
+    if (!lista.length) { caixaVazia(el); return; }
+    el.innerHTML = '<div class="pcards">' + lista.map(cartao).join('') + '</div>';
+    ligarAcoes(el, '.pcard');
+  }
+
   function renderTabela(el, lista) {
     if (!el) return;
 
-    if (!lista.length) {
-      el.innerHTML =
-        '<div class="vazio-box">' +
-          '<strong>Nenhum projeto encontrado</strong>' +
-          '<p>Ajuste a busca ou cadastre o primeiro projeto da vitrine.</p>' +
-        '</div>';
-      return;
-    }
+    if (!lista.length) { caixaVazia(el); return; }
 
     el.innerHTML =
       '<div class="tabela-wrap">' +
@@ -109,13 +203,7 @@ HiferaAdmin.ProjectsView = (function () {
         '</table>' +
       '</div>';
 
-    el.querySelectorAll('[data-acao]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var id = btn.closest('tr').dataset.id;
-        var fn = handlers[btn.dataset.acao];
-        if (fn) fn(id);
-      });
-    });
+    ligarAcoes(el, 'tr[data-id]');
   }
 
   /* ================================================================
@@ -763,6 +851,7 @@ HiferaAdmin.ProjectsView = (function () {
 
   return {
     definirHandlers: function (h) { handlers = h; },
+    renderCards: renderCards,
     renderTabela: renderTabela,
     abrirModal: abrirModal,
     fecharModal: fechar

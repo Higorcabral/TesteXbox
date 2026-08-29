@@ -1572,3 +1572,443 @@ body, .card, .kpi, .side, .topbar, .tabela, .modal-caixa, .gaveta {
   .fila-linha { grid-template-columns: 130px 1fr 30px; gap: 10px; }
   .gaveta--larga { width: 100vw; }
 }
+
+/* =================================================================
+   19. GESTÃO DE UM PROJETO  (admin/projeto.html)
+   -----------------------------------------------------------------
+   A tela da lista responde "como está a carteira?". Esta responde
+   "como está ESTE projeto?". Densidade menor, hierarquia maior:
+   uma ficha grande no topo e blocos de trabalho abaixo.
+   ================================================================= */
+
+/* --- utilitário: texto só para leitor de tela --- */
+.sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* --- migalha de pão no topo --- */
+.migalha {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text-dim); font-weight: 600; margin-bottom: 3px;
+}
+.migalha a { color: var(--cyan-ink); }
+.migalha a:hover { text-decoration: underline; }
+.migalha span[aria-hidden] { opacity: 0.5; }
+.migalha #migalhaProjeto {
+  color: var(--text-mid); max-width: 260px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.btn-voltar svg { width: 15px; height: 15px; }
+
+/* Título de projeto é livre e pode ser longo. Na barra do topo ele
+   trunca; sem isso ele quebra em quatro linhas e os botões da direita
+   acabam por cima do texto em tela estreita. */
+#tituloProjeto {
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.topo-dir { flex: 0 0 auto; }
+
+/* --- FICHA ------------------------------------------------------- */
+.ficha {
+  background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--sombra-card);
+}
+.ficha--com-capa { display: grid; grid-template-columns: 300px 1fr; }
+.ficha-capa { position: relative; background: var(--bg-3); min-height: 100%; }
+.ficha-capa img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Véu do lado do texto: a capa não pode competir com o conteúdo */
+.ficha-capa::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(var(--sh),0.10) 0%, rgba(var(--sh),0.35) 100%);
+}
+.ficha-corpo { padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+
+.ficha-topo { display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap; }
+.ficha-id { flex: 1 1 340px; min-width: 0; }
+.ficha-selos { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+.ficha-id h2 { font-size: 26px; letter-spacing: -0.03em; margin-bottom: 6px; }
+.ficha-sub { font-size: 13px; color: var(--text-mid); }
+.ficha-sub strong { color: var(--text); }
+.ficha-desc { font-size: 13.5px; color: var(--text-mid); margin-top: 10px; max-width: 62ch; }
+.ficha-acoes { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ficha-acoes svg { width: 15px; height: 15px; }
+
+/* semáforo derivado (ver ProjectsModel.saude) */
+.saude {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 999px;
+  font-size: 11.5px; font-weight: 600; cursor: help;
+  color: var(--sc); background: var(--sc-bg); border: 1px solid var(--sc-b);
+}
+.saude-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: none; }
+.saude--green { --sc: var(--green-ink); --sc-bg: rgba(52,211,153,0.10); --sc-b: rgba(52,211,153,0.24); }
+.saude--amber { --sc: var(--amber-ink); --sc-bg: rgba(245,165,36,0.10); --sc-b: rgba(245,165,36,0.26); }
+.saude--red   { --sc: var(--red-ink);   --sc-bg: rgba(248,113,113,0.10); --sc-b: rgba(248,113,113,0.26); }
+
+.selo-mini {
+  display: inline-flex; align-items: center; padding: 4px 10px;
+  border-radius: 999px; font-size: 11px; font-weight: 600;
+  color: var(--text-dim); background: rgba(var(--on),0.05);
+  border: 1px solid var(--line);
+}
+.selo-mini--on { color: var(--cyan-ink); border-color: rgba(93,224,230,0.26); background: rgba(93,224,230,0.08); }
+
+/* barra de progresso do projeto */
+.ficha-progresso {
+  padding: 15px 16px; border-radius: var(--r-md);
+  background: rgba(var(--on),0.03); border: 1px solid var(--line);
+}
+.prog-cab { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 9px; }
+.prog-cab strong { font-size: 17px; letter-spacing: -0.02em; }
+.prog-cab span { font-size: 12px; color: var(--text-dim); }
+.prog-barra {
+  height: 8px; border-radius: 999px; overflow: hidden;
+  background: rgba(var(--on),0.08);
+}
+.prog-barra span { display: block; height: 100%; border-radius: 999px; background: var(--grad); }
+.ficha-prox { display: block; margin-top: 10px; font-size: 12px; color: var(--text-mid); }
+.ficha-prox strong { color: var(--text); }
+.ficha-prox.vazio { color: var(--text-dim); }
+
+.ficha-meta {
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding-top: 4px;
+}
+.meta-item { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.meta-rot {
+  font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--text-dim); font-weight: 600;
+}
+.meta-val { font-size: 15px; font-variant-numeric: tabular-nums; }
+.meta-extra { font-size: 11.5px; color: var(--text-dim); }
+
+.ficha-motivos {
+  display: flex; align-items: flex-start; gap: 9px;
+  font-size: 12.5px; color: var(--amber-ink);
+  padding: 10px 13px; border-radius: var(--r-sm);
+  background: rgba(245,165,36,0.07); border: 1px solid rgba(245,165,36,0.22);
+}
+.ficha-motivos svg { width: 16px; height: 16px; flex: none; margin-top: 1px; }
+
+/* --- KPIs em 5 colunas (a tela do projeto tem 5, não 8) --- */
+.kpi-grid--5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 1400px) { .kpi-grid--5 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 900px)  { .kpi-grid--5 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px)  { .kpi-grid--5 { grid-template-columns: 1fr; } }
+
+/* --- MARCOS ------------------------------------------------------ */
+.marcos { list-style: none; margin: 0; padding: 4px 0 0; }
+.marco {
+  display: grid; grid-template-columns: 26px 1fr auto;
+  gap: 12px; align-items: start;
+  padding: 13px 0;
+}
+.marco + .marco { border-top: 1px solid var(--line); }
+
+/* trilho vertical + bolinha de status. O ::after desenha a linha que
+   liga um marco ao próximo — some no último por causa do :last-child. */
+.marco-eixo { position: relative; height: 100%; display: flex; justify-content: center; }
+.marco-eixo i {
+  width: 13px; height: 13px; border-radius: 50%; margin-top: 3px;
+  background: var(--bg-2); border: 2px solid var(--mc, var(--gray-line));
+  flex: none; z-index: 1;
+}
+.marco-eixo::after {
+  content: ''; position: absolute; top: 20px; bottom: -16px; left: 50%;
+  width: 2px; margin-left: -1px; background: var(--line-2);
+}
+.marco:last-child .marco-eixo::after { display: none; }
+
+.marco--gray  { --mc: var(--gray-line); }
+.marco--cyan  { --mc: var(--cyan-ink); }
+.marco--green { --mc: var(--green-ink); }
+.marco--green .marco-eixo i { background: var(--green-ink); }
+.marco--cyan  .marco-eixo i { background: rgba(93,224,230,0.28); }
+
+.marco-corpo { min-width: 0; }
+.marco-cab { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.marco-cab strong { font-size: 14px; }
+.marco--green .marco-cab strong { color: var(--text-mid); }
+.marco-data { font-size: 11.5px; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+.marco-data em { font-style: normal; font-weight: 600; }
+.marco-nota { font-size: 12.5px; color: var(--text-dim); margin-top: 4px; max-width: 70ch; }
+.marco.is-atrasado .marco-eixo i { border-color: var(--red-ink); }
+
+.marco-acoes { display: flex; align-items: center; gap: 6px; }
+.sel-mini select {
+  padding: 6px 9px; border-radius: 8px; font-size: 11.5px;
+  background: var(--bg-3); color: var(--text-mid);
+  border: 1px solid var(--line); font-family: inherit; cursor: pointer;
+}
+.sel-mini select:focus { border-color: var(--cyan); color: var(--text); }
+
+/* --- LANÇAMENTOS na tela ---
+   Cada campo é um <label> com o nome da coluna dentro. Em tela larga o
+   nome fica escondido porque o .rep-head já rotula; em tela estreita,
+   onde o cabeçalho some, ele aparece sobre o campo. */
+.lanc-cel { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.lanc-cel > span {
+  display: none;
+  font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text-dim); font-weight: 600;
+}
+.lanc-cel--mes { flex: 1.3; min-width: 118px; }
+.lanc-cel--num { flex: 1; min-width: 74px; }
+.lanc-cel .rep-in { width: 100%; }
+.rep-linha--fin > .icon-btn { align-self: center; flex: none; }
+
+.aviso-sujo { font-size: 11.5px; color: var(--amber-ink); }
+.btn-pri:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-pri.is-sujo { animation: pulso-salvar 2.6s ease-in-out infinite; }
+@keyframes pulso-salvar {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(93,224,230,0); }
+  50%      { box-shadow: 0 0 0 4px rgba(93,224,230,0.16); }
+}
+@media (prefers-reduced-motion: reduce) { .btn-pri.is-sujo { animation: none; } }
+
+/* --- DIÁRIO ------------------------------------------------------ */
+.nota-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+.nota-form-rodape {
+  /* flex-direction explícito: quando este rodapé é também um .fld
+     (ficha do cliente), o .fld impõe column e o botão vai pro centro. */
+  display: flex; flex-direction: row;
+  align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.nota-form-rodape > :last-child { margin-left: auto; }
+.nota-dica { font-size: 11.5px; color: var(--text-dim); }
+
+.notas { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.nota { padding: 13px 0; }
+.nota + .nota { border-top: 1px solid var(--line); }
+.nota-cab { display: flex; align-items: center; gap: 9px; margin-bottom: 5px; }
+.nota-cab strong { font-size: 12.5px; }
+.nota-cab span { font-size: 11px; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+.nota-cab .icon-btn { margin-left: auto; opacity: 0; transition: opacity 0.15s; }
+.nota:hover .nota-cab .icon-btn,
+.nota-cab .icon-btn:focus-visible { opacity: 1; }
+.nota p { font-size: 13px; color: var(--text-mid); white-space: pre-wrap; }
+
+.grid-flds--cliente { padding-top: 2px; }
+
+/* --- LAYOUT em duas colunas (diário + cliente) --- */
+.col-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: start; }
+
+.vazio-box--tela { padding: 60px 24px; text-align: center; }
+.vazio-box--tela p { max-width: 52ch; margin: 0 auto 20px; }
+.vazio-box--tela code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px; padding: 1px 5px; border-radius: 5px;
+  background: rgba(var(--on),0.07);
+}
+.modal-caixa--curta { max-width: 560px; }
+
+@media (max-width: 1100px) {
+  .ficha--com-capa { grid-template-columns: 1fr; }
+  .ficha-capa { min-height: 180px; max-height: 220px; }
+  .ficha-capa::after { background: linear-gradient(180deg, rgba(var(--sh),0.05) 0%, rgba(var(--sh),0.35) 100%); }
+  .ficha-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .col-2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  /* A linha vira um cartãozinho: quebra em duas colunas de números,
+     com rótulo em cada campo. */
+  .lanc-cel > span { display: block; }
+  .lanc-cel--mes { flex: 1 1 100%; }
+  .lanc-cel--num { flex: 1 1 calc(50% - 4px); }
+  .rep-linha--fin {
+    flex-wrap: wrap; align-items: flex-end;
+    padding: 12px; border-radius: var(--r-md);
+    border: 1px solid var(--line); background: rgba(var(--on),0.02);
+  }
+  .rep-linha--fin > .icon-btn { margin-left: auto; }
+}
+@media (max-width: 820px) {
+  /* Espaço é curto: os botões do topo ficam só com o ícone. */
+  .btn-log span { display: none; }
+  .btn-log, .btn-voltar { padding: 8px; }
+  .topo-dir { gap: 8px; }
+}
+@media (max-width: 700px) {
+  .ficha-corpo { padding: 18px; }
+  .ficha-id h2 { font-size: 21px; }
+  .ficha-acoes { width: 100%; }
+  .ficha-acoes .btn-pri, .ficha-acoes .btn-sec { flex: 1 1 auto; justify-content: center; }
+  .marco { grid-template-columns: 20px 1fr; }
+  .marco-acoes { grid-column: 2; }
+  .rep-cab--fin { display: none; }
+  .btn-voltar span { display: none; }
+  .migalha { display: none; }
+}
+
+/* =================================================================
+   20. PORTFÓLIO  (admin/index.html reformulado)
+   -----------------------------------------------------------------
+   O gráfico ganhou um vizinho (carteira) e a lista de projetos ganhou
+   um segundo modo: cartões, que é onde se decide o que fazer, contra
+   a tabela, que é onde se confere número.
+   ================================================================= */
+
+.col-grafico {
+  display: grid; grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 18px; align-items: start;
+}
+.card--lado { display: flex; flex-direction: column; }
+.card-head--interno {
+  margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line);
+}
+.card-head--interno h3 { font-size: 14px; }
+.card-head--interno h3 em {
+  font-style: normal; font-weight: 500; font-size: 11px;
+  color: var(--text-dim); margin-left: 6px;
+}
+
+/* --- semáforo da carteira --- */
+.saude-barra {
+  display: flex; height: 10px; border-radius: 999px; overflow: hidden;
+  background: rgba(var(--on),0.07); margin-bottom: 12px;
+}
+.saude-fatia { display: block; height: 100%; }
+.saude-fatia--green { background: var(--green-ink); }
+.saude-fatia--amber { background: var(--amber-ink); }
+.saude-fatia--red   { background: var(--red-ink); }
+.saude-legenda {
+  display: flex; flex-wrap: wrap; gap: 6px 16px;
+  list-style: none; margin: 0; padding: 0; font-size: 12px; color: var(--text-dim);
+}
+.saude-legenda li { display: flex; align-items: center; gap: 6px; }
+.saude-legenda strong { color: var(--text); font-variant-numeric: tabular-nums; }
+
+/* --- clientes --- */
+.clientes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 13px; }
+.cli-cab { display: flex; align-items: baseline; gap: 10px; margin-bottom: 5px; }
+.cli-cab strong {
+  font-size: 12.5px; font-weight: 600; min-width: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.cli-cab .num { margin-left: auto; font-size: 12.5px; font-variant-numeric: tabular-nums; color: var(--text-mid); }
+.cli-barra { height: 5px; border-radius: 999px; background: rgba(var(--on),0.07); overflow: hidden; }
+.cli-barra span { display: block; height: 100%; border-radius: 999px; background: var(--grad); }
+.cli-pe {
+  display: flex; flex-wrap: wrap; gap: 4px 12px;
+  margin-top: 5px; font-size: 11px; color: var(--text-dim);
+}
+.carteira-pe {
+  display: flex; gap: 18px; flex-wrap: wrap; margin-top: auto; padding-top: 16px;
+  border-top: 1px solid var(--line); font-size: 11.5px; color: var(--text-dim);
+}
+.carteira-pe strong { color: var(--text); font-size: 14px; margin-right: 3px; }
+
+/* --- alternância cartões / tabela --- */
+.modo-troca {
+  display: inline-flex; padding: 3px; gap: 2px;
+  border-radius: 10px; background: var(--bg-3); border: 1px solid var(--line);
+}
+.modo-troca button {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 11px; border-radius: 7px;
+  font-size: 12px; font-weight: 600; color: var(--text-dim);
+  transition: background 0.16s, color 0.16s;
+}
+.modo-troca button svg { width: 14px; height: 14px; }
+.modo-troca button:hover { color: var(--text-mid); }
+.modo-troca button.is-on { background: var(--bg-2); color: var(--text); box-shadow: var(--sombra-card); }
+
+/* --- CARTÕES de projeto --- */
+.pcards {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+.pcard {
+  display: flex; flex-direction: column;
+  background: var(--bg-2); border: 1px solid var(--line);
+  border-radius: var(--r-lg); overflow: hidden;
+  box-shadow: var(--sombra-card);
+  transition: border-color 0.18s, transform 0.18s;
+}
+.pcard:hover { border-color: var(--line-2); transform: translateY(-2px); }
+@media (prefers-reduced-motion: reduce) { .pcard:hover { transform: none; } }
+
+.pcard-capa {
+  position: relative; height: 132px; background: var(--bg-3);
+  border-bottom: 1px solid var(--line);
+}
+.pcard-capa img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Sem imagem o bloco vira um campo de gradiente fraco — melhor que
+   um retângulo cinza com "sem foto" escrito. */
+.pcard-capa::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(93,224,230,0.10), rgba(0,74,173,0.14));
+}
+.pcard-capa img { position: relative; z-index: 1; }
+.pcard-selos {
+  position: absolute; z-index: 2; left: 10px; bottom: 10px;
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.pcard-selos .pill, .pcard-selos .saude {
+  background: var(--vidro-2); border-color: rgba(255,255,255,0.16);
+  color: var(--sobre-foto); backdrop-filter: blur(8px);
+}
+.pcard-selos .pill .pill-dot { background: var(--pc); }
+.pcard-selos .saude .saude-dot { background: var(--sc); }
+
+.pcard-corpo { padding: 15px 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.pcard-cliente {
+  font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--text-dim); font-weight: 600;
+}
+.pcard-corpo h3 { font-size: 16px; letter-spacing: -0.02em; }
+.pcard-corpo h3 button {
+  padding: 0; text-align: left; font: inherit; color: inherit;
+  border-radius: 4px;
+}
+.pcard-corpo h3 button:hover { color: var(--cyan-ink); }
+.pcard-seg { font-size: 11.5px; color: var(--text-dim); margin-top: -6px; }
+.pcard-prog .prog-cab { margin-bottom: 6px; }
+.pcard-prog .prog-cab strong { font-size: 13px; }
+.pcard-prog .prog-cab span {
+  font-size: 11px; min-width: 0; flex: 1;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.pcard-prog .prog-barra { height: 5px; }
+
+.pcard-num { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 2px 0 0; }
+.pcard-num dt {
+  font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--text-dim); font-weight: 600; margin-bottom: 1px;
+}
+.pcard-num dd { margin: 0; font-size: 13px; font-variant-numeric: tabular-nums; }
+.pcard-num dd.vazio { color: var(--text-dim); }
+.pcard .alerta-lista { margin-top: 2px; }
+
+.pcard-pe {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 11px 14px; border-top: 1px solid var(--line);
+  background: rgba(var(--on),0.02);
+}
+.pcard-pe-rot { font-size: 11px; color: var(--text-dim); white-space: nowrap; }
+.pcard-acoes { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+.btn-gerenciar {
+  padding: 6px 12px; font-size: 12px; gap: 5px; margin-left: 4px;
+}
+.btn-gerenciar svg { width: 13px; height: 13px; }
+
+/* --- tabela: título vira link para a tela do projeto --- */
+.cel-titulo {
+  padding: 0; font: inherit; color: inherit; text-align: left; border-radius: 4px;
+}
+.cel-titulo:hover { color: var(--cyan-ink); text-decoration: underline; }
+.icon-btn.is-forte { color: var(--cyan-ink); }
+.icon-btn.is-forte:hover { background: rgba(93,224,230,0.10); border-color: rgba(93,224,230,0.3); }
+
+@media (max-width: 1240px) {
+  .col-grafico { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .pcards { grid-template-columns: 1fr; }
+  .modo-troca button span { display: none; }
+  .modo-troca button { padding: 6px 9px; }
+}

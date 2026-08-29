@@ -37,7 +37,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 <meta name="robots" content="noai, noimageai">
 </head>
 <body>
@@ -62,7 +62,7 @@
       <li><a href="#como-fazemos">Como fazemos</a></li>
       <li><a href="#produtos">Produtos</a></li>
       <li><a href="#fundadores">Quem faz</a></li>
-      <li><a href="#depoimentos">Depoimentos</a></li>
+      <li><a href="#primeiros">Primeiros clientes</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
     <a href="#contato" class="nav-cta">Vamos conversar <span>→</span></a>
@@ -363,9 +363,9 @@
       </div>
       <div class="numbers-grid">
         <div class="num-card reveal" data-delay="1">
-          <div class="num-value" data-count="8">0</div>
-          <div class="num-label">Soluções prontas</div>
-          <p>Sistemas testados e prontos para uso imediato.</p>
+          <div class="num-value" data-count="5">0</div>
+          <div class="num-label">Soluções no ar</div>
+          <p>Quatro projetos navegáveis mais o Controle Financeiro. Todos abertos para você testar agora.</p>
         </div>
         <div class="num-card reveal" data-delay="2">
           <div class="num-value" data-count="7" data-suffix=" dias">0</div>
@@ -427,49 +427,72 @@
     </div>
   </section>
 
-  <!-- DEPOIMENTOS -->
-  <section id="depoimentos" class="testimonials">
+  <!-- PRIMEIROS CLIENTES
+       Substitui a antiga seção de depoimentos. A Hifera está em MVP e
+       ainda não tem cliente pagante com história para contar — inventar
+       aspas assinadas seria a forma mais rápida de perder a confiança de
+       quem vai justamente confiar a operação da empresa na gente. -->
+  <section id="primeiros" class="primeiros">
     <div class="container">
       <div class="section-head reveal">
-        <div class="eyebrow"><span class="dot"></span><span>Depoimentos</span></div>
-        <h2>Ainda somos <em>novos.</em><br><span class="grad-text">Quer ser um dos primeiros?</span></h2>
-        <p class="lead">Estamos em MVP. Os depoimentos abaixo são de quem já experimentou os protótipos internos. Quando você virar cliente, sua história entra aqui.</p>
+        <div class="eyebrow"><span class="dot"></span><span>Primeiros clientes</span></div>
+        <h2>Não temos depoimento pra mostrar.<br><span class="grad-text">Temos vaga pra abrir.</span></h2>
+        <p class="lead">
+          A Hifera está em MVP. Os sistemas que você viu acima estão de pé e podem ser
+          testados agora — o que ainda não existe é fila de cliente. Em vez de encher
+          esta parte da página com aspas inventadas, preferimos dizer o que os
+          primeiros quatro clientes ganham por chegarem antes.
+        </p>
       </div>
 
-      <div class="testi-grid">
-        <article class="testi reveal" data-delay="1">
-          <span class="testi-mark">"</span>
-          <p class="testi-quote">O Controle Financeiro salvou meu fechamento mensal. Antes era planilha até 22h. Hoje termino em uma hora.</p>
-          <div class="testi-author">
-            <div class="testi-avatar">AF</div>
-            <div>
-              <strong>Ana F.</strong>
-              <span>Teste piloto · Ledger</span>
-            </div>
-          </div>
+      <div class="prim-grid">
+        <article class="prim-card reveal" data-delay="1">
+          <span class="prim-n">01</span>
+          <h3>Preço de fundador, travado</h3>
+          <p>
+            A mensalidade combinada na entrada não muda enquanto o contrato durar,
+            mesmo depois que a tabela subir. Vale para solução pronta e para sob medida.
+          </p>
         </article>
-        <article class="testi reveal" data-delay="2">
-          <span class="testi-mark">"</span>
-          <p class="testi-quote">Automatizaram nosso disparo de confirmação de agendamento. Faltas caíram sozinhas, sem eu ligar pra ninguém.</p>
-          <div class="testi-author">
-            <div class="testi-avatar">LM</div>
-            <div>
-              <strong>Lucas M.</strong>
-              <span>Teste piloto · Automação</span>
-            </div>
-          </div>
+
+        <article class="prim-card reveal" data-delay="2">
+          <span class="prim-n">02</span>
+          <h3>Roadmap com a sua cara</h3>
+          <p>
+            O que você pedir entra na fila de desenvolvimento antes do resto.
+            Com poucos clientes, isso é promessa que dá pra cumprir — é justamente
+            por isso que ela tem prazo de validade.
+          </p>
         </article>
-        <article class="testi reveal" data-delay="3">
-          <span class="testi-mark">"</span>
-          <p class="testi-quote">Marcaram reunião no meu jeito. Sem forçar processo deles. Isso é raro. Já indiquei pra dois amigos.</p>
-          <div class="testi-author">
-            <div class="testi-avatar">RS</div>
-            <div>
-              <strong>Rafael S.</strong>
-              <span>Teste piloto · Sob medida</span>
-            </div>
-          </div>
+
+        <article class="prim-card reveal" data-delay="3">
+          <span class="prim-n">03</span>
+          <h3>Suporte direto com quem constrói</h3>
+          <p>
+            Sem camada de atendimento, sem ticket que some. Você fala com as duas
+            pessoas que escreveram o sistema, e elas atendem em até 24h úteis.
+          </p>
         </article>
+
+        <article class="prim-card reveal" data-delay="4">
+          <span class="prim-n">04</span>
+          <h3>Saída sem multa</h3>
+          <p>
+            Se não servir, você leva seus dados exportados e vai embora sem taxa.
+            Cliente preso por contrato não é referência — é refém.
+          </p>
+        </article>
+      </div>
+
+      <div class="prim-pe reveal" data-delay="4">
+        <p>
+          Quando houver história real pra contar, ela aparece aqui — com nome,
+          empresa e número. Até lá, esta seção fica assim.
+        </p>
+        <a href="#contato" class="link-arrow">
+          Quero conversar sobre ser um dos primeiros
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
       </div>
     </div>
   </section>

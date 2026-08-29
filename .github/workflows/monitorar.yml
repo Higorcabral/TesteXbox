@@ -1,0 +1,82 @@
+# Monitoramento do site no ar.
+#
+# A cada 6 horas confere se todas as rotas respondem. Se alguma cair,
+# abre uma issue com a etiqueta "site-fora" — e se já existir uma issue
+# aberta, só comenta nela em vez de criar outra. Quando o site volta,
+# a issue é fechada sozinha.
+#
+# Detalhe do GitHub: agendamento em repositório público é desligado
+# depois de 60 dias sem nenhum commit. Se as execuções pararem, é isso —
+# reative em Actions → Verificar site no ar → Enable workflow.
+name: Verificar site no ar
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  ETIQUETA: site-fora
+  TITULO: 'Site fora do ar ou com rota quebrada'
+
+jobs:
+  rotas:
+    name: Rotas em produção
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verificar rotas
+        id: verificar
+        continue-on-error: true
+        run: |
+          python3 scripts/verificar.py rotas https://higorcabral.github.io/TesteXbox \
+            2>&1 | tee saida.txt
+          echo "codigo=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Garantir que a etiqueta existe
+        if: steps.verificar.outputs.codigo != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create "$ETIQUETA" --color B60205 \
+            --description "Monitoramento automático detectou rota fora" \
+            2>/dev/null || true
+
+      - name: Abrir ou atualizar a issue
+        if: steps.verificar.outputs.codigo != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXECUCAO: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          corpo="$(printf 'O monitoramento automático encontrou rota(s) com problema.\n\n```\n%s\n```\n\nExecução: %s\n' "$(cat saida.txt)" "$EXECUCAO")"
+          aberta="$(gh issue list --label "$ETIQUETA" --state open \
+                     --json number --jq '.[0].number')"
+          if [ -n "$aberta" ]; then
+            gh issue comment "$aberta" --body "$corpo"
+            echo "Comentado na issue #$aberta"
+          else
+            gh issue create --title "$TITULO" --label "$ETIQUETA" --body "$corpo"
+          fi
+
+      - name: Fechar a issue quando o site voltar
+        if: steps.verificar.outputs.codigo == '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for n in $(gh issue list --label "$ETIQUETA" --state open \
+                       --json number --jq '.[].number'); do
+            gh issue comment "$n" --body "Todas as rotas voltaram a responder. Fechando automaticamente."
+            gh issue close "$n"
+            echo "Issue #$n fechada"
+          done
+
+      - name: Refletir o resultado no status do job
+        if: steps.verificar.outputs.codigo != '0'
+        run: |
+          echo "::error::Há rota com problema em produção. Veja a issue com a etiqueta $ETIQUETA."
+          exit 1
