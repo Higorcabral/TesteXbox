@@ -1,0 +1,12 @@
+{
+  "routes": [
+    { "route": "/DEPLOY.md", "statusCode": 404 },
+    { "route": "/README.md", "statusCode": 404 },
+    { "route": "/scripts/*", "statusCode": 404 }
+  ],
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "SAMEORIGIN",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
+  }
+}
