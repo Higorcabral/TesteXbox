@@ -27,17 +27,17 @@ HiferaAdmin.AuditModel = (function () {
   /* Log de exemplo — some assim que houver histórico real */
   var SEED = [
     { id: 's6', quando: '2026-08-17T18:42:00.000Z', autor: 'Higor Cabral', acao: 'editar',
-      alvo: 'Projeto-Stoq', resumo: 'Marcou como "com pendência" e registrou a parcela de julho em aberto.' },
+      alvo: 'Gestão de Estoque', resumo: 'Marcou como "com pendência" e registrou a parcela de julho em aberto.' },
     { id: 's5', quando: '2026-08-14T13:05:00.000Z', autor: 'Higor Cabral', acao: 'editar',
       alvo: 'Controle Financeiro completo', resumo: 'Atualizou o preço exibido para R$ 397/mês.' },
     { id: 's4', quando: '2026-08-06T09:20:00.000Z', autor: 'Higor Cabral', acao: 'editar',
-      alvo: 'Projeto-Mecan', resumo: 'Lançou as parcelas de setembro e outubro como a receber.' },
+      alvo: 'Mecânica Automotiva', resumo: 'Lançou as parcelas de setembro e outubro como a receber.' },
     { id: 's3', quando: '2026-06-02T11:00:00.000Z', autor: 'Higor Cabral', acao: 'criar',
-      alvo: 'Projeto-Stoq', resumo: 'Cadastrou o projeto na vitrine com 2 telas.' },
+      alvo: 'Gestão de Estoque', resumo: 'Cadastrou o projeto na vitrine com 2 telas.' },
     { id: 's2', quando: '2026-05-16T16:30:00.000Z', autor: 'Higor Cabral', acao: 'editar',
-      alvo: 'Projeto-Mani', resumo: 'Mudou o status para finalizado após a entrega.' },
+      alvo: 'Salão de Manicure', resumo: 'Mudou o status para finalizado após a entrega.' },
     { id: 's1', quando: '2026-04-22T17:10:00.000Z', autor: 'Higor Cabral', acao: 'editar',
-      alvo: 'Projeto-CRM', resumo: 'Mudou o status para finalizado e quitou a última parcela.' }
+      alvo: 'Gestão de Relacionamento (CRM)', resumo: 'Mudou o status para finalizado e quitou a última parcela.' }
   ];
 
   var cache = null;
@@ -56,7 +56,7 @@ HiferaAdmin.AuditModel = (function () {
     return (u && u.nome) || 'Desconhecido';
   }
 
-  /* registrar('editar', 'Projeto-CRM', 'Trocou a capa.') */
+  /* registrar('editar', 'Gestão de Relacionamento (CRM)', 'Trocou a capa.') */
   function registrar(acao, alvo, resumo) {
     carregar();
     cache.unshift({

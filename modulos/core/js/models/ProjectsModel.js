@@ -42,7 +42,7 @@ HiferaAdmin.ProjectsModel = (function () {
   var SEED = [
     {
       id: 'proj-crm',
-      titulo: 'Projeto-CRM',
+      titulo: 'Gestão de Relacionamento (CRM)',
       categoria: 'CRM',
       segmento: 'Comercial & Vendas',
       ordem: 1,
@@ -67,7 +67,7 @@ HiferaAdmin.ProjectsModel = (function () {
     },
     {
       id: 'proj-mani',
-      titulo: 'Projeto-Mani',
+      titulo: 'Salão de Manicure',
       categoria: 'Estética',
       segmento: 'Serviços & agendamento',
       ordem: 2,
@@ -90,7 +90,7 @@ HiferaAdmin.ProjectsModel = (function () {
     },
     {
       id: 'proj-mecan',
-      titulo: 'Projeto-Mecan',
+      titulo: 'Mecânica Automotiva',
       categoria: 'Automotivo',
       segmento: 'Oficina & frota',
       ordem: 3,
@@ -117,7 +117,7 @@ HiferaAdmin.ProjectsModel = (function () {
     },
     {
       id: 'proj-stoq',
-      titulo: 'Projeto-Stoq',
+      titulo: 'Gestão de Estoque',
       categoria: 'Comércio',
       segmento: 'Estoque & logística',
       ordem: 4,

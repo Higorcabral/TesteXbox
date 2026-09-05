@@ -60,23 +60,23 @@ HiferaAdmin.TicketsModel = (function () {
         { nome: 'Metas e categorias',    fila: 'produto' },
         { nome: 'Relatórios',            fila: 'dados'   }
       ]},
-      { nome: 'Projeto-CRM', modulos: [
+      { nome: 'Gestão de Relacionamento (CRM)', modulos: [
         { nome: 'Pipeline de vendas',  fila: 'produto' },
         { nome: 'Follow-up automático',fila: 'automacao' },
         { nome: 'Relatórios comerciais', fila: 'dados' }
       ]},
-      { nome: 'Projeto-Stoq', modulos: [
+      { nome: 'Gestão de Estoque', modulos: [
         { nome: 'Entrada e saída',       fila: 'produto' },
         { nome: 'Código de barras',      fila: 'produto' },
         { nome: 'Alertas de mínimo',     fila: 'automacao' },
         { nome: 'Curva ABC',             fila: 'dados' }
       ]},
-      { nome: 'Projeto-Mecan', modulos: [
+      { nome: 'Mecânica Automotiva', modulos: [
         { nome: 'Ordem de serviço', fila: 'produto' },
         { nome: 'Orçamentos',       fila: 'produto' },
         { nome: 'Controle de frota',fila: 'produto' }
       ]},
-      { nome: 'Projeto-Mani', modulos: [
+      { nome: 'Salão de Manicure', modulos: [
         { nome: 'Agenda online',        fila: 'produto' },
         { nome: 'Cadastro de clientes', fila: 'produto' },
         { nome: 'Lembretes automáticos',fila: 'automacao' }
@@ -328,7 +328,7 @@ HiferaAdmin.TicketsModel = (function () {
         categoria: 'Automação & Integração', sistema: 'Integrações bancárias', modulo: 'Conciliação',
         prioridade: 'Urgente', status: 'Em andamento',
         solicitante: 'Marina Alencar', email: 'marina@distribuidoravega.com.br', empresa: 'Distribuidora Vega',
-        operacao: 'Financeiro', vinculo: 'Projeto-Stoq', aberto_em: hAtras(5), atualizado_em: hAtras(1),
+        operacao: 'Financeiro', vinculo: 'Gestão de Estoque', aberto_em: hAtras(5), atualizado_em: hAtras(1),
         anexos: [{ nome: 'extrato-banco.pdf', tamanho: 184320, tipo: 'application/pdf' }],
         comentarios: [
           { autor: 'Marina Alencar', papel: 'cliente', quando: hAtras(5), texto: 'Três boletos de ontem continuam como em aberto no painel.' },
@@ -338,18 +338,18 @@ HiferaAdmin.TicketsModel = (function () {
 
       { id: 'HIF-0013', tipo: 'chamado', titulo: 'Lentidão para abrir o pipeline pela manhã',
         descricao: 'Entre 8h e 9h a tela do pipeline demora uns 20 segundos pra carregar. Depois normaliza.',
-        categoria: 'Produto Hifera', sistema: 'Projeto-CRM', modulo: 'Pipeline de vendas',
+        categoria: 'Produto Hifera', sistema: 'Gestão de Relacionamento (CRM)', modulo: 'Pipeline de vendas',
         prioridade: 'Alta', status: 'Aberto',
         solicitante: 'Rafael Tondin', email: 'rafael@distribuidoravega.com.br', empresa: 'Distribuidora Vega',
-        operacao: 'Comercial', vinculo: 'Projeto-CRM', aberto_em: hAtras(31), atualizado_em: hAtras(31),
+        operacao: 'Comercial', vinculo: 'Gestão de Relacionamento (CRM)', aberto_em: hAtras(31), atualizado_em: hAtras(31),
         comentarios: [] },
 
       { id: 'HIF-0012', tipo: 'requisicao', titulo: 'Adicionar campo de observação na ordem de serviço',
         descricao: 'A equipe precisa registrar o que o cliente falou na recepção, hoje não tem onde escrever.',
-        categoria: 'Produto Hifera', sistema: 'Projeto-Mecan', modulo: 'Ordem de serviço',
+        categoria: 'Produto Hifera', sistema: 'Mecânica Automotiva', modulo: 'Ordem de serviço',
         prioridade: 'Média', status: 'Aguardando cliente',
         solicitante: 'Cláudio Serrano', email: 'claudio@oficinarotasul.com.br', empresa: 'Oficina RotaSul',
-        operacao: 'Operação', vinculo: 'Projeto-Mecan', aberto_em: dAtras(4), atualizado_em: dAtras(1),
+        operacao: 'Operação', vinculo: 'Mecânica Automotiva', aberto_em: dAtras(4), atualizado_em: dAtras(1),
         comentarios: [
           { autor: 'Higor Cabral', papel: 'agente', quando: dAtras(2), texto: 'Consigo entregar junto da próxima release. O campo deve ser livre ou com opções pré-definidas?' },
           { autor: 'Higor Cabral', papel: 'agente', quando: dAtras(1), texto: 'Seguindo no aguardo do retorno pra fechar o escopo.' }
@@ -360,7 +360,7 @@ HiferaAdmin.TicketsModel = (function () {
         categoria: 'Automação & Integração', sistema: 'WhatsApp', modulo: 'Envio de mensagens',
         prioridade: 'Alta', status: 'Resolvido',
         solicitante: 'Luana Prado', email: 'luana@studiolune.com.br', empresa: 'Studio Lune',
-        operacao: 'Atendimento', vinculo: 'Projeto-Mani',
+        operacao: 'Atendimento', vinculo: 'Salão de Manicure',
         aberto_em: dAtras(26), atualizado_em: dAtras(25), resolvido_em: dAtras(25),
         comentarios: [
           { autor: 'Luana Prado', papel: 'cliente', quando: dAtras(26), texto: 'O lembrete chegou dizendo 15h e o horário era 14h.' },
@@ -373,7 +373,7 @@ HiferaAdmin.TicketsModel = (function () {
         categoria: 'Infraestrutura & Acesso', sistema: 'Contas & permissões', modulo: 'Novo usuário',
         prioridade: 'Baixa', status: 'Resolvido',
         solicitante: 'Cláudio Serrano', email: 'claudio@oficinarotasul.com.br', empresa: 'Oficina RotaSul',
-        operacao: 'Administrativo', vinculo: 'Projeto-Mecan',
+        operacao: 'Administrativo', vinculo: 'Mecânica Automotiva',
         aberto_em: dAtras(80), atualizado_em: dAtras(79), resolvido_em: dAtras(79),
         comentarios: [
           { autor: 'Higor Cabral', papel: 'agente', quando: dAtras(79), texto: 'Usuário criado com perfil Leitura. Senha provisória enviada no e-mail dela.', solucao: true }
@@ -385,7 +385,7 @@ HiferaAdmin.TicketsModel = (function () {
         categoria: 'Dados & Relatórios', sistema: 'Painéis', modulo: 'Número divergente',
         prioridade: 'Média', status: 'Em andamento',
         solicitante: 'Marina Alencar', email: 'marina@distribuidoravega.com.br', empresa: 'Distribuidora Vega',
-        operacao: 'Compras', vinculo: 'Projeto-Stoq', aberto_em: dAtras(3), atualizado_em: hAtras(20),
+        operacao: 'Compras', vinculo: 'Gestão de Estoque', aberto_em: dAtras(3), atualizado_em: hAtras(20),
         comentarios: [
           { autor: 'Higor Cabral', papel: 'agente', quando: hAtras(20), texto: 'Achei: o filtro de ativos não estava aplicado na consulta do relatório. Corrigindo.' }
         ]},
@@ -395,7 +395,7 @@ HiferaAdmin.TicketsModel = (function () {
         categoria: 'Infraestrutura & Acesso', sistema: 'Hospedagem', modulo: 'Indisponibilidade',
         prioridade: 'Urgente', status: 'Fechado',
         solicitante: 'Luana Prado', email: 'luana@studiolune.com.br', empresa: 'Studio Lune',
-        operacao: 'Marketing', vinculo: 'Projeto-Mani',
+        operacao: 'Marketing', vinculo: 'Salão de Manicure',
         aberto_em: dAtras(38), atualizado_em: dAtras(37), resolvido_em: dAtras(38), fechado_em: dAtras(37),
         anexos: [{ nome: 'erro-503.png', tamanho: 96256, tipo: 'image/png' }],
         comentarios: [
@@ -413,20 +413,20 @@ HiferaAdmin.TicketsModel = (function () {
 
       { id: 'HIF-0006', tipo: 'chamado', titulo: 'Código de barras não lê etiquetas antigas',
         descricao: 'As etiquetas impressas antes de junho não são reconhecidas pelo leitor.',
-        categoria: 'Produto Hifera', sistema: 'Projeto-Stoq', modulo: 'Código de barras',
+        categoria: 'Produto Hifera', sistema: 'Gestão de Estoque', modulo: 'Código de barras',
         prioridade: 'Alta', status: 'Aguardando cliente',
         solicitante: 'Rafael Tondin', email: 'rafael@distribuidoravega.com.br', empresa: 'Distribuidora Vega',
-        operacao: 'Estoque', vinculo: 'Projeto-Stoq', aberto_em: dAtras(6), atualizado_em: dAtras(3),
+        operacao: 'Estoque', vinculo: 'Gestão de Estoque', aberto_em: dAtras(6), atualizado_em: dAtras(3),
         comentarios: [
           { autor: 'Higor Cabral', papel: 'agente', quando: dAtras(3), texto: 'Consegue fotografar uma etiqueta antiga e uma nova lado a lado? Suspeito de mudança no padrão de codificação.' }
         ]},
 
       { id: 'HIF-0005', tipo: 'chamado', titulo: 'Follow-up disparou duas vezes para o mesmo lead',
         descricao: 'Alguns leads receberam o e-mail de follow-up em duplicidade.',
-        categoria: 'Produto Hifera', sistema: 'Projeto-CRM', modulo: 'Follow-up automático',
+        categoria: 'Produto Hifera', sistema: 'Gestão de Relacionamento (CRM)', modulo: 'Follow-up automático',
         prioridade: 'Média', status: 'Resolvido',
         solicitante: 'Rafael Tondin', email: 'rafael@distribuidoravega.com.br', empresa: 'Distribuidora Vega',
-        operacao: 'Comercial', vinculo: 'Projeto-CRM',
+        operacao: 'Comercial', vinculo: 'Gestão de Relacionamento (CRM)',
         aberto_em: dAtras(58), atualizado_em: dAtras(56), resolvido_em: dAtras(56),
         comentarios: [
           { autor: 'Higor Cabral', papel: 'agente', quando: dAtras(56), texto: 'A rotina rodava em dois workers sem trava. Coloquei lock por lead e limpei a fila duplicada.', solucao: true }
@@ -438,7 +438,7 @@ HiferaAdmin.TicketsModel = (function () {
         categoria: 'Site & Presença digital', sistema: 'Site institucional', modulo: 'Conteúdo e textos',
         prioridade: 'Baixa', status: 'Resolvido',
         solicitante: 'Luana Prado', email: 'luana@studiolune.com.br', empresa: 'Studio Lune',
-        operacao: 'Marketing', vinculo: 'Projeto-Mani',
+        operacao: 'Marketing', vinculo: 'Salão de Manicure',
         aberto_em: dAtras(51), atualizado_em: dAtras(50), resolvido_em: dAtras(50),
         comentarios: [
           { autor: 'Higor Cabral', papel: 'agente', quando: dAtras(50), texto: 'Textos publicados e telefone atualizado no rodapé.', solucao: true }
@@ -472,7 +472,7 @@ HiferaAdmin.TicketsModel = (function () {
         categoria: 'Dados & Relatórios', sistema: 'Painéis', modulo: 'Novo indicador',
         prioridade: 'Média', status: 'Fechado',
         solicitante: 'Rafael Tondin', email: 'rafael@distribuidoravega.com.br', empresa: 'Distribuidora Vega',
-        operacao: 'Comercial', vinculo: 'Projeto-CRM',
+        operacao: 'Comercial', vinculo: 'Gestão de Relacionamento (CRM)',
         aberto_em: dAtras(96), atualizado_em: dAtras(88), resolvido_em: dAtras(89), fechado_em: dAtras(88),
         comentarios: [
           { autor: 'Higor Cabral', papel: 'agente', quando: dAtras(89), texto: 'Painel publicado com filtro por vendedor e comparativo mês a mês.', solucao: true }
