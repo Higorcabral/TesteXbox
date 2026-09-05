@@ -38,7 +38,7 @@ window.HIFERA_PROJETOS = [
   },
   {
     "id": "proj-crm",
-    "titulo": "Projeto-CRM",
+    "titulo": "Gestão de Relacionamento (CRM)",
     "categoria": "CRM",
     "segmento": "Comercial & Vendas",
     "ordem": 1,
@@ -56,7 +56,7 @@ window.HIFERA_PROJETOS = [
   },
   {
     "id": "proj-mani",
-    "titulo": "Projeto-Mani",
+    "titulo": "Salão de Manicure",
     "categoria": "Estética",
     "segmento": "Serviços & agendamento",
     "ordem": 2,
@@ -74,7 +74,7 @@ window.HIFERA_PROJETOS = [
   },
   {
     "id": "proj-mecan",
-    "titulo": "Projeto-Mecan",
+    "titulo": "Mecânica Automotiva",
     "categoria": "Automotivo",
     "segmento": "Oficina & frota",
     "ordem": 3,
@@ -96,7 +96,7 @@ window.HIFERA_PROJETOS = [
   },
   {
     "id": "proj-stoq",
-    "titulo": "Projeto-Stoq",
+    "titulo": "Gestão de Estoque",
     "categoria": "Comércio",
     "segmento": "Estoque & logística",
     "ordem": 4,
