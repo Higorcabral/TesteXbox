@@ -39,10 +39,7 @@ APPS = {
         'ausente': ['/modulos/', '/modulos/admin/', '/portal/', '/scripts/montar.py'],
     },
     'admin': {
-        # Vira True quando o Static Web App existir e o DNS resolver.
-        # Antes disso o monitor abriria issue todo dia por um subdomínio
-        # que ainda não foi criado — e alarme falso treina a gente a ignorar.
-        'ativo': False,
+        'ativo': True,
         'base': 'https://admin.hifera.com.br',
         # Tudo exige login: 200 significaria painel aberto para anônimo.
         'ok': [],
@@ -50,7 +47,7 @@ APPS = {
         'protegido': ['/', '/admin/', '/chamados/'],
     },
     'clientes': {
-        'ativo': False,
+        'ativo': True,
         'base': 'https://clientes.hifera.com.br',
         'ok': ['/', '/painel.html', '/core/css/admin.css'],
         'ausente': [],
