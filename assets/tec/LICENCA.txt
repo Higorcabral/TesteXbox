@@ -1,0 +1,9 @@
+Ícones de tecnologia — Simple Icons (https://simpleicons.org)
+Licença do conjunto: CC0 1.0 Universal (domínio público).
+
+Os SÍMBOLOS continuam sendo marcas registradas dos respectivos donos
+(Microsoft, Supabase, PostgreSQL Global Development Group). Estão aqui
+em uso nominativo: identificar as tecnologias que a Hifera utiliza.
+
+Não usar de forma que sugira endosso, parceria ou certificação.
+Baixados em 05/09/2026.

@@ -1756,11 +1756,30 @@ em {
 }
 .seg-card h2 { font-size: 1.32rem; letter-spacing: -0.02em; margin: 0 0 4px; }
 .seg-sub {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
   font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
   text-transform: uppercase; margin: 0 0 16px;
-  background: var(--grad-text); -webkit-background-clip: text;
-  background-clip: text; color: transparent;
+  color: var(--text-mid);
 }
+.seg-sub span { line-height: 1; }
+.seg-sep { color: var(--text-dim); margin: 0 2px; }
+
+/* A marca entra por máscara, não por <img>: SVG carregado em <img> é
+   documento isolado e o currentColor não herda da página — a logo sairia
+   preta sobre fundo preto. Com máscara, quem pinta é o background daqui.
+
+   Fica em cinza no repouso e assume a cor da marca quando o cartão recebe
+   foco. Cinco logos coloridas ao mesmo tempo brigariam entre si e com o
+   gradiente da Hifera; a cor real aparece na interação. */
+.seg-marca {
+  width: 18px; height: 18px; flex: none; display: block;
+  background: currentColor;
+  -webkit-mask: var(--icone) center / contain no-repeat;
+          mask: var(--icone) center / contain no-repeat;
+  transition: background 300ms;
+}
+.seg-card:hover .seg-marca,
+.seg-card:focus-within .seg-marca { background: var(--marca); }
 .seg-card > p { color: var(--text-mid); font-size: 15px; margin: 0 0 18px; }
 
 .seg-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
