@@ -1041,6 +1041,24 @@ em {
   font-weight: 700;
   letter-spacing: 0.02em;
   box-shadow: 0 20px 40px -15px rgba(0, 74, 173, 0.55);
+  overflow: hidden;               /* recorta a foto no círculo */
+  position: relative;
+}
+
+/* As iniciais continuam no HTML por baixo da foto: se a imagem não
+   carregar — arquivo faltando, rede ruim, formato sem suporte — o card
+   volta a mostrar "HC"/"FR" em vez de um buraco cinza. */
+.founder-avatar img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;              /* preenche o círculo sem distorcer */
+  /* Onde o rosto cai muda de foto para foto — um valor único corta a
+     cabeça de um ou deixa muito ar no outro. Cada <img> define o seu
+     em --foco; 18% é o padrão para retrato de meio corpo. */
+  object-position: center var(--foco, 18%);
+  display: block;
 }
 .founder-card h3 {
   font-size: 24px;
