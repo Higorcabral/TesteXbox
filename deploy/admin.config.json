@@ -30,14 +30,7 @@
       "statusCode": 404
     },
     {
-      "route": "/.auth/login/aad",
-      "allowedRoles": [
-        "anonymous",
-        "authenticated"
-      ]
-    },
-    {
-      "route": "/.auth/logout",
+      "route": "/.auth/*",
       "allowedRoles": [
         "anonymous",
         "authenticated"
