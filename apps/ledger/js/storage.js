@@ -1,5 +1,5 @@
 /* ============================================================
-   storage.js — persistência localStorage + import/export
+   storage.js, persistência localStorage + import/export
    ============================================================ */
 
 import { DEFAULT_CATEGORIES, DEFAULT_ACCOUNTS } from './config.js';
@@ -39,7 +39,7 @@ export const demoState = () => ({
     { id: 103, desc: 'Curso Online', totalAmount: 1200, count: 6, startDate: daysAgo(15), categoryId: 'leisure', accountId: 'nubank' }
   ],
   singleTransactions: [
-    { id: 1,  date: daysAgo(0),  desc: 'iFood — Jantar',        amount: 68.90,  categoryId: 'food',      accountId: 'nubank' },
+    { id: 1,  date: daysAgo(0),  desc: 'iFood, Jantar',        amount: 68.90,  categoryId: 'food',      accountId: 'nubank' },
     { id: 2,  date: daysAgo(0),  desc: 'Uber',                  amount: 22.50,  categoryId: 'transport', accountId: 'itau'  },
     { id: 3,  date: daysAgo(1),  desc: 'Mercado Pão de Açúcar', amount: 342.18, categoryId: 'food',      accountId: 'nubank' },
     { id: 4,  date: daysAgo(2),  desc: 'Cinema',                amount: 48.00,  categoryId: 'leisure',   accountId: 'nubank' },
@@ -47,7 +47,7 @@ export const demoState = () => ({
     { id: 6,  date: daysAgo(3),  desc: 'Posto Shell',           amount: 180.00, categoryId: 'transport', accountId: 'nubank' },
     { id: 7,  date: daysAgo(4),  desc: 'Amazon',                amount: 129.90, categoryId: 'shopping',  accountId: 'nubank' },
     { id: 8,  date: daysAgo(5),  desc: 'Padaria',               amount: 28.50,  categoryId: 'food',      accountId: 'cash' },
-    { id: 9,  date: daysAgo(6),  desc: 'Almoço — Restaurante',  amount: 35.00,  categoryId: 'food',      accountId: 'vr'   },
+    { id: 9,  date: daysAgo(6),  desc: 'Almoço, Restaurante',  amount: 35.00,  categoryId: 'food',      accountId: 'vr'   },
     { id: 10, date: daysAgo(8),  desc: 'Uber',                  amount: 18.40,  categoryId: 'transport', accountId: 'itau'  },
     { id: 11, date: daysAgo(9),  desc: 'Almoço',                amount: 42.00,  categoryId: 'food',      accountId: 'vr'   },
     { id: 12, date: daysAgo(10), desc: 'iFood',                 amount: 45.80,  categoryId: 'food',      accountId: 'nubank' },
@@ -82,7 +82,7 @@ export function loadState() {
     if (!raw) return null;
     const data = JSON.parse(raw);
     if (data.version !== STORAGE_VERSION) {
-      console.warn('Versão de dados antiga — migração não implementada ainda');
+      console.warn('Versão de dados antiga, migração não implementada ainda');
     }
     return data;
   } catch (err) {

@@ -3,7 +3,7 @@
    -----------------------------------------------------------------
    A grade de projetos da home é HTML estático (bom para SEO e para
    o primeiro paint). Este script só entra em ação se existir uma
-   lista vinda do painel — aí ele substitui a grade. Sem dados,
+   lista vinda do painel, aí ele substitui a grade. Sem dados,
    não toca em nada.
 
    Ordem de precedência:
@@ -29,7 +29,7 @@
   }
 
   /* Imagens: o painel embute data: URI raster, então esses passam.
-     SVG continua barrado — pode carregar script. */
+     SVG continua barrado, pode carregar script. */
   function fonteImagem(u) {
     u = String(u || '').trim();
     if (/^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+/=]+$/i.test(u)) return u;
@@ -43,7 +43,7 @@
         var l = JSON.parse(bruto);
         if (Array.isArray(l) && l.length) return l;
       }
-    } catch (e) { /* storage bloqueado — segue para o fallback */ }
+    } catch (e) { /* storage bloqueado, segue para o fallback */ }
     if (Array.isArray(window.HIFERA_PROJETOS) && window.HIFERA_PROJETOS.length) {
       return window.HIFERA_PROJETOS;
     }

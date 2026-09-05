@@ -1,5 +1,5 @@
 /* =========================================================
-   Rubra CRM — View: Funil de vendas (etapas + gráfico)
+   Rubra CRM, View: Funil de vendas (etapas + gráfico)
    ========================================================= */
 
 (function (global) {

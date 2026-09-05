@@ -1,5 +1,5 @@
 /* ============================================================
-   modals/goal.js — criar/editar meta de categoria
+   modals/goal.js, criar/editar meta de categoria
    ============================================================ */
 
 import { state, setGoal } from '../state.js';

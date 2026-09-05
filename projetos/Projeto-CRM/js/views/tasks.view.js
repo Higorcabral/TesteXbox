@@ -1,5 +1,5 @@
 /* =========================================================
-   Rubra CRM — View: Minhas tarefas
+   Rubra CRM, View: Minhas tarefas
    ========================================================= */
 
 (function (global) {

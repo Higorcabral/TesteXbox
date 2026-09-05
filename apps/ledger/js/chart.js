@@ -1,5 +1,5 @@
 /* ============================================================
-   chart.js — gráfico de evolução dos gastos (dias ou meses)
+   chart.js, gráfico de evolução dos gastos (dias ou meses)
    ============================================================ */
 
 import { state, allTransactions } from './state.js';

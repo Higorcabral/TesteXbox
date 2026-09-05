@@ -1,5 +1,5 @@
 /* =========================================================
-   Rubra CRM — Controller principal
+   Rubra CRM, Controller principal
    Conecta o Model (CRM.Data) às Views, montando o painel.
    ========================================================= */
 

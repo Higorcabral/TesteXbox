@@ -1,5 +1,5 @@
 /* =========================================================
-   Rubra CRM — Model
+   Rubra CRM, Model
    Fonte única de dados mockados. Nenhum acesso ao DOM aqui.
    Exportado em window.CRM.Data para as Views consumirem.
    ========================================================= */
@@ -104,8 +104,8 @@
     ],
 
     tasks: [
-      { title: 'Ligar para Beatriz Andrade — Nordeste Log',        kind: 'Chamada', due: 'Atrasada · 1d',  dueKind: 'overdue', done: false },
-      { title: 'Enviar proposta revisada — Grupo Vertex',           kind: 'E-mail',  due: 'Hoje · 14h30',   dueKind: 'today',   done: false },
+      { title: 'Ligar para Beatriz Andrade, Nordeste Log',        kind: 'Chamada', due: 'Atrasada · 1d',  dueKind: 'overdue', done: false },
+      { title: 'Enviar proposta revisada, Grupo Vertex',           kind: 'E-mail',  due: 'Hoje · 14h30',   dueKind: 'today',   done: false },
       { title: 'Reunião de descoberta com Ateliê Norte',            kind: 'Reunião', due: 'Hoje · 16h00',   dueKind: 'today',   done: false },
       { title: 'Preparar apresentação para Solaris Energia',        kind: 'Interno', due: 'Concluída',      dueKind: '',        done: true  },
       { title: 'Follow-up com Instituto Aurora',                    kind: 'E-mail',  due: 'Amanhã · 09h00', dueKind: '',        done: false }
@@ -113,10 +113,10 @@
 
     activities: [
       { kind: 'deal',  html: '<strong>Solaris Energia</strong> avançou para Fechamento.',                  time: 'há 12 min · por Mariana Rocha' },
-      { kind: 'email', html: 'E-mail enviado para <strong>Rafael Menezes</strong> — proposta revisada.',   time: 'há 1h · por Lucas Barreto' },
+      { kind: 'email', html: 'E-mail enviado para <strong>Rafael Menezes</strong>, proposta revisada.',   time: 'há 1h · por Lucas Barreto' },
       { kind: 'call',  html: 'Ligação registrada com <strong>Beatriz Andrade</strong> · 24 min',           time: 'há 2h · por Camila Duarte' },
       { kind: 'note',  html: 'Nota adicionada em <strong>Ateliê Norte</strong>: cliente prefere reunião presencial.', time: 'há 4h · por Mariana Rocha' },
-      { kind: 'deal',  html: 'Novo negócio criado: <strong>MedCare Clínicas</strong> — R$ 74.150.',        time: 'há 6h · por Diego Ramos' },
+      { kind: 'deal',  html: 'Novo negócio criado: <strong>MedCare Clínicas</strong>, R$ 74.150.',        time: 'há 6h · por Diego Ramos' },
       { kind: 'email', html: '<strong>Fernanda Lopes</strong> respondeu ao primeiro contato.',             time: 'ontem, 18h42' }
     ]
   };

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Hero slider + header scroll behavior — Motor 47
+   Hero slider + header scroll behavior, Motor 47
    ========================================================================== */
 
 (function () {

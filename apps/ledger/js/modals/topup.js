@@ -1,5 +1,5 @@
 /* ============================================================
-   modals/topup.js — registrar recarga de cartão de benefício
+   modals/topup.js, registrar recarga de cartão de benefício
    ============================================================ */
 
 import { state, addTopup } from '../state.js';

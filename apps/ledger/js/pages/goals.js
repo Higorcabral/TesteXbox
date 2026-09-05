@@ -1,5 +1,5 @@
 /* ============================================================
-   pages/goals.js — metas/limites por categoria
+   pages/goals.js, metas/limites por categoria
    ============================================================ */
 
 import { state, allTransactions, getCategory, setGoal, removeGoal } from '../state.js';

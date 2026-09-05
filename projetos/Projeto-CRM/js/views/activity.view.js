@@ -1,5 +1,5 @@
 /* =========================================================
-   Rubra CRM — View: Atividade recente
+   Rubra CRM, View: Atividade recente
    ========================================================= */
 
 (function (global) {

@@ -1,5 +1,5 @@
 /* ============================================================
-   modals/income.js — editar receitas mensais
+   modals/income.js, editar receitas mensais
    ============================================================ */
 
 import { state, updateIncome } from '../state.js';

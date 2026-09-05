@@ -1,5 +1,5 @@
 /* ============================================================
-   config.js — constantes, paletas, defaults
+   config.js, constantes, paletas, defaults
    ============================================================ */
 
 // Paleta de cores disponível pra categorias e contas (sistema Apple dark)

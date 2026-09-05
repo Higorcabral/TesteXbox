@@ -1,5 +1,5 @@
 /* ============================================================
-   modals/category.js — criar/editar categoria
+   modals/category.js, criar/editar categoria
    ============================================================ */
 
 import { state, addCategory, updateCategory, removeCategory } from '../state.js';

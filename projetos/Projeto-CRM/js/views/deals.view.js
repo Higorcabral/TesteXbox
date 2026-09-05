@@ -1,5 +1,5 @@
 /* =========================================================
-   Rubra CRM — View: Tabela de negócios recentes
+   Rubra CRM, View: Tabela de negócios recentes
    ========================================================= */
 
 (function (global) {

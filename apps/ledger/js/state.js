@@ -1,5 +1,5 @@
 /* ============================================================
-   state.js — estado central, mutações, derivações
+   state.js, estado central, mutações, derivações
    ============================================================ */
 
 import { loadState, saveState, emptyState, demoState } from './storage.js';

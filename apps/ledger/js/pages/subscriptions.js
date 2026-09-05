@@ -1,5 +1,5 @@
 /* ============================================================
-   pages/subscriptions.js — assinaturas recorrentes
+   pages/subscriptions.js, assinaturas recorrentes
    ============================================================ */
 
 import { state, getAccount, getCategory, updateSubscription } from '../state.js';

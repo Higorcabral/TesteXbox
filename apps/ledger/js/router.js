@@ -1,5 +1,5 @@
 /* ============================================================
-   router.js — navegação entre páginas
+   router.js, navegação entre páginas
    ============================================================ */
 
 import { renderDashboard, bindDashboard } from './pages/dashboard.js';

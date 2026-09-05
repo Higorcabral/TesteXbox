@@ -1,5 +1,5 @@
 /* =========================================================
-   Rubra CRM — Bootstrap
+   Rubra CRM, Bootstrap
    Ponto de entrada. Aguarda o DOM e chama o controller.
    ========================================================= */
 

@@ -1,5 +1,5 @@
 /* =========================================================
-   Rubra CRM — Controller: alternância de tema (claro/escuro)
+   Rubra CRM, Controller: alternância de tema (claro/escuro)
    Persiste em localStorage ("rubra-theme") e respeita o SO
    na primeira carga.
    ========================================================= */

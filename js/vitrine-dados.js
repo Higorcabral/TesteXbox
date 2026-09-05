@@ -1,5 +1,5 @@
 /* =================================================================
-   HIFERA · Dados da vitrine — ARQUIVO GERADO, NÃO EDITE À MÃO
+   HIFERA · Dados da vitrine, ARQUIVO GERADO, NÃO EDITE À MÃO
    -----------------------------------------------------------------
    Gerado pelo painel /modulos/admin (botão "Publicar").
 
@@ -8,7 +8,7 @@
    quando não há edições locais no navegador.
 
    Só campos de vitrine entram aqui. Financeiro, cliente e status
-   ficam no painel — este arquivo é público.
+   ficam no painel, este arquivo é público.
    ================================================================= */
 window.HIFERA_PROJETOS = [
   {

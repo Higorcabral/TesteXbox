@@ -1,5 +1,5 @@
 /* ============================================================
-   excel.js — export/import via Excel (XLSX)
+   excel.js, export/import via Excel (XLSX)
    ============================================================ */
 
 import { state, addTransaction, addInstallmentGroup, addSubscription, addCategory } from './state.js';
@@ -21,12 +21,12 @@ export function downloadTemplate() {
 
   // ====== ABA INSTRUÇÕES ======
   const instructions = [
-    ['LEDGER — MODELO DE IMPORTAÇÃO'],
+    ['LEDGER, MODELO DE IMPORTAÇÃO'],
     [''],
     ['Como usar este modelo:'],
     [''],
     ['1. Preencha as abas "Gastos", "Parcelamentos" e/ou "Assinaturas" com seus dados.'],
-    ['2. Você não precisa preencher todas — pode importar só uma aba se quiser.'],
+    ['2. Você não precisa preencher todas, pode importar só uma aba se quiser.'],
     ['3. Salve o arquivo e importe em Configurações → Importar Excel.'],
     [''],
     ['Regras importantes:'],
@@ -37,7 +37,7 @@ export function downloadTemplate() {
     ['  Se a categoria não existir, será criada automaticamente.'],
     ['• Conta: digite o NOME da conta (ex.: "Nubank Ultravioleta").'],
     ['  A conta DEVE existir antes da importação. Linhas com conta inexistente serão ignoradas.'],
-    ['• Comentário é opcional — preencha se quiser anotar detalhes.'],
+    ['• Comentário é opcional, preencha se quiser anotar detalhes.'],
     [''],
     ['Veja a aba "Referência" pra lista de contas e categorias disponíveis.'],
     [''],

@@ -1,5 +1,5 @@
 /* =========================================================
-   Rubra CRM — Ícones SVG
+   Rubra CRM, Ícones SVG
    Catálogo consultado por todas as Views.
    ========================================================= */
 

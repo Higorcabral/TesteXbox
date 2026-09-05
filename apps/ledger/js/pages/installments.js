@@ -1,5 +1,5 @@
 /* ============================================================
-   pages/installments.js — compras parceladas
+   pages/installments.js, compras parceladas
    ============================================================ */
 
 import { state, expandInstallments, getAccount, getCategory, removeInstallmentGroup, commit } from '../state.js';

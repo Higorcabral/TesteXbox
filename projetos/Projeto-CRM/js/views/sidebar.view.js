@@ -1,5 +1,5 @@
 /* =========================================================
-   Rubra CRM — View: Sidebar (marca + navegação + usuário)
+   Rubra CRM, View: Sidebar (marca + navegação + usuário)
    ========================================================= */
 
 (function (global) {

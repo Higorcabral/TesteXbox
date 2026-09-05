@@ -1,5 +1,5 @@
 /* ============================================================
-   pages/dashboard.js — página inicial com navegação de mês
+   pages/dashboard.js, página inicial com navegação de mês
    ============================================================ */
 
 import { state, allTransactions, getAccount, getCategory, totalMonthlyIncome, removeTransaction, removeInstallmentGroup, updateSubscription, commit, getBenefitBalance } from '../state.js';

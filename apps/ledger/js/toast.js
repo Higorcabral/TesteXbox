@@ -1,5 +1,5 @@
 /* ============================================================
-   toast.js — sistema de undo/notificação temporária
+   toast.js, sistema de undo/notificação temporária
    ============================================================ */
 
 let toastTimer = null;

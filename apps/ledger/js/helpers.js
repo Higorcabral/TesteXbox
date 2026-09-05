@@ -1,5 +1,5 @@
 /* ============================================================
-   helpers.js — formatação, datas, utilitários
+   helpers.js, formatação, datas, utilitários
    ============================================================ */
 
 export const today = new Date();

@@ -1,5 +1,5 @@
 /* ============================================================
-   modals/account.js — criar/editar conta (crédito/débito/pix/cash)
+   modals/account.js, criar/editar conta (crédito/débito/pix/cash)
    ============================================================ */
 
 import { state, addAccount, updateAccount, removeAccount } from '../state.js';

@@ -1,5 +1,5 @@
 /* =========================================================
-   Rubra CRM — View: Topbar (busca, ações, toggle de tema)
+   Rubra CRM, View: Topbar (busca, ações, toggle de tema)
    ========================================================= */
 
 (function (global) {

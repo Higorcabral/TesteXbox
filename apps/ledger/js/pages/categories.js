@@ -1,5 +1,5 @@
 /* ============================================================
-   pages/categories.js — gestão de categorias
+   pages/categories.js, gestão de categorias
    ============================================================ */
 
 import { state, allTransactions } from '../state.js';
@@ -41,7 +41,7 @@ export function renderCategoriesPage() {
     </div>
 
     <div style="margin-top: 20px; padding: 14px 18px; background: var(--bg-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 0.5px solid var(--hairline); border-radius: var(--r-md); font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
-      <strong style="color: var(--text); font-weight: 600;">Sobre categorias padrão:</strong> categorias marcadas como "padrão" são usadas pelo sistema e não podem ser excluídas — apenas renomeadas ou recoloridas. Ao excluir uma categoria com lançamentos, eles serão movidos para "Outros" automaticamente.
+      <strong style="color: var(--text); font-weight: 600;">Sobre categorias padrão:</strong> categorias marcadas como "padrão" são usadas pelo sistema e não podem ser excluídas, apenas renomeadas ou recoloridas. Ao excluir uma categoria com lançamentos, eles serão movidos para "Outros" automaticamente.
     </div>
   `;
 }

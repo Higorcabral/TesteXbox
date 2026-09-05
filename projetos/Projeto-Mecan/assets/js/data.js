@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Mock data — Motor Oficina
+   Mock data, Motor Oficina
    Model layer (MVC). Uses localStorage as persistence for appointments.
    ========================================================================== */
 
@@ -7,7 +7,7 @@ const OFICINA = {
   nome: "Motor 47",
   slogan: "Oficina & Diagnóstico",
   telefone: "(11) 4004-4700",
-  endereco: "Av. das Turbinas, 470 — São Paulo",
+  endereco: "Av. das Turbinas, 470, São Paulo",
   horario: "Seg a Sáb · 08:00 – 18:00",
 };
 

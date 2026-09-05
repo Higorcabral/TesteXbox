@@ -197,7 +197,7 @@
           '<span>Demonstração</span></span>' +
         '<span class="hfd-txt">' +
           '<strong>' + esc(contexto) + '</strong>' +
-          '<small>Ambiente de demonstração — todos os dados são fictícios.</small>' +
+          '<small>Ambiente de demonstração, todos os dados são fictícios.</small>' +
         '</span>' +
         '<span class="hfd-acoes">' +
           '<button type="button" class="hfd-btn" data-hfd="sobre">Sobre esta demo</button>' +
@@ -228,7 +228,7 @@
           '<p><strong>' + esc(contexto) + '</strong> é um projeto real da Hifera, ' +
             'aberto aqui em modo de demonstração para você navegar à vontade.</p>' +
           '<ul class="hfd-lista">' +
-            '<li>' + ICONE.check + '<span>Empresa, clientes e números são <strong>fictícios</strong> — nada aqui é dado de cliente real.</span></li>' +
+            '<li>' + ICONE.check + '<span>Empresa, clientes e números são <strong>fictícios</strong>, nada aqui é dado de cliente real.</span></li>' +
             '<li>' + ICONE.check + '<span>Pode clicar em tudo: nada é enviado, cobrado ou salvo em servidor.</span></li>' +
             '<li>' + ICONE.check + '<span>Na versão sua, o conteúdo, a identidade e as regras são os do seu negócio.</span></li>' +
           '</ul>' +
@@ -269,7 +269,7 @@
 
   /* A barra é fixa: sem esta folga o último bloco da página fica embaixo
      dela. Em layout preso a 100vh (app shell) o padding não muda nada,
-     e aí o jeito é recolher — por isso o botão existe. */
+     e aí o jeito é recolher, por isso o botão existe. */
   function ajustarEspaco() {
     var alto = barra && !barra.hidden ? barra.offsetHeight : 0;
     document.body.style.paddingBottom = alto ? alto + 'px' : '';

@@ -1,5 +1,5 @@
 /* ============================================================
-   pages/accounts.js — gestão de contas (crédito/débito/pix/cash/benefit)
+   pages/accounts.js, gestão de contas (crédito/débito/pix/cash/benefit)
    ============================================================ */
 
 import { state, allTransactions, getBenefitBalance, getBenefitMonthTopup } from '../state.js';

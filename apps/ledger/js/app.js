@@ -1,5 +1,5 @@
 /* ============================================================
-   app.js — entry point, inicialização, atalhos
+   app.js, entry point, inicialização, atalhos
    ============================================================ */
 
 import { initState } from './state.js';

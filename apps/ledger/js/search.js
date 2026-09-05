@@ -1,5 +1,5 @@
 /* ============================================================
-   search.js — busca global (Cmd+K)
+   search.js, busca global (Cmd+K)
    ============================================================ */
 
 import { state, allTransactions, getAccount, getCategory } from './state.js';

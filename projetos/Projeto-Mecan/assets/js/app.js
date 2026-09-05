@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Client-facing controller — Motor 47
+   Client-facing controller, Motor 47
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {

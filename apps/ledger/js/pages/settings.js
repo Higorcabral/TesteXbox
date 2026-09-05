@@ -1,5 +1,5 @@
 /* ============================================================
-   pages/settings.js — configurações, export/import/reset
+   pages/settings.js, configurações, export/import/reset
    ============================================================ */
 
 import { state, resetToDemo, resetToEmpty, replaceState } from '../state.js';
@@ -60,7 +60,7 @@ export function renderSettings() {
       <div class="settings-row">
         <div>
           <div class="settings-label">Exportar dados atuais</div>
-          <div class="settings-description">Exporta seus lançamentos atuais em planilha — útil pra ver tudo no Excel</div>
+          <div class="settings-description">Exporta seus lançamentos atuais em planilha, útil pra ver tudo no Excel</div>
         </div>
         <div class="settings-action">
           <button class="btn-settings" id="excelExportBtn">Exportar Excel</button>
@@ -150,7 +150,7 @@ export function renderSettings() {
     </div>
 
     <div style="margin-top: 16px; padding: 14px 18px; background: var(--bg-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 0.5px solid var(--hairline); border-radius: var(--r-md); font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
-      <strong style="color: var(--text); font-weight: 600;">Onde seus dados ficam:</strong> tudo é salvo no <code style="background: var(--bg-input); padding: 1px 6px; border-radius: 4px;">localStorage</code> do seu navegador. Nada é enviado pra internet. Por isso, faça backups (exportar JSON) periodicamente — se você limpar o cache ou trocar de navegador, os dados são perdidos.
+      <strong style="color: var(--text); font-weight: 600;">Onde seus dados ficam:</strong> tudo é salvo no <code style="background: var(--bg-input); padding: 1px 6px; border-radius: 4px;">localStorage</code> do seu navegador. Nada é enviado pra internet. Por isso, faça backups (exportar JSON) periodicamente, se você limpar o cache ou trocar de navegador, os dados são perdidos.
     </div>
   `;
 }

@@ -1,5 +1,5 @@
 /* ============================================================
-   modals/subscription.js — criar/editar assinatura
+   modals/subscription.js, criar/editar assinatura
    ============================================================ */
 
 import { state, addSubscription, updateSubscription, removeSubscription } from '../state.js';

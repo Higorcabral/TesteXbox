@@ -1,5 +1,5 @@
 /* ============================================================
-   pages/forecast.js — projeção de gastos dos próximos meses
+   pages/forecast.js, projeção de gastos dos próximos meses
    ============================================================ */
 
 import { state, expandInstallments, expandSubscriptions, totalMonthlyIncome } from '../state.js';
@@ -39,7 +39,7 @@ export function renderForecast() {
     </div>
 
     <div style="margin-top: 24px; padding: 14px 18px; background: var(--bg-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 0.5px solid var(--hairline); border-radius: var(--r-md); font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
-      <strong style="color: var(--text); font-weight: 600;">Como funciona:</strong> a projeção inclui apenas compromissos fixos já conhecidos — parcelas futuras de compras registradas e assinaturas ativas. Não estima gastos variáveis (mercado, iFood, etc.), então os valores reais tendem a ser maiores.
+      <strong style="color: var(--text); font-weight: 600;">Como funciona:</strong> a projeção inclui apenas compromissos fixos já conhecidos, parcelas futuras de compras registradas e assinaturas ativas. Não estima gastos variáveis (mercado, iFood, etc.), então os valores reais tendem a ser maiores.
     </div>
   `;
 }

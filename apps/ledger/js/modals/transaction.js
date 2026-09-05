@@ -1,5 +1,5 @@
 /* ============================================================
-   modals/transaction.js — novo lançamento (single ou parcelado)
+   modals/transaction.js, novo lançamento (single ou parcelado)
    ============================================================ */
 
 import { state, addTransaction, addInstallmentGroup } from '../state.js';

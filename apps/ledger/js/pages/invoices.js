@@ -1,5 +1,5 @@
 /* ============================================================
-   pages/invoices.js — faturas mensais com lógica de fechamento
+   pages/invoices.js, faturas mensais com lógica de fechamento
    ============================================================ */
 
 import { state, allTransactions, getCategory } from '../state.js';
