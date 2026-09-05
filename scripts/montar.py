@@ -100,7 +100,7 @@ def config(app, destino):
 #
 # A injeção acontece só aqui, no build. Rodando local o arquivo não é
 # carregado, a variável não existe e o mock continua valendo.
-PRIMEIRO_CORE = re.compile(r'<script src="((?:\.\./)?core/js/)caminhos\.js')
+PRIMEIRO_CORE = re.compile(r'<script src="((?:\.\./)?core/js/)caminhos\.js(\?v=\d+)?')
 
 
 def injetar_auth_borda(html):
@@ -111,8 +111,11 @@ def injetar_auth_borda(html):
     if not m:
         return
     prefixo = m.group(1)
+    # Herda o ?v= do caminhos.js: sem isso o auth-edge.js ficaria cacheado
+    # para sempre, e uma correção nele nunca chegaria em quem já visitou.
+    versao = m.group(2) or ''
     bloco = ('<script>window.HIFERA_AUTH_EDGE = true;</script>\n'
-             f'<script src="{prefixo}auth-edge.js"></script>\n')
+             f'<script src="{prefixo}auth-edge.js{versao}"></script>\n')
     s = s[:m.start()] + bloco + s[m.start():]
     open(html, 'w', encoding='utf-8').write(s)
 

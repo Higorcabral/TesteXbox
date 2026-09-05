@@ -31,19 +31,40 @@ window.HIFERA_AUTH_ESPERA = (function () {
     return (a + b).toUpperCase();
   }
 
-  /* O /.auth/me devolve os claims do token. O formato varia conforme o
-     provedor, então procuramos o nome em mais de um lugar antes de cair
-     no e-mail. */
-  function perfil(cliente) {
-    var claims = (cliente && cliente.userDetails) ? cliente : null;
-    if (!claims) return null;
+  /* O /.auth/me devolve os claims do token, e o formato varia com o
+     provedor. O embutido da Microsoft pode devolver userDetails vazio —
+     foi o que apareceu no az staticwebapp users list.
 
-    var email = cliente.userDetails || '';
-    var nome = '';
+     Por isso NÃO se exige userDetails: procura-se identidade em qualquer
+     campo disponível, na ordem do mais legível para o menos. E se nada
+     identificar a pessoa, devolve-se um perfil neutro em vez de null:
+     retornar null deixaria o usuário mockado na tela, que é exatamente o
+     que este arquivo existe para impedir. Melhor "Conta Microsoft" que o
+     nome de outra pessoa. */
+  function claim(cliente, nomes) {
+    var achado = '';
     (cliente.claims || []).forEach(function (c) {
+      if (achado) return;
       var t = String(c.typ || '');
-      if (!nome && (t === 'name' || /\/claims\/name$/.test(t))) nome = c.val;
+      for (var i = 0; i < nomes.length; i++) {
+        if (t === nomes[i] || t.endsWith('/' + nomes[i])) { achado = c.val; return; }
+      }
     });
+    return achado;
+  }
+
+  function perfil(cliente) {
+    if (!cliente) return null;
+
+    var email = cliente.userDetails ||
+                claim(cliente, ['emailaddress', 'email', 'preferred_username', 'upn']) || '';
+    var nome  = claim(cliente, ['name', 'given_name']) || '';
+
+    if (!email && !nome) {
+      return { nome: 'Conta Microsoft', email: '', cargo: '',
+               iniciais: 'MS', tenant: 'Hifera Company',
+               id: cliente.userId || '' };
+    }
 
     return {
       nome: nome || email,
