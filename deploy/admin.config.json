@@ -1,17 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/staticwebapp.config.json",
-  "auth": {
-    "identityProviders": {
-      "azureActiveDirectory": {
-        "userDetailsClaim": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
-        "registration": {
-          "openIdIssuer": "https://login.microsoftonline.com/df4fdc90-2730-457c-a48e-8c459d71fb60/v2.0",
-          "clientIdSettingName": "AAD_CLIENT_ID",
-          "clientSecretSettingName": "AAD_CLIENT_SECRET"
-        }
-      }
-    }
-  },
   "routes": [
     {
       "route": "/.auth/login/github",
@@ -37,6 +25,13 @@
       ]
     },
     {
+      "route": "/sem-acesso.html",
+      "allowedRoles": [
+        "anonymous",
+        "authenticated"
+      ]
+    },
+    {
       "route": "/",
       "redirect": "/admin/",
       "statusCode": 302
@@ -49,7 +44,7 @@
     {
       "route": "/*",
       "allowedRoles": [
-        "authenticated"
+        "hifera"
       ]
     }
   ],
