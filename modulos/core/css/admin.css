@@ -2289,3 +2289,85 @@ body, .card, .kpi, .side, .topbar, .tabela, .modal-caixa, .gaveta {
   .sec-head--acoes .btn-pri { width: 100%; justify-content: center; }
   .ch-id { margin-left: 0; }
 }
+
+/* =====================================================================
+   PORTAL DO CLIENTE · respiro e largura
+   ---------------------------------------------------------------------
+   Escopado em .portal-body de propósito: o painel admin compartilha
+   este arquivo e tem os mesmos números, mas não foi pedido — mudar os
+   dois de uma vez surpreenderia quem usa o admin.
+
+   Dois problemas, medidos na tela:
+
+   1. As linhas de lista tinham 4px de recuo horizontal enquanto o
+      cabeçalho do card tem 22px. O olho lê a diferença como "colado na
+      borda": o título recuado e a linha abaixo dele encostando. Agora
+      as duas coisas partem do mesmo eixo.
+
+   2. Sem teto de largura, em monitor grande a linha de texto passava
+      de 200 caracteres. Limitar e centralizar resolve a leitura sem
+      apertar quem usa notebook.
+   ===================================================================== */
+.portal-body .admin-conteudo {
+  max-width: 1180px;
+  margin-inline: auto;
+  padding: 32px 40px 72px;
+  gap: 34px;
+}
+
+/* Mesmo eixo do .card-head (22px), para o conteúdo do card alinhar de
+   cima a baixo. O divisor entre linhas segue de ponta a ponta — é o que
+   separa os itens sem picotar o card. */
+.portal-body .lista-simples a,
+.portal-body .ch-item a { padding-inline: 22px; }
+.portal-body .lead       { padding-inline: 22px; }
+
+/* Um pouco mais de ar dentro de cada linha e entre as colunas. */
+.portal-body .ch-item a       { padding-block: 16px; }
+.portal-body .lista-simples a { padding-block: 14px; }
+.portal-body .lead            { padding-block: 15px; }
+.portal-body .col-2           { gap: 22px; }
+
+@media (max-width: 700px) {
+  /* Em tela estreita, 40px de cada lado comem largura demais. */
+  .portal-body .admin-conteudo { padding: 24px 18px 56px; }
+  .portal-body .lista-simples a,
+  .portal-body .ch-item a,
+  .portal-body .lead { padding-inline: 16px; }
+}
+
+/* Mesmo eixo de 22px nas telas que não usam lista: "Meu projeto" tinha
+   o <h2> do topo e o <th> da tabela de parcelas encostando a 1px da
+   borda do card, e "Abrir chamado" misturava 15, 16 e 18px no mesmo
+   formulário. */
+.portal-body .fc-topo,
+.portal-body .ficha-progresso,
+.portal-body .ficha-meta,
+.portal-body .bloco,
+.portal-body .ch-quem { padding-inline: 22px; }
+
+.portal-body fieldset > legend { padding-inline: 22px; }
+
+/* A tabela rola dentro do próprio contêiner; o recuo vai na primeira e
+   na última célula para o conteúdo não colar na borda, sem impedir a
+   rolagem horizontal em tela estreita. */
+.portal-body .tabela-wrap { overflow-x: auto; }
+.portal-body .tabela th:first-child,
+.portal-body .tabela td:first-child { padding-left: 22px; }
+.portal-body .tabela th:last-child,
+.portal-body .tabela td:last-child  { padding-right: 22px; }
+.portal-body .nota-pagamento { padding-inline: 22px; }
+
+@media (max-width: 700px) {
+  .portal-body .fc-topo,
+  .portal-body .ficha-progresso,
+  .portal-body .ficha-meta,
+  .portal-body .bloco,
+  .portal-body .ch-quem,
+  .portal-body .nota-pagamento { padding-inline: 16px; }
+  .portal-body fieldset > legend { padding-inline: 16px; }
+  .portal-body .tabela th:first-child,
+  .portal-body .tabela td:first-child { padding-left: 16px; }
+  .portal-body .tabela th:last-child,
+  .portal-body .tabela td:last-child  { padding-right: 16px; }
+}
