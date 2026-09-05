@@ -1058,6 +1058,11 @@ em {
      cabeça de um ou deixa muito ar no outro. Cada <img> define o seu
      em --foco; 18% é o padrão para retrato de meio corpo. */
   object-position: center var(--foco, 18%);
+  /* Aproximação do rosto. Numa foto quadrada o object-position não tem
+     efeito (não sobra imagem para deslocar), então o zoom é feito aqui:
+     --zoom aproxima; --sobe e --lado centram o rosto no círculo. */
+  transform: scale(var(--zoom, 1)) translate(var(--lado, 0%), var(--sobe, 0%));
+  transform-origin: center center;
   display: block;
 }
 .founder-card h3 {
@@ -1710,3 +1715,97 @@ em {
   .hero-title .word { opacity: 1; transform: none; }
   .hero-sub, .hero-actions, .hero-scroll { opacity: 1; animation: none; }
 }
+
+/* =====================================================================
+   PÁGINA DE SEGURANÇA (seguranca.html)
+   Reaproveita container, eyebrow, lead, btn e o rodapé da home; aqui
+   ficam só os blocos que não existem em nenhuma seção existente.
+   ===================================================================== */
+.seg { padding-top: var(--nav-h); }
+
+.seg-hero { padding: 80px 0 56px; }
+.seg-hero h1 {
+  font-size: clamp(2.1rem, 5vw, 3.4rem); line-height: 1.08;
+  letter-spacing: -0.03em; margin: 18px 0 20px; text-wrap: balance;
+}
+.seg-hero .lead { max-width: 62ch; }
+
+.seg-secao { padding: 40px 0 72px; }
+.seg-secao--fina { padding-top: 16px; }
+
+.seg-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;
+}
+@media (max-width: 900px) { .seg-grid { grid-template-columns: 1fr; } }
+
+.seg-card {
+  position: relative;
+  padding: 34px 30px 30px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  transition: border-color 400ms, transform 400ms var(--ease-spring);
+}
+.seg-card:hover { border-color: var(--line-strong); transform: translateY(-3px); }
+/* O número é ordem de leitura (código → aplicação → dados → acesso),
+   não ranking: por isso fica discreto, no canto. */
+.seg-num {
+  position: absolute; top: 22px; right: 26px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+.seg-card h2 { font-size: 1.32rem; letter-spacing: -0.02em; margin: 0 0 4px; }
+.seg-sub {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
+  text-transform: uppercase; margin: 0 0 16px;
+  background: var(--grad-text); -webkit-background-clip: text;
+  background-clip: text; color: transparent;
+}
+.seg-card > p { color: var(--text-mid); font-size: 15px; margin: 0 0 18px; }
+
+.seg-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.seg-lista li {
+  position: relative; padding-left: 26px;
+  font-size: 14px; color: var(--text-mid); line-height: 1.5;
+}
+.seg-lista li::before {
+  content: ""; position: absolute; left: 0; top: 7px;
+  width: 14px; height: 8px;
+  border-left: 2px solid var(--cyan); border-bottom: 2px solid var(--cyan);
+  transform: rotate(-45deg); border-radius: 1px;
+}
+
+.seg-destaque { padding: 8px 0 56px; }
+.seg-destaque-box {
+  padding: 44px 40px;
+  border: 1px solid var(--line-strong);
+  border-radius: 26px;
+  background: var(--grad-soft);
+}
+.seg-destaque-box h2 {
+  font-size: clamp(1.6rem, 3.4vw, 2.3rem); letter-spacing: -0.03em;
+  margin: 16px 0 16px; text-wrap: balance;
+}
+.seg-destaque-box p { color: var(--text-mid); max-width: 66ch; margin: 0 0 12px; }
+.seg-destaque-box p:last-child { margin-bottom: 0; }
+@media (max-width: 700px) { .seg-destaque-box { padding: 32px 22px; } }
+
+.seg-tres { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; margin-top: 30px; }
+@media (max-width: 800px) { .seg-tres { grid-template-columns: 1fr; } }
+.seg-tri {
+  padding: 24px 22px; background: var(--bg-2);
+  border: 1px solid var(--line); border-radius: 18px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.seg-tri strong { font-size: 15px; }
+.seg-tri span { font-size: 13.5px; color: var(--text-mid); line-height: 1.55; }
+
+.seg-honesto {
+  max-width: 70ch; margin: 0 auto; text-align: center;
+  padding: 48px 0 8px; border-top: 1px solid var(--line);
+}
+.seg-honesto h2 { font-size: clamp(1.5rem, 3vw, 2rem); letter-spacing: -0.02em; margin: 0 0 18px; }
+.seg-honesto p { color: var(--text-mid); margin: 0 0 14px; }
+.seg-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
+
+.nav-links a.is-atual { color: var(--text); }

@@ -123,7 +123,7 @@ def injetar_auth_borda(html):
 def montar_site():
     d = os.path.join(DIST, 'site')
     limpar(d)
-    for item in ('index.html', 'style.css', 'robots.txt',
+    for item in ('index.html', 'seguranca.html', 'style.css', 'robots.txt',
                  'assets', 'js', 'projetos', 'apps', 'v2'):
         copiar(item, d)
     config('site', d)

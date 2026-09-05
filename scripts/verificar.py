@@ -30,7 +30,7 @@ APPS = {
     'site': {
         'ativo': True,
         'base': 'https://www.hifera.com.br',
-        'ok': ['/', '/robots.txt', '/style.css',
+        'ok': ['/', '/seguranca.html', '/robots.txt', '/style.css',
                '/js/vitrine.js', '/js/demo.js',
                '/projetos/Projeto-CRM/', '/projetos/Projeto-Mani/',
                '/projetos/Projeto-Mecan/', '/projetos/Projeto-Stoq/',
