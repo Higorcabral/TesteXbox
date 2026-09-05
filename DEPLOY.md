@@ -9,8 +9,8 @@ repositório:
 
 | Subdomínio | App | O que é | Acesso |
 |---|---|---|---|
-| `www.hifera.com.br` e `hifera.com.br` | `site` | institucional, demos e o Ledger | público |
-| `admin.hifera.com.br` | `admin` | gestão de projetos e chamados | **SSO Entra ID** |
+| `www.hifera.com.br` | `site` | institucional, demos e o Ledger | público |
+| `admin.hifera.com.br` | `admin` | gestão de projetos e chamados | **Microsoft + papel por convite** |
 | `clientes.hifera.com.br` | `clientes` | área do cliente | login próprio do portal |
 
 Domínio: `hifera.com.br`, no Registro.br, DNS no próprio Registro.br.
@@ -99,20 +99,56 @@ comenta nela se já houver uma aberta. Volta ao ar, fecha sozinha.
 O GitHub desliga workflow agendado depois de 60 dias sem commit. Se as
 execuções sumirem, reative em Actions → *Verificar site no ar* → *Enable*.
 
-## O SSO do admin
+## O acesso ao admin
 
 Quem autentica é o Static Web App, **na borda**, antes de servir a página.
 Isso é diferente do que existia: o login do painel era uma fachada em
 `sessionStorage` que qualquer pessoa com o console aberto contornava.
 
-O `deploy/admin.config.json` faz três coisas:
+**Todos os três apps estão no tier Free.** Autenticação com registro próprio
+do Entra é recurso de Standard (~US$ 9/mês), e foi trocada pelo provedor
+Microsoft embutido, que é gratuito. A diferença importa:
 
-- exige `authenticated` em `/*`
-- manda 401 para `/.auth/login/aad` e 403 para `/sem-acesso.html`
-- desliga os outros provedores (GitHub, Google, Twitter, Facebook), que
-  vêm ligados por padrão e deixariam qualquer conta entrar
+| | Standard (registro próprio) | Free (embutido) — **é o que está no ar** |
+|---|---|---|
+| Quem consegue autenticar | só contas do tenant da Hifera | **qualquer conta Microsoft** |
+| Quem consegue entrar | qualquer pessoa do tenant, automático | só quem tem o papel `hifera` |
+| Como se libera alguém | nada, é automático | **um convite por pessoa** |
 
-No código, duas pontes em `modulos/core/`:
+Por isso a regra é `allowedRoles: ["hifera"]`, e **não** `authenticated`:
+com `authenticated`, qualquer conta Microsoft do mundo entraria no painel.
+
+O fluxo para quem não tem o papel: autentica na Microsoft, volta, recebe
+403 e cai em `/sem-acesso.html`, que mostra com qual conta ela entrou —
+sem isso a pessoa não sabe se errou de conta ou não tem permissão.
+
+### Convidar alguém
+
+```bash
+az staticwebapp users invite -n hifera-admin -g ADMIN-IT-RESOURCES \
+  --authentication-provider aad --user-details "pessoa@hifera.com.br" \
+  --role hifera --domain admin.hifera.com.br \
+  --invitation-expiration-in-hours 168 --query invitationUrl -o tsv
+```
+
+O link vale 7 dias e **dá acesso a quem o abrir** — mande por canal privado,
+não por grupo. Depois de aceito, o papel fica; o link expirar não derruba
+ninguém.
+
+Ver e remover quem tem acesso:
+
+```bash
+az staticwebapp users list -n hifera-admin -g ADMIN-IT-RESOURCES -o table
+az staticwebapp users update -n hifera-admin -g ADMIN-IT-RESOURCES \
+  --user-id <id> --role ""     # tira o papel
+```
+
+Limite do Free: 25 usuários com papel por app. Para dois sócios sobra muito.
+
+### As duas pontes no código
+
+Em `modulos/core/`, e sem elas o app quebra de formas que só apareceriam
+em produção:
 
 - **`auth-edge.js`** busca `/.auth/me` e preenche a identidade real. Sem
   ele, o painel mostraria o usuário mockado para qualquer pessoa e o log
@@ -145,15 +181,18 @@ git show <hash> --stat
 | Página interna sem estilo | caminho de `modulos/` errado | confira `window.HIFERA_PATHS` no `<head>` |
 | Portal sem CSS depois do deploy | `montar.py` não copiou o core | rode `montar.py clientes` e confira `dist/clientes/core/` |
 | Admin em laço de redirecionamento | `HIFERA_AUTH_EDGE` não foi injetado | confira a injeção em `montar.py` e o `auth-edge.js` no `dist/admin` |
-| Admin abre sem pedir login | `admin.config.json` não subiu | confira que existe `staticwebapp.config.json` na raiz do `dist/admin` |
+| Admin abre sem pedir login | `admin.config.json` não subiu, ou a regra virou `authenticated` | confira o `staticwebapp.config.json` no `dist/admin`: a regra `/*` tem de exigir o papel `hifera` |
+| Pessoa certa recebe “sem acesso” | não tem o papel | gere um convite (ver acima) |
 | Um app não publicou | falta o segredo | leia o aviso no resumo do workflow |
 
 ## O que ainda não existe
 
 - **Ambiente de homologação.** Só existe produção. O Static Web App cria
   ambiente por pull request — dá para usar, mas não está combinado.
-- **Restrição por grupo no SSO.** Hoje `authenticated` aceita qualquer conta
-  do tenant. Restringir a um grupo do Entra exige atribuição de papéis.
+- **Login automático para o tenant.** No Free, cada pessoa precisa de um
+  convite. Voltar ao Standard (~US$ 9/mês) libera todo o tenant sozinho.
+- **Apex `hifera.com.br`.** Não abre: apontar apex para Static Web App exige
+  registro ALIAS/ANAME, que o Registro.br não oferece. Só `www` funciona.
 - **Teste de interface automatizado.** O verificador confere que as páginas
   respondem e que os arquivos existem — não que os botões funcionam.
 - **Varredura de segredo no CI.** A regra "nenhuma chave no repositório"
