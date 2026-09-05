@@ -4,9 +4,12 @@
 # ---------------------------------------------------------------------
 # Só biblioteca padrão. Roda igual no Mac e no runner do GitHub Actions.
 #
-#   python3 scripts/verificar.py links          antes de publicar (offline)
-#   python3 scripts/verificar.py rotas [url]    depois de publicar (online)
-#   python3 scripts/verificar.py tudo [url]     os dois
+#   python3 scripts/verificar.py links [raiz]     antes de publicar (offline)
+#   python3 scripts/verificar.py rotas [app]      depois de publicar (online)
+#   python3 scripts/verificar.py tudo             os dois
+#
+# `raiz` permite conferir uma pasta montada: dist/admin, dist/clientes…
+# `app` é site, admin, clientes ou todos (padrão).
 #
 # Sai com código 1 se achar problema — é isso que faz o deploy parar e
 # o monitor abrir issue.
@@ -18,38 +21,46 @@ import html.parser
 import urllib.request
 import urllib.error
 
-RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PROD = 'https://higorcabral.github.io/TesteXbox'
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+RAIZ = REPO   # trocada por --raiz ao conferir uma pasta montada em dist/
 
-# Rotas que precisam responder 200. Uma linha por página que existe.
-ROTAS_OK = [
-    '/',
-    '/robots.txt',
-    '/modulos/',
-    '/modulos/admin/',
-    '/modulos/admin/projeto.html',
-    '/modulos/chamados/',
-    '/portal/',
-    '/portal/painel.html',
-    '/modulos/core/css/admin.css',
-    '/modulos/core/js/caminhos.js',
-    '/projetos/Projeto-CRM/',
-    '/projetos/Projeto-Mani/',
-    '/projetos/Projeto-Mecan/',
-    '/projetos/Projeto-Stoq/',
-    '/apps/ledger/',
-    '/js/demo.js',
-    '/v2/',
-]
+# Um Static Web App por subdomínio. Cada um serve conteúdo diferente,
+# então cada um tem a sua lista.
+APPS = {
+    'site': {
+        'ativo': True,
+        'base': 'https://www.hifera.com.br',
+        'ok': ['/', '/robots.txt', '/style.css',
+               '/js/vitrine.js', '/js/demo.js',
+               '/projetos/Projeto-CRM/', '/projetos/Projeto-Mani/',
+               '/projetos/Projeto-Mecan/', '/projetos/Projeto-Stoq/',
+               '/apps/ledger/', '/v2/'],
+        # A área interna saiu daqui: se voltar a responder, é vazamento.
+        'ausente': ['/modulos/', '/modulos/admin/', '/portal/', '/scripts/montar.py'],
+    },
+    'admin': {
+        # Vira True quando o Static Web App existir e o DNS resolver.
+        # Antes disso o monitor abriria issue todo dia por um subdomínio
+        # que ainda não foi criado — e alarme falso treina a gente a ignorar.
+        'ativo': False,
+        'base': 'https://admin.hifera.com.br',
+        # Tudo exige login: 200 significaria painel aberto para anônimo.
+        'ok': [],
+        'ausente': [],
+        'protegido': ['/', '/admin/', '/chamados/'],
+    },
+    'clientes': {
+        'ativo': False,
+        'base': 'https://clientes.hifera.com.br',
+        'ok': ['/', '/painel.html', '/core/css/admin.css'],
+        'ausente': [],
+    },
+}
 
-# Rotas que precisam NÃO existir. Impede que uma pasta velha volte
-# sozinha num merge e passe despercebida.
-ROTAS_404 = [
-    '/AdminPage/',
-]
-
+# /.auth/* é servido pelo próprio Static Web App em tempo de execução;
+# não existe como arquivo e nunca vai existir no disco.
 IGNORAR_PREFIXO = ('http://', 'https://', '//', 'mailto:', 'tel:', 'data:',
-                   'javascript:', '#')
+                   'javascript:', '#', '/.auth/')
 PASTAS_FORA = {'.git', 'node_modules', '.github'}
 
 VERDE, VERM, AMAR, FIM = '\033[32m', '\033[31m', '\033[33m', '\033[0m'
@@ -89,8 +100,9 @@ def caminho_no_disco(origem, ref):
     if not ref:
         return None
     if ref.startswith('/'):
-        # Caminho absoluto: no GitHub Pages o site vive em /TesteXbox/,
-        # então '/x' aponta para fora do projeto. Tratamos como suspeito.
+        # No Azure cada app é servido na raiz do seu domínio, então '/x'
+        # resolve a partir da raiz do app. (No GitHub Pages, que servia em
+        # /TesteXbox/, isso quebrava — por isso a regra antiga barrava.)
         return os.path.join(RAIZ, ref.lstrip('/'))
     return os.path.normpath(os.path.join(os.path.dirname(origem), ref))
 
@@ -128,12 +140,6 @@ def verificar_links():
         rel_origem = os.path.relpath(origem, RAIZ)
         alvo = caminho_no_disco(origem, ref)
         if alvo is None:
-            return
-
-        if ref.startswith('/'):
-            problemas.append((rel_origem, linha,
-                              f'{contexto} "{ref}" — caminho absoluto quebra no '
-                              f'GitHub Pages, que serve o site em /TesteXbox/'))
             return
 
         existe = os.path.isfile(alvo)
@@ -191,12 +197,24 @@ def verificar_links():
 # ---------------------------------------------------------------------
 # Verificação 2 — rotas no ar (online)
 # ---------------------------------------------------------------------
-def status(url, tentativas=3):
+class SemRedirect(urllib.request.HTTPRedirectHandler):
+    """Deixa o 302 passar em vez de segui-lo.
+
+    É o que permite testar o SSO: se seguíssemos o redirecionamento até o
+    login da Microsoft, a resposta final seria 200 e o teste passaria com
+    o painel desprotegido."""
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
+def status(url, tentativas=3, seguir=True):
+    abridor = urllib.request.build_opener() if seguir \
+        else urllib.request.build_opener(SemRedirect)
     for n in range(tentativas):
         req = urllib.request.Request(url, method='GET',
                                      headers={'User-Agent': 'hifera-verificador'})
         try:
-            with urllib.request.urlopen(req, timeout=20) as r:
+            with abridor.open(req, timeout=20) as r:
                 return r.status
         except urllib.error.HTTPError as e:
             return e.code
@@ -206,53 +224,83 @@ def status(url, tentativas=3):
     return 'erro'
 
 
-def verificar_rotas(base):
-    base = base.rstrip('/')
-    print(f'  base: {base}')
+def verificar_rotas(nome, cfg):
+    base = cfg['base'].rstrip('/')
+    print(f'\n  {nome} — {base}')
     falhas = []
 
-    for rota in ROTAS_OK:
+    for rota in cfg.get('ok', []):
         cod = status(base + rota)
         ok = cod == 200
-        print(f'    {VERDE + "✓" + FIM if ok else VERM + "✗" + FIM} {rota:<34} {cod}')
+        print(f'    {VERDE + "✓" + FIM if ok else VERM + "✗" + FIM} {rota:<30} {cod}')
         if not ok:
-            falhas.append(f'{rota} devolveu {cod}, esperado 200')
+            falhas.append(f'{nome}{rota} devolveu {cod}, esperado 200')
 
-    for rota in ROTAS_404:
+    # Rotas que precisam NÃO existir: uma pasta que voltou sozinha num
+    # merge, ou área interna vazando no site público.
+    for rota in cfg.get('ausente', []):
         cod = status(base + rota)
-        ok = cod == 404
-        print(f'    {VERDE + "✓" + FIM if ok else AMAR + "!" + FIM} {rota:<34} {cod} (esperado 404)')
+        ok = cod in (404, 403)
+        print(f'    {VERDE + "✓" + FIM if ok else VERM + "✗" + FIM} {rota:<30} {cod} (esperado 404)')
         if not ok:
-            falhas.append(f'{rota} devolveu {cod}, deveria ter sumido (404)')
+            falhas.append(f'{nome}{rota} devolveu {cod}, deveria estar fora do ar')
+
+    # Rotas protegidas por SSO: anônimo tem de ser barrado ou mandado
+    # para o login. 200 aqui significa painel aberto para qualquer um.
+    for rota in cfg.get('protegido', []):
+        cod = status(base + rota, seguir=False)
+        ok = cod in (302, 401, 403)
+        print(f'    {VERDE + "✓" + FIM if ok else VERM + "✗" + FIM} {rota:<30} {cod} (login exigido)')
+        if not ok:
+            falhas.append(f'{nome}{rota} devolveu {cod} sem login — deveria exigir autenticação')
 
     if falhas:
-        print(f'\n{VERM}  {len(falhas)} rota(s) com problema:{FIM}')
         for f in falhas:
             print(f'    {VERM}✗{FIM} {f}')
         return False
-    print(f'  {VERDE}✓ {len(ROTAS_OK) + len(ROTAS_404)} rotas conferidas{FIM}')
+    total = sum(len(cfg.get(k, [])) for k in ('ok', 'ausente', 'protegido'))
+    print(f'    {VERDE}✓ {total} rotas conferidas{FIM}')
     return True
 
 
 # ---------------------------------------------------------------------
 def main():
-    modo = sys.argv[1] if len(sys.argv) > 1 else 'tudo'
-    base = sys.argv[2] if len(sys.argv) > 2 else PROD
+    global RAIZ
+    args = sys.argv[1:]
+    modo = args[0] if args else 'tudo'
+    arg = args[1] if len(args) > 1 else None
 
     if modo == 'links':
-        print('\n== Referências (offline) ==')
+        if arg:
+            RAIZ = os.path.abspath(arg)
+            if not os.path.isdir(RAIZ):
+                print(f'{VERM}pasta não encontrada: {arg}{FIM}')
+                return 2
+        print(f'\n== Referências (offline) == {os.path.relpath(RAIZ, REPO)}')
         ok = verificar_links()
+
     elif modo == 'rotas':
+        if arg in (None, 'todos'):
+            alvos = {n: c for n, c in APPS.items() if c.get('ativo')}
+        elif arg in APPS:
+            alvos = {arg: APPS[arg]}      # pedido explícito ignora o flag
+        else:
+            alvos = None
+        if alvos is None:
+            print(f'{VERM}app desconhecido: {arg}. Use: {", ".join(APPS)}, todos{FIM}')
+            return 2
         print('\n== Rotas (online) ==')
-        ok = verificar_rotas(base)
+        ok = all([verificar_rotas(n, c) for n, c in alvos.items()])
+
     elif modo == 'tudo':
         print('\n== Referências (offline) ==')
         a = verificar_links()
         print('\n== Rotas (online) ==')
-        b = verificar_rotas(base)
+        b = all([verificar_rotas(n, c) for n, c in APPS.items() if c.get('ativo')])
         ok = a and b
+
     else:
-        print(f'uso: {sys.argv[0]} [links|rotas|tudo] [url]')
+        print(f'uso: {sys.argv[0]} [links [raiz] | rotas [app] | tudo]')
         return 2
 
     print()

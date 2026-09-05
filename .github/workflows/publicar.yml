@@ -1,0 +1,114 @@
+# Publicação dos três Static Web Apps, um por subdomínio.
+#
+#   site      -> www.hifera.com.br e hifera.com.br
+#   admin     -> admin.hifera.com.br      (SSO Entra ID)
+#   clientes  -> clientes.hifera.com.br
+#
+# O código é um só: /portal usa /modulos/core e os dois usam /assets/logo.
+# Por isso cada app é montado antes de subir (scripts/montar.py) — apontar
+# o app_location direto para a pasta subiria o portal sem CSS e sem JS.
+#
+# A matriz roda os três em paralelo. Um app que falhe não derruba os outros
+# (fail-fast: false): é melhor ter dois subdomínios no ar que nenhum.
+name: Publicar
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  verificar:
+    name: Referências
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Runner é Linux, que diferencia maiúscula de minúscula — é aqui que
+      # aparece o erro que o Mac esconde.
+      - run: python3 scripts/verificar.py links
+
+  publicar:
+    name: ${{ matrix.app }}
+    needs: verificar
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - app: site
+            # SWA que já existe e já atende www.hifera.com.br.
+            # Segredo do GitHub não pode ser lido de volta — reusar o nome
+            # evita ter que gerar o token de novo no portal do Azure.
+            segredo: AZURE_STATIC_WEB_APPS_API_TOKEN_PROUD_MOSS_07D5E630F
+          - app: admin
+            segredo: AZURE_SWA_TOKEN_ADMIN
+          - app: clientes
+            segredo: AZURE_SWA_TOKEN_CLIENTES
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Montar ${{ matrix.app }}
+        run: python3 scripts/montar.py ${{ matrix.app }}
+
+      # Confere a pasta montada, não o repositório: é o que de fato sobe.
+      # Pega caminho que quebrou por causa da mudança de profundidade.
+      - name: Conferir a pasta montada
+        run: python3 scripts/verificar.py links dist/${{ matrix.app }}
+
+      # Enquanto o Static Web App daquele subdomínio não existir, o segredo
+      # não existe e o passo é pulado em vez de falhar. Assim dá para
+      # publicar o que já está pronto sem deixar o CI vermelho — e o job
+      # avisa, em vez de sumir em silêncio.
+      - name: Avisar que falta o segredo
+        if: env.TOKEN == ''
+        env:
+          TOKEN: ${{ secrets[matrix.segredo] }}
+        run: |
+          echo "::warning title=${{ matrix.app }} não publicado::Falta o segredo ${{ matrix.segredo }}. Crie o Static Web App no Azure e adicione o token em Settings > Secrets > Actions."
+
+      - name: Publicar
+        if: env.TOKEN != ''
+        env:
+          TOKEN: ${{ secrets[matrix.segredo] }}
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets[matrix.segredo] }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: upload
+          app_location: dist/${{ matrix.app }}
+          api_location: ''
+          output_location: ''
+          skip_app_build: true          # já está montado; não há build a fazer
+          skip_api_build: true
+
+  fechar_pr:
+    name: Fechar ambiente de PR (${{ matrix.app }})
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - app: site
+            # SWA que já existe e já atende www.hifera.com.br.
+            # Segredo do GitHub não pode ser lido de volta — reusar o nome
+            # evita ter que gerar o token de novo no portal do Azure.
+            segredo: AZURE_STATIC_WEB_APPS_API_TOKEN_PROUD_MOSS_07D5E630F
+          - app: admin
+            segredo: AZURE_SWA_TOKEN_ADMIN
+          - app: clientes
+            segredo: AZURE_SWA_TOKEN_CLIENTES
+    steps:
+      - uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets[matrix.segredo] }}
+          action: close

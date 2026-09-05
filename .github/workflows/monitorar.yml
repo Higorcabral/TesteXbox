@@ -34,7 +34,7 @@ jobs:
         id: verificar
         continue-on-error: true
         run: |
-          python3 scripts/verificar.py rotas https://higorcabral.github.io/TesteXbox \
+          python3 scripts/verificar.py rotas \
             2>&1 | tee saida.txt
           echo "codigo=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 

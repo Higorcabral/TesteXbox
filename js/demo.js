@@ -32,7 +32,7 @@
   var CHAVE   = 'hifera.demo.visto.' + PROJETO;
   var CHAVE_BARRA = 'hifera.demo.barra';
 
-  var CONTATO = 'mailto:comercial@hifera.com?subject=' +
+  var CONTATO = 'mailto:comercial@hifera.com.br?subject=' +
                 encodeURIComponent('Quero algo assim: ' + PROJETO);
 
   function esc(txt) {

@@ -42,5 +42,9 @@ build/
 *.tmp
 *.temp
 
+# ===== Saída da montagem (scripts/montar.py) =====
+# Gerada a cada deploy a partir do código-fonte. Nunca editar nem commitar.
+dist/
+
 # ===== Arquivos de trabalho / drag & drop acidentais =====
 assets/ManualServices

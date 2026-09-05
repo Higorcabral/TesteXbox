@@ -1,109 +1,135 @@
 # Deploy — Hifera
 
 Como o site vai para o ar, como saber se quebrou e como voltar atrás.
-Vale para <https://higorcabral.github.io/TesteXbox/>.
 
 ## O ambiente
 
-| | |
-|---|---|
-| Hospedagem | GitHub Pages (build nativo por branch, sem Actions) |
-| Origem | `Higorcabral/TesteXbox`, branch `main`, pasta `/` |
-| Publica quando | há push em `main` — não existe etapa de build |
-| Tempo até o ar | ~30 s a 2 min |
-| Custo | R$ 0 |
+Três Static Web Apps no Azure, um por subdomínio, publicados do mesmo
+repositório:
 
-Consequência que dita tudo: **a raiz do repositório é a raiz de publicação.**
-O que sai dessa pasta some do site; o que entra nela vai ao ar no próximo push.
+| Subdomínio | App | O que é | Acesso |
+|---|---|---|---|
+| `www.hifera.com.br` e `hifera.com.br` | `site` | institucional, demos e o Ledger | público |
+| `admin.hifera.com.br` | `admin` | gestão de projetos e chamados | **SSO Entra ID** |
+| `clientes.hifera.com.br` | `clientes` | área do cliente | login próprio do portal |
+
+Domínio: `hifera.com.br`, no Registro.br, DNS no próprio Registro.br.
+Vence em **11/08/2028** — a data está na ficha e no calendário.
+
+O GitHub Pages foi desligado em 05/09/2026. Antes disso ele publicava em
+paralelo com o Azure, servindo o mesmo conteúdo em dois endereços.
+
+## Por que existe uma etapa de montagem
+
+Os três apps saem de um repositório só, mas o código é compartilhado:
+`portal/` usa `modulos/core/` (CSS, `caminhos.js`, `format.js` e quatro
+models) e os dois usam `assets/logo/`.
+
+Apontar o `app_location` direto para a pasta subiria o portal **sem CSS e
+sem JS**. Por isso existe o `scripts/montar.py`: ele copia o que cada app
+precisa, corrige os caminhos para a nova profundidade e escreve o
+`staticwebapp.config.json` daquele app.
+
+```bash
+python3 scripts/montar.py            # monta os três em dist/
+python3 scripts/montar.py admin      # monta só um
+```
+
+`dist/` é descartável e está no `.gitignore`. **Nunca edite nada lá dentro** —
+o próximo `montar.py` apaga.
+
+O que a montagem reescreve, e por quê:
+
+| De | Para | Motivo |
+|---|---|---|
+| `../../assets/` | `../assets/` | `modulos/admin/` virou `/admin/`: perdeu um nível |
+| `../modulos/core/` | `core/` | o core é copiado para dentro do app de clientes |
+| `href="../"` | `https://www.hifera.com.br/` | a partir da raiz de um subdomínio, `../` sobe acima do domínio e não vai a lugar nenhum |
+| `site: '../../'` | `https://www.hifera.com.br/` | miniatura e link de projeto moram no site público |
+| — | `HIFERA_AUTH_EDGE` + `auth-edge.js` | só no app admin: avisa o código de que o Azure já autenticou |
 
 ## Publicar
 
-```bash
-./scripts/publicar.sh "o que mudou"
-```
+Push em `main`. O workflow `publicar.yml` monta e sobe os três em paralelo.
 
-É o caminho normal, e faz sempre a mesma sequência:
+Antes de subir, dois portões:
 
-1. **Sanidade** — branch certa, `gh` autenticado, remoto sincronizado
-2. **Referências** — procura link quebrado *antes* de subir
-3. **Commit e push**
-4. **Espera o Pages** terminar de construir (não é instantâneo)
-5. **Confere as rotas no ar** — o passo que separa "publiquei" de "funcionou"
+1. `verificar.py links` no repositório, num runner **Linux** — é onde
+   aparece o erro de maiúscula/minúscula que o Mac esconde
+2. `verificar.py links dist/<app>` em **cada pasta montada** — é o que pega
+   caminho quebrado pela mudança de profundidade
 
-Qualquer passo que falhe interrompe a sequência e imprime o comando de saída.
-Se a verificação do passo 2 falhar, **nada é enviado**.
-
-Para checar sem publicar:
-
-```bash
-./scripts/publicar.sh --so-verificar
-```
+Um app que falhe não derruba os outros (`fail-fast: false`). Um app cujo
+segredo ainda não existe é **pulado com aviso**, não falha.
 
 ## Verificar
 
 ```bash
-python3 scripts/verificar.py links     # offline, antes de subir
-python3 scripts/verificar.py rotas     # online, contra produção
-python3 scripts/verificar.py tudo      # os dois
+python3 scripts/verificar.py links                 # repositório
+python3 scripts/verificar.py links dist/admin      # uma pasta montada
+python3 scripts/verificar.py rotas                 # os três no ar
+python3 scripts/verificar.py rotas admin           # só um
 ```
 
-O `links` varre HTML, CSS e `js/vitrine-dados.js` e acusa quatro coisas:
+O `links` acusa três coisas: arquivo que não existe, **maiúscula/minúscula
+que não bate com o disco** (abre no Mac, dá 404 no servidor) e projeto
+publicado na vitrine apontando para link morto.
 
-| O que pega | Por que importa |
-|---|---|
-| Arquivo que não existe | o óbvio |
-| Caminho absoluto (`/assets/…`) | o site vive em `/TesteXbox/`, não na raiz do domínio — absoluto aponta para fora |
-| **Maiúscula/minúscula errada** | o Mac não diferencia, o servidor do GitHub sim. Abre aqui, dá 404 em produção |
-| Projeto publicado na vitrine apontando para link morto | o card aparece na home e não abre |
+O `rotas` confere três coisas diferentes por app:
 
-O terceiro é o traiçoeiro: passa em todos os testes locais e só quebra no ar.
-
-Para acrescentar uma rota nova ao monitoramento, edite a lista `ROTAS_OK`
-no topo do `scripts/verificar.py`. `ROTAS_404` é o contrário — rotas que
-precisam continuar não existindo, para que uma pasta velha não volte
-sozinha num merge.
+- **`ok`** — precisa responder 200
+- **`ausente`** — precisa responder 404. É o que pega a área interna
+  vazando de volta para o site público num merge
+- **`protegido`** — precisa exigir login. Um 200 aqui significa painel
+  aberto para qualquer pessoa. O verificador **não segue o redirecionamento**
+  de propósito: seguindo, chegaria ao login da Microsoft, veria 200 e passaria
+  com o painel desprotegido
 
 ## Monitorar
 
-Dois workflows, ambos de graça em repositório público:
-
 | Workflow | Quando | O que faz |
 |---|---|---|
-| `verificar.yml` | todo push e PR | roda o `links` num runner **Linux** — é a rede contra o erro de maiúscula que o Mac esconde |
-| `monitorar.yml` | de 6 em 6 horas | roda o `rotas` contra produção |
+| `verificar.yml` | todo push e PR | `links` no repositório |
+| `publicar.yml` | push em `main` | monta, confere cada `dist/` e publica |
+| `monitorar.yml` | de 6 em 6 horas | `rotas` contra os três subdomínios |
 
-Quando o `monitorar` acha rota fora, ele abre uma issue com a etiqueta
-`site-fora` contendo a saída completa. Se já houver uma issue aberta, só
-comenta nela — não vira enxurrada. Quando o site volta, ele comenta e
-**fecha a issue sozinho**.
+Quando o monitor acha rota fora, abre issue com a etiqueta `site-fora` e
+comenta nela se já houver uma aberta. Volta ao ar, fecha sozinha.
 
-Rodar na hora, sem esperar o horário:
+O GitHub desliga workflow agendado depois de 60 dias sem commit. Se as
+execuções sumirem, reative em Actions → *Verificar site no ar* → *Enable*.
 
-```bash
-gh workflow run monitorar.yml && sleep 20 && gh run list --workflow=monitorar.yml --limit 3
-```
+## O SSO do admin
 
-**Limite conhecido:** o GitHub desliga workflows agendados depois de 60 dias
-sem commit no repositório. Se as execuções sumirem, é isso — reative em
-Actions → *Verificar site no ar* → *Enable workflow*. Uma checagem a cada 6h
-também significa que uma queda pode levar até 6h para ser notada; para um
-site institucional em MVP isso é aceitável, e o custo é zero. Se um dia
-precisar de minutos em vez de horas, aí sim entra um serviço externo de
-uptime (UptimeRobot tem plano gratuito de 5 min).
+Quem autentica é o Static Web App, **na borda**, antes de servir a página.
+Isso é diferente do que existia: o login do painel era uma fachada em
+`sessionStorage` que qualquer pessoa com o console aberto contornava.
+
+O `deploy/admin.config.json` faz três coisas:
+
+- exige `authenticated` em `/*`
+- manda 401 para `/.auth/login/aad` e 403 para `/sem-acesso.html`
+- desliga os outros provedores (GitHub, Google, Twitter, Facebook), que
+  vêm ligados por padrão e deixariam qualquer conta entrar
+
+No código, duas pontes em `modulos/core/`:
+
+- **`auth-edge.js`** busca `/.auth/me` e preenche a identidade real. Sem
+  ele, o painel mostraria o usuário mockado para qualquer pessoa e o log
+  registraria o autor errado — pior que não ter nome é ter o de outra pessoa
+- **`AuthController`** reconhece `HIFERA_AUTH_EDGE` e pula o guard mockado.
+  Sem isso o guard não acharia `sessionStorage`, mandaria para o login, que
+  redireciona de volta: **laço de redirecionamento**
+
+Rodando local nada disso é carregado e o mock continua valendo.
 
 ## Voltar atrás
 
-O deploy é um commit, então reverter também é:
-
 ```bash
-git revert HEAD && ./scripts/publicar.sh "revert: volta o deploy anterior"
+git revert HEAD && git push
 ```
 
-O `publicar.sh` imprime o comando de revert já com o hash certo logo depois
-de cada push — é só copiar. Prefira `revert` a `reset --hard`: o histórico
-fica honesto e ninguém precisa forçar push.
-
-Para inspecionar o que estava no ar antes:
+O deploy é um commit. Para inspecionar o que estava no ar:
 
 ```bash
 git log --oneline -10
@@ -115,19 +141,20 @@ git show <hash> --stat
 | Sintoma | Causa provável | O que fazer |
 |---|---|---|
 | Publicou e o navegador mostra o antigo | cache do `?v=N` | suba o número no `<link>`/`<script>` que mudou |
-| Rota 404 no ar, 200 no local | maiúscula/minúscula, ou arquivo não commitado | `python3 scripts/verificar.py links` e `git status` |
-| Build do Pages com erro | quase sempre Jekyll tentando processar | confira que o `.nojekyll` continua na raiz |
-| Página interna sem estilo | caminho de `modulos/` errado | confira o `window.HIFERA_PATHS` no `<head>` da página |
-| Issue `site-fora` aberta | monitoramento achou rota caída | leia a saída na issue; corrija e publique — ela fecha sozinha |
+| Rota 404 no ar, 200 no local | maiúscula/minúscula, ou arquivo não commitado | `verificar.py links` e `git status` |
+| Página interna sem estilo | caminho de `modulos/` errado | confira `window.HIFERA_PATHS` no `<head>` |
+| Portal sem CSS depois do deploy | `montar.py` não copiou o core | rode `montar.py clientes` e confira `dist/clientes/core/` |
+| Admin em laço de redirecionamento | `HIFERA_AUTH_EDGE` não foi injetado | confira a injeção em `montar.py` e o `auth-edge.js` no `dist/admin` |
+| Admin abre sem pedir login | `admin.config.json` não subiu | confira que existe `staticwebapp.config.json` na raiz do `dist/admin` |
+| Um app não publicou | falta o segredo | leia o aviso no resumo do workflow |
 
 ## O que ainda não existe
 
-Registrado de propósito, para não parecer que está coberto:
-
-- **Ambiente de homologação.** Só existe produção. Um `staging` daria para
-  fazer publicando uma branch em outro repositório Pages, mas não está feito.
-- **Domínio próprio.** O site está no subcaminho `higorcabral.github.io/TesteXbox/`.
-  Quando `hifera.com` apontar para cá, revisar o `PROD` no `verificar.py`,
-  o `canonical` da `index.html` e o `CNAME`.
+- **Ambiente de homologação.** Só existe produção. O Static Web App cria
+  ambiente por pull request — dá para usar, mas não está combinado.
+- **Restrição por grupo no SSO.** Hoje `authenticated` aceita qualquer conta
+  do tenant. Restringir a um grupo do Entra exige atribuição de papéis.
 - **Teste de interface automatizado.** O verificador confere que as páginas
   respondem e que os arquivos existem — não que os botões funcionam.
+- **Varredura de segredo no CI.** A regra "nenhuma chave no repositório"
+  ainda depende de disciplina.

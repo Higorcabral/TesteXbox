@@ -107,7 +107,20 @@ HiferaAdmin.AuthController = (function () {
   }
 
   /* --- Guard das telas internas --------------------------------- */
+  /* Em admin.hifera.com.br quem autentica é o Azure, na borda: a página
+     só chega ao navegador depois do Entra. O scripts/montar.py injeta
+     HIFERA_AUTH_EDGE nas páginas desse app.
+
+     Sem esta checagem o guard mockado não acharia sessionStorage, mandaria
+     para a tela de login, que redireciona de volta — e o app entraria em
+     laço de redirecionamento. Localmente a variável não existe e o mock
+     continua valendo. */
+  function autenticadoNaBorda() {
+    return window.HIFERA_AUTH_EDGE === true;
+  }
+
   function requireAuth() {
+    if (autenticadoNaBorda()) return true;
     if (!Auth.isAuthenticated()) {
       guardarDestino(window.location.href);
       window.location.replace(LOGIN);
@@ -117,10 +130,19 @@ HiferaAdmin.AuthController = (function () {
   }
 
   function signOut() {
-    Auth.signOut();
     /* Sair é intencional: não guarda destino, senão o próximo login
        joga a pessoa de volta na tela de onde ela acabou de sair. */
     try { sessionStorage.removeItem(CHAVE_DESTINO); } catch (e) {}
+
+    /* Limpar sessionStorage não encerra a sessão do Entra — só o
+       /.auth/logout do Static Web App faz isso. Sem ele, "Sair" e voltar
+       reentra sozinho, e a pessoa acha que saiu quando não saiu. */
+    if (autenticadoNaBorda()) {
+      Auth.signOut();
+      window.location.href = '/.auth/logout';
+      return;
+    }
+    Auth.signOut();
     window.location.replace(LOGIN);
   }
 

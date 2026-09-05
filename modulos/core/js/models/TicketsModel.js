@@ -41,11 +41,11 @@ HiferaAdmin.TicketsModel = (function () {
   };
 
   var FILAS = {
-    'produto':   { label: 'Suporte a Produto',  email: 'suporte@hifera.com' },
-    'automacao': { label: 'Automações',         email: 'automacoes@hifera.com' },
-    'web':       { label: 'Web & Presença',     email: 'web@hifera.com' },
-    'infra':     { label: 'Infra & Segurança',  email: 'infra@hifera.com' },
-    'dados':     { label: 'Dados & Relatórios', email: 'dados@hifera.com' }
+    'produto':   { label: 'Suporte a Produto',  email: 'suporte@hifera.com.br' },
+    'automacao': { label: 'Automações',         email: 'automacoes@hifera.com.br' },
+    'web':       { label: 'Web & Presença',     email: 'web@hifera.com.br' },
+    'infra':     { label: 'Infra & Segurança',  email: 'infra@hifera.com.br' },
+    'dados':     { label: 'Dados & Relatórios', email: 'dados@hifera.com.br' }
   };
 
   /* --- Cascata Categoria → Sistema → Módulo ------------------------
@@ -407,7 +407,7 @@ HiferaAdmin.TicketsModel = (function () {
         descricao: 'O contador pede sempre o mesmo arquivo. Dava pra mandar automático?',
         categoria: 'Automação & Integração', sistema: 'Planilhas & arquivos', modulo: 'Exportação agendada',
         prioridade: 'Baixa', status: 'Aberto',
-        solicitante: 'Fernanda Rodrigues', email: 'fernanda@hifera.com', empresa: 'Hifera (interno)',
+        solicitante: 'Fernanda Rodrigues', email: 'fernanda@hifera.com.br', empresa: 'Hifera (interno)',
         operacao: 'Financeiro', vinculo: 'Controle Financeiro (Ledger)',
         aberto_em: dAtras(2), atualizado_em: dAtras(2), comentarios: [] },
 
@@ -449,7 +449,7 @@ HiferaAdmin.TicketsModel = (function () {
         descricao: 'Importei o OFX duas vezes sem querer e agora tudo está dobrado.',
         categoria: 'Produto Hifera', sistema: 'Controle Financeiro (Ledger)', modulo: 'Importação de extrato',
         prioridade: 'Alta', status: 'Resolvido',
-        solicitante: 'Fernanda Rodrigues', email: 'fernanda@hifera.com', empresa: 'Hifera (interno)',
+        solicitante: 'Fernanda Rodrigues', email: 'fernanda@hifera.com.br', empresa: 'Hifera (interno)',
         operacao: 'Financeiro', vinculo: 'Controle Financeiro (Ledger)',
         aberto_em: dAtras(64), atualizado_em: dAtras(63), resolvido_em: dAtras(63),
         comentarios: [
@@ -461,7 +461,7 @@ HiferaAdmin.TicketsModel = (function () {
         descricao: 'Alerta automático do monitoramento.',
         categoria: 'Infraestrutura & Acesso', sistema: 'Hospedagem', modulo: 'Certificado SSL',
         prioridade: 'Média', status: 'Cancelado',
-        solicitante: 'Higor Cabral', email: 'higor@hifera.com', empresa: 'Hifera (interno)',
+        solicitante: 'Higor Cabral', email: 'higor@hifera.com.br', empresa: 'Hifera (interno)',
         operacao: 'TI', vinculo: '', aberto_em: dAtras(72), atualizado_em: dAtras(71),
         comentarios: [
           { autor: 'Higor Cabral', papel: 'agente', quando: dAtras(39), texto: 'Falso positivo: a renovação automática já tinha rodado. Cancelando.' }

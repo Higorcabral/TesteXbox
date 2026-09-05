@@ -54,5 +54,8 @@ Disallow: /
 # --- Demais robôs, incluindo Google e Bing ---
 User-agent: *
 Allow: /
-Disallow: /modulos/
-Disallow: /portal/
+
+# A área interna e o portal do cliente saíram deste site: agora moram em
+# admin.hifera.com.br e clientes.hifera.com.br, cada um com noindex no
+# cabeçalho da resposta. Listá-los aqui só serviria para anunciar que
+# existem — o robots.txt é público.

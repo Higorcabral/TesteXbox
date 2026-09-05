@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+  © 2026 Hifera Company (hifera.com.br). Proprietary and confidential.
+  Mostrada quando o Entra autenticou a pessoa, mas ela não tem permissão
+  para esta área. Autenticado ≠ autorizado.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sem acesso · Hifera</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" type="image/png" href="../assets/logo/HiferaIcon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+(function () {
+  try {
+    if (localStorage.getItem('hifera.admin.tema') === 'claro') {
+      document.documentElement.setAttribute('data-tema', 'claro');
+    }
+  } catch (e) { /* modo privado: segue no escuro */ }
+})();
+</script>
+<link rel="stylesheet" href="core/css/admin.css?v=6">
+</head>
+<body class="login-body">
+
+<div class="login-bg" aria-hidden="true">
+  <div class="login-grid"></div>
+  <div class="login-halo"></div>
+</div>
+
+<main class="login-wrap">
+  <section class="login-card" role="region" aria-labelledby="tit">
+
+    <div class="login-brand">
+      <img src="../assets/logo/HiferaIcon.png" alt="">
+      <span>
+        <strong>HIFERA <span class="grad-text">COMPANY</span></strong>
+        <small>Painel administrativo</small>
+      </span>
+    </div>
+
+    <div class="login-lock" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <rect x="4" y="10.5" width="16" height="10" rx="2.5"/>
+        <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>
+        <circle cx="12" cy="15.5" r="1.4" fill="currentColor" stroke="none"/>
+      </svg>
+    </div>
+
+    <h1 id="tit">Sem acesso a esta área</h1>
+    <p>
+      Você entrou com <strong id="quem">a sua conta Microsoft</strong>, mas ela
+      não tem permissão para o painel interno da Hifera.
+    </p>
+    <p>
+      Se você deveria ter acesso, peça a liberação para
+      <a href="mailto:comercial@hifera.com.br">comercial@hifera.com.br</a>.
+    </p>
+
+    <div class="login-divider"><span>ou</span></div>
+
+    <a href="/.auth/logout" class="login-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+      Sair e entrar com outra conta
+    </a>
+
+  </section>
+</main>
+
+<script>
+/* Mostra com qual conta a pessoa entrou — sem isso ela não sabe se errou
+   de conta ou se realmente não tem permissão. */
+fetch('/.auth/me', { credentials: 'include' })
+  .then(function (r) { return r.ok ? r.json() : null; })
+  .then(function (d) {
+    var quem = d && d.clientPrincipal && d.clientPrincipal.userDetails;
+    if (quem) document.getElementById('quem').textContent = quem;
+  })
+  .catch(function () { /* segue com o texto genérico */ });
+</script>
+</body>
+</html>

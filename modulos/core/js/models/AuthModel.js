@@ -23,7 +23,7 @@ HiferaAdmin.AuthModel = (function () {
   /* Perfil mockado — no MSAL real isto vem do account/idTokenClaims */
   var MOCK_USER = {
     nome:    'Higor Cabral',
-    email:   'higor@hifera.com',
+    email:   'higor@hifera.com.br',
     cargo:   'Co-fundador · Tecnologia',
     iniciais:'HC',
     tenant:  'Hifera Company'
@@ -64,6 +64,19 @@ HiferaAdmin.AuthModel = (function () {
     try { sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
   }
 
+  /* Preenchido pelo auth-edge.js com a identidade real do Entra quando
+     o app roda atrás do Static Web App. Sem isso, o painel mostraria o
+     usuário mockado para qualquer pessoa que entrasse. */
+  function definirUsuario(perfil) {
+    if (!perfil) return;
+    try {
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify({
+        user: perfil, provider: 'azure-swa', entrouEm: new Date().toISOString()
+      }));
+    } catch (e) { /* modo privado: vale só nesta página */ }
+    MOCK_USER = perfil;
+  }
+
   function getUser() {
     var s = getSession();
     return s ? s.user : null;
@@ -71,6 +84,7 @@ HiferaAdmin.AuthModel = (function () {
 
   return {
     isAuthenticated: isAuthenticated,
+    definirUsuario: definirUsuario,
     signIn: signIn,
     signOut: signOut,
     getUser: getUser

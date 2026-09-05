@@ -25,10 +25,16 @@ HiferaAdmin.Caminhos = (function () {
   var p = window.HIFERA_PATHS || {};
 
   /* Barra no fim é obrigatória em prefixo de pasta — sem ela,
-     'site' + 'assets/x.png' vira '..assets/x.png'. */
+     'site' + 'assets/x.png' vira '..assets/x.png'.
+
+     Mas só em pasta: 'home' pode apontar para um arquivo
+     ('./painel.html'), e acrescentar barra ali produziria
+     './painel.html/', que dá 404. */
   function pasta(valor, padrao) {
     var v = String(valor || padrao);
-    return v && v.slice(-1) !== '/' ? v + '/' : v;
+    if (!v || v.slice(-1) === '/') return v;
+    var ultimo = v.split('/').pop();
+    return ultimo.indexOf('.') > 0 ? v : v + '/';
   }
 
   return {
