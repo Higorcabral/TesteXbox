@@ -35,7 +35,7 @@ window.HIFERA_PATHS = {
   home:  './painel.html'
 };
 </script>
-<link rel="stylesheet" href="../modulos/core/css/admin.css?v=7">
+<link rel="stylesheet" href="../modulos/core/css/admin.css?v=8">
 </head>
 <body class="login-body">
 
@@ -61,19 +61,11 @@ window.HIFERA_PATHS = {
       capturou e abra um chamado quando precisar da gente.
     </p>
 
-    <form id="formLogin" class="login-form">
-      <label class="fld">
-        <span class="fld-label">Entrar como</span>
-        <select id="contaCliente" aria-label="Escolha o cliente"></select>
-      </label>
-
-      <div class="conta-ficha" id="contaFicha" aria-live="polite"></div>
-
-      <button type="submit" class="btn-pri btn-entrar" id="btnEntrar">
-        <span class="btn-entrar-label">Entrar no portal</span>
-        <span class="btn-ms-spin" aria-hidden="true"></span>
-      </button>
-    </form>
+    <!-- O conteúdo entra pelo PortalAuthController: e-mail + magic link
+         quando o Supabase está configurado; "nenhum cliente cadastrado"
+         mais um acesso de exemplo enquanto não estiver. A página não
+         escolhe — o model escolhe. -->
+    <div id="loginModos"></div>
 
     <p class="login-status" id="loginStatus" role="status" aria-live="polite"></p>
 
@@ -84,20 +76,18 @@ window.HIFERA_PATHS = {
       Voltar para o site da Hifera
     </a>
 
-    <p class="login-mock">
-      <span class="mock-dot"></span>
-      Ambiente de protótipo. A lista de contas existe porque ainda não há
-      autenticação real — no produto, o cliente entra pelo próprio e-mail.
-    </p>
+    <p class="login-mock" id="loginNota"></p>
   </section>
 </main>
 
-<script src="../modulos/core/js/caminhos.js?v=6"></script>
-<script src="../modulos/core/js/format.js?v=6"></script>
-<script src="../modulos/core/js/models/StoreModel.js?v=6"></script>
-<script src="../modulos/core/js/controllers/ThemeController.js?v=6"></script>
-<script src="js/models/ClientAuthModel.js?v=6"></script>
-<script src="js/controllers/PortalAuthController.js?v=6"></script>
-<script src="js/boot-login.js?v=6"></script>
+<script src="js/config.js?v=9"></script>
+<script src="../modulos/core/js/caminhos.js?v=7"></script>
+<script src="../modulos/core/js/format.js?v=7"></script>
+<script src="../modulos/core/js/models/StoreModel.js?v=7"></script>
+<script src="../modulos/core/js/controllers/ThemeController.js?v=7"></script>
+<script src="js/models/SupabaseAuthModel.js?v=8"></script>
+<script src="js/models/ClientAuthModel.js?v=9"></script>
+<script src="js/controllers/PortalAuthController.js?v=9"></script>
+<script src="js/boot-login.js?v=8"></script>
 </body>
 </html>

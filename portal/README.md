@@ -9,7 +9,7 @@ robots.txt) e não é linkada do site público.
 
 | Rota | O que é |
 |---|---|
-| `/portal/` | Entrada do cliente (mock — ver *Autenticação*) |
+| `/portal/` | Entrada do cliente (magic link — ver *Autenticação*) |
 | `/portal/painel.html#panorama` | Como está a entrega, o que devo, o que chegou |
 | `/portal/painel.html#projeto` | Roteiro de entrega e parcelas |
 | `/portal/painel.html#leads` | Contatos que o sistema entregue capturou |
@@ -21,9 +21,13 @@ robots.txt) e não é linkada do site público.
 portal/
 ├── index.html                        entrada
 ├── painel.html                       shell único, 4 telas por hash
+├── supabase/
+│   └── schema.sql                    portal_acessos + RLS (não publicado)
 └── js/
+    ├── config.js                     URL + anon key do Supabase
     ├── models/
-    │   ├── ClientAuthModel.js        sessão do cliente (mock)
+    │   ├── SupabaseAuthModel.js      magic link e token, por fetch
+    │   ├── ClientAuthModel.js        sessão do cliente e vínculo
     │   ├── ClientProjectModel.js     PROJEÇÃO do projeto — ver abaixo
     │   └── LeadsModel.js             leads do negócio do cliente
     ├── views/
@@ -121,26 +125,68 @@ solução e fechar o próprio chamado. Responder num chamado em
 "Aguardando cliente" devolve ele para "Em andamento", porque a bola
 voltou para a Hifera e o SLA tem que voltar a correr.
 
-## Autenticação — o que falta para valer
+## Autenticação
 
-`ClientAuthModel.js` é fachada, igual à do painel interno: a sessão vive
-no `sessionStorage` e a tela de entrada é uma lista de contas de
-demonstração. Segura o protótipo, não protege nada.
+Entrada por **magic link** no Supabase. O cliente digita o e-mail,
+recebe um link de uso único e entra — sem senha para criar e sem senha
+para esquecer, que é o que faz sentido para quem usa o portal poucas
+vezes por mês.
 
-O que ela já faz de certo e precisa continuar fazendo: a sessão carrega
-**um** cliente, e todo o resto filtra por ele.
+```
+portal/js/config.js                  URL e anon key do projeto
+portal/js/models/SupabaseAuthModel.js  GoTrue + PostgREST por fetch
+portal/js/models/ClientAuthModel.js    quem é a pessoa e de qual cliente
+portal/supabase/schema.sql             tabela portal_acessos + RLS
+```
 
-Para virar acesso real:
+Não há SDK: são quatro chamadas de rede, e carregar um bundle de CDN
+para fazer quatro `fetch` custaria mais em dependência do que economiza
+em código. `create_user:false` no envio do link é o que impede que
+digitar um e-mail qualquer crie conta e vire acesso.
 
-1. Entra ID **externo** (B2C) ou magic link por e-mail — o cliente não
-   tem conta corporativa da Hifera
-2. o escopo do cliente vem do token, **nunca** de parâmetro de URL
-3. o filtro por cliente passa a ser do servidor. Enquanto for 100%
-   estático no GitHub Pages, o filtro é do navegador e portanto não é
-   controle de acesso — é organização de tela
+**O vínculo pessoa → cliente não mora no navegador.** Ele vem da tabela
+`portal_acessos`, lida com o token da própria pessoa; a política de RLS
+devolve só a linha de quem perguntou. O portal manda um `select` sem
+filtro nenhum e recebe uma linha só — o escopo é decisão do banco, não
+do JavaScript.
 
-Sessão do portal (`hifera.portal.session`) é separada da do painel
-(`hifera.admin.session`): entrar num não dá acesso ao outro.
+Dois estados na tela de entrada, decididos pelo model:
+
+| Estado | Quando | O que aparece |
+|---|---|---|
+| magic link | `config.js` preenchido | campo de e-mail, e só |
+| sem clientes | `config.js` vazio | "Nenhum cliente cadastrado" + **Ver acesso de exemplo** |
+
+O acesso de exemplo abre uma empresa fictícia com dados de demonstração,
+e o painel carrega marcado como tal na barra lateral. Ele existe **só
+enquanto o Supabase estiver desligado**: `signInExemplo()` recusa se
+`configurado()` for verdadeiro, e a tela que oferece o botão nem chega a
+ser montada. Não é uma porta que alguém precise lembrar de fechar quando
+o primeiro cliente real entrar.
+
+Em `localhost` a mesma tela ganha um seletor com as cinco contas
+fictícias — conveniência de desenvolvimento, para conferir cada cliente
+sem mexer em código. Não é controle de acesso.
+
+Sessão do portal é separada da do painel interno: entrar num não dá
+acesso ao outro.
+
+### Ligar em um projeto novo
+
+1. Supabase → Project Settings → API: copie *Project URL* e *anon
+   public* para `portal/js/config.js`
+2. Authentication → URL Configuration → Redirect URLs: adicione
+   `https://clientes.hifera.com.br/`
+3. rode `portal/supabase/schema.sql` no SQL Editor
+4. para cada pessoa: Authentication → Users → *Add user / Send invite*,
+   e depois a linha correspondente em `portal_acessos`
+
+### O que ainda é do navegador
+
+Projeto, leads e chamados continuam vindo de seed local — a autenticação
+é real, os dados ainda não. Quando eles subirem para o Supabase, cada
+tabela precisa da sua própria política de RLS por cliente; até lá, o
+`ClientProjectModel` segue sendo a fronteira (ver acima).
 
 ## Rodando local
 

@@ -227,6 +227,20 @@ p { margin: 0; }
   font-size: 12.5px; color: var(--text-mid);
 }
 .login-status.is-ok { color: var(--cyan); }
+.login-status.is-erro { color: var(--red-ink); }
+
+/* Portal publicado sem configuração de acesso: recado em vez de um
+   formulário que não levaria a lugar nenhum. */
+.login-bloqueio {
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(var(--on), 0.03);
+  text-align: left;
+}
+.login-bloqueio strong { display: block; font-size: 14px; margin-bottom: 6px; }
+.login-bloqueio p { margin: 0; font-size: 12.5px; color: var(--text-mid); line-height: 1.6; }
+.login-bloqueio a { color: var(--cyan); }
 
 .login-divider {
   display: flex; align-items: center; gap: 12px;

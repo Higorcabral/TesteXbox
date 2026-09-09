@@ -18,9 +18,13 @@
    real, LGPD entra na conversa antes de qualquer campo novo — base
    legal, retenção e o direito de apagar.
    ================================================================= */
+/* Vive no core porque os DOIS apps precisam: o portal mostra os leads do
+   cliente, o admin mostra o funil consolidado. Publica nos dois nomes de
+   namespace para não quebrar quem já o chamava. */
+window.HiferaAdmin  = window.HiferaAdmin  || {};
 window.HiferaPortal = window.HiferaPortal || {};
 
-HiferaPortal.LeadsModel = (function () {
+HiferaAdmin.LeadsModel = HiferaPortal.LeadsModel = (function () {
   'use strict';
 
   var Store = HiferaAdmin.StoreModel;
@@ -116,6 +120,35 @@ HiferaPortal.LeadsModel = (function () {
   /* --- Leitura, sempre com escopo -----------------------------------
      Não existe getAll() público de propósito: quem chamar tem que
      dizer de qual cliente está falando.                              */
+  /* O portal sempre olha um cliente por vez; o admin precisa do todo.
+     Sem isto, resumo() sem cliente devolve zeros e a tela de KPIs
+     mostraria funil vazio como se não houvesse lead nenhum. */
+  function todos(filtro) {
+    var lista = carregar().slice();
+    if (filtro && filtro !== 'todos') {
+      lista = lista.filter(function (x) { return x.status === filtro; });
+    }
+    return lista.sort(function (a, b) { return b.quando.localeCompare(a.quando); });
+  }
+
+  function resumoGeral() {
+    var r = { total: 0, novo: 0, contato: 0, ganho: 0, perdido: 0,
+              abertos: 0, ganhosNoMes: 0, clientes: 0 };
+    var vistos = {};
+    var corte = new Date();
+    corte.setDate(corte.getDate() - 30);
+    var corteISO = corte.toISOString();
+
+    carregar().forEach(function (x) {
+      r.total++;
+      if (r[x.status] != null) r[x.status]++;
+      if (STATUS[x.status] && STATUS[x.status].aberto) r.abertos++;
+      if (x.status === 'ganho' && x.quando >= corteISO) r.ganhosNoMes++;
+      if (!vistos[x.cliente]) { vistos[x.cliente] = 1; r.clientes++; }
+    });
+    return r;
+  }
+
   function porCliente(cliente, filtro) {
     if (!cliente) return [];
     filtro = filtro || {};
@@ -189,6 +222,8 @@ HiferaPortal.LeadsModel = (function () {
     STATUS: STATUS,
     ORIGENS: ORIGENS,
     porCliente: porCliente,
+    todos: todos,
+    resumoGeral: resumoGeral,
     resumo: resumo,
     mudarStatus: mudarStatus,
     anotar: anotar,

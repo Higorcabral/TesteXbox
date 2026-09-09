@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Hifera Company — mapa do site público (www.hifera.com.br).
+
+  Só entram páginas que a gente quer ver indexadas. admin.hifera.com.br e
+  clientes.hifera.com.br ficam de fora por definição: respondem com
+  noindex e nem pertencem a este domínio.
+
+  As quatro demos e o Ledger entram com prioridade menor que a home: são
+  vitrine, não porta de entrada. lastmod acompanha a última alteração de
+  conteúdo, não o último deploy — mexer no CSS não muda a data.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://www.hifera.com.br/</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://www.hifera.com.br/seguranca.html</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.hifera.com.br/apps/ledger/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.hifera.com.br/projetos/Projeto-CRM/</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://www.hifera.com.br/projetos/Projeto-Mani/</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://www.hifera.com.br/projetos/Projeto-Mecan/</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://www.hifera.com.br/projetos/Projeto-Stoq/</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+</urlset>

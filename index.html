@@ -37,8 +37,28 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=11">
+<link rel="stylesheet" href="style.css?v=15">
 <meta name="robots" content="noai, noimageai">
+
+<!-- Âncora de chegada — precisa rodar antes do <body> existir.
+     Abrir a página direto num #ancora (link compartilhado, F5 no meio da
+     página, resultado do Google) fazia o Chrome saltar para o meio de um
+     documento de quase quinze mil pixels durante o parse. O salto acontece
+     antes de as imagens reservarem o espaço delas, e o que sobrava era uma
+     faixa preta que só voltava a pintar quando a pessoa mexia o mouse.
+
+     A saída é não deixar o navegador fazer esse salto: guardamos o alvo,
+     tiramos o fragmento da URL antes que ele seja usado, e o próprio site
+     rola até lá depois que o layout parou de crescer — devolvendo o #ancora
+     à barra de endereços no fim, para o link continuar copiável. -->
+<script>
+(function () {
+  var hash = window.location.hash;
+  if (!hash || hash.length < 2 || !window.history || !history.replaceState) return;
+  window.HIFERA_ANCORA = hash;
+  history.replaceState(null, '', window.location.pathname + window.location.search);
+})();
+</script>
 </head>
 <body>
 
@@ -54,7 +74,7 @@
       <img src="assets/logo/HiferaIcon.png" alt="Hifera Company">
       <span>
         <strong>HIFERA <span class="grad-text">COMPANY</span></strong>
-        <small>Hub Digital</small>
+        <small>Sistemas e automação</small>
       </span>
     </a>
     <ul class="nav-links" id="nav-menu">
@@ -99,13 +119,18 @@
         <br>Feitos por quem entende que empresa é gente antes de ser processo.
       </p>
 
+      <!-- Um CTA primário só. O "Vamos conversar" do menu já cobre o
+           contato de forma permanente, então o hero fica com a ação que
+           faz sentido para quem ainda não sabe o que a Hifera faz: ver.
+           Falar vira link secundário, sem competir por atenção. -->
       <div class="hero-actions">
         <a href="#produtos" class="btn btn-primary">
           <span>Ver o que fazemos</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
-        <a href="#contato" class="btn btn-ghost">
-          <span>Falar com a gente</span>
+        <a href="#contato" class="link-arrow hero-link">
+          Falar com a gente
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
       </div>
 
@@ -485,6 +510,23 @@
         </article>
       </div>
 
+      <!-- A página de segurança é a munição de quem está desconfiado, e é
+           aqui que a desconfiança aparece — não escondida atrás de um item
+           de menu. -->
+      <div class="prim-seg reveal" data-delay="4">
+        <div class="prim-seg-txt">
+          <h3>Confiar a operação da empresa a duas pessoas exige mais que boa conversa.</h3>
+          <p>
+            Escrevemos por extenso como os dados são guardados, quem acessa o quê,
+            o que acontece se a Hifera sumir amanhã e o que ainda não está pronto.
+          </p>
+        </div>
+        <a href="seguranca.html" class="btn btn-ghost">
+          <span>Ler como tratamos segurança</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
       <div class="prim-pe reveal" data-delay="4">
         <p>
           Quando houver história real pra contar, ela aparece aqui, com nome,
@@ -545,7 +587,7 @@
             <span class="faq-q">Como funciona o pagamento?</span>
             <span class="faq-icon"></span>
           </summary>
-          <div class="faq-a">Mensalidade fixa para soluções prontas (a partir de R$ 197). Projetos sob medida têm setup + mensalidade de suporte. Sem taxa de cancelamento.</div>
+          <div class="faq-a">Mensalidade fixa. Soluções prontas começam em R$ 197/mês; o Controle Financeiro completo, que é o produto em destaque acima, começa em R$ 397/mês. Projetos sob medida têm setup + mensalidade de suporte. Sem taxa de cancelamento.</div>
         </details>
       </div>
     </div>
@@ -562,12 +604,47 @@
         <div class="eyebrow"><span class="dot"></span><span>Vamos começar</span></div>
         <h2>Conta em duas linhas <span class="grad-text">o que atrapalha.</span></h2>
         <p>Retorno em 24h úteis com uma primeira ideia. Sem formulário longo. Sem discurso.</p>
-        <div class="hero-actions">
-          <a href="mailto:comercial@hifera.com.br" class="btn btn-primary">
-            Escrever para comercial@hifera.com.br
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </a>
-        </div>
+
+        <!-- Quatro campos, três obrigatórios. O envio é resolvido no
+             js/contato.js: endpoint se houver, senão WhatsApp, senão
+             e-mail com o texto já montado. -->
+        <form class="cta-form" id="form-contato" novalidate>
+          <div class="cta-form-linha">
+            <label class="campo">
+              <span>Seu nome</span>
+              <input type="text" name="nome" autocomplete="name" required>
+            </label>
+            <label class="campo">
+              <span>Empresa <em>(opcional)</em></span>
+              <input type="text" name="empresa" autocomplete="organization">
+            </label>
+          </div>
+          <label class="campo">
+            <span>E-mail ou WhatsApp para retorno</span>
+            <input type="text" name="retorno" autocomplete="email" required>
+          </label>
+          <label class="campo">
+            <span>O que atrapalha hoje</span>
+            <textarea name="recado" rows="3" required
+                      placeholder="Ex.: fecho o caixa na planilha todo dia e sempre falta lançamento."></textarea>
+          </label>
+
+          <div class="cta-form-pe">
+            <button type="submit" class="btn btn-primary">
+              Enviar
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+            <span class="form-destino" data-destino></span>
+          </div>
+          <p class="form-aviso" data-aviso role="status" aria-live="polite"></p>
+        </form>
+
+        <p class="cta-alt">
+          Prefere direto?
+          <a href="mailto:comercial@hifera.com.br">comercial@hifera.com.br</a>
+          <!-- Aparece sozinho quando CONFIG.whatsapp for preenchido em js/contato.js -->
+          <a class="cta-alt-zap" data-canal="whatsapp" href="#" target="_blank" rel="noopener" hidden>WhatsApp</a>
+        </p>
       </div>
     </div>
   </section>
@@ -582,12 +659,18 @@
         <img src="assets/logo/HiferaIcon.png" alt="">
         <span>
           <strong>HIFERA <span class="grad-text">COMPANY</span></strong>
-          <small>Hub Digital · 2026</small>
+          <small>Sistemas e automação · 2026</small>
         </span>
       </div>
       <p class="footer-tag">Tecnologia com alma humana.<br>Feita por quem vive operação real.</p>
       <div class="footer-links">
         <a href="mailto:comercial@hifera.com.br">comercial@hifera.com.br</a>
+        <!-- WhatsApp e redes sociais entram sozinhos quando forem
+             configurados em js/contato.js. Enquanto não existirem,
+             ficam escondidos — link social que não leva a lugar nenhum
+             custa mais confiança do que a ausência dele. -->
+        <a data-canal="whatsapp" href="#" target="_blank" rel="noopener" hidden>WhatsApp</a>
+        <div class="footer-redes" data-redes hidden></div>
       </div>
     </div>
   </div>
@@ -598,18 +681,31 @@
 <script src="js/vitrine-dados.js?v=1"></script>
 <script src="js/vitrine.js?v=3"></script>
 
+<!-- Canais de contato. Ponto único onde WhatsApp, redes sociais e o
+     destino do formulário são configurados. -->
+<script src="js/contato.js?v=1"></script>
+
 <script>
 /* ==============================================================
    V2. Comportamentos: reveal, nav scroll, kinetic words, counters
    ============================================================== */
 
-/* Preloader. Remove após load */
-window.addEventListener('load', function () {
-  setTimeout(function () {
+/* Preloader. Sai no load — ou em 1,2s, o que vier primeiro.
+   O prazo importa: 'load' espera TODAS as imagens, inclusive as doze
+   que vêm de fora. Numa conexão ruim, ou com o domínio das imagens
+   bloqueado, amarrar o preloader só ao load deixa o site preto por
+   tempo indeterminado. A página já está legível bem antes disso. */
+(function () {
+  var saiu = false;
+  function esconder() {
+    if (saiu) return;
+    saiu = true;
     var p = document.getElementById('preloader');
     if (p) p.classList.add('is-hidden');
-  }, 220);
-});
+  }
+  window.addEventListener('load', function () { setTimeout(esconder, 220); });
+  setTimeout(esconder, 1200);
+})();
 
 /* Nav. Scroll shadow */
 var nav = document.getElementById('nav');
@@ -664,21 +760,129 @@ window.addEventListener('scroll', function () {
   else if (mq.addListener) mq.addListener(onChange);
 })();
 
-/* Reveal on scroll */
-var reveals = document.querySelectorAll('.reveal');
+/* ==============================================================
+   Reveal on scroll — dois caminhos, de propósito
+   --------------------------------------------------------------
+   1. O IntersectionObserver cuida do caso normal: a pessoa rola do
+      topo e cada bloco entra com animação.
+   2. revelarNoViewport() cuida do caso que quebrava — abrir a página
+      já num #ancora (#faq, #produtos, #primeiros). Ali o navegador
+      salta para o meio do documento antes das imagens carregarem, o
+      layout ainda cresce depois do salto, e o que sobrava na tela era
+      uma faixa preta de blocos nunca revelados. O observer sozinho
+      não resolve porque ele só reage a *mudança* de interseção.
+
+   Revelar por este segundo caminho é instantâneo (.is-instant):
+   animar de opacity 0 um bloco que já deveria estar visível é
+   exatamente o que fazia a página parecer quebrada.
+   ============================================================== */
+var reveals = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+var io = null;
+
+function revelar(el, instantaneo) {
+  if (el.classList.contains('is-visible')) return;
+  if (instantaneo) el.classList.add('is-instant');
+  el.classList.add('is-visible');
+  if (io) io.unobserve(el);
+}
+
+/* Revela tudo que já está na tela ou que ficou acima dela. O "acima"
+   importa: sem ele, subir depois de chegar por um #ancora deixa buraco. */
+function revelarNoViewport(instantaneo) {
+  var altura = window.innerHeight || document.documentElement.clientHeight;
+  reveals.forEach(function (el) {
+    if (el.classList.contains('is-visible')) return;
+    if (el.getBoundingClientRect().top < altura) revelar(el, instantaneo);
+  });
+}
+
 if ('IntersectionObserver' in window) {
-  var io = new IntersectionObserver(function (entries) {
+  io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
-      if (e.isIntersecting) {
-        e.target.classList.add('is-visible');
-        io.unobserve(e.target);
-      }
+      if (e.isIntersecting) revelar(e.target, false);
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
   reveals.forEach(function (el) { io.observe(el); });
 } else {
-  reveals.forEach(function (el) { el.classList.add('is-visible'); });
+  reveals.forEach(function (el) { revelar(el, true); });
 }
+
+/* Deep link. O fragmento foi retirado da URL lá no <head> (ver comentário
+   de "Âncora de chegada"), então quem rola até o alvo somos nós — depois
+   que o layout parou de crescer, e não durante o parse. */
+function ancora() {
+  return window.HIFERA_ANCORA || window.location.hash || '';
+}
+
+function ancorarNoHash() {
+  var hash = ancora();
+  if (!hash || hash.length < 2) return;
+  var alvo;
+  try { alvo = document.querySelector(hash); } catch (e) { return; }
+  if (!alvo) return;
+  revelarNoViewport(true);
+  alvo.scrollIntoView({ behavior: 'auto', block: 'start' });
+  revelarNoViewport(true);
+}
+
+/* Devolve o #ancora à barra de endereços, para o link continuar copiável
+   e o botão voltar continuar fazendo sentido. */
+function devolverHash() {
+  if (!window.HIFERA_ANCORA) return;
+  if (window.history && history.replaceState) {
+    history.replaceState(null, '', window.location.pathname + window.location.search + window.HIFERA_ANCORA);
+  }
+}
+
+/* Em documento longo o Chrome às vezes fica sem repintar depois do salto,
+   até o primeiro movimento de mouse. Um pixel de ida e volta força o
+   quadro sem que ninguém perceba. */
+function repintar() {
+  var y = window.pageYOffset;
+  window.scrollTo(0, y + 1);
+  window.scrollTo(0, y);
+}
+
+var usuarioMexeu = false;
+['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (evt) {
+  window.addEventListener(evt, function () { usuarioMexeu = true; }, { passive: true, once: true });
+});
+
+if (ancora().length > 1) ancorarNoHash();
+
+/* Reancora e força o quadro enquanto a pessoa não assumir a rolagem.
+   Precisa ser repetido: as imagens com loading="lazy" só reservam o
+   espaço delas quando terminam de baixar, o que acontece depois do
+   load — e cada uma que chega empurra o alvo para outro lugar. */
+function reassentar() {
+  if (usuarioMexeu) return;
+  ancorarNoHash();
+  repintar();
+}
+
+window.addEventListener('load', function () {
+  if (ancora().length > 1) {
+    ancorarNoHash();
+    [0, 120, 400, 900, 1600].forEach(function (ms) { setTimeout(reassentar, ms); });
+    /* O caminho preciso: cada imagem que ainda estava baixando avisa
+       quando ocupou o espaço dela. Os timers acima são só a rede de
+       segurança para imagem que nunca carrega. */
+    Array.prototype.forEach.call(document.images, function (img) {
+      if (img.complete) return;
+      img.addEventListener('load', reassentar, { once: true });
+    });
+    setTimeout(devolverHash, 1800);
+  } else {
+    revelarNoViewport(false);
+  }
+  requestAnimationFrame(repintar);
+});
+
+window.addEventListener('hashchange', function () {
+  window.HIFERA_ANCORA = null;
+  ancorarNoHash();
+});
+window.addEventListener('resize', function () { revelarNoViewport(true); }, { passive: true });
 
 /* Counter animation nos números */
 function animateCount(el) {

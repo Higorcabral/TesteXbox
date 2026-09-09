@@ -55,6 +55,8 @@ Disallow: /
 User-agent: *
 Allow: /
 
+Sitemap: https://www.hifera.com.br/sitemap.xml
+
 # A área interna e o portal do cliente saíram deste site: agora moram em
 # admin.hifera.com.br e clientes.hifera.com.br, cada um com noindex no
 # cabeçalho da resposta. Listá-los aqui só serviria para anunciar que

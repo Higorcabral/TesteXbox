@@ -127,7 +127,7 @@ def montar_site():
     d = os.path.join(DIST, 'site')
     limpar(d)
     for item in ('index.html', 'seguranca.html', 'style.css', 'robots.txt',
-                 'assets', 'js', 'projetos', 'apps', 'v2'):
+                 'sitemap.xml', 'assets', 'js', 'projetos', 'apps', 'v2'):
         copiar(item, d)
     config('site', d)
     return d
@@ -183,6 +183,12 @@ def montar_clientes():
         p = os.path.join(d, lixo)
         if os.path.isfile(p):
             os.remove(p)
+
+    # supabase/ é migração de banco, não conteúdo do site. Publicar
+    # o schema entregaria de graça o nome das tabelas e das políticas.
+    sql = os.path.join(d, 'supabase')
+    if os.path.isdir(sql):
+        shutil.rmtree(sql)
 
     # o core compartilhado entra como /core/
     shutil.copytree(os.path.join(RAIZ, 'modulos', 'core'),

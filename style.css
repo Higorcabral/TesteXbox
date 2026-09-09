@@ -31,7 +31,12 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+/* Sem scroll-behavior: smooth aqui de propósito. Com ele, abrir a página
+   direto num #ancora vira uma animação de treze mil pixels que o Chrome
+   às vezes interrompe no meio — e a pessoa fica olhando para uma faixa
+   preta. A rolagem suave dos links internos é feita no JS, onde dá para
+   escolher quando ela é bem-vinda e quando atrapalha. */
+html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   font-family: 'Poppins', system-ui, -apple-system, sans-serif;
@@ -76,16 +81,23 @@ em {
 }
 
 /* --- Preloader ---------------------------------------------------- */
+/* A barra fica no terço de baixo, não no meio: centralizada, ela cruzava
+   exatamente a altura do <h1> do hero e, durante o fade, aparecia como um
+   sublinhado atravessando o título. Barra de carregamento não é elemento
+   de composição — sai de cena antes do fundo, e longe do texto. */
 .preloader {
   position: fixed;
   inset: 0;
   background: var(--bg);
   z-index: 9999;
   display: grid;
-  place-items: center;
-  transition: opacity 420ms var(--ease-out), visibility 420ms;
+  place-items: end center;
+  padding-bottom: 18vh;
+  transition: opacity 280ms var(--ease-out), visibility 280ms;
 }
 .preloader.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.preloader-bar { transition: opacity 120ms linear; }
+.preloader.is-hidden .preloader-bar { opacity: 0; }
 .preloader-bar {
   width: 240px;
   height: 2px;
@@ -358,13 +370,20 @@ em {
 }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
+/* O piso do clamp era 44px, que em tela de 360px quebrava o título em seis
+   linhas e empurrava os botões para fora da primeira dobra. 34px cabe em
+   quatro linhas e devolve o CTA para dentro da tela; acima de ~400px de
+   largura o tamanho é o mesmo de antes. */
 .hero-title {
-  font-size: clamp(44px, 8vw, 96px);
+  font-size: clamp(34px, 8.6vw, 96px);
   line-height: 0.98;
   letter-spacing: -0.045em;
   font-weight: 800;
   max-width: 14ch;
   margin-bottom: 32px;
+}
+@media (max-width: 480px) {
+  .hero-title { margin-bottom: 24px; }
 }
 .hero-title .word {
   display: inline-block;
@@ -545,14 +564,22 @@ em {
   transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-spring);
 }
 .reveal.is-visible { opacity: 1; transform: none; }
+/* Revelado sem animação: usado quando a pessoa chega por um #ancora e o
+   bloco já deveria estar na tela. Animar do zero nesse caso é o que fazia
+   a página parecer quebrada. */
+.reveal.is-instant { transition: none; }
 .reveal[data-delay="1"] { transition-delay: 120ms; }
 .reveal[data-delay="2"] { transition-delay: 240ms; }
 .reveal[data-delay="3"] { transition-delay: 360ms; }
 .reveal[data-delay="4"] { transition-delay: 480ms; }
 
 /* --- Manifesto --------------------------------------------------- */
+/* Rodapé mais curto que o topo de propósito: o manifesto termina com
+   "Ver como fazemos isso na prática", que aponta para a seção seguinte.
+   Com 140px dos dois lados sobravam 280px de nada entre uma frase e a
+   resposta dela — mais de um terço da tela num notebook. */
 .manifesto {
-  padding: 140px 0;
+  padding: 140px 0 96px;
   background: var(--bg);
   position: relative;
 }
@@ -628,13 +655,16 @@ em {
   border-bottom: 1px solid rgba(93, 224, 230, 0.3);
   transition: border-color 220ms;
 }
+/* No hero o link secundário divide a linha com o botão primário, então
+   perde a margem de cima e ganha altura equivalente à do botão. */
+.hero-actions .hero-link { margin-top: 0; padding: 12px 4px; }
 .link-arrow svg { width: 16px; height: 16px; transition: transform 220ms var(--ease-spring); }
 .link-arrow:hover { border-color: var(--cyan); }
 .link-arrow:hover svg { transform: translateX(4px); }
 
 /* --- Steps (Como fazemos) ---------------------------------------- */
 .method {
-  padding: 140px 0;
+  padding: 96px 0 140px;
   background: var(--bg-2);
   border-top: 1px solid var(--line);
 }
@@ -655,6 +685,7 @@ em {
 .step.step-flip > * { direction: ltr; }
 @media (max-width: 900px) {
   .step, .step.step-flip { grid-template-columns: 1fr; gap: 32px; direction: ltr; }
+  .steps { gap: 56px; }
 }
 
 .step-media {
@@ -692,6 +723,17 @@ em {
   line-height: 1;
   text-shadow: 0 4px 20px rgba(0,0,0,0.5);
   letter-spacing: -0.04em;
+}
+
+/* Empilhado, a foto vem antes do texto que importa. Em 4/3 ela ocupava
+   quase um terço da tela por passo — três passos viravam uma tela inteira
+   de banco de imagens antes de qualquer informação nova. Em 16/9 continua
+   ambientando sem virar pedágio de rolagem.
+   Fica depois da regra base de propósito: mesma especificidade, quem vem
+   por último ganha. */
+@media (max-width: 900px) {
+  .step-media { aspect-ratio: 16 / 9; }
+  .step-num { font-size: 48px; top: 12px; left: 16px; }
 }
 
 .step-body h3 {
@@ -1135,6 +1177,109 @@ em {
 }
 .cta-inner .hero-actions { justify-content: center; }
 
+/* --- Formulário do CTA final ------------------------------------- */
+.cta-form {
+  max-width: 620px;
+  margin: 0 auto;
+  text-align: left;
+  display: grid;
+  gap: 16px;
+}
+.cta-form-linha {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.campo { display: grid; gap: 8px; }
+.campo > span {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-mid);
+  letter-spacing: 0.01em;
+}
+.campo > span em { font-style: normal; color: var(--text-dim); }
+.campo input,
+.campo textarea {
+  width: 100%;
+  padding: 13px 15px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: rgba(10, 10, 11, 0.72);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.5;
+  transition: border-color 200ms, background 200ms;
+}
+.campo textarea { resize: vertical; min-height: 92px; }
+.campo input::placeholder,
+.campo textarea::placeholder { color: var(--text-dim); }
+.campo input:focus,
+.campo textarea:focus {
+  outline: none;
+  border-color: var(--cyan);
+  background: rgba(10, 10, 11, 0.9);
+}
+.cta-form-pe {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.form-destino { font-size: 13px; color: var(--text-dim); }
+.form-aviso {
+  margin: 0;
+  min-height: 20px;
+  font-size: 13.5px;
+  color: var(--text-mid);
+  max-width: none;
+}
+.form-aviso.is-erro { color: #ff9f9f; }
+.form-aviso.is-ok { color: var(--cyan); }
+.cta-alt {
+  margin-top: 28px;
+  font-size: 13.5px;
+  color: var(--text-dim);
+}
+.cta-alt a {
+  color: var(--text-mid);
+  border-bottom: 1px solid var(--line-strong);
+  transition: color 200ms, border-color 200ms;
+}
+.cta-alt a:hover { color: var(--cyan); border-color: var(--cyan); }
+.cta-alt-zap { margin-left: 14px; }
+
+@media (max-width: 620px) {
+  .cta-form-linha { grid-template-columns: 1fr; }
+}
+
+/* --- Botão flutuante de WhatsApp ---------------------------------
+   Criado pelo js/contato.js e só quando existe número configurado. */
+.zap-float {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 18px;
+  border-radius: 999px;
+  background: #1faf54;
+  color: #fff;
+  font-size: 14.5px;
+  font-weight: 600;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  transition: transform 220ms var(--ease-spring), background 220ms;
+}
+.zap-float svg { width: 22px; height: 22px; }
+.zap-float:hover { transform: translateY(-2px); background: #23c25e; }
+@media (max-width: 600px) {
+  .zap-float span { display: none; }
+  .zap-float { padding: 14px; }
+}
+
 /* --- Footer ------------------------------------------------------ */
 .footer {
   padding: 60px 0 40px;
@@ -1172,6 +1317,9 @@ em {
   transition: color 220ms;
 }
 .footer-links a:hover { color: var(--text); }
+.footer-redes { display: flex; align-items: center; gap: 14px; }
+.footer-redes a { display: inline-flex; color: var(--text-mid); }
+.footer-redes svg { width: 18px; height: 18px; }
 
 /* --- Carousel dentro do proj-media (transições suaves entre telas) */
 .proj-media {
@@ -1383,6 +1531,36 @@ em {
   font-size: 14px;
   color: var(--text-dim);
   max-width: 56ch;
+}
+
+/* Ponte para a página de segurança, dentro de "Primeiros clientes" */
+.prim-seg {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-top: 48px;
+  padding: 28px 32px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--bg-2);
+}
+.prim-seg-txt { max-width: 62ch; }
+.prim-seg h3 {
+  margin: 0 0 8px;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.prim-seg p {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--text-dim);
+}
+@media (max-width: 700px) {
+  .prim-seg { padding: 24px; }
+  .prim-seg .btn { width: 100%; justify-content: center; }
 }
 
 /* --- FAQ --------------------------------------------------------- */
