@@ -63,6 +63,13 @@ ul { margin: 0; padding: 0; list-style: none; }
   padding-inline: 24px;
 }
 
+/* Âncora que não some atrás da nav fixa. Sem isso, clicar em "Produtos"
+   no menu (ou chegar por um link com #ancora) encostava o título da
+   seção no topo da tela e a barra cobria a primeira linha. */
+main > section[id],
+main > header[id],
+section[id] { scroll-margin-top: calc(var(--nav-h) + 20px); }
+
 .grad-text {
   background: var(--grad-text);
   -webkit-background-clip: text;
@@ -179,6 +186,10 @@ em {
   padding: 10px 18px;
   font-size: 13.5px;
   font-weight: 500;
+  /* O rótulo cresceu de "Vamos conversar" para "Quero conversar" e, em
+     larguras intermediárias, quebrava em duas linhas dentro da pílula. */
+  white-space: nowrap;
+  flex-shrink: 0;
   color: #fff;
   background: var(--grad);
   border-radius: 999px;
@@ -384,6 +395,14 @@ em {
 }
 @media (max-width: 480px) {
   .hero-title { margin-bottom: 24px; }
+  /* Alvo de toque: o CTA principal ocupa a largura toda, o secundário
+     fica logo abaixo com altura própria. Lado a lado, num telefone,
+     os dois viravam dois retângulos estreitos e difíceis de acertar. */
+  .hero-actions { flex-direction: column; align-items: stretch; gap: 8px; }
+  .hero-actions .btn { width: 100%; justify-content: center; }
+  .hero-actions .hero-link { justify-content: center; padding: 14px 4px; }
+  .hero-micro { text-align: center; }
+  .cta-inner .hero-actions { align-items: stretch; }
 }
 .hero-title .word {
   display: inline-block;
@@ -408,12 +427,34 @@ em {
   animation: fadeUp 900ms var(--ease-out) 700ms forwards;
 }
 
+/* O segundo parágrafo do hero é o que explica a oferta. Fica um pouco
+   menor e mais apagado que o primeiro para a hierarquia não empatar. */
+.hero-sub-2 {
+  font-size: clamp(15px, 1.15vw, 17px);
+  color: #c2c2ca;
+  max-width: 600px;
+  margin-bottom: 36px;
+  animation-delay: 800ms;
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 12px;
   opacity: 0;
   animation: fadeUp 900ms var(--ease-out) 900ms forwards;
+}
+
+/* Linha de garantias abaixo do CTA. Tira o peso de "vou ser abordado
+   por vendedor" antes de a pessoa clicar. */
+.hero-micro {
+  margin-top: 18px;
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  color: var(--text-mid);
+  opacity: 0;
+  animation: fadeUp 900ms var(--ease-out) 1050ms forwards;
 }
 
 .btn {
@@ -1022,14 +1063,19 @@ em {
 .num-card:hover { border-color: var(--line-strong); transform: translateY(-4px); }
 
 .num-value {
-  font-size: clamp(48px, 5.5vw, 72px);
+  /* "7 dias" e "100%" são mais largos que "5": sem o piso menor, o
+     cartão estourava a caixa em telas de 360px. */
+  font-size: clamp(40px, 5.5vw, 72px);
   line-height: 1;
   font-weight: 800;
   letter-spacing: -0.04em;
-  background: var(--grad);
+  /* Era --grad, que termina em #004aad e dava 2.4:1 sobre o cartão.
+     --grad-text mantém a identidade e passa no contraste. */
+  background: var(--grad-text);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent;
   margin-bottom: 12px;
 }
 .num-label {
@@ -1111,11 +1157,47 @@ em {
   font-size: 24px;
   margin-bottom: 6px;
 }
+/* A frente de atuação é a informação comercial do cartão — vem antes
+   do cargo, no gradiente da marca, com peso de subtítulo. O nome
+   completo e o cargo descem para a linha de apoio. */
+.founder-frente {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 6px 0 6px;
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
 .founder-role {
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--text-mid);
   margin-bottom: 20px;
   letter-spacing: 0.02em;
+}
+
+/* A soma das duas bagagens. Fecha a seção com o diferencial escrito
+   como equação, não como parágrafo de "sobre nós". */
+.founders-soma {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin: 48px auto 0;
+  padding-top: 36px;
+  border-top: 1px solid var(--line);
+  font-size: clamp(14px, 1.5vw, 17px);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  text-align: center;
+}
+.founders-soma .soma-op {
+  color: var(--cyan);
+  font-weight: 700;
 }
 .founder-card p {
   font-size: 14.5px;
@@ -1177,49 +1259,136 @@ em {
 }
 .cta-inner .hero-actions { justify-content: center; }
 
-/* --- Formulário do CTA final ------------------------------------- */
+/* =================================================================
+   CONVERSA — a seção de primeiro contato, logo abaixo do hero
+   -----------------------------------------------------------------
+   Um cartão só, centrado, sem foto de fundo. É a única parte da
+   página onde a pessoa precisa parar e escrever: tudo o que distrai
+   (parallax, imagem, brilho) fica de fora de propósito.
+   ================================================================= */
+.conversa {
+  padding: 96px 0;
+  background: var(--bg-2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.conversa-box {
+  max-width: 720px;
+  margin-inline: auto;
+  padding: 44px 48px 40px;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+}
+.conversa-head { text-align: center; margin-bottom: 32px; }
+.conversa-head h2 {
+  font-size: clamp(28px, 3.6vw, 42px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin: 18px 0 14px;
+}
+.conversa-head .lead {
+  font-size: 15.5px;
+  color: var(--text-mid);
+  max-width: 48ch;
+  margin-inline: auto;
+}
+
+/* --- Formulário (usado na seção Conversa) ------------------------ */
 .cta-form {
   max-width: 620px;
   margin: 0 auto;
   text-align: left;
   display: grid;
-  gap: 16px;
+  gap: 18px;
 }
+.cta-form[hidden] { display: none; }
 .cta-form-linha {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
 }
-.campo { display: grid; gap: 8px; }
-.campo > span {
-  font-size: 13px;
+.campo { display: grid; gap: 7px; }
+.campo > label {
+  font-size: 13.5px;
   font-weight: 500;
-  color: var(--text-mid);
+  /* Label de formulário é instrução, não legenda: sobe para o texto
+     cheio. Em --text-mid o conjunto ficava em 4.1:1, no limite. */
+  color: var(--text);
   letter-spacing: 0.01em;
 }
-.campo > span em { font-style: normal; color: var(--text-dim); }
+.campo > label em { font-style: normal; font-weight: 400; color: var(--text-dim); }
+.campo .req { color: var(--cyan); margin-left: 2px; }
+
 .campo input,
-.campo textarea {
+.campo textarea,
+.campo select {
   width: 100%;
-  padding: 13px 15px;
+  padding: 14px 15px;
   border: 1px solid var(--line-strong);
   border-radius: 12px;
   background: rgba(10, 10, 11, 0.72);
   color: var(--text);
   font-family: inherit;
-  font-size: 15px;
+  /* 16px não é estética: abaixo disso o Safari do iPhone dá zoom
+     sozinho ao focar o campo e a pessoa perde o enquadramento da
+     página no meio do preenchimento. */
+  font-size: 16px;
   line-height: 1.5;
-  transition: border-color 200ms, background 200ms;
+  transition: border-color 200ms, background 200ms, box-shadow 200ms;
 }
-.campo textarea { resize: vertical; min-height: 92px; }
+.campo textarea { resize: vertical; min-height: 110px; }
 .campo input::placeholder,
 .campo textarea::placeholder { color: var(--text-dim); }
+
+/* Seta própria: a nativa do <select> aparece preta em tema escuro em
+   parte dos navegadores e some sobre o campo. */
+.campo select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 42px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 18px 18px;
+  cursor: pointer;
+}
+.campo select option { background: #17171a; color: var(--text); }
+
 .campo input:focus,
-.campo textarea:focus {
+.campo textarea:focus,
+.campo select:focus {
   outline: none;
   border-color: var(--cyan);
-  background: rgba(10, 10, 11, 0.9);
+  background: rgba(10, 10, 11, 0.92);
+  box-shadow: 0 0 0 3px rgba(93, 224, 230, 0.16);
 }
+/* Teclado: o anel do :focus acima é discreto de propósito (aparece
+   também no clique de mouse). Quem navega por Tab precisa de um sinal
+   forte, então aqui ele engrossa em vez de sumir. */
+.campo input:focus-visible,
+.campo textarea:focus-visible,
+.campo select:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+/* Erro por campo */
+.campo.tem-erro input,
+.campo.tem-erro textarea,
+.campo.tem-erro select {
+  border-color: #ff9f9f;
+  box-shadow: 0 0 0 3px rgba(255, 159, 159, 0.14);
+}
+.campo-erro {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #ff9f9f;
+}
+.campo-erro[hidden] { display: none; }
+
 .cta-form-pe {
   display: flex;
   align-items: center;
@@ -1227,23 +1396,82 @@ em {
   flex-wrap: wrap;
   margin-top: 4px;
 }
-.form-destino { font-size: 13px; color: var(--text-dim); }
+.cta-form-pe .btn { padding: 15px 26px; }
+
+/* Loading do botão: a seta sai, o anel entra, a largura não pula. */
+.btn-spinner { display: none; }
+.btn.is-enviando { pointer-events: none; opacity: 0.85; }
+.btn.is-enviando .btn-seta { display: none; }
+.btn.is-enviando .btn-spinner {
+  display: block;
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: girar 700ms linear infinite;
+}
+@keyframes girar { to { transform: rotate(360deg); } }
+.btn:disabled { cursor: not-allowed; }
+
+.form-destino { font-size: 13px; color: var(--text-mid); }
 .form-aviso {
   margin: 0;
-  min-height: 20px;
+  min-height: 0;
   font-size: 13.5px;
+  line-height: 1.5;
   color: var(--text-mid);
   max-width: none;
 }
+.form-aviso:empty { display: none; }
 .form-aviso.is-erro { color: #ff9f9f; }
 .form-aviso.is-ok { color: var(--cyan); }
+
+.form-lgpd {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+/* --- Estado de sucesso ------------------------------------------- */
+.form-ok {
+  text-align: center;
+  padding: 20px 0 8px;
+  animation: fadeUp 420ms var(--ease-out) both;
+}
+.form-ok[hidden] { display: none; }
+.form-ok:focus { outline: none; }
+.form-ok-icone {
+  width: 56px; height: 56px;
+  margin: 0 auto 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--grad);
+  color: #fff;
+  box-shadow: 0 12px 28px -10px rgba(0, 74, 173, 0.8);
+}
+.form-ok-icone svg { width: 26px; height: 26px; }
+.form-ok h3 {
+  font-size: clamp(22px, 2.6vw, 28px);
+  letter-spacing: -0.025em;
+  margin-bottom: 12px;
+}
+.form-ok p {
+  font-size: 15px;
+  color: var(--text-mid);
+  max-width: 44ch;
+  margin: 0 auto 28px;
+}
+
 .cta-alt {
   margin-top: 28px;
   font-size: 13.5px;
-  color: var(--text-dim);
+  color: var(--text-mid);
+  text-align: center;
 }
 .cta-alt a {
-  color: var(--text-mid);
+  color: var(--text);
   border-bottom: 1px solid var(--line-strong);
   transition: color 200ms, border-color 200ms;
 }
@@ -1252,6 +1480,87 @@ em {
 
 @media (max-width: 620px) {
   .cta-form-linha { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .conversa { padding: 64px 0; }
+  .conversa-box { padding: 32px 22px 28px; border-radius: 20px; }
+  /* Num telefone, o botão de envio tem que ser impossível de errar.
+     O padding lateral encolhe porque "Quero conversar com a Hifera"
+     mais a seta passavam por um fio da largura útil e o rótulo
+     quebrava em duas linhas dentro da pílula. */
+  .cta-form-pe { gap: 12px; }
+  .cta-form-pe .btn {
+    width: 100%;
+    justify-content: center;
+    padding-inline: 16px;
+    white-space: nowrap;
+  }
+  .form-ok .btn { width: 100%; justify-content: center; }
+}
+
+/* =================================================================
+   Trilhas de produto (Soluções prontas / Sob medida)
+   ================================================================= */
+.trilha { margin: 56px 0 28px; }
+.trilha:first-of-type { margin-top: 0; }
+.trilha-marca {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+.trilha-n {
+  flex-shrink: 0;
+  width: 38px; height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--cyan);
+}
+.trilha-marca h3 {
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.trilha-marca p {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-mid);
+  max-width: 68ch;
+}
+@media (max-width: 560px) {
+  .trilha-marca { gap: 14px; }
+  .trilha-marca h3 { font-size: 18px; }
+}
+
+/* =================================================================
+   CTA de fim de seção — mesma ação, mesmo rótulo, em toda a página
+   ================================================================= */
+.secao-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 64px;
+  padding-top: 40px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+.secao-cta p {
+  font-size: 15.5px;
+  color: var(--text-mid);
+  max-width: 44ch;
+}
+@media (max-width: 640px) {
+  .secao-cta { flex-direction: column; gap: 20px; margin-top: 48px; }
+  .secao-cta .btn { width: 100%; justify-content: center; }
 }
 
 /* --- Botão flutuante de WhatsApp ---------------------------------
@@ -1529,8 +1838,12 @@ em {
 }
 .prim-pe p {
   font-size: 14px;
-  color: var(--text-dim);
-  max-width: 56ch;
+  color: var(--text-mid);
+  max-width: 48ch;
+}
+@media (max-width: 640px) {
+  .prim-pe { flex-direction: column; align-items: stretch; gap: 20px; }
+  .prim-pe .btn { width: 100%; justify-content: center; }
 }
 
 /* Ponte para a página de segurança, dentro de "Primeiros clientes" */
@@ -1891,7 +2204,15 @@ em {
   }
   .reveal { opacity: 1; transform: none; }
   .hero-title .word { opacity: 1; transform: none; }
-  .hero-sub, .hero-actions, .hero-scroll { opacity: 1; animation: none; }
+  .hero-sub, .hero-actions, .hero-scroll, .hero-micro { opacity: 1; animation: none; }
+  .form-ok { animation: none; }
+  /* O anel de loading é a única animação que continua: sem ela não
+     há sinal nenhum de que o envio está acontecendo. Fica mais lento,
+     não some. */
+  .btn.is-enviando .btn-spinner {
+    animation-duration: 1.4s !important;
+    animation-iteration-count: infinite !important;
+  }
 }
 
 /* =====================================================================

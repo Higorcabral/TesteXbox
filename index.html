@@ -10,8 +10,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hifera Company · Automação com alma humana</title>
-<meta name="description" content="Automação empresarial pensada por pessoas para pessoas. Sistemas que respeitam sua operação e crescem com você.">
+<title>Hifera Company | Automação, Sistemas e Tecnologia para Operações Reais</title>
+<meta name="description" content="Sistemas, automações e integrações para reduzir processos manuais. A Hifera entende sua operação, constrói soluções úteis e evolui com seu negócio.">
 <meta name="theme-color" content="#0a0a0b">
 <link rel="canonical" href="https://www.hifera.com.br/">
 
@@ -20,25 +20,52 @@
 <meta property="og:site_name" content="Hifera Company">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:url" content="https://www.hifera.com.br/">
-<meta property="og:title" content="Hifera Company · Automação com alma humana">
-<meta property="og:description" content="Automação empresarial pensada por pessoas para pessoas. Sistemas que respeitam sua operação e crescem com você.">
+<meta property="og:title" content="Hifera Company | Automação, Sistemas e Tecnologia para Operações Reais">
+<meta property="og:description" content="Sistemas, automações e integrações para reduzir processos manuais. A Hifera entende sua operação, constrói soluções úteis e evolui com seu negócio.">
 <meta property="og:image" content="https://www.hifera.com.br/assets/og-cover.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Logo da Hifera Company">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Hifera Company · Automação com alma humana">
-<meta name="twitter:description" content="Automação empresarial pensada por pessoas para pessoas. Sistemas que respeitam sua operação e crescem com você.">
+<meta name="twitter:title" content="Hifera Company | Automação, Sistemas e Tecnologia para Operações Reais">
+<meta name="twitter:description" content="Sistemas, automações e integrações para reduzir processos manuais. A Hifera entende sua operação, constrói soluções úteis e evolui com seu negócio.">
 <meta name="twitter:image" content="https://www.hifera.com.br/assets/og-cover.png">
 
 <link rel="icon" type="image/png" href="assets/logo/HiferaIcon.png">
+<link rel="apple-touch-icon" href="assets/logo/HiferaIcon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=15">
+<link rel="stylesheet" href="style.css?v=16">
 <meta name="robots" content="noai, noimageai">
+
+<!-- Dados estruturados. Só o que a página realmente afirma — nada de
+     avaliação, contagem de clientes ou prêmio que não existe. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Hifera Company",
+  "url": "https://www.hifera.com.br/",
+  "logo": "https://www.hifera.com.br/assets/logo/HiferaIcon.png",
+  "image": "https://www.hifera.com.br/assets/og-cover.png",
+  "email": "comercial@hifera.com.br",
+  "description": "Sistemas, automações e integrações para reduzir processos manuais em operações reais.",
+  "areaServed": { "@type": "Country", "name": "Brasil" },
+  "founder": [
+    { "@type": "Person", "name": "Higor Cabral" },
+    { "@type": "Person", "name": "Fernanda Rodrigues" }
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "comercial",
+    "email": "comercial@hifera.com.br",
+    "availableLanguage": "pt-BR"
+  }
+}
+</script>
 
 <!-- Âncora de chegada — precisa rodar antes do <body> existir.
      Abrir a página direto num #ancora (link compartilhado, F5 no meio da
@@ -86,7 +113,10 @@
       <li><a href="#faq">FAQ</a></li>
         <li><a href="seguranca.html">Segurança</a></li>
     </ul>
-    <a href="#contato" class="nav-cta">Vamos conversar <span>→</span></a>
+    <!-- Mesma ação da página inteira. O rótulo é o único que não repete
+         "com a Hifera" por extenso: na barra, ao lado da marca, a frase
+         completa não cabe em telas pequenas sem empurrar o hambúrguer. -->
+    <a href="#contato" class="nav-cta">Quero conversar <span>→</span></a>
     <button type="button" class="nav-toggle" id="navToggle"
             aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu">
       <span class="nav-toggle-bars" aria-hidden="true"></span>
@@ -115,29 +145,137 @@
       </h1>
 
       <p class="hero-sub">
-        Sistemas prontos, projetos sob medida e automações que rodam por você.
-        <br>Feitos por quem entende que empresa é gente antes de ser processo.
+        Sistemas, automações e integrações para tirar processos manuais do caminho.
       </p>
 
-      <!-- Um CTA primário só. O "Vamos conversar" do menu já cobre o
-           contato de forma permanente, então o hero fica com a ação que
-           faz sentido para quem ainda não sabe o que a Hifera faz: ver.
-           Falar vira link secundário, sem competir por atenção. -->
+      <p class="hero-sub hero-sub-2">
+        Você conta o que está travando sua operação. A Hifera entende o processo,
+        encontra onde a tecnologia pode ajudar e apresenta um caminho — sem
+        proposta genérica e sem enrolação.
+      </p>
+
+      <!-- Uma ação principal, repetida igual em toda a página: conversar.
+           "Conhecer nossas soluções" fica como secundária, para quem ainda
+           não sabe o que a Hifera faz e quer ver antes de falar. -->
       <div class="hero-actions">
-        <a href="#produtos" class="btn btn-primary">
-          <span>Ver o que fazemos</span>
+        <a href="#contato" class="btn btn-primary">
+          <span>Quero conversar com a Hifera</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
-        <a href="#contato" class="link-arrow hero-link">
-          Falar com a gente
+        <a href="#produtos" class="link-arrow hero-link">
+          Conhecer nossas soluções
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
       </div>
+
+      <p class="hero-micro">15 min · Sem compromisso · Resposta em até 24h úteis</p>
 
       <div class="hero-scroll">
       </div>
     </div>
   </header>
+
+  <!-- CONVERSA / FORMULÁRIO ------------------------------------------
+       Fica logo abaixo do hero de propósito: quem chegou convencido pelo
+       título não precisa percorrer treze mil pixels para achar onde falar.
+       Mantém o id "contato" porque é para cá que apontam o CTA do menu, os
+       links internos e a página de segurança.
+
+       Cinco campos, três obrigatórios. Todo o comportamento (validação,
+       loading, sucesso, erro) está em js/contato.js. -->
+  <section id="contato" class="conversa">
+    <div class="container">
+      <div class="conversa-box reveal">
+        <div class="conversa-head">
+          <div class="eyebrow"><span class="dot"></span><span>Primeiro contato</span></div>
+          <h2>Vamos entender <span class="grad-text">seu processo.</span></h2>
+          <p class="lead">
+            Não precisa saber exatamente qual sistema você precisa.
+            Conte o que está acontecendo hoje. A gente descobre o resto.
+          </p>
+        </div>
+
+        <form class="cta-form" id="form-contato" novalidate>
+          <div class="cta-form-linha">
+            <div class="campo">
+              <label for="f-nome">Nome <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="f-nome" name="nome" autocomplete="name"
+                     required aria-required="true" aria-describedby="e-nome">
+              <p class="campo-erro" id="e-nome" hidden></p>
+            </div>
+            <div class="campo">
+              <label for="f-retorno">E-mail ou WhatsApp <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="f-retorno" name="retorno" autocomplete="email"
+                     inputmode="email" required aria-required="true" aria-describedby="e-retorno">
+              <p class="campo-erro" id="e-retorno" hidden></p>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="f-empresa">Empresa <em>(opcional)</em></label>
+            <input type="text" id="f-empresa" name="empresa" autocomplete="organization">
+          </div>
+
+          <div class="campo">
+            <label for="f-objetivo">O que você gostaria de melhorar? <span class="req" aria-hidden="true">*</span></label>
+            <select id="f-objetivo" name="objetivo" required aria-required="true" aria-describedby="e-objetivo">
+              <option value="">Selecione…</option>
+              <option>Automatizar uma tarefa</option>
+              <option>Criar um sistema</option>
+              <option>Organizar processos</option>
+              <option>Integrar ferramentas</option>
+              <option>Criar dashboards ou relatórios</option>
+              <option>Ainda não sei — quero conversar</option>
+            </select>
+            <p class="campo-erro" id="e-objetivo" hidden></p>
+          </div>
+
+          <div class="campo">
+            <label for="f-recado">Conte um pouco mais <span class="req" aria-hidden="true">*</span></label>
+            <textarea id="f-recado" name="recado" rows="4" required aria-required="true"
+                      aria-describedby="e-recado"
+                      placeholder="Ex.: Hoje controlamos pedidos em uma planilha e perdemos muito tempo atualizando informações..."></textarea>
+            <p class="campo-erro" id="e-recado" hidden></p>
+          </div>
+
+          <div class="cta-form-pe">
+            <button type="submit" class="btn btn-primary" data-enviar>
+              <span data-rotulo>Quero conversar com a Hifera</span>
+              <svg class="btn-seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              <span class="btn-spinner" aria-hidden="true"></span>
+            </button>
+            <span class="form-destino" data-destino></span>
+          </div>
+
+          <p class="form-aviso" data-aviso role="status" aria-live="polite"></p>
+
+          <p class="form-lgpd">
+            Seus dados serão usados apenas para entrar em contato sobre sua solicitação.
+          </p>
+        </form>
+
+        <!-- Estado de sucesso. Só aparece quando o envio realmente foi
+             aceito — nunca como simulação. -->
+        <div class="form-ok" data-sucesso hidden tabindex="-1">
+          <div class="form-ok-icone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <h3>Recebemos sua mensagem.</h3>
+          <p>Agora é com a gente. Vamos entender o que você contou e entrar em contato em até 24h úteis.</p>
+          <button type="button" class="btn btn-ghost" data-voltar>
+            <span>Voltar para o site</span>
+          </button>
+        </div>
+
+        <p class="cta-alt">
+          Prefere direto?
+          <a href="mailto:comercial@hifera.com.br">comercial@hifera.com.br</a>
+          <!-- Aparece sozinho quando CONFIG.whatsapp for preenchido em js/contato.js -->
+          <a class="cta-alt-zap" data-canal="whatsapp" href="#" target="_blank" rel="noopener" hidden>WhatsApp</a>
+        </p>
+      </div>
+    </div>
+  </section>
 
   <!-- MARQUEE / TICKER -->
   <div class="ticker">
@@ -253,6 +391,14 @@
         </article>
 
       </div>
+
+      <div class="secao-cta reveal">
+        <p>O passo 01 começa com uma conversa de 15 minutos. Sem custo e sem compromisso.</p>
+        <a href="#contato" class="btn btn-primary">
+          <span>Quero conversar com a Hifera</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -281,6 +427,20 @@
         <p class="lead">Nada de mockup. Cada produto abaixo é usado, testado e evolui de verdade.</p>
       </div>
 
+      <!-- Dois caminhos, dois cabeçalhos. A distinção é a primeira pergunta
+           comercial que aparece em toda conversa ("dá pra usar algo pronto
+           ou vai precisar construir?"), então ela precisa estar na página
+           antes da pessoa perguntar. -->
+      <div class="trilha reveal">
+        <div class="trilha-marca">
+          <span class="trilha-n">A</span>
+          <div>
+            <h3>Soluções prontas</h3>
+            <p>Produtos que já existem e podem ser usados rapidamente. Implantação em 3 a 7 dias úteis, a partir de R$&nbsp;197/mês.</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Feature product: Ledger -->
       <article class="feature-product reveal">
         <div class="fp-media">
@@ -301,17 +461,32 @@
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Relatórios prontos para o contador</li>
           </ul>
           <div class="fp-cta">
-            <a href="apps/ledger/" target="_blank" rel="noopener" class="btn btn-primary">
+            <a href="apps/ledger/" target="_blank" rel="noopener" class="btn btn-ghost">
               Experimentar agora
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </a>
-            <span class="fp-price">A partir de R$ 397/mês</span>
+            <!-- O valor é o do plano completo, não o piso da linha. A linha
+                 de soluções prontas começa em R$ 197/mês (ver o cabeçalho
+                 "Soluções prontas" acima e a pergunta 05 do FAQ); este é o
+                 produto mais amplo da linha, por isso tem piso próprio. -->
+            <span class="fp-price">Plano completo · a partir de R$&nbsp;397/mês</span>
           </div>
         </div>
       </article>
 
+      <!-- Trilha B: sob medida -->
+      <div class="trilha reveal">
+        <div class="trilha-marca">
+          <span class="trilha-n">B</span>
+          <div>
+            <h3>Projetos sob medida</h3>
+            <p>Sistemas e automações desenvolvidos para um processo específico, quando nenhuma solução pronta encaixa. Setup + mensalidade de suporte, orçados caso a caso.</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Grid de Projetos entregues -->
-      <div class="proj-grid" style="margin-top: 32px;">
+      <div class="proj-grid">
 
         <a href="projetos/Projeto-CRM/" target="_blank" rel="noopener" class="proj-card reveal" data-delay="1">
           <div class="proj-media">
@@ -377,6 +552,14 @@
 
       </div>
 
+      <div class="secao-cta reveal">
+        <p>Não sabe em qual dos dois caminhos seu problema cai? Essa é exatamente a conversa.</p>
+        <a href="#contato" class="btn btn-primary">
+          <span>Quero conversar com a Hifera</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
     </div>
   </section>
 
@@ -387,24 +570,31 @@
         <div class="eyebrow"><span class="dot"></span><span>Em números</span></div>
         <h2>O que o trabalho <span class="grad-text">real</span> mostra até aqui.</h2>
       </div>
+      <!-- O valor final fica escrito no HTML, não em JavaScript.
+           Antes cada cartão nascia com "0" e só era corrigido pela
+           animação de contagem — se o IntersectionObserver não existisse,
+           não disparasse ou a pessoa passasse rápido, o que ficava na tela
+           era "0 soluções no ar". Agora a contagem é só enfeite: ela
+           começa do zero e volta ao número correto, e quem não tiver a
+           animação lê o valor certo desde o primeiro quadro. -->
       <div class="numbers-grid">
         <div class="num-card reveal" data-delay="1">
-          <div class="num-value" data-count="5">0</div>
+          <div class="num-value" data-count="5">5</div>
           <div class="num-label">Soluções no ar</div>
           <p>Quatro projetos navegáveis mais o Controle Financeiro. Todos abertos para você testar agora.</p>
         </div>
         <div class="num-card reveal" data-delay="2">
-          <div class="num-value" data-count="7" data-suffix=" dias">0</div>
+          <div class="num-value" data-count="7" data-suffix=" dias">7 dias</div>
           <div class="num-label">Do briefing ao ar</div>
-          <p>Prazo médio de implantação para solução pronta.</p>
+          <p>Prazo de implantação de uma solução pronta, do aceite ao uso.</p>
         </div>
         <div class="num-card reveal" data-delay="3">
-          <div class="num-value" data-count="24" data-suffix="h">0</div>
+          <div class="num-value" data-count="24" data-suffix="h">24h</div>
           <div class="num-label">Para responder</div>
           <p>Compromisso de resposta em dias úteis.</p>
         </div>
         <div class="num-card reveal" data-delay="4">
-          <div class="num-value" data-count="100" data-suffix="%">0</div>
+          <div class="num-value" data-count="100" data-suffix="%">100%</div>
           <div class="num-label">Customizável</div>
           <p>Ajustamos ao seu processo real, não o contrário.</p>
         </div>
@@ -425,8 +615,12 @@
         <article class="founder-card reveal" data-delay="1">
           <div class="founder-avatar">HC<img src="assets/equipe/higor.webp" alt="Higor Cabral" style="--zoom:1.7;--sobe:11%" width="96" height="96" loading="lazy" decoding="async"></div>
           <div class="founder-body">
-            <h3>Higor Cabral</h3>
-            <div class="founder-role">Co-fundador · Engenharia da Computação</div>
+            <h3>Higor</h3>
+            <!-- A especialidade vem antes do cargo: é o que responde a
+                 pergunta que a pessoa está fazendo nesta altura da página
+                 ("quem exatamente vai mexer no meu processo?"). -->
+            <div class="founder-frente">Tecnologia &amp; Automação</div>
+            <div class="founder-role">Higor Cabral · Co-fundador · Engenharia da Computação</div>
             <p>Analista de TI Júnior na LOTS Group (Scania), com foco em automações de processos internos, integrações com Microsoft 365 e portais que reduzem trabalho manual de equipes de RH, TI e frota.</p>
             <div class="founder-tags">
               <span>TI Corporativa</span>
@@ -439,8 +633,9 @@
         <article class="founder-card reveal" data-delay="2">
           <div class="founder-avatar">FR<img src="assets/equipe/fernanda.webp" alt="Fernanda Rodrigues" style="--foco:14%;--zoom:1.3;--sobe:3%;--lado:-5%" width="96" height="96" loading="lazy" decoding="async"></div>
           <div class="founder-body">
-            <h3>Fernanda Rodrigues</h3>
-            <div class="founder-role">Co-fundadora · Engenharia da Computação</div>
+            <h3>Fernanda</h3>
+            <div class="founder-frente">Processos &amp; Riscos</div>
+            <div class="founder-role">Fernanda Rodrigues · Co-fundadora · Engenharia da Computação</div>
             <p>Analista de Prevenção de Riscos Pleno na AutoPass, atuando na fronteira entre dados, controles e processos críticos. Traz a visão de quem olha sistemas como pontos de falha em potencial.</p>
             <div class="founder-tags">
               <span>Prev. de Riscos</span>
@@ -450,6 +645,16 @@
           </div>
         </article>
       </div>
+
+      <p class="founders-soma reveal" data-delay="3">
+        <span>TI corporativa</span>
+        <span class="soma-op" aria-hidden="true">+</span>
+        <span>processos</span>
+        <span class="soma-op" aria-hidden="true">+</span>
+        <span>dados</span>
+        <span class="soma-op" aria-hidden="true">+</span>
+        <span>riscos</span>
+      </p>
     </div>
   </section>
 
@@ -462,12 +667,11 @@
     <div class="container">
       <div class="section-head reveal">
         <div class="eyebrow"><span class="dot"></span><span>Primeiros clientes</span></div>
-        <h2>Não temos depoimento pra mostrar.<br><span class="grad-text">Temos vaga pra abrir.</span></h2>
+        <h2>Seja um dos <span class="grad-text">primeiros clientes</span> da Hifera.</h2>
         <p class="lead">
-          A Hifera está em MVP. Os sistemas que você viu acima estão de pé e podem ser
-          testados agora, o que ainda não existe é fila de cliente. Em vez de encher
-          esta parte da página com aspas inventadas, preferimos dizer o que os
-          primeiros quatro clientes ganham por chegarem antes.
+          A Hifera está em MVP. Nossos produtos já estão de pé e podem ser testados.
+          Agora estamos abrindo espaço para os primeiros clientes que querem participar
+          dessa evolução — e quem chega antes leva quatro coisas que depois deixam de existir.
         </p>
       </div>
 
@@ -529,11 +733,11 @@
 
       <div class="prim-pe reveal" data-delay="4">
         <p>
-          Quando houver história real pra contar, ela aparece aqui, com nome,
-          empresa e número. Até lá, esta seção fica assim.
+          Não temos depoimento pra mostrar, e não vamos inventar um. Quando houver
+          história real pra contar, ela aparece aqui, com nome, empresa e número.
         </p>
-        <a href="#contato" class="link-arrow">
-          Quero conversar sobre ser um dos primeiros
+        <a href="#contato" class="btn btn-primary">
+          <span>Quero conversar com a Hifera</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
       </div>
@@ -587,14 +791,17 @@
             <span class="faq-q">Como funciona o pagamento?</span>
             <span class="faq-icon"></span>
           </summary>
-          <div class="faq-a">Mensalidade fixa. Soluções prontas começam em R$ 197/mês; o Controle Financeiro completo, que é o produto em destaque acima, começa em R$ 397/mês. Projetos sob medida têm setup + mensalidade de suporte. Sem taxa de cancelamento.</div>
+          <div class="faq-a">Mensalidade fixa, sem taxa de cancelamento. A linha de <strong>soluções prontas</strong> começa em R$ 197/mês; dentro dela, o Controle Financeiro completo — que é o produto mais amplo e aparece em destaque acima — começa em R$ 397/mês. <strong>Projetos sob medida</strong> têm setup + mensalidade de suporte, orçados caso a caso.</div>
         </details>
       </div>
     </div>
   </section>
 
-  <!-- CTA FINAL -->
-  <section id="contato" class="final-cta">
+  <!-- CTA FINAL
+       O formulário vive lá em cima, logo abaixo do hero. Aqui o trabalho é
+       outro: fechar a leitura e mandar de volta para ele. Dois formulários
+       iguais na mesma página só dividiriam a atenção (e os ids). -->
+  <section id="comecar" class="final-cta">
     <div class="cta-media">
       <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1600&auto=format&q=80" alt="" loading="lazy">
       <div class="cta-overlay"></div>
@@ -602,42 +809,17 @@
     <div class="container">
       <div class="cta-inner reveal">
         <div class="eyebrow"><span class="dot"></span><span>Vamos começar</span></div>
-        <h2>Conta em duas linhas <span class="grad-text">o que atrapalha.</span></h2>
-        <p>Retorno em 24h úteis com uma primeira ideia. Sem formulário longo. Sem discurso.</p>
+        <h2>Conta em duas linhas <span class="grad-text">o que está travando sua operação.</span></h2>
+        <p>Você não precisa saber qual tecnologia precisa. Conte o problema. A gente ajuda a encontrar o caminho.</p>
 
-        <!-- Quatro campos, três obrigatórios. O envio é resolvido no
-             js/contato.js: endpoint se houver, senão WhatsApp, senão
-             e-mail com o texto já montado. -->
-        <form class="cta-form" id="form-contato" novalidate>
-          <div class="cta-form-linha">
-            <label class="campo">
-              <span>Seu nome</span>
-              <input type="text" name="nome" autocomplete="name" required>
-            </label>
-            <label class="campo">
-              <span>Empresa <em>(opcional)</em></span>
-              <input type="text" name="empresa" autocomplete="organization">
-            </label>
-          </div>
-          <label class="campo">
-            <span>E-mail ou WhatsApp para retorno</span>
-            <input type="text" name="retorno" autocomplete="email" required>
-          </label>
-          <label class="campo">
-            <span>O que atrapalha hoje</span>
-            <textarea name="recado" rows="3" required
-                      placeholder="Ex.: fecho o caixa na planilha todo dia e sempre falta lançamento."></textarea>
-          </label>
+        <div class="hero-actions">
+          <a href="#contato" class="btn btn-primary">
+            <span>Quero conversar com a Hifera</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
 
-          <div class="cta-form-pe">
-            <button type="submit" class="btn btn-primary">
-              Enviar
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </button>
-            <span class="form-destino" data-destino></span>
-          </div>
-          <p class="form-aviso" data-aviso role="status" aria-live="polite"></p>
-        </form>
+        <p class="hero-micro">15 min · Sem compromisso · Resposta em até 24h úteis</p>
 
         <p class="cta-alt">
           Prefere direto?
@@ -683,7 +865,7 @@
 
 <!-- Canais de contato. Ponto único onde WhatsApp, redes sociais e o
      destino do formulário são configurados. -->
-<script src="js/contato.js?v=1"></script>
+<script src="js/contato.js?v=2"></script>
 
 <script>
 /* ==============================================================
@@ -884,32 +1066,71 @@ window.addEventListener('hashchange', function () {
 });
 window.addEventListener('resize', function () { revelarNoViewport(true); }, { passive: true });
 
-/* Counter animation nos números */
-function animateCount(el) {
-  var target = parseInt(el.dataset.count, 10);
-  var suffix = el.dataset.suffix || '';
-  var duration = 1400;
-  var start = performance.now();
-  function tick(now) {
-    var progress = Math.min((now - start) / duration, 1);
-    var eased = 1 - Math.pow(1 - progress, 3);
-    var value = Math.round(target * eased);
-    el.textContent = value + suffix;
-    if (progress < 1) requestAnimationFrame(tick);
+/* ==============================================================
+   Contagem dos números — enfeite, nunca fonte da verdade
+   --------------------------------------------------------------
+   O valor final já está escrito no HTML. Esta animação só empresta
+   o número por 1,4s e devolve. A regra que ela precisa cumprir:
+   em nenhum cenário a pessoa pode ficar olhando para "0 soluções
+   no ar". Por isso a função termina SEMPRE cravando o valor final,
+   e não roda quando não há como garantir isso (sem observer, sem
+   requestAnimationFrame, com reduced-motion, ou se a aba estava em
+   segundo plano e o rAF ficou congelado).
+   ============================================================== */
+(function () {
+  var alvos = document.querySelectorAll('[data-count]');
+  if (!alvos.length) return;
+
+  function valorFinal(el) {
+    var n = parseInt(el.dataset.count, 10);
+    return (isNaN(n) ? el.textContent : n + (el.dataset.suffix || ''));
   }
-  requestAnimationFrame(tick);
-}
-if ('IntersectionObserver' in window) {
-  var numObserver = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) {
-        animateCount(e.target);
-        numObserver.unobserve(e.target);
-      }
+
+  function fixar(el) { el.textContent = valorFinal(el); }
+
+  var podeAnimar =
+    'IntersectionObserver' in window &&
+    typeof requestAnimationFrame === 'function' &&
+    typeof performance !== 'undefined' &&
+    !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  if (!podeAnimar) {
+    Array.prototype.forEach.call(alvos, fixar);
+    return;
+  }
+
+  function animar(el) {
+    var alvo = parseInt(el.dataset.count, 10);
+    if (isNaN(alvo)) return;
+    var sufixo = el.dataset.suffix || '';
+    var duracao = 1400;
+    var inicio = performance.now();
+
+    /* Rede de segurança: se o rAF parar de rodar (aba em segundo plano,
+       navegador economizando bateria), o número certo entra de qualquer
+       jeito pouco depois do tempo previsto. */
+    var socorro = setTimeout(function () { fixar(el); }, duracao + 600);
+
+    function passo(agora) {
+      var p = Math.min((agora - inicio) / duracao, 1);
+      var suave = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(alvo * suave) + sufixo;
+      if (p < 1) { requestAnimationFrame(passo); }
+      else { clearTimeout(socorro); fixar(el); }
+    }
+    requestAnimationFrame(passo);
+  }
+
+  var obs = new IntersectionObserver(function (entradas) {
+    entradas.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      obs.unobserve(e.target);
+      animar(e.target);
     });
   }, { threshold: 0.5 });
-  document.querySelectorAll('[data-count]').forEach(function (n) { numObserver.observe(n); });
-}
+
+  Array.prototype.forEach.call(alvos, function (n) { obs.observe(n); });
+})();
 
 /* Kinetic hero words. Anima cada palavra em cascata */
 document.querySelectorAll('.hero-title .word').forEach(function (w, i) {

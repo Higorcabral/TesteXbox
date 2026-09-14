@@ -21,9 +21,46 @@
      preencha CONFIG.redes.linkedin / .instagram com a URL completa.
 
    Como trocar o formulário por envio de verdade (sem depender do
-   cliente de e-mail da pessoa): preencha CONFIG.endpoint com a URL
-   que recebe POST em JSON — uma Azure Function no mesmo Static Web
-   App resolve. Vazio, o formulário cai no e-mail/WhatsApp.
+   cliente de e-mail da pessoa): preencha CONFIG.endpoint.
+
+   --------------------------------------------------------------
+   CONTRATO DO ENDPOINT (ainda NÃO existe, precisa ser criado)
+   --------------------------------------------------------------
+   Enquanto CONFIG.endpoint estiver vazio, o formulário NÃO simula
+   envio: ele abre o WhatsApp ou o cliente de e-mail da pessoa com o
+   texto já montado, e a mensagem na tela diz exatamente isso. A tela
+   de "Recebemos sua mensagem" só aparece quando um servidor de
+   verdade respondeu 2xx.
+
+   Para ligar o envio automático, publique um endpoint que aceite:
+
+     POST <CONFIG.endpoint>
+     Content-Type: application/json
+
+     {
+       "nome":     "texto",
+       "empresa":  "texto (pode vir vazio)",
+       "retorno":  "e-mail ou telefone",
+       "objetivo": "uma das opções do select",
+       "recado":   "texto livre"
+     }
+
+   Resposta esperada: qualquer 2xx = recebido (mostra a tela de
+   sucesso). Qualquer outra coisa, ou falha de rede, = erro (o
+   formulário destrava e abre o e-mail com o texto pronto).
+
+   O endpoint precisa: responder CORS para https://www.hifera.com.br,
+   ter proteção contra abuso (rate limit / honeypot / captcha) e
+   guardar ou encaminhar a mensagem para comercial@hifera.com.br.
+
+   Opções que encaixam na hospedagem atual, em ordem de esforço:
+     1. Azure Function (Node) dentro do mesmo Static Web App, em
+        /api/contato — é o caminho natural, já que o site roda em
+        Azure Static Web Apps (ver staticwebapp.config.json).
+     2. Serviço de formulário hospedado (Formspree, Basin, Web3Forms).
+        Zero backend, mas os dados passam por terceiro — checar LGPD
+        e o que fica registrado antes de usar.
+     3. Supabase Edge Function gravando numa tabela + e-mail.
    ================================================================= */
 window.HiferaContato = (function () {
   'use strict';
@@ -159,66 +196,216 @@ window.HiferaContato = (function () {
     lista.removeAttribute('hidden');
   }
 
-  /* --- Formulário do CTA final ----------------------------------- */
+  /* =================================================================
+     Formulário de primeiro contato (#contato)
+     -----------------------------------------------------------------
+     Regra que este bloco não quebra: a tela de "Recebemos sua mensagem"
+     só aparece quando alguém de verdade recebeu a mensagem — ou seja,
+     quando CONFIG.endpoint existe e respondeu 2xx. Sem endpoint, o
+     envio continua acontecendo pelo cliente de e-mail ou pelo WhatsApp
+     da pessoa, e o texto diz exatamente isso. Fingir recebimento seria
+     perder o lead e a confiança na mesma tela.
+
+     Estados cobertos: validação por campo, loading, sucesso, erro,
+     envio duplicado, teclado e leitor de tela.
+     ================================================================= */
+
+  var CAMPOS = {
+    nome:     { obrigatorio: true,  erro: 'Escreva seu nome para a gente saber com quem fala.' },
+    retorno:  { obrigatorio: true,  erro: 'Precisamos de um e-mail ou WhatsApp para responder.' },
+    empresa:  { obrigatorio: false },
+    objetivo: { obrigatorio: true,  erro: 'Escolha uma opção. Se não souber, marque "Ainda não sei".' },
+    recado:   { obrigatorio: true,  erro: 'Conte em duas linhas o que está acontecendo hoje.' }
+  };
+
+  /* Aceita e-mail OU telefone. Deliberadamente frouxo: a função aqui é
+     pegar erro de digitação óbvio, não reprovar contato válido. */
+  function retornoValido(v) {
+    v = String(v || '').trim();
+    if (v.indexOf('@') > -1) return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+    return v.replace(/\D/g, '').length >= 10;
+  }
+
   function ligarFormulario() {
     var form = document.getElementById('form-contato');
     if (!form) return;
 
-    var aviso = form.querySelector('[data-aviso]');
+    var aviso    = form.querySelector('[data-aviso]');
+    var botao    = form.querySelector('[data-enviar]');
+    var rotulo   = form.querySelector('[data-rotulo]');
+    var destino  = form.querySelector('[data-destino]');
+    var caixa    = form.closest('.conversa-box') || form.parentNode;
+    var sucesso  = caixa.querySelector('[data-sucesso]');
+    var voltar   = sucesso && sucesso.querySelector('[data-voltar]');
+    var rotuloOriginal = rotulo ? rotulo.textContent : '';
+    var enviando = false;
 
     function dizer(texto, tipo) {
       if (!aviso) return;
-      aviso.textContent = texto;
+      aviso.textContent = texto || '';
       aviso.className = 'form-aviso' + (tipo ? ' is-' + tipo : '');
     }
 
-    /* Deixa claro para onde a mensagem vai antes de a pessoa escrever. */
-    var destino = form.querySelector('[data-destino]');
+    /* --- Erro por campo ------------------------------------------- */
+    function campoDe(nome) { return form.elements[nome]; }
+    function caixaErro(nome) { return document.getElementById('e-' + nome); }
+
+    function marcarErro(nome, texto) {
+      var el = campoDe(nome);
+      var box = caixaErro(nome);
+      if (el) el.setAttribute('aria-invalid', 'true');
+      if (el && el.parentNode) el.parentNode.classList.add('tem-erro');
+      if (box) { box.textContent = texto; box.hidden = false; }
+    }
+
+    function limparErro(nome) {
+      var el = campoDe(nome);
+      var box = caixaErro(nome);
+      if (el) el.removeAttribute('aria-invalid');
+      if (el && el.parentNode) el.parentNode.classList.remove('tem-erro');
+      if (box) { box.textContent = ''; box.hidden = true; }
+    }
+
+    function validar(focar) {
+      var primeiroRuim = null;
+
+      Object.keys(CAMPOS).forEach(function (nome) {
+        var el = campoDe(nome);
+        if (!el) return;
+        var regra = CAMPOS[nome];
+        var valor = String(el.value || '').trim();
+        var ruim = '';
+
+        if (regra.obrigatorio && !valor) ruim = regra.erro;
+        else if (nome === 'retorno' && valor && !retornoValido(valor)) {
+          ruim = 'Confira o e-mail ou o número — não conseguimos ler esse.';
+        }
+
+        if (ruim) {
+          marcarErro(nome, ruim);
+          if (!primeiroRuim) primeiroRuim = el;
+        } else {
+          limparErro(nome);
+        }
+      });
+
+      if (primeiroRuim && focar) {
+        primeiroRuim.focus();
+        dizer('Faltou preencher alguma coisa. Marcamos os campos logo acima.', 'erro');
+      }
+      return !primeiroRuim;
+    }
+
+    /* Some com o erro assim que a pessoa começa a consertar — errar e
+       continuar vendo o aviso vermelho é o que faz gente desistir. */
+    Object.keys(CAMPOS).forEach(function (nome) {
+      var el = campoDe(nome);
+      if (!el) return;
+      var evento = (el.tagName === 'SELECT') ? 'change' : 'input';
+      el.addEventListener(evento, function () {
+        if (el.getAttribute('aria-invalid')) { limparErro(nome); dizer(''); }
+      });
+      el.addEventListener('blur', function () {
+        var valor = String(el.value || '').trim();
+        if (CAMPOS[nome].obrigatorio && !valor) return;   /* só no envio */
+        if (nome === 'retorno' && valor && !retornoValido(valor)) {
+          marcarErro(nome, 'Confira o e-mail ou o número — não conseguimos ler esse.');
+        }
+      });
+    });
+
+    /* --- Loading --------------------------------------------------- */
+    function travar(ligado, texto) {
+      enviando = ligado;
+      if (!botao) return;
+      botao.disabled = ligado;
+      botao.classList.toggle('is-enviando', ligado);
+      botao.setAttribute('aria-busy', ligado ? 'true' : 'false');
+      if (rotulo) rotulo.textContent = ligado ? (texto || 'Enviando…') : rotuloOriginal;
+    }
+
+    /* --- Sucesso --------------------------------------------------- */
+    var cabeca = caixa.querySelector('.conversa-head');
+
+    function mostrarSucesso() {
+      if (!sucesso) { dizer('Recebemos sua mensagem. Retorno em até 24h úteis.', 'ok'); return; }
+      form.hidden = true;
+      if (cabeca) cabeca.hidden = true;   /* o convite já foi aceito */
+      sucesso.hidden = false;
+      sucesso.focus();
+    }
+
+    if (voltar) {
+      voltar.addEventListener('click', function () {
+        sucesso.hidden = true;
+        if (cabeca) cabeca.hidden = false;
+        form.hidden = false;
+        form.reset();
+        Object.keys(CAMPOS).forEach(limparErro);
+        dizer('');
+        travar(false);
+        var topo = document.getElementById('top');
+        if (topo) topo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    /* Diz para onde a mensagem vai ANTES de a pessoa escrever. Com
+       endpoint configurado o envio é nosso e a linha some; sem ele,
+       avisamos que vai abrir o WhatsApp ou o e-mail dela. */
     if (destino) {
-      destino.textContent = C.temWhatsapp()
+      if (C.config.endpoint) destino.textContent = '';
+      else destino.textContent = C.temWhatsapp()
         ? 'Abre o WhatsApp com o texto pronto.'
         : 'Abre seu e-mail com a mensagem pronta para ' + C.config.email + '.';
     }
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      if (enviando) return;                     /* trava envio duplicado */
+      if (!validar(true)) return;
 
       var dados = {
-        nome:    (form.elements.nome.value || '').trim(),
-        empresa: (form.elements.empresa.value || '').trim(),
-        retorno: (form.elements.retorno.value || '').trim(),
-        recado:  (form.elements.recado.value || '').trim()
+        nome:     String(form.elements.nome.value || '').trim(),
+        empresa:  String(form.elements.empresa.value || '').trim(),
+        retorno:  String(form.elements.retorno.value || '').trim(),
+        objetivo: String(form.elements.objetivo.value || '').trim(),
+        recado:   String(form.elements.recado.value || '').trim()
       };
-
-      if (!dados.nome || !dados.retorno || !dados.recado) {
-        dizer('Faltou nome, contato ou o que está atrapalhando.', 'erro');
-        return;
-      }
 
       var corpo =
         'Nome: ' + dados.nome + '\n' +
         (dados.empresa ? 'Empresa: ' + dados.empresa + '\n' : '') +
-        'Melhor contato: ' + dados.retorno + '\n\n' +
-        'O que atrapalha:\n' + dados.recado + '\n';
+        'Melhor contato: ' + dados.retorno + '\n' +
+        'Quer melhorar: ' + dados.objetivo + '\n\n' +
+        'Contexto:\n' + dados.recado + '\n';
 
+      var assunto = 'Contato pelo site — ' + dados.nome;
+
+      /* 1. Backend de verdade, se existir. */
       if (C.config.endpoint) {
-        enviarPorEndpoint(dados, corpo, dizer, form);
+        enviarPorEndpoint(dados, assunto, corpo, {
+          travar: travar, dizer: dizer, sucesso: mostrarSucesso
+        });
         return;
       }
 
+      /* 2. Sem backend: entrega pelo canal da própria pessoa. Não há
+            tela de sucesso aqui — ninguém recebeu nada ainda. */
       if (C.temWhatsapp()) {
         window.open(C.linkWhatsapp(corpo), '_blank', 'noopener');
-        dizer('Abrimos o WhatsApp com a mensagem pronta. É só enviar.', 'ok');
+        dizer('Abrimos o WhatsApp com sua mensagem pronta. Toque em enviar por lá e respondemos em até 24h úteis.', 'ok');
         return;
       }
 
-      window.location.href = C.linkEmail('Contato pelo site — ' + dados.nome, corpo);
-      dizer('Abrimos seu e-mail com a mensagem pronta. É só enviar.', 'ok');
+      window.location.href = C.linkEmail(assunto, corpo);
+      dizer('Abrimos seu e-mail com a mensagem pronta. É só enviar — respondemos em até 24h úteis.', 'ok');
     });
   }
 
-  function enviarPorEndpoint(dados, corpo, dizer, form) {
-    dizer('Enviando…', '');
+  function enviarPorEndpoint(dados, assunto, corpo, ui) {
+    ui.travar(true);
+    ui.dizer('Enviando sua mensagem…', '');
+
     fetch(C.config.endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -226,13 +413,18 @@ window.HiferaContato = (function () {
     })
       .then(function (r) {
         if (!r.ok) throw new Error('resposta ' + r.status);
-        form.reset();
-        dizer('Recebido. Retorno em até 24h úteis.', 'ok');
+        ui.travar(false);
+        ui.dizer('');
+        ui.sucesso();
       })
       .catch(function () {
-        /* Não perde a mensagem que a pessoa acabou de escrever. */
-        window.location.href = C.linkEmail('Contato pelo site — ' + dados.nome, corpo);
-        dizer('O envio automático falhou, então abrimos seu e-mail com o texto pronto.', 'erro');
+        /* Falhou de verdade: o texto que a pessoa escreveu não pode
+           evaporar junto. Devolvemos o formulário destravado e a saída
+           manual, sem fingir que deu certo. */
+        ui.travar(false);
+        ui.dizer('Não conseguimos enviar agora. Tente de novo em instantes ou escreva direto para ' +
+                 C.config.email + ' — abrimos seu e-mail com o texto pronto.', 'erro');
+        window.location.href = C.linkEmail(assunto, corpo);
       });
   }
 

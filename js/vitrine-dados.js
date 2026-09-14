@@ -27,7 +27,7 @@ window.HIFERA_PROJETOS = [
       }
     ],
     "destaque": true,
-    "preco": "A partir de R$ 397/mês",
+    "preco": "Plano completo · a partir de R$ 397/mês",
     "bullets": [
       "Fluxo de caixa em tempo real",
       "Multi-conta e multi-categoria",
