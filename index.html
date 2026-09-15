@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=17">
+<link rel="stylesheet" href="style.css?v=18">
 <meta name="robots" content="noai, noimageai">
 
 <!-- Dados estruturados. Só o que a página realmente afirma — nada de
@@ -300,7 +300,12 @@
     <div class="container">
       <div class="manifesto-grid">
         <div class="manifesto-media reveal">
-          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&auto=format&q=80" alt="" loading="lazy">
+          <!-- Arquivo local em vez de URL do Unsplash: tira uma requisição
+               a terceiro do caminho crítico e o corte 4/5 fica sob nosso
+               controle. width/height evitam o pulo de layout enquanto a
+               imagem baixa. -->
+          <img src="assets/manifesto.webp" alt="" loading="lazy"
+               width="1122" height="1402" decoding="async">
           <div class="badge-float">
             <span class="badge-dot"></span>
             <span>Diagnóstico antes de proposta</span>
