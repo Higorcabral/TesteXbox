@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=19">
+<link rel="stylesheet" href="style.css?v=20">
 <meta name="robots" content="noai, noimageai">
 
 <!-- Dados estruturados. Só o que a página realmente afirma — nada de
@@ -341,63 +341,106 @@
         <h2>Três passos! Nenhuma <span class="grad-text">enrolação.</span></h2>
       </div>
 
-      <!-- Timeline. <ol> e não <div>: são três etapas numeradas, em ordem,
-           e a ordem é o conteúdo. Leitor de tela anuncia "lista de 3
-           itens" e o número de cada um sem depender do desenho. -->
-      <ol class="timeline">
+      <!-- Timeline em slide. Continua sendo uma sequência numerada, mas
+           mostrando um passo por vez: o trilho horizontal vira barra de
+           progresso e as três bolinhas viram a própria navegação.
 
-        <li class="tl-item reveal" data-delay="1">
-          <div class="tl-marca" aria-hidden="true"><span>1</span></div>
-          <div class="tl-corpo">
-            <span class="tl-passo">Passo 1</span>
-            <h3>Conversa antes de código</h3>
-            <p>15 minutos pra entender seu processo real. Sem apresentação de PowerPoint, sem "framework proprietário". Só perguntas certas.</p>
-            <div class="step-tags">
-              <span>Diagnóstico</span>
-              <span>Sem custo</span>
-              <span>15 min</span>
+           Marcado como tabs (tablist/tab/tabpanel) e não como carrossel
+           genérico, porque é exatamente isso que é: três painéis, um
+           visível, escolhidos por três controles. Ganha de graça o
+           teclado que um leitor de tela espera — setas, Home e End.
+
+           Não roda sozinho de propósito. Avanço automático em bloco de
+           texto tira a frase da frente de quem está lendo. -->
+      <div class="tl-slide reveal" data-slide>
+
+        <div class="tl-nav" role="tablist" aria-label="Como fazemos, em três passos">
+          <button type="button" class="tl-no is-on" role="tab" id="tab-p1"
+                  aria-controls="painel-p1" aria-selected="true" data-ir="0">
+            <span class="tl-bolha">1</span>
+            <span class="tl-rot">Conversa antes de código</span>
+          </button>
+          <button type="button" class="tl-no" role="tab" id="tab-p2"
+                  aria-controls="painel-p2" aria-selected="false" tabindex="-1" data-ir="1">
+            <span class="tl-bolha">2</span>
+            <span class="tl-rot">Construção em pedaços úteis</span>
+          </button>
+          <button type="button" class="tl-no" role="tab" id="tab-p3"
+                  aria-controls="painel-p3" aria-selected="false" tabindex="-1" data-ir="2">
+            <span class="tl-bolha">3</span>
+            <span class="tl-rot">Evolução, não obsolescência</span>
+          </button>
+        </div>
+
+        <!-- Os três painéis ficam empilhados na mesma célula do grid: a
+             altura é a do mais alto, então trocar de passo não faz a
+             página pular. -->
+        <div class="tl-palco">
+
+          <article class="tl-painel is-on" id="painel-p1" role="tabpanel"
+                   aria-labelledby="tab-p1" tabindex="0">
+            <div class="tl-corpo">
+              <span class="tl-passo">Passo 1</span>
+              <h3>Conversa antes de código</h3>
+              <p>15 minutos pra entender seu processo real. Sem apresentação de PowerPoint, sem "framework proprietário". Só perguntas certas.</p>
+              <div class="step-tags">
+                <span>Diagnóstico</span>
+                <span>Sem custo</span>
+                <span>15 min</span>
+              </div>
             </div>
-          </div>
-          <div class="tl-media">
-            <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&auto=format&q=80" alt="" loading="lazy">
-          </div>
-        </li>
-
-        <li class="tl-item reveal" data-delay="2">
-          <div class="tl-marca" aria-hidden="true"><span>2</span></div>
-          <div class="tl-corpo">
-            <span class="tl-passo">Passo 2</span>
-            <h3>Construção em pedaços úteis</h3>
-            <p>Nada de sumir 3 meses e voltar com "o sistema". Dividimos em blocos que você já usa antes do projeto acabar.</p>
-            <div class="step-tags">
-              <span>Sprints curtos</span>
-              <span>Valor em dias</span>
-              <span>Feedback real</span>
+            <div class="tl-media">
+              <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&auto=format&q=80" alt="" loading="lazy">
             </div>
-          </div>
-          <div class="tl-media">
-            <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=800&auto=format&q=80" alt="" loading="lazy">
-          </div>
-        </li>
+          </article>
 
-        <li class="tl-item reveal" data-delay="3">
-          <div class="tl-marca" aria-hidden="true"><span>3</span></div>
-          <div class="tl-corpo">
-            <span class="tl-passo">Passo 3</span>
-            <h3>Evolução, não obsolescência</h3>
-            <p>Ciclos de melhoria seguindo o que sua operação pede. Sistema que envelhece com o negócio, não contra ele.</p>
-            <div class="step-tags">
-              <span>Suporte contínuo</span>
-              <span>Melhoria mensal</span>
-              <span>Roadmap vivo</span>
+          <article class="tl-painel" id="painel-p2" role="tabpanel"
+                   aria-labelledby="tab-p2" tabindex="0">
+            <div class="tl-corpo">
+              <span class="tl-passo">Passo 2</span>
+              <h3>Construção em pedaços úteis</h3>
+              <p>Nada de sumir 3 meses e voltar com "o sistema". Dividimos em blocos que você já usa antes do projeto acabar.</p>
+              <div class="step-tags">
+                <span>Sprints curtos</span>
+                <span>Valor em dias</span>
+                <span>Feedback real</span>
+              </div>
             </div>
-          </div>
-          <div class="tl-media">
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&q=80" alt="" loading="lazy">
-          </div>
-        </li>
+            <div class="tl-media">
+              <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=800&auto=format&q=80" alt="" loading="lazy">
+            </div>
+          </article>
 
-      </ol>
+          <article class="tl-painel" id="painel-p3" role="tabpanel"
+                   aria-labelledby="tab-p3" tabindex="0">
+            <div class="tl-corpo">
+              <span class="tl-passo">Passo 3</span>
+              <h3>Evolução, não obsolescência</h3>
+              <p>Ciclos de melhoria seguindo o que sua operação pede. Sistema que envelhece com o negócio, não contra ele.</p>
+              <div class="step-tags">
+                <span>Suporte contínuo</span>
+                <span>Melhoria mensal</span>
+                <span>Roadmap vivo</span>
+              </div>
+            </div>
+            <div class="tl-media">
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&q=80" alt="" loading="lazy">
+            </div>
+          </article>
+
+        </div>
+
+        <div class="tl-pe">
+          <button type="button" class="tl-seta" data-ir-para="anterior" aria-label="Passo anterior" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+          </button>
+          <span class="tl-contador" aria-hidden="true"><strong data-atual>1</strong> / 3</span>
+          <button type="button" class="tl-seta" data-ir-para="proximo" aria-label="Próximo passo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+      </div>
 
       <div class="secao-cta reveal">
         <p>O passo 01 começa com uma conversa de 15 minutos. Sem custo e sem compromisso.</p>
@@ -1166,6 +1209,113 @@ document.querySelectorAll('a[href^="#"]').forEach(function (a) {
     }
   });
 });
+
+/* ==============================================================
+   Timeline em slide — os três passos de "Como fazemos"
+   --------------------------------------------------------------
+   Marcado no HTML como tabs, então aqui só existe o que a ARIA
+   Authoring Practices pede para esse padrão: um tab focável por vez
+   (roving tabindex), setas Esquerda/Direita andando entre eles, Home
+   e End indo para as pontas.
+
+   Sem avanço automático de propósito. Quem lê decide quando avançar.
+   ============================================================== */
+(function () {
+  var slide = document.querySelector('[data-slide]');
+  if (!slide) return;
+
+  var tabs    = Array.prototype.slice.call(slide.querySelectorAll('[role="tab"]'));
+  var paineis = Array.prototype.slice.call(slide.querySelectorAll('[role="tabpanel"]'));
+  var setas   = Array.prototype.slice.call(slide.querySelectorAll('[data-ir-para]'));
+  var contador = slide.querySelector('[data-atual]');
+  if (!tabs.length || tabs.length !== paineis.length) return;
+
+  var atual = 0;
+
+  function mostrar(i, moverFoco) {
+    i = Math.max(0, Math.min(tabs.length - 1, i));
+    atual = i;
+
+    tabs.forEach(function (t, k) {
+      var ativo = k === i;
+      t.classList.toggle('is-on', ativo);
+      /* "feito" é quem já ficou para trás: dá leitura de progresso
+         sem precisar de mais nenhum elemento na tela. */
+      t.classList.toggle('is-feito', k < i);
+      t.setAttribute('aria-selected', ativo ? 'true' : 'false');
+      /* Roving tabindex: o Tab entra e sai da barra numa parada só,
+         em vez de visitar os três botões. */
+      t.setAttribute('tabindex', ativo ? '0' : '-1');
+    });
+
+    paineis.forEach(function (p, k) { p.classList.toggle('is-on', k === i); });
+
+    /* Preenchimento do trilho: 0, 0.5 ou 1 com três passos. */
+    slide.querySelector('.tl-nav').style.setProperty(
+      '--progresso', tabs.length > 1 ? (i / (tabs.length - 1)) : 0
+    );
+
+    if (contador) contador.textContent = String(i + 1);
+
+    setas.forEach(function (b) {
+      var proximo = b.getAttribute('data-ir-para') === 'proximo';
+      b.disabled = proximo ? (i >= tabs.length - 1) : (i <= 0);
+    });
+
+    if (moverFoco) tabs[i].focus();
+  }
+
+  tabs.forEach(function (t, k) {
+    t.addEventListener('click', function () { mostrar(k, false); });
+  });
+
+  /* Teclado na barra de tabs */
+  slide.querySelector('.tl-nav').addEventListener('keydown', function (e) {
+    var mapa = {
+      ArrowRight: atual + 1, ArrowDown: atual + 1,
+      ArrowLeft:  atual - 1, ArrowUp:   atual - 1,
+      Home: 0, End: tabs.length - 1
+    };
+    if (!(e.key in mapa)) return;
+    e.preventDefault();
+    /* Circular nas setas, como o padrão de tabs espera. */
+    var i = mapa[e.key];
+    if (i < 0) i = tabs.length - 1;
+    if (i > tabs.length - 1) i = 0;
+    mostrar(i, true);
+  });
+
+  setas.forEach(function (b) {
+    b.addEventListener('click', function () {
+      mostrar(atual + (b.getAttribute('data-ir-para') === 'proximo' ? 1 : -1), false);
+    });
+  });
+
+  /* Arrastar no toque. Só reage a gesto claramente horizontal: sem
+     essa checagem, rolar a página com o dedo em cima do painel
+     trocaria de passo sem querer. */
+  (function () {
+    var palco = slide.querySelector('.tl-palco');
+    if (!palco) return;
+    var x0 = null, y0 = null;
+
+    palco.addEventListener('touchstart', function (e) {
+      var t = e.changedTouches[0];
+      x0 = t.clientX; y0 = t.clientY;
+    }, { passive: true });
+
+    palco.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var t = e.changedTouches[0];
+      var dx = t.clientX - x0, dy = t.clientY - y0;
+      x0 = null; y0 = null;
+      if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+      mostrar(atual + (dx < 0 ? 1 : -1), false);
+    }, { passive: true });
+  })();
+
+  mostrar(0, false);
+})();
 
 /* ==============================================================
    Carousel dos projetos, cada card cicla entre suas imagens.
