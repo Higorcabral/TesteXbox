@@ -171,10 +171,19 @@ em {
   gap: 4px;
 }
 .nav-links a {
-  padding: 10px 16px;
+  /* 13px lateral, não 16px: o .nav-inner é limitado a --container (1240px),
+     então há 1192px úteis por mais larga que a tela seja. Com 16px o
+     conjunto marca/menu/CTA pedia 1199px e os rótulos de duas palavras
+     ("Nosso jeito", "Primeiros clientes") quebravam em duas linhas em
+     QUALQUER largura acima do breakpoint do drawer. Os 3px × 7 links
+     devolvem 42px de folga. */
+  padding: 10px 13px;
   font-size: 13.5px;
   color: var(--text-mid);
   border-radius: 999px;
+  /* Link de menu quebrado em duas linhas é sempre defeito: se faltar
+     espaço, quem resolve é o breakpoint do drawer, não a quebra. */
+  white-space: nowrap;
   transition: color 220ms var(--ease-out), background 220ms var(--ease-out);
 }
 .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
@@ -385,8 +394,13 @@ em {
    linhas e empurrava os botões para fora da primeira dobra. 34px cabe em
    quatro linhas e devolve o CTA para dentro da tela; acima de ~400px de
    largura o tamanho é o mesmo de antes. */
+/* O tamanho reage à largura E à altura. Só com vw, uma tela larga e baixa
+   (notebook de 1440×720, janela não maximizada) levava o título a 96px,
+   três linhas de 282px, e empurrava o CTA e a linha de garantias para
+   fora da primeira dobra. O min() faz a altura entrar como segundo teto:
+   em 900px+ de altura nada muda, abaixo disso o título cede o necessário. */
 .hero-title {
-  font-size: clamp(34px, 8.6vw, 96px);
+  font-size: clamp(34px, min(8.6vw, 10.4vh), 96px);
   line-height: 0.98;
   letter-spacing: -0.045em;
   font-weight: 800;
@@ -455,6 +469,28 @@ em {
   color: var(--text-mid);
   opacity: 0;
   animation: fadeUp 900ms var(--ease-out) 1050ms forwards;
+}
+
+/* Tela baixa (notebook, janela não maximizada, monitor 16:9 curto).
+   O título já cedeu pelo min(…vh) acima; aqui o que cede é o respiro
+   entre os blocos, que é o segundo maior consumidor da dobra. O alvo é
+   um só: a linha "15 min · Sem compromisso" tem de caber na tela junto
+   com o botão — CTA cortado ao meio é a pior coisa que pode acontecer
+   na primeira dobra de um site que vende conversa. */
+@media (min-width: 900px) and (max-height: 860px) {
+  .hero { padding-top: calc(var(--nav-h) + 24px); padding-bottom: 36px; }
+  .hero-tag { margin-bottom: 20px; }
+  .hero-title { margin-bottom: 20px; }
+  .hero-sub { margin-bottom: 14px; }
+  .hero-sub-2 { margin-bottom: 26px; }
+  .hero-micro { margin-top: 14px; }
+  .hero-scroll { display: none; }
+}
+@media (min-width: 900px) and (max-height: 700px) {
+  .hero-sub { font-size: 15.5px; margin-bottom: 10px; }
+  .hero-sub-2 { font-size: 14.5px; margin-bottom: 20px; }
+  .hero-tag { margin-bottom: 14px; }
+  .hero-title { margin-bottom: 16px; }
 }
 
 .btn {
