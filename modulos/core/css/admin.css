@@ -2385,3 +2385,103 @@ body, .card, .kpi, .side, .topbar, .tabela, .modal-caixa, .gaveta {
   .portal-body .tabela th:last-child,
   .portal-body .tabela td:last-child  { padding-right: 16px; }
 }
+
+/* =====================================================================
+   TELAS DE NÚMEROS E RELACIONAMENTO (KPIs, Financeiro, Clientes,
+   Conteúdo)
+   ---------------------------------------------------------------------
+   Estas quatro telas nasceram usando classes que o CSS não tinha. O
+   efeito mais visível era na vitrine da tela de Conteúdo: sem regra
+   para .li-thumb, a miniatura entrava no tamanho natural do arquivo e
+   uma imagem de 1200px empurrava a linha inteira para fora da tela.
+   ===================================================================== */
+
+/* Linha rótulo/valor dos blocos de KPI. Grade de duas colunas: o valor
+   alinhado à direita é o que permite ler a coluna inteira de cima a
+   baixo sem o olho procurar onde cada número começa. */
+.kpi-linha {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 4px 14px;
+  padding: 11px 0;
+}
+.kpi-linha + .kpi-linha { border-top: 1px solid var(--line); }
+.kpi-linha > strong {
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+/* A nota ocupa a linha de baixo inteira, abaixo do rótulo. */
+.kpi-linha .kpi-nota { grid-column: 1 / -1; margin-top: 0; }
+
+/* Itens de lista com miniatura (vitrine publicada, funil de leads) */
+.lista-simples li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 4px;
+}
+.li-thumb {
+  width: 64px;
+  height: 44px;
+  flex: none;
+  object-fit: cover;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line);
+  background: var(--bg-3);
+}
+/* min-width:0 é o que deixa o texto truncar em vez de esticar a linha:
+   sem ele, um item de flex nunca encolhe abaixo do próprio conteúdo. */
+.li-txt {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+.li-txt > strong {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 13.5px;
+}
+.li-txt > small { font-size: 11.5px; color: var(--text-dim); line-height: 1.45; }
+.li-txt > a {
+  font-size: 11.5px;
+  color: var(--cyan-ink);
+  overflow-wrap: anywhere;
+}
+.li-txt > a:hover { text-decoration: underline; }
+.li-sec  { color: var(--text-mid); font-weight: 400; }
+.li-nota { color: var(--text-mid); font-style: italic; }
+
+/* Botões no pé de um bloco (Publicar / Ver o JSON) */
+.bloco-acoes {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 18px 0 10px;
+}
+.bloco-acoes .btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Filtro ativo do funil. .is-off já existe para a legenda do gráfico,
+   que apaga o que está desligado; aqui a lógica é inversa — um só fica
+   aceso — então é .is-on, e ele precisa vencer o :hover. */
+.ch-legend-item.is-on {
+  background: var(--bg-4);
+  color: var(--text);
+  border-color: var(--line-2);
+}
+
+@media (max-width: 700px) {
+  .lista-simples li { align-items: flex-start; gap: 11px; }
+  .li-thumb { width: 52px; height: 36px; }
+  .bloco-acoes .btn,
+  .bloco-acoes .btn-sec { flex: 1; justify-content: center; }
+}

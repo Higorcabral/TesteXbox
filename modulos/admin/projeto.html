@@ -35,7 +35,7 @@ window.HIFERA_PATHS = {
   home:  './'
 };
 </script>
-<link rel="stylesheet" href="../core/css/admin.css?v=7">
+<link rel="stylesheet" href="../core/css/admin.css?v=9">
 </head>
 <body class="admin-body">
 
@@ -50,31 +50,8 @@ window.HIFERA_PATHS = {
       <span><strong>HIFERA</strong><small>Admin</small></span>
     </a>
 
-    <nav class="side-nav" aria-label="Navegação do painel">
-      <span class="side-grupo">Operação</span>
-      <a href="./" class="side-link is-active" aria-current="page">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
-        Gestão de Projetos
-      </a>
-      <a href="../chamados/" class="side-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>
-        Chamados
-      </a>
-
-      <span class="side-grupo">Próximas telas</span>
-      <span class="side-link is-soon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        Financeiro <em>em breve</em>
-      </span>
-      <span class="side-link is-soon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>
-        Clientes &amp; Leads <em>em breve</em>
-      </span>
-      <span class="side-link is-soon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h16v14H4z"/><path d="M4 9h16M9 9v10"/></svg>
-        Conteúdo do site <em>em breve</em>
-      </span>
-    </nav>
+    <nav class="side-nav" id="sideNav" data-tela="projetos" data-raiz="../"
+           aria-label="Navegação do painel"></nav>
 
     <div class="side-rodape">
       <div class="side-mock">
@@ -179,21 +156,22 @@ window.HIFERA_PATHS = {
 <div id="logRoot" class="gaveta-root"></div>
 <div id="toastRoot" class="toast-root" aria-live="polite"></div>
 
-<script src="../core/js/caminhos.js?v=7"></script>
-<script src="../core/js/format.js?v=7"></script>
-<script src="../core/js/models/StoreModel.js?v=7"></script>
-<script src="../core/js/models/AuthModel.js?v=7"></script>
-<script src="../core/js/models/ImageModel.js?v=7"></script>
-<script src="../core/js/models/ProjectsModel.js?v=7"></script>
-<script src="../core/js/models/AuditModel.js?v=7"></script>
-<script src="../core/js/views/AuditView.js?v=7"></script>
-<script src="../core/js/ui/sidebar.js?v=7"></script>
-<script src="../core/js/controllers/ThemeController.js?v=7"></script>
-<script src="../core/js/controllers/AuthController.js?v=7"></script>
-<script src="js/views/ChartView.js?v=7"></script>
-<script src="js/views/ProjectsView.js?v=7"></script>
-<script src="js/views/ProjectDetailView.js?v=7"></script>
-<script src="js/controllers/ProjectDetailController.js?v=7"></script>
-<script src="js/boot-projeto.js?v=7"></script>
+<script src="../core/js/caminhos.js?v=11"></script>
+<script src="../core/js/format.js?v=11"></script>
+<script src="../core/js/models/StoreModel.js?v=11"></script>
+<script src="../core/js/models/AuthModel.js?v=11"></script>
+<script src="../core/js/models/ImageModel.js?v=11"></script>
+<script src="../core/js/models/ProjectsModel.js?v=11"></script>
+<script src="../core/js/models/AuditModel.js?v=11"></script>
+<script src="../core/js/views/AuditView.js?v=11"></script>
+<script src="../core/js/ui/sidebar.js?v=11"></script>
+<script src="../core/js/ui/nav.js?v=11"></script>
+<script src="../core/js/controllers/ThemeController.js?v=11"></script>
+<script src="../core/js/controllers/AuthController.js?v=11"></script>
+<script src="js/views/ChartView.js?v=11"></script>
+<script src="js/views/ProjectsView.js?v=11"></script>
+<script src="js/views/ProjectDetailView.js?v=11"></script>
+<script src="js/controllers/ProjectDetailController.js?v=11"></script>
+<script src="js/boot-projeto.js?v=11"></script>
 </body>
 </html>
