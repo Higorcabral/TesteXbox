@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=18">
+<link rel="stylesheet" href="style.css?v=19">
 <meta name="robots" content="noai, noimageai">
 
 <!-- Dados estruturados. Só o que a página realmente afirma — nada de
@@ -306,10 +306,6 @@
                imagem baixa. -->
           <img src="assets/manifesto.webp" alt="" loading="lazy"
                width="1122" height="1402" decoding="async">
-          <div class="badge-float">
-            <span class="badge-dot"></span>
-            <span>Diagnóstico antes de proposta</span>
-          </div>
         </div>
         <div class="manifesto-text reveal" data-delay="1">
           <div class="eyebrow">
@@ -342,17 +338,18 @@
     <div class="container">
       <div class="section-head reveal">
         <div class="eyebrow"><span class="dot"></span><span>Como fazemos</span></div>
-        <h2>Três passos. Nenhum <span class="grad-text">enrolação.</span></h2>
+        <h2>Três passos! Nenhuma <span class="grad-text">enrolação.</span></h2>
       </div>
 
-      <div class="steps">
+      <!-- Timeline. <ol> e não <div>: são três etapas numeradas, em ordem,
+           e a ordem é o conteúdo. Leitor de tela anuncia "lista de 3
+           itens" e o número de cada um sem depender do desenho. -->
+      <ol class="timeline">
 
-        <article class="step reveal" data-delay="1">
-          <div class="step-media">
-            <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&auto=format&q=80" alt="" loading="lazy">
-            <div class="step-num">01</div>
-          </div>
-          <div class="step-body">
+        <li class="tl-item reveal" data-delay="1">
+          <div class="tl-marca" aria-hidden="true"><span>1</span></div>
+          <div class="tl-corpo">
+            <span class="tl-passo">Passo 1</span>
             <h3>Conversa antes de código</h3>
             <p>15 minutos pra entender seu processo real. Sem apresentação de PowerPoint, sem "framework proprietário". Só perguntas certas.</p>
             <div class="step-tags">
@@ -361,14 +358,15 @@
               <span>15 min</span>
             </div>
           </div>
-        </article>
-
-        <article class="step reveal step-flip" data-delay="2">
-          <div class="step-media">
-            <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=800&auto=format&q=80" alt="" loading="lazy">
-            <div class="step-num">02</div>
+          <div class="tl-media">
+            <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&auto=format&q=80" alt="" loading="lazy">
           </div>
-          <div class="step-body">
+        </li>
+
+        <li class="tl-item reveal" data-delay="2">
+          <div class="tl-marca" aria-hidden="true"><span>2</span></div>
+          <div class="tl-corpo">
+            <span class="tl-passo">Passo 2</span>
             <h3>Construção em pedaços úteis</h3>
             <p>Nada de sumir 3 meses e voltar com "o sistema". Dividimos em blocos que você já usa antes do projeto acabar.</p>
             <div class="step-tags">
@@ -377,14 +375,15 @@
               <span>Feedback real</span>
             </div>
           </div>
-        </article>
-
-        <article class="step reveal" data-delay="3">
-          <div class="step-media">
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&q=80" alt="" loading="lazy">
-            <div class="step-num">03</div>
+          <div class="tl-media">
+            <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=800&auto=format&q=80" alt="" loading="lazy">
           </div>
-          <div class="step-body">
+        </li>
+
+        <li class="tl-item reveal" data-delay="3">
+          <div class="tl-marca" aria-hidden="true"><span>3</span></div>
+          <div class="tl-corpo">
+            <span class="tl-passo">Passo 3</span>
             <h3>Evolução, não obsolescência</h3>
             <p>Ciclos de melhoria seguindo o que sua operação pede. Sistema que envelhece com o negócio, não contra ele.</p>
             <div class="step-tags">
@@ -393,9 +392,12 @@
               <span>Roadmap vivo</span>
             </div>
           </div>
-        </article>
+          <div class="tl-media">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&q=80" alt="" loading="lazy">
+          </div>
+        </li>
 
-      </div>
+      </ol>
 
       <div class="secao-cta reveal">
         <p>O passo 01 começa com uma conversa de 15 minutos. Sem custo e sem compromisso.</p>

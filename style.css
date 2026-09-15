@@ -307,7 +307,6 @@ em {
   .nav-brand span { display: none; }
 }
 
-
 /* --- Hero cinemático --------------------------------------------- */
 .hero {
   position: relative;
@@ -675,6 +674,38 @@ em {
   overflow: hidden;
   border: 1px solid var(--line);
 }
+
+/* Em duas colunas a foto passa a acompanhar a altura do texto ao lado,
+   em vez de impor a própria.
+
+   Com o aspect-ratio fixo ela media 695px contra 517px do parágrafo num
+   monitor largo: 178px descendo além do texto que ela ilustra. Isso lê
+   como "esticada" mesmo sem deformação nenhuma — a proporção do arquivo
+   (0,8003) e a do quadro (0,800) são praticamente iguais.
+
+   Proporção fixa não resolveria: o ideal é 1,07 acima de 1280px, onde o
+   container trava em 1240px, e 0,82 por volta de 1000px, onde a coluna
+   estreita e o texto cresce. Acompanhar o texto acerta nos dois.
+
+   object-fit: cover continua cuidando do resto — muda quanto se vê da
+   foto, nunca a forma dela. */
+@media (min-width: 901px) {
+  .manifesto-grid { align-items: stretch; }
+  .manifesto-media {
+    aspect-ratio: auto;
+    min-height: 420px;   /* piso, para o caso de o texto encurtar */
+  }
+  /* A imagem precisa sair do fluxo, senão ela continua mandando na
+     altura: com height:100% e nenhum pai de altura definida, a
+     porcentagem não resolve e o navegador cai na proporção intrínseca
+     do arquivo — 556 de largura viravam 695 de altura de novo, só que
+     agora esticando o texto junto. Fora do fluxo, quem define a altura
+     é a linha do grid, e a linha é o texto. */
+  .manifesto-media img {
+    position: absolute;
+    inset: 0;
+  }
+}
 .manifesto-media img {
   width: 100%; height: 100%;
   object-fit: cover;
@@ -682,30 +713,6 @@ em {
   transition: transform 1600ms var(--ease-out), filter 800ms;
 }
 .manifesto-media:hover img { transform: scale(1.03); filter: brightness(0.85); }
-
-.badge-float {
-  position: absolute;
-  bottom: 20px; left: 20px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background: rgba(10, 10, 11, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  font-size: 12px;
-  color: #fff;
-  font-weight: 500;
-}
-.badge-dot {
-  width: 8px; height: 8px;
-  background: var(--cyan);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--cyan);
-  animation: pulse 2s infinite;
-}
 
 .manifesto-text h2 {
   font-size: clamp(28px, 3.8vw, 48px);
@@ -746,80 +753,131 @@ em {
   border-top: 1px solid var(--line);
 }
 
-.steps {
-  display: flex;
-  flex-direction: column;
-  gap: 80px;
+/* --- Timeline dos três passos -------------------------------------
+   Antes eram três blocos em zigue-zague (foto/texto alternando lado).
+   Zigue-zague mostra três coisas; timeline mostra uma sequência — e a
+   sequência é justamente o que a seção afirma ("três passos").
+
+   O trilho é desenhado no ::before de cada item e some no último: linha
+   que continua depois da terceira bolinha promete um quarto passo que
+   não existe.                                                        */
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.step {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: center;
-}
-.step.step-flip { direction: rtl; }
-.step.step-flip > * { direction: ltr; }
-@media (max-width: 900px) {
-  .step, .step.step-flip { grid-template-columns: 1fr; gap: 32px; direction: ltr; }
-  .steps { gap: 56px; }
-}
-
-.step-media {
+.tl-item {
   position: relative;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) 340px;
+  gap: 0 36px;
+  align-items: center;
+  padding-bottom: 64px;
+}
+.tl-item:last-child { padding-bottom: 0; }
+
+/* Trilho: começa abaixo do marcador e vai até o próximo item. Nasce no
+   cyan da marca e se apaga descendo, para guiar o olho sem virar borda. */
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: 27px;
+  top: 56px;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, rgba(93, 224, 230, 0.45), var(--line));
+}
+.tl-item:last-child::before { display: none; }
+
+.tl-marca {
+  align-self: start;
+  width: 56px; height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bg-2);
+  border: 1px solid var(--line-strong);
+  position: relative;
+  z-index: 1;                       /* cobre o trilho que nasce atrás */
+  transition: border-color 320ms var(--ease-out), transform 320ms var(--ease-spring);
+}
+.tl-marca span {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.tl-item:hover .tl-marca {
+  border-color: rgba(93, 224, 230, 0.55);
+  transform: scale(1.06);
+}
+
+.tl-passo {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.tl-media {
   aspect-ratio: 4 / 3;
   border-radius: 20px;
   overflow: hidden;
   border: 1px solid var(--line);
 }
-.step-media img {
+.tl-media img {
   width: 100%; height: 100%;
   object-fit: cover;
   filter: brightness(0.7) contrast(1.05);
-  transition: transform 1200ms var(--ease-out);
+  transition: transform 1200ms var(--ease-out), filter 800ms;
 }
-.step:hover .step-media img { transform: scale(1.04); }
-/* Scrim só no canto do número. Sobre foto clara o branco ficava em 2.1:1;
-   com o scrim passa de 10:1 sem escurecer a imagem inteira. */
-.step-media::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(160deg, rgba(10, 10, 11, 0.78) 0%, rgba(10, 10, 11, 0.35) 32%, transparent 58%);
+.tl-item:hover .tl-media img { transform: scale(1.04); filter: brightness(0.8); }
+
+/* Abaixo de 1000px a foto ao lado do texto fica estreita demais para
+   ambientar coisa nenhuma: ela desce para baixo do texto, em 16/9, e a
+   coluna do trilho encolhe. */
+@media (max-width: 999.98px) {
+  .tl-item {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 0 18px;
+    padding-bottom: 44px;
+  }
+  .tl-item::before { left: 21px; top: 44px; }
+  .tl-marca { width: 44px; height: 44px; }
+  .tl-marca span { font-size: 16px; }
+  .tl-media {
+    grid-column: 2;
+    margin-top: 22px;
+    aspect-ratio: 16 / 9;
+  }
 }
 
-.step-num {
-  position: absolute;
-  z-index: 2;
-  top: 16px; left: 20px;
-  font-family: 'Poppins', system-ui, sans-serif;
-  font-size: 64px;
-  font-weight: 800;
-  color: #fff;
-  line-height: 1;
-  text-shadow: 0 4px 20px rgba(0,0,0,0.5);
-  letter-spacing: -0.04em;
+@media (max-width: 560px) {
+  .tl-item { grid-template-columns: 38px minmax(0, 1fr); gap: 0 14px; }
+  .tl-item::before { left: 18px; top: 38px; }
+  .tl-marca { width: 38px; height: 38px; }
+  .tl-marca span { font-size: 14px; }
 }
 
-/* Empilhado, a foto vem antes do texto que importa. Em 4/3 ela ocupava
-   quase um terço da tela por passo — três passos viravam uma tela inteira
-   de banco de imagens antes de qualquer informação nova. Em 16/9 continua
-   ambientando sem virar pedágio de rolagem.
-   Fica depois da regra base de propósito: mesma especificidade, quem vem
-   por último ganha. */
-@media (max-width: 900px) {
-  .step-media { aspect-ratio: 16 / 9; }
-  .step-num { font-size: 48px; top: 12px; left: 16px; }
+@media (prefers-reduced-motion: reduce) {
+  .tl-item:hover .tl-marca { transform: none; }
 }
 
-.step-body h3 {
+.tl-corpo h3 {
   font-size: clamp(24px, 3vw, 36px);
   line-height: 1.1;
   letter-spacing: -0.025em;
   margin-bottom: 16px;
 }
-.step-body p {
+.tl-corpo p {
   font-size: 16px;
   line-height: 1.65;
   color: var(--text-mid);
