@@ -767,7 +767,9 @@ em {
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  margin-bottom: 56px;
+  /* 36px e não 56: sem o rótulo pendurado sob cada bolinha, o respiro
+     antigo virava um buraco entre a barra e o cartão. */
+  margin-bottom: 36px;
 }
 
 /* Trilho de fundo: vai do centro da 1ª bolinha ao centro da 3ª, não de
@@ -817,16 +819,9 @@ em {
               border-color 320ms var(--ease-out), transform 320ms var(--ease-spring),
               box-shadow 320ms var(--ease-out);
 }
-.tl-rot {
-  font-size: 12.5px;
-  line-height: 1.35;
-  color: var(--text-dim);
-  max-width: 18ch;
-  transition: color 320ms var(--ease-out);
-}
+
 
 .tl-no:hover .tl-bolha { border-color: rgba(93, 224, 230, 0.5); transform: translateY(-2px); }
-.tl-no:hover .tl-rot { color: var(--text-mid); }
 
 /* Passo atual: a bolinha assume o gradiente cheio. Branco sobre o
    #004aad do fim da rampa dá 8:1, então o número continua legível. */
@@ -837,7 +832,6 @@ em {
   transform: scale(1.06);
   box-shadow: 0 12px 30px -12px rgba(0, 74, 173, 0.9);
 }
-.tl-no.is-on .tl-rot { color: var(--text); font-weight: 500; }
 
 /* Já visitado: fica entre o apagado e o atual, para a sequência ler. */
 .tl-no.is-feito .tl-bolha { border-color: rgba(93, 224, 230, 0.45); color: var(--text); }
@@ -849,8 +843,16 @@ em {
   grid-area: 1 / 1;            /* mesma célula: a altura é a do maior */
   display: grid;
   grid-template-columns: minmax(0, 1fr) 380px;
-  gap: 48px;
+  gap: 44px;
   align-items: center;
+  /* Cartão fechado, para o passo ler como um slide e não como texto
+     solto embaixo da barra. Mesmo fundo, borda e raio do
+     .feature-product e do .conversa-box: é o vocabulário que a página
+     já usa para bloco de conteúdo. */
+  padding: 36px;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: 24px;
   opacity: 0;
   visibility: hidden;          /* tira do fluxo de foco e de leitor de tela */
   transform: translateY(14px);
@@ -938,13 +940,13 @@ em {
 }
 
 @media (max-width: 640px) {
-  .tl-nav { margin-bottom: 40px; }
+  .tl-nav { margin-bottom: 28px; }
   .tl-nav::before, .tl-nav::after { top: 21px; }
   .tl-bolha { width: 44px; height: 44px; font-size: 16px; }
-  /* Só as bolinhas: o título de cada passo já aparece no painel, e
-     três rótulos lado a lado em 375px viram seis linhas de texto. */
-  .tl-rot { display: none; }
   .tl-no { gap: 0; }
+  /* O cartão respira menos no telefone: 36px de cada lado comiam a
+     largura útil do texto. */
+  .tl-painel { padding: 24px 20px; border-radius: 20px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
