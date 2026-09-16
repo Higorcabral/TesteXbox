@@ -38,7 +38,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=25">
+<link rel="stylesheet" href="style.css?v=27">
 <meta name="robots" content="noai, noimageai">
 
 <!-- Dados estruturados. Só o que a página realmente afirma — nada de
@@ -358,17 +358,17 @@
           <button type="button" class="tl-no is-on" role="tab" id="tab-p1"
                   aria-controls="painel-p1" aria-selected="true" data-ir="0"
                   aria-label="Passo 1: Conversa antes de código">
-            <span class="tl-bolha">1</span>
+            <span class="tl-aro" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="29"/></svg></span><span class="tl-bolha">1</span>
           </button>
           <button type="button" class="tl-no" role="tab" id="tab-p2"
                   aria-controls="painel-p2" aria-selected="false" tabindex="-1" data-ir="1"
                   aria-label="Passo 2: Construção em pedaços úteis">
-            <span class="tl-bolha">2</span>
+            <span class="tl-aro" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="29"/></svg></span><span class="tl-bolha">2</span>
           </button>
           <button type="button" class="tl-no" role="tab" id="tab-p3"
                   aria-controls="painel-p3" aria-selected="false" tabindex="-1" data-ir="2"
                   aria-label="Passo 3: Evolução, não obsolescência">
-            <span class="tl-bolha">3</span>
+            <span class="tl-aro" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="29"/></svg></span><span class="tl-bolha">3</span>
           </button>
         </div>
 
@@ -428,16 +428,6 @@
             </div>
           </article>
 
-        </div>
-
-        <div class="tl-pe">
-          <button type="button" class="tl-seta" data-ir-para="anterior" aria-label="Passo anterior" disabled>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
-          </button>
-          <span class="tl-contador" aria-hidden="true"><strong data-atual>1</strong> / 3</span>
-          <button type="button" class="tl-seta" data-ir-para="proximo" aria-label="Próximo passo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </button>
         </div>
 
       </div>
@@ -1218,7 +1208,15 @@ document.querySelectorAll('a[href^="#"]').forEach(function (a) {
    (roving tabindex), setas Esquerda/Direita andando entre eles, Home
    e End indo para as pontas.
 
-   Sem avanço automático de propósito. Quem lê decide quando avançar.
+   O slide gira sozinho a cada 8s, mas com quatro freios — carrossel
+   automático sem freio tira a frase da frente de quem está lendo:
+
+     1. pausa enquanto o ponteiro está em cima
+     2. pausa enquanto o foco do teclado está dentro
+     3. PARA DE VEZ assim que a pessoa escolhe um passo. Quem clicou
+        decidiu o que quer ver; continuar girando desfaz a escolha
+     4. não gira fora da tela, nem com a aba em segundo plano, nem
+        com prefers-reduced-motion ligado
    ============================================================== */
 (function () {
   var slide = document.querySelector('[data-slide]');
@@ -1226,14 +1224,32 @@ document.querySelectorAll('a[href^="#"]').forEach(function (a) {
 
   var tabs    = Array.prototype.slice.call(slide.querySelectorAll('[role="tab"]'));
   var paineis = Array.prototype.slice.call(slide.querySelectorAll('[role="tabpanel"]'));
-  var setas   = Array.prototype.slice.call(slide.querySelectorAll('[data-ir-para]'));
-  var contador = slide.querySelector('[data-atual]');
+  var palco   = slide.querySelector('.tl-palco');
+  var nav     = slide.querySelector('.tl-nav');
   if (!tabs.length || tabs.length !== paineis.length) return;
 
+  var TEMPO = 8000;
   var atual = 0;
+  var relogio = null;
+  var manual = false;      /* a pessoa assumiu o controle */
+  var pausado = false;     /* hover, foco, fora da tela ou aba escondida */
+  var naTela = false;
 
-  function mostrar(i, moverFoco) {
+  var reduz = window.matchMedia &&
+              window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* --- Troca de passo --------------------------------------------- */
+  function mostrar(i, moverFoco, direcao) {
     i = Math.max(0, Math.min(tabs.length - 1, i));
+
+    /* Entra pelo lado para onde a sequência vai; quem sai vai ao
+       contrário. Sem isso a troca pisca no lugar em vez de avançar. */
+    if (palco) {
+      var frente = direcao !== 'tras';
+      palco.style.setProperty('--entra', frente ? '40px' : '-40px');
+      palco.style.setProperty('--sai',   frente ? '-40px' : '40px');
+    }
+
     atual = i;
 
     tabs.forEach(function (t, k) {
@@ -1248,57 +1264,93 @@ document.querySelectorAll('a[href^="#"]').forEach(function (a) {
       t.setAttribute('tabindex', ativo ? '0' : '-1');
     });
 
-    paineis.forEach(function (p, k) { p.classList.toggle('is-on', k === i); });
-
-    /* Preenchimento do trilho: 0, 0.5 ou 1 com três passos. */
-    slide.querySelector('.tl-nav').style.setProperty(
-      '--progresso', tabs.length > 1 ? (i / (tabs.length - 1)) : 0
-    );
-
-    if (contador) contador.textContent = String(i + 1);
-
-    setas.forEach(function (b) {
-      var proximo = b.getAttribute('data-ir-para') === 'proximo';
-      b.disabled = proximo ? (i >= tabs.length - 1) : (i <= 0);
+    paineis.forEach(function (pnl, k) {
+      var era = pnl.classList.contains('is-on');
+      pnl.classList.toggle('is-on', k === i);
+      pnl.classList.toggle('is-saindo', era && k !== i);
     });
+
+    if (nav) {
+      nav.style.setProperty('--progresso', tabs.length > 1 ? (i / (tabs.length - 1)) : 0);
+    }
 
     if (moverFoco) tabs[i].focus();
   }
 
+  /* --- Relógio ----------------------------------------------------- */
+  function agendar() {
+    cancelar();
+    if (manual || reduz || pausado || !naTela) return;
+    relogio = setTimeout(function () {
+      mostrar((atual + 1) % tabs.length, false, 'frente');
+      agendar();
+    }, TEMPO);
+  }
+  function cancelar() {
+    if (relogio) { clearTimeout(relogio); relogio = null; }
+  }
+
+  function pausar(v) {
+    pausado = v;
+    slide.classList.toggle('is-pausado', v && !manual);
+    if (v) cancelar(); else agendar();
+  }
+
+  /* A pessoa escolheu: o automático sai de cena e não volta. */
+  function assumirControle() {
+    if (manual) return;
+    manual = true;
+    cancelar();
+    slide.classList.add('is-manual');
+    slide.classList.remove('is-pausado');
+  }
+
+  /* --- Interação --------------------------------------------------- */
   tabs.forEach(function (t, k) {
-    t.addEventListener('click', function () { mostrar(k, false); });
-  });
-
-  /* Teclado na barra de tabs */
-  slide.querySelector('.tl-nav').addEventListener('keydown', function (e) {
-    var mapa = {
-      ArrowRight: atual + 1, ArrowDown: atual + 1,
-      ArrowLeft:  atual - 1, ArrowUp:   atual - 1,
-      Home: 0, End: tabs.length - 1
-    };
-    if (!(e.key in mapa)) return;
-    e.preventDefault();
-    /* Circular nas setas, como o padrão de tabs espera. */
-    var i = mapa[e.key];
-    if (i < 0) i = tabs.length - 1;
-    if (i > tabs.length - 1) i = 0;
-    mostrar(i, true);
-  });
-
-  setas.forEach(function (b) {
-    b.addEventListener('click', function () {
-      mostrar(atual + (b.getAttribute('data-ir-para') === 'proximo' ? 1 : -1), false);
+    t.addEventListener('click', function () {
+      assumirControle();
+      mostrar(k, false, k > atual ? 'frente' : 'tras');
     });
+  });
+
+  if (nav) {
+    nav.addEventListener('keydown', function (e) {
+      var mapa = {
+        ArrowRight: atual + 1, ArrowDown: atual + 1,
+        ArrowLeft:  atual - 1, ArrowUp:   atual - 1,
+        Home: 0, End: tabs.length - 1
+      };
+      if (!(e.key in mapa)) return;
+      e.preventDefault();
+      assumirControle();
+      /* Circular nas setas, como o padrão de tabs espera. */
+      var i = mapa[e.key];
+      var dir = (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'Home') ? 'tras' : 'frente';
+      if (i < 0) i = tabs.length - 1;
+      if (i > tabs.length - 1) i = 0;
+      mostrar(i, true, dir);
+    });
+  }
+
+  /* Ponteiro e teclado seguram o relógio enquanto estão por perto. */
+  slide.addEventListener('mouseenter', function () { pausar(true); });
+  slide.addEventListener('mouseleave', function () { pausar(false); });
+  slide.addEventListener('focusin',   function () { pausar(true); });
+  slide.addEventListener('focusout',  function (e) {
+    if (!slide.contains(e.relatedTarget)) pausar(false);
+  });
+
+  /* Aba em segundo plano: o setTimeout continuaria correndo e a pessoa
+     voltaria para um passo que trocou sem ela ver. */
+  document.addEventListener('visibilitychange', function () {
+    pausar(document.hidden);
   });
 
   /* Arrastar no toque. Só reage a gesto claramente horizontal: sem
      essa checagem, rolar a página com o dedo em cima do painel
      trocaria de passo sem querer. */
-  (function () {
-    var palco = slide.querySelector('.tl-palco');
-    if (!palco) return;
+  if (palco) {
     var x0 = null, y0 = null;
-
     palco.addEventListener('touchstart', function (e) {
       var t = e.changedTouches[0];
       x0 = t.clientX; y0 = t.clientY;
@@ -1310,11 +1362,24 @@ document.querySelectorAll('a[href^="#"]').forEach(function (a) {
       var dx = t.clientX - x0, dy = t.clientY - y0;
       x0 = null; y0 = null;
       if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
-      mostrar(atual + (dx < 0 ? 1 : -1), false);
+      assumirControle();
+      mostrar(atual + (dx < 0 ? 1 : -1), false, dx < 0 ? 'frente' : 'tras');
     }, { passive: true });
-  })();
+  }
 
-  mostrar(0, false);
+  /* Só conta o tempo enquanto a seção está à vista. */
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entradas) {
+      naTela = entradas[0].isIntersecting;
+      if (naTela) agendar(); else cancelar();
+    }, { threshold: 0.35 }).observe(slide);
+  } else {
+    naTela = true;
+  }
+
+  mostrar(0, false, 'frente');
+  if (reduz) slide.classList.add('is-manual');   /* nada gira, nada conta */
+  else agendar();
 })();
 
 /* ==============================================================

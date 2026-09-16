@@ -760,7 +760,14 @@ em {
 
    O avanço é sempre da pessoa. Carrossel que gira sozinho tira a frase
    da frente de quem está no meio da leitura.                         */
-.tl-slide { max-width: 1040px; margin-inline: auto; }
+.tl-slide {
+  max-width: 1040px;
+  margin-inline: auto;
+  /* 8s: o painel mais longo tem 25 palavras, que a ~200 palavras por
+     minuto dá 7,5s de leitura. Menos que isso e a frase sai da frente
+     de quem ainda está lendo. */
+  --tl-tempo: 8s;
+}
 
 /* --- Navegação: as três bolinhas -------------------------------- */
 .tl-nav {
@@ -804,7 +811,46 @@ em {
   padding: 0 10px;
   text-align: center;
 }
+/* Anel de progresso: mostra quanto falta para o próximo passo. Sem ele,
+   a troca automática parece aleatória — a pessoa não sabe se o slide vai
+   virar no segundo seguinte ou daqui a dez. */
+.tl-aro {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 64px; height: 64px;
+  transform: translate(-50%, -50%) rotate(-90deg);  /* começa no topo */
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 260ms var(--ease-out);
+}
+.tl-aro svg { width: 100%; height: 100%; overflow: visible; }
+.tl-aro circle {
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 2;
+  stroke-linecap: round;
+  /* 2*pi*29 = 182.21 */
+  stroke-dasharray: 182.21;
+  stroke-dashoffset: 182.21;
+}
+.tl-no.is-on .tl-aro { opacity: 1; }
+.tl-no.is-on .tl-aro circle {
+  animation: tl-aro-encher var(--tl-tempo, 8s) linear forwards;
+}
+@keyframes tl-aro-encher {
+  from { stroke-dashoffset: 182.21; }
+  to   { stroke-dashoffset: 0; }
+}
+/* Pausado no hover e no foco: ninguém perde a frase por ter parado
+   para ler. O JS pausa o relógio junto. */
+.tl-slide.is-pausado .tl-no.is-on .tl-aro circle { animation-play-state: paused; }
+/* Depois que a pessoa escolhe um passo, o giro automático acaba e o
+   anel não tem mais o que contar. */
+.tl-slide.is-manual .tl-aro { opacity: 0; animation: none; }
+
+.tl-no { position: relative; }
 .tl-bolha {
+  position: relative;
   width: 54px; height: 54px;
   display: grid;
   place-items: center;
@@ -855,16 +901,21 @@ em {
   border-radius: 24px;
   opacity: 0;
   visibility: hidden;          /* tira do fluxo de foco e de leitor de tela */
-  transform: translateY(14px);
-  transition: opacity 380ms var(--ease-out),
-              transform 440ms var(--ease-spring),
-              visibility 380ms;
+  /* Entra pelo lado para onde a sequência está indo, e quem sai vai
+     para o lado oposto. É o que faz a troca ler como avanço, e não
+     como dois blocos piscando no mesmo lugar. O JS troca --entra e
+     --sai conforme a direção. */
+  transform: translateX(var(--entra, 40px));
+  transition: opacity 420ms var(--ease-out),
+              transform 560ms var(--ease-spring),
+              visibility 420ms;
 }
 .tl-painel.is-on {
   opacity: 1;
   visibility: visible;
   transform: none;
 }
+.tl-painel.is-saindo { transform: translateX(var(--sai, -40px)); }
 .tl-painel:focus-visible { outline: 2px solid var(--cyan); outline-offset: 12px; border-radius: 8px; }
 
 .tl-passo {
@@ -891,45 +942,6 @@ em {
 }
 .tl-painel.is-on:hover .tl-media img { transform: scale(1.04); filter: brightness(0.8); }
 
-/* --- Pé: setas e contador --------------------------------------- */
-.tl-pe {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 44px;
-}
-.tl-seta {
-  width: 46px; height: 46px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  border: 1px solid var(--line-strong);
-  background: var(--bg-2);
-  color: var(--text);
-  transition: background 220ms var(--ease-out), border-color 220ms var(--ease-out),
-              transform 220ms var(--ease-spring), opacity 220ms;
-}
-.tl-seta svg { width: 18px; height: 18px; }
-.tl-seta:hover:not(:disabled) {
-  background: var(--bg-3);
-  border-color: rgba(93, 224, 230, 0.5);
-  transform: translateY(-2px);
-}
-.tl-seta:active:not(:disabled) { transform: scale(0.94); }
-/* Desabilitada e não escondida: sumir o botão na ponta faz os outros
-   controles pularem de lugar a cada troca de passo. */
-.tl-seta:disabled { opacity: 0.32; cursor: not-allowed; }
-
-.tl-contador {
-  font-size: 13px;
-  color: var(--text-dim);
-  font-variant-numeric: tabular-nums;
-  min-width: 42px;
-  text-align: center;
-}
-.tl-contador strong { color: var(--text); font-weight: 600; }
-
 /* --- Telas menores ---------------------------------------------- */
 @media (max-width: 899.98px) {
   .tl-painel { grid-template-columns: 1fr; gap: 26px; }
@@ -943,6 +955,11 @@ em {
   .tl-nav { margin-bottom: 28px; }
   .tl-nav::before, .tl-nav::after { top: 21px; }
   .tl-bolha { width: 44px; height: 44px; font-size: 16px; }
+  /* O anel acompanha a bolinha: em 64px fixos ele ficava com 10px de
+     folga em volta de uma bolinha de 44, e lia como dois círculos
+     soltos em vez de um contorno. O viewBox escala junto, então o
+     dasharray continua valendo. */
+  .tl-aro { width: 54px; height: 54px; }
   .tl-no { gap: 0; }
   /* O cartão respira menos no telefone: 36px de cada lado comiam a
      largura útil do texto. */
@@ -950,11 +967,17 @@ em {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tl-painel { transition: opacity 120ms linear, visibility 120ms; transform: none; }
-  .tl-painel.is-on { transform: none; }
+  /* Sem deslize lateral e sem anel: com reduced-motion o JS também não
+     gira sozinho, então não há tempo a contar. Troca por corte seco. */
+  .tl-painel,
+  .tl-painel.is-on,
+  .tl-painel.is-saindo {
+    transition: opacity 120ms linear, visibility 120ms;
+    transform: none;
+  }
+  .tl-aro { display: none; }
   .tl-no:hover .tl-bolha,
-  .tl-no.is-on .tl-bolha,
-  .tl-seta:hover:not(:disabled) { transform: none; }
+  .tl-no.is-on .tl-bolha { transform: none; }
 }
 
 .tl-corpo h3 {
