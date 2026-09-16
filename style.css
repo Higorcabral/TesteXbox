@@ -827,7 +827,9 @@ em {
 .tl-aro circle {
   fill: none;
   stroke: var(--cyan);
-  stroke-width: 2;
+  /* 3 e não 2: em 2 o anel sumia ao lado da borda de 1px da bolinha e
+     do halo, e não lia como um carregador. */
+  stroke-width: 3;
   stroke-linecap: round;
   /* 2*pi*29 = 182.21 */
   stroke-dasharray: 182.21;
@@ -2537,3 +2539,38 @@ em {
 .seg-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
 
 .nav-links a.is-atual { color: var(--text); }
+
+/* =====================================================================
+   EMENDA DO GRADIENTE NAS BEIRADAS
+   ---------------------------------------------------------------------
+   Todo elemento com `background: var(--grad)` e borda mostrava um fio
+   claro na ponta escura — mais visível no botão primário e nas bolinhas
+   numeradas do slide.
+
+   A causa: o fundo é DIMENSIONADO pelo padding-box (background-origin
+   padrão) mas PINTADO até o border-box (background-clip padrão). A
+   faixa da borda fica fora da área do gradiente e, como background-
+   repeat é `repeat` por padrão, o começo dele reaparece ali: o ciano do
+   0% encostando no azul do 100%.
+
+   Dimensionar pelo border-box acaba com a emenda. Onde não há borda os
+   dois boxes coincidem e a regra não muda nada — por isso entram todos,
+   inclusive os que hoje não têm borda: se um ganhar borda amanhã, já
+   nasce certo.
+
+   Precisa vir depois de todas elas: `background` é atalho e reseta
+   background-origin para padding-box.
+   ===================================================================== */
+.nav-cta,
+.btn-primary,
+.tl-no.is-on .tl-bolha,
+.fp-tag,
+.pc-price,
+.founder-avatar,
+.form-ok-icone,
+.faq-item[open] .faq-icon,
+.result-value,
+.preloader-bar::before,
+.scroll-line::after {
+  background-origin: border-box;
+}
