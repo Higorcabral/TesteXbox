@@ -762,62 +762,54 @@ em {
    da frente de quem está no meio da leitura.                         */
 .tl-slide { max-width: 1040px; margin-inline: auto; }
 
-/* --- Navegação: as três bolinhas sobre o arco -------------------- */
-/* A caixa tem a mesma proporção do viewBox (1000/300), então o SVG não
-   distorce e as porcentagens de cada bolinha caem exatamente sobre a
-   curva. Sem isso, a bolinha flutuaria ao lado da linha em cada
-   largura de tela diferente. */
+/* --- Navegação: as três bolinhas -------------------------------- */
 .tl-nav {
   position: relative;
-  aspect-ratio: 1000 / 300;
-  margin-bottom: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 56px;
 }
-.tl-arco {
+
+/* Trilho de fundo: vai do centro da 1ª bolinha ao centro da 3ª, não de
+   ponta a ponta — linha sobrando depois da última promete um 4º passo. */
+.tl-nav::before,
+.tl-nav::after {
+  content: '';
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
+  top: 26px;                    /* meio da bolinha de 54px */
+  left: 16.667%;                /* centro da 1ª coluna */
+  height: 2px;
+  border-radius: 2px;
 }
-.tl-arco-base {
-  stroke: var(--line-strong);
-  stroke-width: 1.5;
-  stroke-linecap: round;
+.tl-nav::before {
+  right: 16.667%;
+  background: var(--line-strong);
 }
-/* O trecho percorrido. O comprimento e o recuo são calculados no JS
-   com getTotalLength/getPointAtLength: é o único jeito de o traço
-   parar exatamente em cima da bolinha, e não num palpite. */
-.tl-arco-feito {
-  stroke: url(#tl-gradiente);
-  stroke-width: 2;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 560ms var(--ease-spring);
+/* Preenchimento até o passo atual. --progresso vem do JS: 0, .5 ou 1 */
+.tl-nav::after {
+  width: calc(66.666% * var(--progresso, 0));
+  background: var(--grad-text);
+  transition: width 460ms var(--ease-spring);
 }
 
 .tl-no {
-  position: absolute;
-  left: var(--x);
-  top: var(--y);
-  /* A bolinha é que fica sobre a curva; o rótulo pendura embaixo sem
-     puxar o centro do botão para fora do ponto. */
-  transform: translate(-50%, -50%);
-  width: 64px;
-  height: 64px;
-  /* O reset global de button zera fundo e borda, mas não o padding —
-     e o padrão do Chrome é 1px 6px. Eram esses 6px que jogavam a
-     bolinha para a direita da curva: o botão caía certo no ponto, o
-     conteúdo dele é que saía do centro. */
-  padding: 0;
+  position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 0 10px;
+  text-align: center;
 }
 .tl-bolha {
-  width: 64px; height: 64px;
+  width: 54px; height: 54px;
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: rgba(16, 16, 18, 0.9);
+  background: var(--bg-2);
   border: 1px solid var(--line-strong);
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text-mid);
@@ -826,41 +818,29 @@ em {
               box-shadow 320ms var(--ease-out);
 }
 .tl-rot {
-  position: absolute;
-  top: calc(100% + 14px);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 17ch;
   font-size: 12.5px;
   line-height: 1.35;
   color: var(--text-dim);
+  max-width: 18ch;
   transition: color 320ms var(--ease-out);
 }
 
-.tl-no:hover .tl-bolha {
-  border-color: rgba(93, 224, 230, 0.5);
-  color: var(--text);
-}
+.tl-no:hover .tl-bolha { border-color: rgba(93, 224, 230, 0.5); transform: translateY(-2px); }
 .tl-no:hover .tl-rot { color: var(--text-mid); }
 
-/* Passo atual. O halo em cyan é o que a referência usa para dizer
-   "é aqui" — e é o mesmo cyan da marca, então não entra cor nova. */
+/* Passo atual: a bolinha assume o gradiente cheio. Branco sobre o
+   #004aad do fim da rampa dá 8:1, então o número continua legível. */
 .tl-no.is-on .tl-bolha {
   background: var(--grad);
   border-color: transparent;
   color: #fff;
-  transform: scale(1.08);
-  box-shadow: 0 0 0 6px rgba(93, 224, 230, 0.10),
-              0 0 28px rgba(93, 224, 230, 0.45),
-              0 14px 34px -14px rgba(0, 74, 173, 0.9);
+  transform: scale(1.06);
+  box-shadow: 0 12px 30px -12px rgba(0, 74, 173, 0.9);
 }
 .tl-no.is-on .tl-rot { color: var(--text); font-weight: 500; }
 
-/* Já percorrido: entre o apagado e o atual, para a sequência ler. */
-.tl-no.is-feito .tl-bolha {
-  border-color: rgba(93, 224, 230, 0.45);
-  color: var(--text);
-}
+/* Já visitado: fica entre o apagado e o atual, para a sequência ler. */
+.tl-no.is-feito .tl-bolha { border-color: rgba(93, 224, 230, 0.45); color: var(--text); }
 
 /* --- Palco: os três painéis empilhados -------------------------- */
 .tl-palco { display: grid; }
@@ -957,40 +937,14 @@ em {
   .tl-corpo { order: 1; }
 }
 
-/* Abaixo de 720px o arco não cabe: com a proporção 1000/300, uma tela de
-   375px daria 112px de altura para bolinhas de 64px. Vira trilho reto,
-   que é o que já funcionava — e os rótulos saem, porque o título do
-   passo aparece no painel logo abaixo. */
-@media (max-width: 719.98px) {
-  .tl-nav {
-    aspect-ratio: auto;
-    display: flex;
-    justify-content: space-between;
-    padding-inline: 4px;
-    margin-bottom: 34px;
-  }
-  .tl-arco { display: none; }
-
-  .tl-nav::before,
-  .tl-nav::after {
-    content: '';
-    position: absolute;
-    top: 23px;                 /* meio da bolinha de 48px */
-    height: 2px;
-    border-radius: 2px;
-  }
-  .tl-nav::before { left: 28px; right: 28px; background: var(--line-strong); }
-  .tl-nav::after {
-    left: 28px;
-    width: calc((100% - 56px) * var(--progresso, 0));
-    background: var(--grad-text);
-    transition: width 460ms var(--ease-spring);
-  }
-
-  .tl-no { position: static; transform: none; width: 48px; height: 48px; }
-  .tl-bolha { width: 48px; height: 48px; font-size: 17px; }
-  .tl-no.is-on .tl-bolha { transform: scale(1.06); }
+@media (max-width: 640px) {
+  .tl-nav { margin-bottom: 40px; }
+  .tl-nav::before, .tl-nav::after { top: 21px; }
+  .tl-bolha { width: 44px; height: 44px; font-size: 16px; }
+  /* Só as bolinhas: o título de cada passo já aparece no painel, e
+     três rótulos lado a lado em 375px viram seis linhas de texto. */
   .tl-rot { display: none; }
+  .tl-no { gap: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1013,28 +967,18 @@ em {
   color: var(--text-mid);
   margin-bottom: 20px;
 }
-.tl-bullets {
+.step-tags {
   display: flex;
-  flex-direction: column;
-  gap: 9px;
-  margin-top: 22px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
-.tl-bullets li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 14.5px;
-  line-height: 1.5;
+.step-tags span {
+  padding: 6px 12px;
+  font-size: 12px;
   color: var(--text-mid);
-}
-/* O check vem como imagem de fundo com o cyan já embutido: é sempre a
-   mesma cor, e assim não depende de mask, que ainda pede prefixo. */
-.tl-bullets li::before {
-  content: '';
-  flex: none;
-  width: 16px; height: 16px;
-  margin-top: 3px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235de0e6' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M8.4 12.4l2.4 2.4 4.8-5.2'/%3E%3C/svg%3E") center / contain no-repeat;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--line);
+  border-radius: 999px;
 }
 
 /* --- Quote section ----------------------------------------------- */
