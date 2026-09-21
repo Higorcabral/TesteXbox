@@ -70,16 +70,18 @@
 
     var alvo = p.novaAba === false ? '' : ' target="_blank" rel="noopener"';
 
+    /* Mesma estrutura do card escrito à mão no index: sem .proj-tag e
+       com o segmento como meta curta. Se divergir daqui, a vitrine
+       publicada pelo painel entra com markup que o CSS não estiliza. */
     return '<a href="' + esc(link) + '"' + alvo + ' class="proj-card reveal is-visible">' +
       '<div class="proj-media">' +
         '<div class="carousel" data-carousel>' + slides + '</div>' +
-        '<div class="proj-tag">Projeto · ' + esc(p.categoria || '') + '</div>' +
       '</div>' +
       '<div class="proj-body">' +
-        '<span class="proj-meta">' + ordem + ' · ' + esc(p.segmento || '') + '</span>' +
+        '<span class="proj-meta">' + esc(p.segmento || p.categoria || '') + '</span>' +
         '<h3>' + esc(p.titulo || '') + '</h3>' +
         '<p>' + esc(p.descricao || '') + '</p>' +
-        '<span class="proj-cta">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>' +
+        '<span class="proj-cta">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>' +
       '</div>' +
     '</a>';
   }

@@ -36,9 +36,12 @@
 <link rel="apple-touch-icon" href="assets/logo/HiferaIcon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://images.unsplash.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=30">
+<!-- Só os cinco pesos que o CSS usa, e só Poppins. O Instrument Serif
+     era baixado em toda visita e não aparecia em regra nenhuma. Não há
+     mais preconnect para images.unsplash.com: a página não usa nenhuma
+     foto de banco. -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=31">
 <meta name="robots" content="noai, noimageai">
 
 <!-- Dados estruturados. Só o que a página realmente afirma — nada de
@@ -69,10 +72,10 @@
 
 <!-- Âncora de chegada — precisa rodar antes do <body> existir.
      Abrir a página direto num #ancora (link compartilhado, F5 no meio da
-     página, resultado do Google) fazia o Chrome saltar para o meio de um
-     documento de quase quinze mil pixels durante o parse. O salto acontece
-     antes de as imagens reservarem o espaço delas, e o que sobrava era uma
-     faixa preta que só voltava a pintar quando a pessoa mexia o mouse.
+     página, resultado do Google) fazia o Chrome saltar para o meio do
+     documento durante o parse. O salto acontece antes de as imagens
+     reservarem o espaço delas, e o que sobrava era uma faixa preta que
+     só voltava a pintar quando a pessoa mexia o mouse.
 
      A saída é não deixar o navegador fazer esse salto: guardamos o alvo,
      tiramos o fragmento da URL antes que ele seja usado, e o próprio site
@@ -89,12 +92,12 @@
 </head>
 <body>
 
-<!-- Preloader curtinho (200ms) -->
 <div class="preloader" id="preloader">
   <div class="preloader-bar"></div>
 </div>
 
-<!-- NAV -->
+<!-- NAV — três destinos e uma ação. Cada item a mais na barra é uma
+     decisão a mais para quem chegou sem saber o que a Hifera faz. -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
     <a href="#top" class="nav-brand">
@@ -105,18 +108,11 @@
       </span>
     </a>
     <ul class="nav-links" id="nav-menu">
-      <li><a href="#manifesto">Nosso jeito</a></li>
-      <li><a href="#como-fazemos">Como fazemos</a></li>
-      <li><a href="#produtos">Produtos</a></li>
-      <li><a href="#fundadores">Quem faz</a></li>
-      <li><a href="#primeiros">Primeiros clientes</a></li>
-      <li><a href="#faq">FAQ</a></li>
-        <li><a href="seguranca.html">Segurança</a></li>
+      <li><a href="#como-fazemos">Como funciona</a></li>
+      <li><a href="#solucoes">Soluções</a></li>
+      <li><a href="#fundadores">Quem somos</a></li>
     </ul>
-    <!-- Mesma ação da página inteira. O rótulo é o único que não repete
-         "com a Hifera" por extenso: na barra, ao lado da marca, a frase
-         completa não cabe em telas pequenas sem empurrar o hambúrguer. -->
-    <a href="#contato" class="nav-cta">Quero conversar <span>→</span></a>
+    <a href="#contato" class="nav-cta">Vamos conversar <span aria-hidden="true">→</span></a>
     <button type="button" class="nav-toggle" id="navToggle"
             aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu">
       <span class="nav-toggle-bars" aria-hidden="true"></span>
@@ -126,786 +122,490 @@
 
 <main id="top">
 
-  <!-- HERO CINEMÁTICO -->
+  <!-- ============================================================
+       HERO — o que a Hifera faz, em poucos segundos.
+       O elemento visual é o produto de verdade (captura do Controle
+       Financeiro), não foto de banco: quem chega precisa ver que
+       existe software rodando, não um escritório genérico.
+       ============================================================ -->
   <header class="hero">
-    <div class="hero-media">
-      <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1600&auto=format&q=80" alt="" loading="eager" class="hero-img">
-      <div class="hero-overlay"></div>
-      <div class="hero-grid" aria-hidden="true"></div>
-    </div>
+    <div class="container hero-grade">
 
-    <div class="hero-content">
-      <div class="hero-tag">
-        <span>Automação com alma humana</span>
+      <div class="hero-txt">
+        <span class="eyebrow">Automação para operações reais</span>
+        <h1>
+          Menos trabalho manual.<br>
+          <span class="grad-text">Mais operação funcionando.</span>
+        </h1>
+        <p class="hero-sub">
+          Criamos sistemas, automações e ferramentas sob medida para transformar
+          processos repetitivos em fluxos simples de usar.
+        </p>
+        <div class="acoes">
+          <a href="#solucoes" class="btn btn-primary">
+            Conhecer soluções
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#contato" class="btn btn-ghost">Falar com a Hifera</a>
+        </div>
       </div>
 
-      <h1 class="hero-title">
-        <span class="word" data-word="1">Tecnologia feita por gente que vive operação real</span>
-      </h1>
-
-      <p class="hero-sub">
-        Sistemas, automações e integrações para tirar processos manuais do caminho.
-      </p>
-
-      <p class="hero-sub hero-sub-2">
-        Você conta o que está travando sua operação. A Hifera entende o processo,
-        encontra onde a tecnologia pode ajudar e apresenta um caminho — sem
-        proposta genérica e sem enrolação.
-      </p>
-
-      <!-- Uma ação principal, repetida igual em toda a página: conversar.
-           "Conhecer nossas soluções" fica como secundária, para quem ainda
-           não sabe o que a Hifera faz e quer ver antes de falar. -->
-      <div class="hero-actions">
-        <a href="#contato" class="btn btn-primary">
-          <span>Quero conversar com a Hifera</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
-        <a href="#produtos" class="link-arrow hero-link">
-          Conhecer nossas soluções
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
+      <div class="hero-produto">
+        <figure class="janela">
+          <div class="janela-barra" aria-hidden="true"><i></i><i></i><i></i></div>
+          <img src="assets/produto-ledger.webp"
+               alt="Painel do Controle Financeiro da Hifera: saldo do mês, gastos, parcelas e cartões."
+               width="1600" height="977" loading="eager" decoding="async" fetchpriority="high">
+        </figure>
       </div>
 
-      <p class="hero-micro">15 min · Sem compromisso · Resposta em até 24h úteis</p>
-
-      <div class="hero-scroll">
-      </div>
     </div>
   </header>
 
-  <!-- CONVERSA / FORMULÁRIO ------------------------------------------
-       Fica logo abaixo do hero de propósito: quem chegou convencido pelo
-       título não precisa percorrer treze mil pixels para achar onde falar.
-       Mantém o id "contato" porque é para cá que apontam o CTA do menu, os
-       links internos e a página de segurança.
-
-       Cinco campos, três obrigatórios. Todo o comportamento (validação,
-       loading, sucesso, erro) está em js/contato.js. -->
-  <section id="contato" class="conversa">
+  <!-- ============================================================
+       PROBLEMA — por que a Hifera existe. Uma tese, três sintomas.
+       Mantém o id "manifesto": é para cá que apontam links antigos.
+       ============================================================ -->
+  <section id="manifesto" class="tese">
     <div class="container">
-      <div class="conversa-box reveal">
-        <div class="conversa-head">
-          <div class="eyebrow"><span>Primeiro contato</span></div>
-          <h2>Vamos entender <span class="grad-text">seu processo.</span></h2>
-          <p class="lead">
-            Não precisa saber exatamente qual sistema você precisa.
-            Conte o que está acontecendo hoje. A gente descobre o resto.
-          </p>
-        </div>
 
-        <form class="cta-form" id="form-contato" novalidate>
-          <div class="cta-form-linha">
-            <div class="campo">
-              <label for="f-nome">Nome <span class="req" aria-hidden="true">*</span></label>
-              <input type="text" id="f-nome" name="nome" autocomplete="name"
-                     required aria-required="true" aria-describedby="e-nome">
-              <p class="campo-erro" id="e-nome" hidden></p>
-            </div>
-            <div class="campo">
-              <label for="f-retorno">E-mail ou WhatsApp <span class="req" aria-hidden="true">*</span></label>
-              <input type="text" id="f-retorno" name="retorno" autocomplete="email"
-                     inputmode="email" required aria-required="true" aria-describedby="e-retorno">
-              <p class="campo-erro" id="e-retorno" hidden></p>
-            </div>
-          </div>
-
-          <div class="campo">
-            <label for="f-empresa">Empresa <em>(opcional)</em></label>
-            <input type="text" id="f-empresa" name="empresa" autocomplete="organization">
-          </div>
-
-          <div class="campo">
-            <label for="f-objetivo">O que você gostaria de melhorar? <span class="req" aria-hidden="true">*</span></label>
-            <select id="f-objetivo" name="objetivo" required aria-required="true" aria-describedby="e-objetivo">
-              <option value="">Selecione…</option>
-              <option>Automatizar uma tarefa</option>
-              <option>Criar um sistema</option>
-              <option>Organizar processos</option>
-              <option>Integrar ferramentas</option>
-              <option>Criar dashboards ou relatórios</option>
-              <option>Ainda não sei — quero conversar</option>
-            </select>
-            <p class="campo-erro" id="e-objetivo" hidden></p>
-          </div>
-
-          <div class="campo">
-            <label for="f-recado">Conte um pouco mais <span class="req" aria-hidden="true">*</span></label>
-            <textarea id="f-recado" name="recado" rows="4" required aria-required="true"
-                      aria-describedby="e-recado"
-                      placeholder="Ex.: Hoje controlamos pedidos em uma planilha e perdemos muito tempo atualizando informações..."></textarea>
-            <p class="campo-erro" id="e-recado" hidden></p>
-          </div>
-
-          <div class="cta-form-pe">
-            <button type="submit" class="btn btn-primary" data-enviar>
-              <span data-rotulo>Quero conversar com a Hifera</span>
-              <svg class="btn-seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-              <span class="btn-spinner" aria-hidden="true"></span>
-            </button>
-            <span class="form-destino" data-destino></span>
-          </div>
-
-          <p class="form-aviso" data-aviso role="status" aria-live="polite"></p>
-
-          <p class="form-lgpd">
-            Seus dados serão usados apenas para entrar em contato sobre sua solicitação.
-          </p>
-        </form>
-
-        <!-- Estado de sucesso. Só aparece quando o envio realmente foi
-             aceito — nunca como simulação. -->
-        <div class="form-ok" data-sucesso hidden tabindex="-1">
-          <div class="form-ok-icone" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>
-          </div>
-          <h3>Recebemos sua mensagem.</h3>
-          <p>Agora é com a gente. Vamos entender o que você contou e entrar em contato em até 24h úteis.</p>
-          <button type="button" class="btn btn-ghost" data-voltar>
-            <span>Voltar para o site</span>
-          </button>
-        </div>
-
-        <p class="cta-alt">
-          Prefere direto?
-          <a href="mailto:comercial@hifera.com.br">comercial@hifera.com.br</a>
-          <!-- Aparece sozinho quando CONFIG.whatsapp for preenchido em js/contato.js -->
-          <a class="cta-alt-zap" data-canal="whatsapp" href="#" target="_blank" rel="noopener" hidden>WhatsApp</a>
+      <div class="tese-topo reveal">
+        <h2>Sua empresa não precisa de <span class="grad-text">mais uma ferramenta.</span></h2>
+        <p class="lead">
+          Precisa parar de fazer manualmente aquilo que já poderia acontecer sozinho.
         </p>
       </div>
+
+      <ul class="sintomas">
+        <li class="reveal" data-delay="1">
+          <h3>Planilhas demais</h3>
+          <p>Informação espalhada em vários lugares.</p>
+        </li>
+        <li class="reveal" data-delay="2">
+          <h3>Tarefas repetitivas</h3>
+          <p>Horas gastas em atividades que poderiam ser automáticas.</p>
+        </li>
+        <li class="reveal" data-delay="3">
+          <h3>Processos improvisados</h3>
+          <p>Operação dependendo de pessoas para lembrar o que o sistema poderia fazer.</p>
+        </li>
+      </ul>
+
+      <p class="tese-fecho reveal" data-delay="3">É aí que a Hifera entra.</p>
+
     </div>
   </section>
 
-  <!-- MARQUEE / TICKER -->
-  <div class="ticker">
-    <div class="ticker-track">
-      <span>Automação</span><span class="dot-sep"></span>
-      <span>Sistemas prontos</span><span class="dot-sep"></span>
-      <span>Sob medida</span><span class="dot-sep"></span>
-      <span>Integrações</span><span class="dot-sep"></span>
-      <span>WhatsApp</span><span class="dot-sep"></span>
-      <span>Dashboards</span><span class="dot-sep"></span>
-      <span>Automação</span><span class="dot-sep"></span>
-      <span>Sistemas prontos</span><span class="dot-sep"></span>
-      <span>Sob medida</span><span class="dot-sep"></span>
-      <span>Integrações</span><span class="dot-sep"></span>
-      <span>WhatsApp</span><span class="dot-sep"></span>
-      <span>Dashboards</span><span class="dot-sep"></span>
-    </div>
-  </div>
-
-  <!-- MANIFESTO -->
-  <section id="manifesto" class="manifesto">
+  <!-- ============================================================
+       O QUE FAZEMOS — três frentes, sem subdividir em dezenas de
+       serviços. Quem precisa de detalhe entra em contato.
+       ============================================================ -->
+  <section id="solucoes" class="frentes">
     <div class="container">
-      <div class="manifesto-grid">
-        <div class="manifesto-media reveal">
-          <!-- Arquivo local em vez de URL do Unsplash: tira uma requisição
-               a terceiro do caminho crítico e o corte 4/5 fica sob nosso
-               controle. width/height evitam o pulo de layout enquanto a
-               imagem baixa. -->
-          <img src="assets/manifesto.webp" alt="" loading="lazy"
-               width="1122" height="1402" decoding="async">
-        </div>
-        <div class="manifesto-text reveal" data-delay="1">
-          <div class="eyebrow"><span>Nosso jeito</span>
-          </div>
-          <h2>
-            Empresa não precisa de <em>mais</em> ferramenta.
-            <br>Precisa de <span class="grad-text">menos processo manual.</span>
-          </h2>
-          <p class="lead">
-            Vemos empresas comprando SaaS que ninguém usa. Planilhas ganhando aba nova todo mês.
-            Equipes gastando 2 horas por dia em tarefas que um script resolveria em 30 segundos.
-          </p>
-          <p class="lead">
-            A gente entra pra desfazer isso. Com sistemas simples, feitos pra quem tá na operação,
-            não pra impressionar em apresentação.
-          </p>
-          <a href="#como-fazemos" class="link-arrow">
-            Ver como fazemos isso na prática
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </a>
-        </div>
+
+      <div class="secao-topo reveal">
+        <span class="eyebrow">O que fazemos</span>
+        <h2>Da tarefa repetitiva ao <span class="grad-text">sistema funcionando.</span></h2>
       </div>
+
+      <div class="frentes-grade">
+        <article class="frente reveal" data-delay="1">
+          <span class="frente-n" aria-hidden="true">01</span>
+          <h3>Automação de processos</h3>
+          <p>Eliminamos etapas manuais e conectamos as partes do processo.</p>
+        </article>
+        <article class="frente reveal" data-delay="2">
+          <span class="frente-n" aria-hidden="true">02</span>
+          <h3>Sistemas sob medida</h3>
+          <p>Construímos ferramentas adaptadas à operação real da empresa.</p>
+        </article>
+        <article class="frente reveal" data-delay="3">
+          <span class="frente-n" aria-hidden="true">03</span>
+          <h3>Soluções prontas</h3>
+          <p>Produtos simples para problemas que não precisam começar do zero.</p>
+        </article>
+      </div>
+
     </div>
   </section>
 
-  <!-- COMO FAZEMOS -->
-  <section id="como-fazemos" class="method">
+  <!-- ============================================================
+       PRODUTO / DEMOS — a parte que mais convence, porque é a única
+       que a pessoa pode conferir sozinha.
+
+       As classes .feature-product, .fp-* e .proj-grid são contrato com
+       o js/vitrine.js: o painel admin publica a vitrine por elas. Mudar
+       o nome quebraria a publicação em silêncio.
+       ============================================================ -->
+  <section id="produtos" class="produtos">
     <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow"><span>Como fazemos</span></div>
-        <h2>Três passos! Nenhuma <span class="grad-text">enrolação.</span></h2>
+
+      <div class="secao-topo reveal">
+        <span class="eyebrow">Produto</span>
+        <h2>Algumas coisas <span class="grad-text">já estão funcionando.</span></h2>
+        <p class="lead">
+          Não são mockups. São sistemas navegáveis que construímos para testar
+          ideias e resolver problemas reais.
+        </p>
       </div>
 
-      <!-- Timeline em slide. Continua sendo uma sequência numerada, mas
-           mostrando um passo por vez: o trilho horizontal vira barra de
-           progresso e as três bolinhas viram a própria navegação.
-
-           Marcado como tabs (tablist/tab/tabpanel) e não como carrossel
-           genérico, porque é exatamente isso que é: três painéis, um
-           visível, escolhidos por três controles. Ganha de graça o
-           teclado que um leitor de tela espera — setas, Home e End.
-
-           Não roda sozinho de propósito. Avanço automático em bloco de
-           texto tira a frase da frente de quem está lendo. -->
-      <div class="tl-slide reveal" data-slide>
-
-        <div class="tl-nav" role="tablist" aria-label="Como fazemos, em três passos">
-          <button type="button" class="tl-no is-on" role="tab" id="tab-p1"
-                  aria-controls="painel-p1" aria-selected="true" data-ir="0"
-                  aria-label="Passo 1: Conversa antes de código">
-            <span class="tl-aro" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="29"/></svg></span><span class="tl-bolha">1</span>
-          </button>
-          <button type="button" class="tl-no" role="tab" id="tab-p2"
-                  aria-controls="painel-p2" aria-selected="false" tabindex="-1" data-ir="1"
-                  aria-label="Passo 2: Construção em pedaços úteis">
-            <span class="tl-aro" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="29"/></svg></span><span class="tl-bolha">2</span>
-          </button>
-          <button type="button" class="tl-no" role="tab" id="tab-p3"
-                  aria-controls="painel-p3" aria-selected="false" tabindex="-1" data-ir="2"
-                  aria-label="Passo 3: Evolução, não obsolescência">
-            <span class="tl-aro" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="29"/></svg></span><span class="tl-bolha">3</span>
-          </button>
-        </div>
-
-        <!-- Os três painéis ficam empilhados na mesma célula do grid: a
-             altura é a do mais alto, então trocar de passo não faz a
-             página pular. -->
-        <div class="tl-palco">
-
-          <article class="tl-painel is-on" id="painel-p1" role="tabpanel"
-                   aria-labelledby="tab-p1" tabindex="0">
-            <div class="tl-corpo">
-              <span class="tl-passo">Passo 1</span>
-              <h3>Conversa antes de código</h3>
-              <p>15 minutos pra entender seu processo real. Sem apresentação de PowerPoint, sem "framework proprietário". Só perguntas certas.</p>
-              <div class="step-tags">
-                <span>Diagnóstico</span>
-                <span>Sem custo</span>
-                <span>15 min</span>
-              </div>
-            </div>
-            <div class="tl-media">
-              <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&auto=format&q=80" alt="" loading="lazy">
-            </div>
-          </article>
-
-          <article class="tl-painel" id="painel-p2" role="tabpanel"
-                   aria-labelledby="tab-p2" tabindex="0">
-            <div class="tl-corpo">
-              <span class="tl-passo">Passo 2</span>
-              <h3>Construção em pedaços úteis</h3>
-              <p>Nada de sumir 3 meses e voltar com "o sistema". Dividimos em blocos que você já usa antes do projeto acabar.</p>
-              <div class="step-tags">
-                <span>Sprints curtos</span>
-                <span>Valor em dias</span>
-                <span>Feedback real</span>
-              </div>
-            </div>
-            <div class="tl-media">
-              <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=800&auto=format&q=80" alt="" loading="lazy">
-            </div>
-          </article>
-
-          <article class="tl-painel" id="painel-p3" role="tabpanel"
-                   aria-labelledby="tab-p3" tabindex="0">
-            <div class="tl-corpo">
-              <span class="tl-passo">Passo 3</span>
-              <h3>Evolução, não obsolescência</h3>
-              <p>Ciclos de melhoria seguindo o que sua operação pede. Sistema que envelhece com o negócio, não contra ele.</p>
-              <div class="step-tags">
-                <span>Suporte contínuo</span>
-                <span>Melhoria mensal</span>
-                <span>Roadmap vivo</span>
-              </div>
-            </div>
-            <div class="tl-media">
-              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&q=80" alt="" loading="lazy">
-            </div>
-          </article>
-
-        </div>
-
-      </div>
-
-      <div class="secao-cta reveal">
-        <p>O passo 01 começa com uma conversa de 15 minutos. Sem custo e sem compromisso.</p>
-        <a href="#contato" class="btn btn-primary">
-          <span>Quero conversar com a Hifera</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- QUOTE -->
-  <section class="quote-section">
-    <div class="container">
-      <blockquote class="pull-quote reveal">
-        <span class="quote-mark">"</span>
-        A melhor tecnologia é aquela que <em>desaparece</em>. Que faz o trabalho <span class="grad-text">sem pedir atenção,</span>
-        sem virar reunião de suporte, sem exigir manual.
-        <span class="quote-mark quote-close">"</span>
-      </blockquote>
-      <div class="quote-signature reveal" data-delay="1">
-        <div class="sig-line"></div>
-        <span>Hifera Company · Manifesto interno</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRODUTOS SHOWCASE -->
-  <section id="produtos" class="products">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow"><span>Produtos</span></div>
-        <h2>Coisas que já <span class="grad-text">funcionam hoje.</span></h2>
-        <p class="lead">Nada de mockup. Cada produto abaixo é usado, testado e evolui de verdade.</p>
-      </div>
-
-      <!-- Dois caminhos, dois cabeçalhos. A distinção é a primeira pergunta
-           comercial que aparece em toda conversa ("dá pra usar algo pronto
-           ou vai precisar construir?"), então ela precisa estar na página
-           antes da pessoa perguntar. -->
-      <div class="trilha reveal">
-        <div class="trilha-marca">
-          <span class="trilha-n">A</span>
-          <div>
-            <h3>Soluções prontas</h3>
-            <p>Produtos que já existem e podem ser usados rapidamente. Implantação em 3 a 7 dias úteis, a partir de R$&nbsp;197/mês.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Feature product: Ledger -->
       <article class="feature-product reveal">
         <div class="fp-media">
-          <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&q=80" alt="" loading="lazy">
-          <div class="fp-shine"></div>
+          <img src="assets/produto-ledger.webp"
+               alt="Controle Financeiro da Hifera: dinheiro livre no mês, gastos, parcelas e faturas de cartão."
+               width="1600" height="977" loading="lazy" decoding="async">
         </div>
         <div class="fp-content">
-          <div class="fp-tag">
-            <span class="dot"></span>
-            <span>Demo ao vivo</span>
-          </div>
-          <h3>Controle Financeiro completo</h3>
-          <p>Fluxo de caixa, contas a pagar/receber, categorias, metas, parcelamentos, assinaturas recorrentes e importação de extratos em Excel. Em um painel único.</p>
+          <h3>Controle Financeiro</h3>
+          <p>Onde o dinheiro entra, sai e fica preso — num painel só.</p>
           <ul class="fp-list">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Fluxo de caixa em tempo real</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Multi-conta e multi-categoria</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Importa &amp; exporta Excel</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Relatórios prontos para o contador</li>
+            <li>Fluxo financeiro</li>
+            <li>Contas a pagar e receber</li>
+            <li>Categorias</li>
+            <li>Parcelamentos</li>
+            <li>Importação de Excel</li>
           </ul>
           <div class="fp-cta">
-            <a href="apps/ledger/" target="_blank" rel="noopener" class="btn btn-ghost">
-              Experimentar agora
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            <a href="apps/ledger/" target="_blank" rel="noopener" class="btn btn-primary">
+              Experimentar
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </a>
-            <!-- O valor é o do plano completo, não o piso da linha. A linha
-                 de soluções prontas começa em R$ 197/mês (ver o cabeçalho
-                 "Soluções prontas" acima e a pergunta 05 do FAQ); este é o
-                 produto mais amplo da linha, por isso tem piso próprio. -->
-            <span class="fp-price">Plano completo · a partir de R$&nbsp;397/mês</span>
+            <span class="fp-price">A partir de R$&nbsp;397/mês</span>
           </div>
         </div>
       </article>
 
-      <!-- Trilha B: sob medida -->
-      <div class="trilha reveal">
-        <div class="trilha-marca">
-          <span class="trilha-n">B</span>
-          <div>
-            <h3>Projetos sob medida</h3>
-            <p>Sistemas e automações desenvolvidos para um processo específico, quando nenhuma solução pronta encaixa. Setup + mensalidade de suporte, orçados caso a caso.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Grid de Projetos entregues -->
       <div class="proj-grid">
 
         <a href="projetos/Projeto-CRM/" target="_blank" rel="noopener" class="proj-card reveal" data-delay="1">
           <div class="proj-media">
             <div class="carousel" data-carousel>
-              <img class="slide is-active" src="assets/thumbs/crm.webp" alt="Painel comercial" loading="lazy">
+              <img class="slide is-active" src="assets/thumbs/crm.webp" alt="" width="760" height="428" loading="lazy" decoding="async">
             </div>
-            <div class="proj-tag">Projeto · CRM</div>
           </div>
           <div class="proj-body">
-            <span class="proj-meta">01 · Comercial &amp; Vendas</span>
-            <h3>Gestão de Relacionamento (CRM)</h3>
-            <p>Pipeline visual, follow-up automático e relatórios comerciais para time de vendas.</p>
-            <span class="proj-cta">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            <span class="proj-meta">Comercial</span>
+            <h3>CRM</h3>
+            <p>Pipeline, follow-up e relatórios de vendas.</p>
+            <span class="proj-cta">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
           </div>
         </a>
 
         <a href="projetos/Projeto-Mani/" target="_blank" rel="noopener" class="proj-card reveal" data-delay="2">
           <div class="proj-media">
             <div class="carousel" data-carousel>
-              <img class="slide is-active" src="assets/thumbs/mani.webp" alt="Landing hero" loading="lazy">
+              <img class="slide is-active" src="assets/thumbs/mani.webp" alt="" width="760" height="428" loading="lazy" decoding="async">
             </div>
-            <div class="proj-tag">Projeto · Estética</div>
           </div>
           <div class="proj-body">
-            <span class="proj-meta">02 · Serviços &amp; agendamento</span>
-            <h3>Salão de Manicure</h3>
-            <p>Agenda online, cadastro de clientes e lembretes automáticos para estúdio de manicure.</p>
-            <span class="proj-cta">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            <span class="proj-meta">Agendamento</span>
+            <h3>Manicure</h3>
+            <p>Agenda online e lembretes automáticos.</p>
+            <span class="proj-cta">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
           </div>
         </a>
 
         <a href="projetos/Projeto-Mecan/" target="_blank" rel="noopener" class="proj-card reveal" data-delay="3">
           <div class="proj-media">
             <div class="carousel" data-carousel>
-              <img class="slide is-active" src="assets/thumbs/mecan.webp" alt="Hero" loading="lazy">
-              <img class="slide" src="assets/thumbs/mecan-2.webp" alt="Agendamento" loading="lazy">
+              <img class="slide is-active" src="assets/thumbs/mecan.webp" alt="" width="760" height="428" loading="lazy" decoding="async">
             </div>
-            <div class="proj-tag">Projeto · Automotivo</div>
           </div>
           <div class="proj-body">
-            <span class="proj-meta">03 · Oficina &amp; frota</span>
-            <h3>Mecânica Automotiva</h3>
-            <p>Ordem de serviço digital, controle de veículos e orçamentos para oficina mecânica.</p>
-            <span class="proj-cta">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            <span class="proj-meta">Oficina</span>
+            <h3>Mecânica</h3>
+            <p>Ordem de serviço digital e orçamentos.</p>
+            <span class="proj-cta">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
           </div>
         </a>
 
         <a href="projetos/Projeto-Stoq/" target="_blank" rel="noopener" class="proj-card reveal" data-delay="4">
           <div class="proj-media">
             <div class="carousel" data-carousel>
-              <img class="slide is-active" src="assets/thumbs/stoq.webp" alt="Dashboard" loading="lazy">
-              <img class="slide" src="assets/thumbs/stoq-2.webp" alt="Estoque" loading="lazy">
+              <img class="slide is-active" src="assets/thumbs/stoq.webp" alt="" width="760" height="428" loading="lazy" decoding="async">
             </div>
-            <div class="proj-tag">Projeto · Comércio</div>
           </div>
           <div class="proj-body">
-            <span class="proj-meta">04 · Estoque &amp; logística</span>
-            <h3>Gestão de Estoque</h3>
-            <p>Controle de estoque com código de barras, alertas de mínimo e curva ABC para distribuidora.</p>
-            <span class="proj-cta">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            <span class="proj-meta">Estoque</span>
+            <h3>Estoque</h3>
+            <p>Código de barras, mínimo e curva ABC.</p>
+            <span class="proj-cta">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
           </div>
         </a>
 
       </div>
 
-      <div class="secao-cta reveal">
-        <p>Não sabe em qual dos dois caminhos seu problema cai? Essa é exatamente a conversa.</p>
-        <a href="#contato" class="btn btn-primary">
-          <span>Quero conversar com a Hifera</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- NÚMEROS -->
-  <section class="numbers">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow"><span>Em números</span></div>
-        <h2>O que o trabalho <span class="grad-text">real</span> mostra até aqui.</h2>
-      </div>
-      <!-- O valor final fica escrito no HTML, não em JavaScript.
-           Antes cada cartão nascia com "0" e só era corrigido pela
-           animação de contagem — se o IntersectionObserver não existisse,
-           não disparasse ou a pessoa passasse rápido, o que ficava na tela
-           era "0 soluções no ar". Agora a contagem é só enfeite: ela
-           começa do zero e volta ao número correto, e quem não tiver a
-           animação lê o valor certo desde o primeiro quadro. -->
-      <div class="numbers-grid">
-        <div class="num-card reveal" data-delay="1">
-          <div class="num-value" data-count="5">5</div>
-          <div class="num-label">Soluções no ar</div>
-          <p>Quatro projetos navegáveis mais o Controle Financeiro. Todos abertos para você testar agora.</p>
-        </div>
-        <div class="num-card reveal" data-delay="2">
-          <div class="num-value" data-count="7" data-suffix=" dias">7 dias</div>
-          <div class="num-label">Do briefing ao ar</div>
-          <p>Prazo de implantação de uma solução pronta, do aceite ao uso.</p>
-        </div>
-        <div class="num-card reveal" data-delay="3">
-          <div class="num-value" data-count="24" data-suffix="h">24h</div>
-          <div class="num-label">Para responder</div>
-          <p>Compromisso de resposta em dias úteis.</p>
-        </div>
-        <div class="num-card reveal" data-delay="4">
-          <div class="num-value" data-count="100" data-suffix="%">100%</div>
-          <div class="num-label">Customizável</div>
-          <p>Ajustamos ao seu processo real, não o contrário.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FUNDADORES CINEMATIC -->
-  <section id="fundadores" class="founders">
-    <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow"><span>Quem faz</span></div>
-        <h2>Duas mentes. Duas <span class="grad-text">bagagens.</span></h2>
-        <p class="lead">A Hifera nasceu do encontro entre TI corporativa e prevenção de riscos. Duas áreas que ensinam a olhar tecnologia como solução de processo, não como vitrine.</p>
-      </div>
-
-      <div class="founders-grid">
-        <article class="founder-card reveal" data-delay="1">
-          <div class="founder-avatar">HC<img src="assets/equipe/higor.webp" alt="Higor Cabral" style="--zoom:1.7;--sobe:11%" width="96" height="96" loading="lazy" decoding="async"></div>
-          <div class="founder-body">
-            <h3>Higor</h3>
-            <!-- A especialidade vem antes do cargo: é o que responde a
-                 pergunta que a pessoa está fazendo nesta altura da página
-                 ("quem exatamente vai mexer no meu processo?"). -->
-            <div class="founder-frente">Tecnologia &amp; Automação</div>
-            <div class="founder-role">Higor Cabral · Co-fundador · Engenharia da Computação</div>
-            <p>Analista de TI Júnior na LOTS Group (Scania), com foco em automações de processos internos, integrações com Microsoft 365 e portais que reduzem trabalho manual de equipes de RH, TI e frota.</p>
-            <div class="founder-tags">
-              <span>TI Corporativa</span>
-              <span>Microsoft 365</span>
-              <span>Integrações</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="founder-card reveal" data-delay="2">
-          <div class="founder-avatar">FR<img src="assets/equipe/fernanda.webp" alt="Fernanda Rodrigues" style="--foco:14%;--zoom:1.3;--sobe:3%;--lado:-5%" width="96" height="96" loading="lazy" decoding="async"></div>
-          <div class="founder-body">
-            <h3>Fernanda</h3>
-            <div class="founder-frente">Processos &amp; Riscos</div>
-            <div class="founder-role">Fernanda Rodrigues · Co-fundadora · Engenharia da Computação</div>
-            <p>Analista de Prevenção de Riscos Pleno na AutoPass, atuando na fronteira entre dados, controles e processos críticos. Traz a visão de quem olha sistemas como pontos de falha em potencial.</p>
-            <div class="founder-tags">
-              <span>Prev. de Riscos</span>
-              <span>Análise de Dados</span>
-              <span>Segurança</span>
-            </div>
-          </div>
-        </article>
-      </div>
-
-      <p class="founders-soma reveal" data-delay="3">
-        <span>TI corporativa</span>
-        <span class="soma-op" aria-hidden="true">+</span>
-        <span>processos</span>
-        <span class="soma-op" aria-hidden="true">+</span>
-        <span>dados</span>
-        <span class="soma-op" aria-hidden="true">+</span>
-        <span>riscos</span>
+      <!-- Dito uma vez, em letra pequena: são demonstrações com dados
+           inventados, não case de cliente. Omitir isso seria deixar a
+           página sugerir uma carteira que ainda não existe. -->
+      <p class="nota reveal">
+        Os quatro projetos acima são demonstrações navegáveis, com dados fictícios.
       </p>
+
     </div>
   </section>
 
-  <!-- PRIMEIROS CLIENTES
-       Ocupa o lugar de uma seção de depoimentos. Enquanto não houver
-       cliente com história real para contar, aqui ficam os quatro
-       compromissos de quem entra agora — e nenhuma aspa assinada, que
-       seria a forma mais rápida de perder a confiança de quem vai
-       justamente confiar a operação da empresa na gente. -->
+  <!-- ============================================================
+       COMO TRABALHAMOS — três passos numa linha, sem bloco de texto.
+       ============================================================ -->
+  <section id="como-fazemos" class="processo">
+    <div class="container">
+
+      <div class="secao-topo reveal">
+        <span class="eyebrow">Como funciona</span>
+        <h2>Três passos. <span class="grad-text">Nenhuma enrolação.</span></h2>
+      </div>
+
+      <ol class="passos">
+        <li class="reveal" data-delay="1">
+          <span class="passo-n">01</span>
+          <h3>Entendemos</h3>
+          <p>15 minutos para entender o processo real.</p>
+        </li>
+        <li class="reveal" data-delay="2">
+          <span class="passo-n">02</span>
+          <h3>Construímos</h3>
+          <p>Entregamos em partes úteis, não meses depois.</p>
+        </li>
+        <li class="reveal" data-delay="3">
+          <span class="passo-n">03</span>
+          <h3>Evoluímos</h3>
+          <p>O sistema acompanha a operação.</p>
+        </li>
+      </ol>
+
+      <p class="processo-fecho reveal" data-delay="3">Conversa antes de código.</p>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       QUEM ESTÁ POR TRÁS — o que cada um traz para a Hifera, não o
+       currículo de cada um.
+       ============================================================ -->
+  <section id="fundadores" class="quem">
+    <div class="container">
+
+      <div class="secao-topo reveal">
+        <span class="eyebrow">Quem somos</span>
+        <h2>Dois engenheiros. Uma obsessão: <span class="grad-text">simplificar operação.</span></h2>
+      </div>
+
+      <div class="quem-grade">
+        <article class="pessoa reveal" data-delay="1">
+          <img src="assets/equipe/higor.webp" alt="Higor Cabral"
+               style="--zoom:1.7;--sobe:11%" width="96" height="96" loading="lazy" decoding="async">
+          <div>
+            <h3>Higor</h3>
+            <span class="pessoa-papel">Co-fundador · Engenharia da Computação</span>
+            <p>TI corporativa, automação, integrações e sistemas. É quem conecta o que já existe na empresa ao que precisa passar a funcionar sozinho.</p>
+          </div>
+        </article>
+
+        <article class="pessoa reveal" data-delay="2">
+          <img src="assets/equipe/fernanda.webp" alt="Fernanda Rodrigues"
+               style="--foco:14%;--zoom:1.3;--sobe:3%;--lado:-5%" width="96" height="96" loading="lazy" decoding="async">
+          <div>
+            <h3>Fernanda</h3>
+            <span class="pessoa-papel">Co-fundadora · Engenharia da Computação</span>
+            <p>Dados, riscos, controles, segurança e operação. É quem olha para o sistema procurando onde ele falha antes de o cliente encontrar.</p>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PRIMEIROS CLIENTES — convite, não desculpa. Sem depoimento,
+       sem logo e sem número: nada disso existe ainda.
+       ============================================================ -->
   <section id="primeiros" class="primeiros">
     <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow"><span>Primeiros clientes</span></div>
-        <h2>Seja um dos <span class="grad-text">primeiros clientes</span> da Hifera.</h2>
+
+      <div class="secao-topo reveal">
+        <span class="eyebrow">Primeiros clientes</span>
+        <h2>Estamos abrindo os <span class="grad-text">primeiros lugares</span> da Hifera.</h2>
+        <p class="lead">
+          Poucos clientes, contato direto com quem constrói e espaço real para
+          participar da evolução do produto.
+        </p>
       </div>
 
-      <div class="prim-grid">
-        <article class="prim-card reveal" data-delay="1">
-          <span class="prim-n">01</span>
-          <h3>Preço de fundador, travado</h3>
-          <p>
-            A mensalidade combinada na entrada não muda enquanto o contrato durar,
-            mesmo depois que a tabela subir. Vale para solução pronta e para sob medida.
-          </p>
+      <div class="beneficios">
+        <article class="reveal" data-delay="1">
+          <h3>Preço de fundador</h3>
+          <p>Condição de entrada mantida durante o contrato.</p>
         </article>
-
-        <article class="prim-card reveal" data-delay="2">
-          <span class="prim-n">02</span>
-          <h3>Roadmap com a sua cara</h3>
-          <p>
-            O que você pedir entra na fila de desenvolvimento antes do resto.
-            Com poucos clientes, isso é promessa que dá pra cumprir, é justamente
-            por isso que ela tem prazo de validade.
-          </p>
+        <article class="reveal" data-delay="2">
+          <h3>Roadmap próximo</h3>
+          <p>As necessidades dos primeiros clientes ajudam a orientar a evolução.</p>
         </article>
-
-        <article class="prim-card reveal" data-delay="3">
-          <span class="prim-n">03</span>
-          <h3>Suporte direto com quem constrói</h3>
-          <p>
-            Sem camada de atendimento, sem ticket que some. Você fala com as duas
-            pessoas que escreveram o sistema, e elas atendem em até 24h úteis.
-          </p>
-        </article>
-
-        <article class="prim-card reveal" data-delay="4">
-          <span class="prim-n">04</span>
-          <h3>Saída sem multa</h3>
-          <p>
-            Se não servir, você leva seus dados exportados e vai embora sem taxa.
-            Cliente preso por contrato não é referência, é refém.
-          </p>
+        <article class="reveal" data-delay="3">
+          <h3>Contato direto</h3>
+          <p>Suporte com quem desenvolve a solução.</p>
         </article>
       </div>
 
-      <!-- A página de segurança é a munição de quem está desconfiado, e é
-           aqui que a desconfiança aparece — não escondida atrás de um item
-           de menu. -->
-      <div class="prim-seg reveal" data-delay="4">
-        <div class="prim-seg-txt">
-          <h3>Confiar a operação da empresa a duas pessoas exige mais que boa conversa.</h3>
-          <p>
-            Escrevemos por extenso como os dados são guardados, quem acessa o quê,
-            o que acontece se a Hifera sumir amanhã e o que ainda não está pronto.
-          </p>
-        </div>
-        <a href="seguranca.html" class="btn btn-ghost">
-          <span>Ler como tratamos segurança</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-
-      <div class="prim-pe reveal" data-delay="4">
+      <div class="primeiros-pe reveal" data-delay="3">
         <a href="#contato" class="btn btn-primary">
-          <span>Quero conversar com a Hifera</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          Quero conversar
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
       </div>
+
     </div>
   </section>
 
-  <!-- FAQ -->
+  <!-- ============================================================
+       FAQ — só as cinco perguntas que tiram objeção. Uma aberta por
+       vez: o atributo name faz o próprio navegador cuidar disso nos
+       modernos, e um punhado de linhas de JS cobre o resto.
+       ============================================================ -->
   <section id="faq" class="faq-section">
     <div class="container">
-      <div class="section-head reveal">
-        <div class="eyebrow"><span>Dúvidas comuns</span></div>
-        <h2>Respostas <em>diretas.</em><br><span class="grad-text">Sem enrolação.</span></h2>
+
+      <div class="secao-topo reveal">
+        <span class="eyebrow">Dúvidas</span>
+        <h2>Antes de <span class="grad-text">perguntar.</span></h2>
       </div>
 
       <div class="faq-list reveal" data-delay="1">
-        <details class="faq-item" open>
-          <summary>
-            <span class="faq-n">01</span>
-            <span class="faq-q">Em quanto tempo o sistema fica pronto?</span>
-            <span class="faq-icon"></span>
-          </summary>
-          <div class="faq-a">Sistemas prontos: 3 a 7 dias úteis. Projetos sob medida: 3 a 8 semanas, dividido em entregas parciais que você já usa antes do fim.</div>
+        <details class="faq-item" name="faq">
+          <summary><span>Quanto tempo leva para ficar pronto?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+          <div class="faq-a">Solução pronta: 3 a 7 dias úteis. Sob medida: 3 a 8 semanas, divididas em entregas que você já usa antes do fim.</div>
         </details>
-        <details class="faq-item">
-          <summary>
-            <span class="faq-n">02</span>
-            <span class="faq-q">Precisa de conhecimento técnico pra usar?</span>
-            <span class="faq-icon"></span>
-          </summary>
-          <div class="faq-a">Não. Se você usa planilha, você usa. Treinamento incluso na implantação.</div>
+        <details class="faq-item" name="faq">
+          <summary><span>Preciso entender de tecnologia?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+          <div class="faq-a">Não. Se você usa planilha, você usa. Treinamento entra na implantação.</div>
         </details>
-        <details class="faq-item">
-          <summary>
-            <span class="faq-n">03</span>
-            <span class="faq-q">E se o sistema pronto ficar pequeno?</span>
-            <span class="faq-icon"></span>
-          </summary>
-          <div class="faq-a">Migramos para versão sob medida mantendo todos os dados. Caminho evolutivo. Sem recomeço.</div>
+        <details class="faq-item" name="faq">
+          <summary><span>Posso começar pequeno?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+          <div class="faq-a">Pode, e é o que costumamos sugerir: automatizar uma etapa, ver funcionando, depois decidir o resto.</div>
         </details>
-        <details class="faq-item">
-          <summary>
-            <span class="faq-n">04</span>
-            <span class="faq-q">Os dados são seguros?</span>
-            <span class="faq-icon"></span>
-          </summary>
-          <div class="faq-a">Backup automático, criptografia em trânsito, acesso por permissões, LGPD respeitada.</div>
+        <details class="faq-item" name="faq">
+          <summary><span>E se precisar de algo específico?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+          <div class="faq-a">Aí é sob medida. Se você já usa uma solução pronta, os dados vão junto — não se recomeça do zero.</div>
         </details>
-        <details class="faq-item">
-          <summary>
-            <span class="faq-n">05</span>
-            <span class="faq-q">Como funciona o pagamento?</span>
-            <span class="faq-icon"></span>
-          </summary>
-          <div class="faq-a">Mensalidade fixa, sem taxa de cancelamento. A linha de <strong>soluções prontas</strong> começa em R$ 197/mês; dentro dela, o Controle Financeiro completo — que é o produto mais amplo e aparece em destaque acima — começa em R$ 397/mês. <strong>Projetos sob medida</strong> têm setup + mensalidade de suporte, orçados caso a caso.</div>
+        <details class="faq-item" name="faq">
+          <summary><span>Como funciona o pagamento?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+          <div class="faq-a">Mensalidade fixa, sem taxa de cancelamento. Soluções prontas começam em R$ 197/mês; o Controle Financeiro, que é o produto mais amplo, em R$ 397/mês. Sob medida tem setup + mensalidade de suporte.</div>
         </details>
       </div>
+
     </div>
   </section>
 
-  <!-- CTA FINAL
-       O formulário vive lá em cima, logo abaixo do hero. Aqui o trabalho é
-       outro: fechar a leitura e mandar de volta para ele. Dois formulários
-       iguais na mesma página só dividiriam a atenção (e os ids). -->
-  <section id="comecar" class="final-cta">
-    <div class="cta-media">
-      <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1600&auto=format&q=80" alt="" loading="lazy">
-      <div class="cta-overlay"></div>
-    </div>
+  <!-- ============================================================
+       CTA FINAL — uma pergunta, três campos e um e-mail. O formulário
+       ficou no menor tamanho que ainda captura um contato: sem ele, a
+       única saída seria abrir o cliente de e-mail da pessoa.
+       ============================================================ -->
+  <section id="contato" class="fim">
     <div class="container">
-      <div class="cta-inner reveal">
-        <div class="eyebrow"><span>Vamos começar</span></div>
-        <h2>Conta em duas linhas <span class="grad-text">o que está travando sua operação.</span></h2>
-        <p>Você não precisa saber qual tecnologia precisa. Conte o problema. A gente ajuda a encontrar o caminho.</p>
 
-        <div class="hero-actions">
-          <a href="#contato" class="btn btn-primary">
-            <span>Quero conversar com a Hifera</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </a>
+      <div class="fim-grade">
+
+        <div class="fim-txt reveal">
+          <h2>Tem alguma coisa na sua operação que <span class="grad-text">não deveria mais ser manual?</span></h2>
+          <p>Conta pra gente o que acontece hoje. A primeira conversa é gratuita.</p>
+          <p class="fim-mail">
+            <a href="mailto:comercial@hifera.com.br">comercial@hifera.com.br</a>
+            <a class="cta-alt-zap" data-canal="whatsapp" href="#" target="_blank" rel="noopener" hidden>WhatsApp</a>
+          </p>
         </div>
 
-        <p class="hero-micro">15 min · Sem compromisso · Resposta em até 24h úteis</p>
+        <div class="conversa-box reveal" data-delay="1">
+          <form class="cta-form" id="form-contato" novalidate>
+            <div class="campo">
+              <label for="f-nome">Nome</label>
+              <input type="text" id="f-nome" name="nome" autocomplete="name"
+                     required aria-required="true" aria-describedby="e-nome">
+              <p class="campo-erro" id="e-nome" hidden></p>
+            </div>
+            <div class="campo">
+              <label for="f-retorno">E-mail ou WhatsApp</label>
+              <input type="text" id="f-retorno" name="retorno" autocomplete="email"
+                     inputmode="email" required aria-required="true" aria-describedby="e-retorno">
+              <p class="campo-erro" id="e-retorno" hidden></p>
+            </div>
+            <div class="campo">
+              <label for="f-recado">O que está travando hoje</label>
+              <textarea id="f-recado" name="recado" rows="3" required aria-required="true"
+                        aria-describedby="e-recado"
+                        placeholder="Ex.: controlamos pedidos numa planilha e perdemos tempo atualizando."></textarea>
+              <p class="campo-erro" id="e-recado" hidden></p>
+            </div>
 
-        <p class="cta-alt">
-          Prefere direto?
-          <a href="mailto:comercial@hifera.com.br">comercial@hifera.com.br</a>
-          <!-- Aparece sozinho quando CONFIG.whatsapp for preenchido em js/contato.js -->
-          <a class="cta-alt-zap" data-canal="whatsapp" href="#" target="_blank" rel="noopener" hidden>WhatsApp</a>
-        </p>
+            <button type="submit" class="btn btn-primary" data-enviar>
+              <span data-rotulo>Vamos conversar</span>
+              <svg class="btn-seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              <span class="btn-spinner" aria-hidden="true"></span>
+            </button>
+
+            <span class="form-destino" data-destino></span>
+            <p class="form-aviso" data-aviso role="status" aria-live="polite"></p>
+            <p class="form-lgpd">Seus dados serão usados apenas para responder você.</p>
+          </form>
+
+          <!-- Só aparece quando um servidor de verdade aceitar o envio.
+               Sem endpoint configurado, nada por aqui finge recebimento. -->
+          <div class="form-ok" data-sucesso hidden tabindex="-1">
+            <div class="form-ok-icone" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>
+            </div>
+            <h3>Recebemos sua mensagem.</h3>
+            <p>Vamos ler com calma e responder em até 24h úteis.</p>
+            <button type="button" class="btn btn-ghost" data-voltar>Voltar para o site</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
 </main>
 
-<!-- FOOTER -->
 <footer class="footer">
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <img src="assets/logo/HiferaIcon.png" alt="">
-        <span>
-          <strong>HIFERA <span class="grad-text">COMPANY</span></strong>
-          <small>Sistemas e automação · 2026</small>
-        </span>
-      </div>
-      <p class="footer-tag">Tecnologia com alma humana.<br>Feita por quem vive operação real.</p>
-      <div class="footer-links">
-        <a href="mailto:comercial@hifera.com.br">comercial@hifera.com.br</a>
-        <!-- WhatsApp e redes sociais entram sozinhos quando forem
-             configurados em js/contato.js. Enquanto não existirem,
-             ficam escondidos — link social que não leva a lugar nenhum
-             custa mais confiança do que a ausência dele. -->
-        <a data-canal="whatsapp" href="#" target="_blank" rel="noopener" hidden>WhatsApp</a>
-        <div class="footer-redes" data-redes hidden></div>
-      </div>
+  <div class="container footer-inner">
+    <div class="footer-marca">
+      <strong>HIFERA <span class="grad-text">COMPANY</span></strong>
+      <p>Tecnologia feita por quem vive operação real.</p>
+    </div>
+    <nav class="footer-links" aria-label="Rodapé">
+      <a href="#solucoes">Soluções</a>
+      <a href="#como-fazemos">Como fazemos</a>
+      <a href="#fundadores">Quem somos</a>
+      <a href="seguranca.html">Segurança</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <div class="footer-pe">
+      <a href="mailto:comercial@hifera.com.br">comercial@hifera.com.br</a>
+      <span>© 2026</span>
+      <!-- Entram sozinhos quando forem configurados em js/contato.js -->
+      <a data-canal="whatsapp" href="#" target="_blank" rel="noopener" hidden>WhatsApp</a>
+      <div class="footer-redes" data-redes hidden></div>
     </div>
   </div>
 </footer>
 
-<!-- Vitrine: lista publicada pelo painel (gerada em /modulos/admin → Publicar).
+<!-- Vitrine: lista publicada pelo painel (/modulos/admin → Publicar).
      Precedência: edições locais no navegador > este arquivo > o HTML acima. -->
-<script src="js/vitrine-dados.js?v=1"></script>
-<script src="js/vitrine.js?v=3"></script>
+<script src="js/vitrine-dados.js?v=2"></script>
+<script src="js/vitrine.js?v=4"></script>
 
 <!-- Canais de contato. Ponto único onde WhatsApp, redes sociais e o
      destino do formulário são configurados. -->
-<script src="js/contato.js?v=2"></script>
+<script src="js/contato.js?v=3"></script>
 
 <script>
 /* ==============================================================
-   V2. Comportamentos: reveal, nav scroll, kinetic words, counters
+   Comportamentos da home. Só o que a página precisa.
    ============================================================== */
 
-/* Preloader. Sai no load — ou em 1,2s, o que vier primeiro.
-   O prazo importa: 'load' espera TODAS as imagens, inclusive as doze
-   que vêm de fora. Numa conexão ruim, ou com o domínio das imagens
-   bloqueado, amarrar o preloader só ao load deixa o site preto por
-   tempo indeterminado. A página já está legível bem antes disso. */
+/* Preloader. Sai no load — ou em 1,2s, o que vier primeiro. O prazo
+   importa: 'load' espera todas as imagens, e numa conexão ruim amarrar
+   o preloader só a ele deixa o site preto por tempo indeterminado. */
 (function () {
   var saiu = false;
   function esconder() {
@@ -914,78 +614,48 @@
     var p = document.getElementById('preloader');
     if (p) p.classList.add('is-hidden');
   }
-  window.addEventListener('load', function () { setTimeout(esconder, 220); });
+  window.addEventListener('load', function () { setTimeout(esconder, 200); });
   setTimeout(esconder, 1200);
 })();
 
-/* Nav. Scroll shadow */
+/* Nav: sombra ao rolar */
 var nav = document.getElementById('nav');
 window.addEventListener('scroll', function () {
-  if (window.scrollY > 20) nav.classList.add('is-scrolled');
-  else nav.classList.remove('is-scrolled');
+  nav.classList.toggle('is-scrolled', window.scrollY > 20);
 }, { passive: true });
 
-/* Nav. Menu hambúrguer (drawer) abaixo de 1100px */
+/* Nav: gaveta no mobile */
 (function () {
   var toggle = document.getElementById('navToggle');
   var menu = document.getElementById('nav-menu');
   if (!toggle || !menu || !nav) return;
 
-  var mq = window.matchMedia('(max-width: 1099.98px)');
+  var mq = window.matchMedia('(max-width: 859.98px)');
 
-  function open() {
-    nav.classList.add('is-open');
-    toggle.setAttribute('aria-expanded', 'true');
-    toggle.setAttribute('aria-label', 'Fechar menu');
-  }
-  function close() {
-    nav.classList.remove('is-open');
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-label', 'Abrir menu');
-  }
-  function isOpen() { return nav.classList.contains('is-open'); }
+  function abrir()  { nav.classList.add('is-open');  toggle.setAttribute('aria-expanded', 'true');  toggle.setAttribute('aria-label', 'Fechar menu'); }
+  function fechar() { nav.classList.remove('is-open'); toggle.setAttribute('aria-expanded', 'false'); toggle.setAttribute('aria-label', 'Abrir menu'); }
+  function aberto() { return nav.classList.contains('is-open'); }
 
-  toggle.addEventListener('click', function (e) {
-    e.stopPropagation();
-    if (isOpen()) close(); else open();
-  });
+  toggle.addEventListener('click', function (e) { e.stopPropagation(); if (aberto()) fechar(); else abrir(); });
+  menu.addEventListener('click', function (e) { if (e.target.closest('a')) fechar(); });
+  document.addEventListener('click', function (e) { if (aberto() && !nav.contains(e.target)) fechar(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && aberto()) { fechar(); toggle.focus(); } });
 
-  /* Fecha ao clicar em um link do menu */
-  menu.addEventListener('click', function (e) {
-    if (e.target.closest('a')) close();
-  });
-
-  /* Fecha ao clicar fora */
-  document.addEventListener('click', function (e) {
-    if (isOpen() && !nav.contains(e.target)) close();
-  });
-
-  /* Fecha no Esc e devolve o foco pro botão */
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && isOpen()) { close(); toggle.focus(); }
-  });
-
-  /* Volta pro menu horizontal ao passar do breakpoint */
-  function onChange(e) { if (!e.matches) close(); }
-  if (mq.addEventListener) mq.addEventListener('change', onChange);
-  else if (mq.addListener) mq.addListener(onChange);
+  function aoTrocar(e) { if (!e.matches) fechar(); }
+  if (mq.addEventListener) mq.addEventListener('change', aoTrocar);
+  else if (mq.addListener) mq.addListener(aoTrocar);
 })();
 
 /* ==============================================================
    Reveal on scroll — dois caminhos, de propósito
    --------------------------------------------------------------
-   1. O IntersectionObserver cuida do caso normal: a pessoa rola do
-      topo e cada bloco entra com animação.
-   2. revelarNoViewport() cuida do caso que quebrava — abrir a página
-      já num #ancora (#faq, #produtos, #primeiros). Ali o navegador
-      salta para o meio do documento antes das imagens carregarem, o
-      layout ainda cresce depois do salto, e o que sobrava na tela era
-      uma faixa preta de blocos nunca revelados. O observer sozinho
-      não resolve porque ele só reage a *mudança* de interseção.
-
-   Revelar por este segundo caminho é instantâneo (.is-instant):
-   animar de opacity 0 um bloco que já deveria estar visível é
-   exatamente o que fazia a página parecer quebrada.
+   1. O IntersectionObserver cuida do caso normal.
+   2. revelarNoViewport() cuida do caso que quebrava: abrir a página
+      já num #ancora. Ali o navegador salta para o meio do documento
+      antes de as imagens carregarem, o layout ainda cresce depois do
+      salto, e o que sobrava na tela era uma faixa de blocos nunca
+      revelados. O observer sozinho não resolve porque ele só reage a
+      *mudança* de interseção.
    ============================================================== */
 var reveals = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
 var io = null;
@@ -997,8 +667,6 @@ function revelar(el, instantaneo) {
   if (io) io.unobserve(el);
 }
 
-/* Revela tudo que já está na tela ou que ficou acima dela. O "acima"
-   importa: sem ele, subir depois de chegar por um #ancora deixa buraco. */
 function revelarNoViewport(instantaneo) {
   var altura = window.innerHeight || document.documentElement.clientHeight;
   reveals.forEach(function (el) {
@@ -1009,21 +677,16 @@ function revelarNoViewport(instantaneo) {
 
 if ('IntersectionObserver' in window) {
   io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) revelar(e.target, false);
-    });
+    entries.forEach(function (e) { if (e.isIntersecting) revelar(e.target, false); });
   }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
   reveals.forEach(function (el) { io.observe(el); });
 } else {
   reveals.forEach(function (el) { revelar(el, true); });
 }
 
-/* Deep link. O fragmento foi retirado da URL lá no <head> (ver comentário
-   de "Âncora de chegada"), então quem rola até o alvo somos nós — depois
-   que o layout parou de crescer, e não durante o parse. */
-function ancora() {
-  return window.HIFERA_ANCORA || window.location.hash || '';
-}
+/* Deep link. O fragmento saiu da URL no <head>, então quem rola até o
+   alvo somos nós — depois que o layout parou de crescer. */
+function ancora() { return window.HIFERA_ANCORA || window.location.hash || ''; }
 
 function ancorarNoHash() {
   var hash = ancora();
@@ -1036,22 +699,11 @@ function ancorarNoHash() {
   revelarNoViewport(true);
 }
 
-/* Devolve o #ancora à barra de endereços, para o link continuar copiável
-   e o botão voltar continuar fazendo sentido. */
 function devolverHash() {
   if (!window.HIFERA_ANCORA) return;
   if (window.history && history.replaceState) {
     history.replaceState(null, '', window.location.pathname + window.location.search + window.HIFERA_ANCORA);
   }
-}
-
-/* Em documento longo o Chrome às vezes fica sem repintar depois do salto,
-   até o primeiro movimento de mouse. Um pixel de ida e volta força o
-   quadro sem que ninguém perceba. */
-function repintar() {
-  var y = window.pageYOffset;
-  window.scrollTo(0, y + 1);
-  window.scrollTo(0, y);
 }
 
 var usuarioMexeu = false;
@@ -1061,342 +713,77 @@ var usuarioMexeu = false;
 
 if (ancora().length > 1) ancorarNoHash();
 
-/* Reancora e força o quadro enquanto a pessoa não assumir a rolagem.
-   Precisa ser repetido: as imagens com loading="lazy" só reservam o
-   espaço delas quando terminam de baixar, o que acontece depois do
-   load — e cada uma que chega empurra o alvo para outro lugar. */
 function reassentar() {
   if (usuarioMexeu) return;
   ancorarNoHash();
-  repintar();
 }
 
 window.addEventListener('load', function () {
   if (ancora().length > 1) {
     ancorarNoHash();
-    [0, 120, 400, 900, 1600].forEach(function (ms) { setTimeout(reassentar, ms); });
-    /* O caminho preciso: cada imagem que ainda estava baixando avisa
-       quando ocupou o espaço dela. Os timers acima são só a rede de
-       segurança para imagem que nunca carrega. */
+    [0, 120, 400, 900].forEach(function (ms) { setTimeout(reassentar, ms); });
     Array.prototype.forEach.call(document.images, function (img) {
       if (img.complete) return;
       img.addEventListener('load', reassentar, { once: true });
     });
-    setTimeout(devolverHash, 1800);
+    setTimeout(devolverHash, 1500);
   } else {
     revelarNoViewport(false);
   }
-  requestAnimationFrame(repintar);
 });
 
-window.addEventListener('hashchange', function () {
-  window.HIFERA_ANCORA = null;
-  ancorarNoHash();
-});
+window.addEventListener('hashchange', function () { window.HIFERA_ANCORA = null; ancorarNoHash(); });
 window.addEventListener('resize', function () { revelarNoViewport(true); }, { passive: true });
 
-/* ==============================================================
-   Contagem dos números — enfeite, nunca fonte da verdade
-   --------------------------------------------------------------
-   O valor final já está escrito no HTML. Esta animação só empresta
-   o número por 1,4s e devolve. A regra que ela precisa cumprir:
-   em nenhum cenário a pessoa pode ficar olhando para "0 soluções
-   no ar". Por isso a função termina SEMPRE cravando o valor final,
-   e não roda quando não há como garantir isso (sem observer, sem
-   requestAnimationFrame, com reduced-motion, ou se a aba estava em
-   segundo plano e o rAF ficou congelado).
-   ============================================================== */
-(function () {
-  var alvos = document.querySelectorAll('[data-count]');
-  if (!alvos.length) return;
-
-  function valorFinal(el) {
-    var n = parseInt(el.dataset.count, 10);
-    return (isNaN(n) ? el.textContent : n + (el.dataset.suffix || ''));
-  }
-
-  function fixar(el) { el.textContent = valorFinal(el); }
-
-  var podeAnimar =
-    'IntersectionObserver' in window &&
-    typeof requestAnimationFrame === 'function' &&
-    typeof performance !== 'undefined' &&
-    !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-
-  if (!podeAnimar) {
-    Array.prototype.forEach.call(alvos, fixar);
-    return;
-  }
-
-  function animar(el) {
-    var alvo = parseInt(el.dataset.count, 10);
-    if (isNaN(alvo)) return;
-    var sufixo = el.dataset.suffix || '';
-    var duracao = 1400;
-    var inicio = performance.now();
-
-    /* Rede de segurança: se o rAF parar de rodar (aba em segundo plano,
-       navegador economizando bateria), o número certo entra de qualquer
-       jeito pouco depois do tempo previsto. */
-    var socorro = setTimeout(function () { fixar(el); }, duracao + 600);
-
-    function passo(agora) {
-      var p = Math.min((agora - inicio) / duracao, 1);
-      var suave = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(alvo * suave) + sufixo;
-      if (p < 1) { requestAnimationFrame(passo); }
-      else { clearTimeout(socorro); fixar(el); }
-    }
-    requestAnimationFrame(passo);
-  }
-
-  var obs = new IntersectionObserver(function (entradas) {
-    entradas.forEach(function (e) {
-      if (!e.isIntersecting) return;
-      obs.unobserve(e.target);
-      animar(e.target);
-    });
-  }, { threshold: 0.5 });
-
-  Array.prototype.forEach.call(alvos, function (n) { obs.observe(n); });
-})();
-
-/* Kinetic hero words. Anima cada palavra em cascata */
-document.querySelectorAll('.hero-title .word').forEach(function (w, i) {
-  w.style.setProperty('--delay', (i * 90) + 'ms');
-});
-
-/* Parallax sutil no hero-img */
-var heroImg = document.querySelector('.hero-img');
-if (heroImg && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-  window.addEventListener('scroll', function () {
-    var y = Math.min(window.scrollY, 800);
-    heroImg.style.transform = 'translate3d(0,' + (y * 0.18) + 'px, 0) scale(1.05)';
-  }, { passive: true });
-}
-
-/* Smooth scroll nos anchor links */
+/* Rolagem suave nos links internos */
 document.querySelectorAll('a[href^="#"]').forEach(function (a) {
   a.addEventListener('click', function (e) {
     var href = a.getAttribute('href');
-    if (href.length > 1) {
-      var target = document.querySelector(href);
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
+    if (href.length <= 1) return;
+    var alvo = document.querySelector(href);
+    if (!alvo) return;
+    e.preventDefault();
+    alvo.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 
-/* ==============================================================
-   Timeline em slide — os três passos de "Como fazemos"
-   --------------------------------------------------------------
-   Marcado no HTML como tabs, então aqui só existe o que a ARIA
-   Authoring Practices pede para esse padrão: um tab focável por vez
-   (roving tabindex), setas Esquerda/Direita andando entre eles, Home
-   e End indo para as pontas.
-
-   O slide gira sozinho a cada 8s, mas com quatro freios — carrossel
-   automático sem freio tira a frase da frente de quem está lendo:
-
-     1. pausa enquanto o ponteiro está em cima
-     2. pausa enquanto o foco do teclado está dentro
-     3. PARA DE VEZ assim que a pessoa escolhe um passo. Quem clicou
-        decidiu o que quer ver; continuar girando desfaz a escolha
-     4. não gira fora da tela, nem com a aba em segundo plano, nem
-        com prefers-reduced-motion ligado
-   ============================================================== */
+/* FAQ: uma resposta aberta por vez.
+   O atributo name nos <details> já faz isso sozinho no Chrome, Safari e
+   Firefox atuais. Isto aqui é a rede para quem está numa versão mais
+   antiga — sem ele, a página abre as cinco de uma vez. */
 (function () {
-  var slide = document.querySelector('[data-slide]');
-  if (!slide) return;
-
-  var tabs    = Array.prototype.slice.call(slide.querySelectorAll('[role="tab"]'));
-  var paineis = Array.prototype.slice.call(slide.querySelectorAll('[role="tabpanel"]'));
-  var palco   = slide.querySelector('.tl-palco');
-  var nav     = slide.querySelector('.tl-nav');
-  if (!tabs.length || tabs.length !== paineis.length) return;
-
-  var TEMPO = 8000;
-  var atual = 0;
-  var relogio = null;
-  var manual = false;      /* a pessoa assumiu o controle */
-  var pausado = false;     /* hover, foco, fora da tela ou aba escondida */
-  var naTela = false;
-
-  var reduz = window.matchMedia &&
-              window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* --- Troca de passo --------------------------------------------- */
-  function mostrar(i, moverFoco, direcao) {
-    i = Math.max(0, Math.min(tabs.length - 1, i));
-
-    /* Entra pelo lado para onde a sequência vai; quem sai vai ao
-       contrário. Sem isso a troca pisca no lugar em vez de avançar. */
-    if (palco) {
-      var frente = direcao !== 'tras';
-      palco.style.setProperty('--entra', frente ? '40px' : '-40px');
-      palco.style.setProperty('--sai',   frente ? '-40px' : '40px');
-    }
-
-    atual = i;
-
-    tabs.forEach(function (t, k) {
-      var ativo = k === i;
-      t.classList.toggle('is-on', ativo);
-      /* "feito" é quem já ficou para trás: dá leitura de progresso
-         sem precisar de mais nenhum elemento na tela. */
-      t.classList.toggle('is-feito', k < i);
-      t.setAttribute('aria-selected', ativo ? 'true' : 'false');
-      /* Roving tabindex: o Tab entra e sai da barra numa parada só,
-         em vez de visitar os três botões. */
-      t.setAttribute('tabindex', ativo ? '0' : '-1');
-    });
-
-    paineis.forEach(function (pnl, k) {
-      var era = pnl.classList.contains('is-on');
-      pnl.classList.toggle('is-on', k === i);
-      pnl.classList.toggle('is-saindo', era && k !== i);
-    });
-
-    if (nav) {
-      nav.style.setProperty('--progresso', tabs.length > 1 ? (i / (tabs.length - 1)) : 0);
-    }
-
-    if (moverFoco) tabs[i].focus();
-  }
-
-  /* --- Relógio ----------------------------------------------------- */
-  function agendar() {
-    cancelar();
-    if (manual || reduz || pausado || !naTela) return;
-    relogio = setTimeout(function () {
-      mostrar((atual + 1) % tabs.length, false, 'frente');
-      agendar();
-    }, TEMPO);
-  }
-  function cancelar() {
-    if (relogio) { clearTimeout(relogio); relogio = null; }
-  }
-
-  function pausar(v) {
-    pausado = v;
-    slide.classList.toggle('is-pausado', v && !manual);
-    if (v) cancelar(); else agendar();
-  }
-
-  /* A pessoa escolheu: o automático sai de cena e não volta. */
-  function assumirControle() {
-    if (manual) return;
-    manual = true;
-    cancelar();
-    slide.classList.add('is-manual');
-    slide.classList.remove('is-pausado');
-  }
-
-  /* --- Interação --------------------------------------------------- */
-  tabs.forEach(function (t, k) {
-    t.addEventListener('click', function () {
-      assumirControle();
-      mostrar(k, false, k > atual ? 'frente' : 'tras');
+  var itens = Array.prototype.slice.call(document.querySelectorAll('.faq-item'));
+  if (itens.length < 2) return;
+  var nativo = 'name' in document.createElement('details');
+  if (nativo) return;
+  itens.forEach(function (d) {
+    d.addEventListener('toggle', function () {
+      if (!d.open) return;
+      itens.forEach(function (o) { if (o !== d) o.open = false; });
     });
   });
-
-  if (nav) {
-    nav.addEventListener('keydown', function (e) {
-      var mapa = {
-        ArrowRight: atual + 1, ArrowDown: atual + 1,
-        ArrowLeft:  atual - 1, ArrowUp:   atual - 1,
-        Home: 0, End: tabs.length - 1
-      };
-      if (!(e.key in mapa)) return;
-      e.preventDefault();
-      assumirControle();
-      /* Circular nas setas, como o padrão de tabs espera. */
-      var i = mapa[e.key];
-      var dir = (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'Home') ? 'tras' : 'frente';
-      if (i < 0) i = tabs.length - 1;
-      if (i > tabs.length - 1) i = 0;
-      mostrar(i, true, dir);
-    });
-  }
-
-  /* Ponteiro e teclado seguram o relógio enquanto estão por perto. */
-  slide.addEventListener('mouseenter', function () { pausar(true); });
-  slide.addEventListener('mouseleave', function () { pausar(false); });
-  slide.addEventListener('focusin',   function () { pausar(true); });
-  slide.addEventListener('focusout',  function (e) {
-    if (!slide.contains(e.relatedTarget)) pausar(false);
-  });
-
-  /* Aba em segundo plano: o setTimeout continuaria correndo e a pessoa
-     voltaria para um passo que trocou sem ela ver. */
-  document.addEventListener('visibilitychange', function () {
-    pausar(document.hidden);
-  });
-
-  /* Arrastar no toque. Só reage a gesto claramente horizontal: sem
-     essa checagem, rolar a página com o dedo em cima do painel
-     trocaria de passo sem querer. */
-  if (palco) {
-    var x0 = null, y0 = null;
-    palco.addEventListener('touchstart', function (e) {
-      var t = e.changedTouches[0];
-      x0 = t.clientX; y0 = t.clientY;
-    }, { passive: true });
-
-    palco.addEventListener('touchend', function (e) {
-      if (x0 === null) return;
-      var t = e.changedTouches[0];
-      var dx = t.clientX - x0, dy = t.clientY - y0;
-      x0 = null; y0 = null;
-      if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
-      assumirControle();
-      mostrar(atual + (dx < 0 ? 1 : -1), false, dx < 0 ? 'frente' : 'tras');
-    }, { passive: true });
-  }
-
-  /* Só conta o tempo enquanto a seção está à vista. */
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (entradas) {
-      naTela = entradas[0].isIntersecting;
-      if (naTela) agendar(); else cancelar();
-    }, { threshold: 0.35 }).observe(slide);
-  } else {
-    naTela = true;
-  }
-
-  mostrar(0, false, 'frente');
-  if (reduz) slide.classList.add('is-manual');   /* nada gira, nada conta */
-  else agendar();
 })();
 
-/* ==============================================================
-   Carousel dos projetos, cada card cicla entre suas imagens.
-   Cards com 1 slide não rodam. Respeita reduced-motion.
-   ============================================================== */
+/* Carrossel dos cards de projeto: só roda em card com mais de uma
+   imagem, o que hoje só acontece quando o painel publica várias. */
 (function () {
-  var INTERVAL = 3500;
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce) return;
-
-  var carousels = document.querySelectorAll('[data-carousel]');
-  if (!carousels.length) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var carrosseis = document.querySelectorAll('[data-carousel]');
+  if (!carrosseis.length) return;
 
   setInterval(function () {
-    carousels.forEach(function (c) {
+    carrosseis.forEach(function (c) {
       var slides = c.querySelectorAll('.slide');
       if (slides.length <= 1) return;
-      var currentIdx = 0;
+      var atual = 0;
       for (var i = 0; i < slides.length; i++) {
-        if (slides[i].classList.contains('is-active')) { currentIdx = i; break; }
+        if (slides[i].classList.contains('is-active')) { atual = i; break; }
       }
-      var nextIdx = (currentIdx + 1) % slides.length;
-      slides.forEach(function (s, i) { s.classList.toggle('is-active', i === nextIdx); });
+      var prox = (atual + 1) % slides.length;
+      slides.forEach(function (s, i) { s.classList.toggle('is-active', i === prox); });
     });
-  }, INTERVAL);
+  }, 3500);
 })();
-
 </script>
 
 </body>

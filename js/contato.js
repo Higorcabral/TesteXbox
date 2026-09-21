@@ -364,20 +364,29 @@ window.HiferaContato = (function () {
       if (enviando) return;                     /* trava envio duplicado */
       if (!validar(true)) return;
 
+      /* Lê por nome e aceita ausência: o formulário da home tem três
+         campos, mas o mesmo JS já serviu uma versão de cinco. Ler
+         direto de form.elements.<campo>.value estourava assim que um
+         campo saísse do HTML. */
+      function ler(campo) {
+        var el = form.elements[campo];
+        return el ? String(el.value || '').trim() : '';
+      }
+
       var dados = {
-        nome:     String(form.elements.nome.value || '').trim(),
-        empresa:  String(form.elements.empresa.value || '').trim(),
-        retorno:  String(form.elements.retorno.value || '').trim(),
-        objetivo: String(form.elements.objetivo.value || '').trim(),
-        recado:   String(form.elements.recado.value || '').trim()
+        nome:     ler('nome'),
+        empresa:  ler('empresa'),
+        retorno:  ler('retorno'),
+        objetivo: ler('objetivo'),
+        recado:   ler('recado')
       };
 
       var corpo =
         'Nome: ' + dados.nome + '\n' +
         (dados.empresa ? 'Empresa: ' + dados.empresa + '\n' : '') +
         'Melhor contato: ' + dados.retorno + '\n' +
-        'Quer melhorar: ' + dados.objetivo + '\n\n' +
-        'Contexto:\n' + dados.recado + '\n';
+        (dados.objetivo ? 'Quer melhorar: ' + dados.objetivo + '\n' : '') +
+        '\nContexto:\n' + dados.recado + '\n';
 
       var assunto = 'Contato pelo site — ' + dados.nome;
 

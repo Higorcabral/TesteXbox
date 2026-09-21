@@ -13,36 +13,37 @@
 window.HIFERA_PROJETOS = [
   {
     "id": "produto-ledger",
-    "titulo": "Controle Financeiro completo",
-    "categoria": "Produto próprio",
-    "segmento": "Financeiro & recorrência",
+    "titulo": "Controle Financeiro",
+    "categoria": "Produto",
+    "segmento": "Financeiro",
     "ordem": 0,
-    "descricao": "Fluxo de caixa, contas a pagar/receber, categorias, metas, parcelamentos, assinaturas recorrentes e importação de extratos em Excel.",
+    "descricao": "Onde o dinheiro entra, sai e fica preso — num painel só.",
     "link": "apps/ledger/",
     "novaAba": true,
     "imagens": [
       {
-        "src": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&q=80",
-        "alt": "Painel financeiro"
+        "src": "assets/produto-ledger.webp",
+        "alt": "Painel do Controle Financeiro"
       }
     ],
     "destaque": true,
-    "preco": "Plano completo · a partir de R$ 397/mês",
+    "preco": "A partir de R$ 397/mês",
     "bullets": [
-      "Fluxo de caixa em tempo real",
-      "Multi-conta e multi-categoria",
-      "Importa & exporta Excel",
-      "Relatórios prontos para o contador"
+      "Fluxo financeiro",
+      "Contas a pagar e receber",
+      "Categorias",
+      "Parcelamentos",
+      "Importação de Excel"
     ],
     "publicado": true
   },
   {
     "id": "proj-crm",
-    "titulo": "Gestão de Relacionamento (CRM)",
+    "titulo": "CRM",
     "categoria": "CRM",
-    "segmento": "Comercial & Vendas",
+    "segmento": "Comercial",
     "ordem": 1,
-    "descricao": "Pipeline visual, follow-up automático e relatórios comerciais para time de vendas.",
+    "descricao": "Pipeline, follow-up e relatórios de vendas.",
     "link": "projetos/Projeto-CRM/",
     "novaAba": true,
     "imagens": [
@@ -56,11 +57,11 @@ window.HIFERA_PROJETOS = [
   },
   {
     "id": "proj-mani",
-    "titulo": "Salão de Manicure",
+    "titulo": "Manicure",
     "categoria": "Estética",
-    "segmento": "Serviços & agendamento",
+    "segmento": "Agendamento",
     "ordem": 2,
-    "descricao": "Agenda online, cadastro de clientes e lembretes automáticos para estúdio de manicure.",
+    "descricao": "Agenda online e lembretes automáticos.",
     "link": "projetos/Projeto-Mani/",
     "novaAba": true,
     "imagens": [
@@ -74,11 +75,11 @@ window.HIFERA_PROJETOS = [
   },
   {
     "id": "proj-mecan",
-    "titulo": "Mecânica Automotiva",
+    "titulo": "Mecânica",
     "categoria": "Automotivo",
-    "segmento": "Oficina & frota",
+    "segmento": "Oficina",
     "ordem": 3,
-    "descricao": "Ordem de serviço digital, controle de veículos e orçamentos para oficina mecânica.",
+    "descricao": "Ordem de serviço digital e orçamentos.",
     "link": "projetos/Projeto-Mecan/",
     "novaAba": true,
     "imagens": [
@@ -96,11 +97,11 @@ window.HIFERA_PROJETOS = [
   },
   {
     "id": "proj-stoq",
-    "titulo": "Gestão de Estoque",
+    "titulo": "Estoque",
     "categoria": "Comércio",
-    "segmento": "Estoque & logística",
+    "segmento": "Estoque",
     "ordem": 4,
-    "descricao": "Controle de estoque com código de barras, alertas de mínimo e curva ABC para distribuidora.",
+    "descricao": "Código de barras, mínimo e curva ABC.",
     "link": "projetos/Projeto-Stoq/",
     "novaAba": true,
     "imagens": [
