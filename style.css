@@ -380,13 +380,7 @@ em {
   margin-bottom: 32px;
   animation: fadeUp 900ms var(--ease-out) both;
 }
-.hero-tag .dot {
-  width: 6px; height: 6px;
-  background: var(--cyan);
-  border-radius: 50%;
-  box-shadow: 0 0 12px var(--cyan);
-  animation: pulse 2s ease-in-out infinite;
-}
+
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
 /* O piso do clamp era 44px, que em tela de 360px quebrava o título em seis
@@ -626,12 +620,6 @@ em {
   border: 1px solid var(--line);
   border-radius: 999px;
 }
-.eyebrow .dot {
-  width: 6px; height: 6px;
-  background: var(--cyan);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--cyan);
-}
 
 /* --- Reveal ------------------------------------------------------- */
 .reveal {
@@ -867,7 +855,6 @@ em {
               border-color 320ms var(--ease-out), transform 320ms var(--ease-spring),
               box-shadow 320ms var(--ease-out);
 }
-
 
 .tl-no:hover .tl-bolha { border-color: rgba(93, 224, 230, 0.5); transform: translateY(-2px); }
 
