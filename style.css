@@ -2018,20 +2018,18 @@ em {
   max-width: 46ch;
 }
 
+/* Só o botão sobrou aqui. Era space-between porque dividia a linha com
+   um parágrafo; sozinho, ele encostaria na esquerda como se tivesse
+   sobrado de alguma coisa. Centrado, fecha a seção. */
 .prim-pe {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 24px;
   flex-wrap: wrap;
   margin-top: 40px;
   padding-top: 28px;
   border-top: 1px solid var(--line);
-}
-.prim-pe p {
-  font-size: 14px;
-  color: var(--text-mid);
-  max-width: 48ch;
 }
 @media (max-width: 640px) {
   .prim-pe { flex-direction: column; align-items: stretch; gap: 20px; }
