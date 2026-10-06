@@ -664,7 +664,15 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
   height: 100%;
   display: block;
   object-fit: cover;
-  object-position: calc(50% + var(--lado, 0%)) calc(var(--foco, 50%) - var(--sobe, 0%));
+  /* object-position movia o conteúdo DENTRO da caixa, mas quando a foto
+     tem o mesmo aspecto da caixa (quadrado em quadrado) ele não produz
+     nada: o cover já preenche sem sobrar. O enquadramento tem que vir
+     do transform-origin: ele define o ponto que fica parado durante o
+     scale. Semântica das variáveis: --sobe positivo = rosto SOBE no
+     círculo (origin desce, scale afasta o conteúdo para cima); --lado
+     positivo = conteúdo vai para a direita. Vale para foto quadrada e
+     retangular. */
+  transform-origin: calc(50% + var(--lado, 0%)) calc(50% + var(--sobe, 0%));
   transform: scale(var(--zoom, 1));
 }
 .pessoa h3 { font-size: 19px; letter-spacing: -0.02em; }
