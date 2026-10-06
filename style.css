@@ -294,7 +294,9 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
   .nav-cta { padding: 9px 14px; font-size: 12.5px; }
   .nav-cta span { display: none; }
 }
-@media (max-width: 380px) { .nav-brand span { display: none; } }
+/* Abaixo de 480px (S24+ cai aqui com 393px) o nome escrito empurrava o
+   hambúrguer para fora da tela. Com só o logo o conjunto cabe. */
+@media (max-width: 480px) { .nav-brand span { display: none; } }
 
 /* =================================================================
    HERO — texto à esquerda, produto à direita.
