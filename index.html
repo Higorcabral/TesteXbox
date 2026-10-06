@@ -42,7 +42,7 @@
 <!-- Só os cinco pesos que o CSS usa, e só Poppins. O Instrument Serif
      era baixado em toda visita e não aparecia em regra nenhuma. -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=32">
+<link rel="stylesheet" href="style.css?v=33">
 <meta name="robots" content="noai, noimageai">
 
 <!-- Dados estruturados. Só o que a página realmente afirma — nada de
@@ -443,39 +443,80 @@
   </section>
 
   <!-- ============================================================
-       PRIMEIROS CLIENTES — convite, não desculpa. Sem depoimento,
-       sem logo e sem número: nada disso existe ainda.
+       PRIMEIROS CLIENTES
+       Ocupa o lugar de uma seção de depoimentos. Enquanto não houver
+       cliente com história real para contar, aqui ficam os quatro
+       compromissos de quem entra agora — e nenhuma aspa assinada, que
+       seria a forma mais rápida de perder a confiança de quem vai
+       justamente confiar a operação da empresa na gente.
        ============================================================ -->
   <section id="primeiros" class="primeiros">
     <div class="container">
 
       <div class="secao-topo reveal">
         <span class="eyebrow">Primeiros clientes</span>
-        <h2>Estamos abrindo os <span class="grad-text">primeiros lugares</span> da Hifera.</h2>
-        <p class="lead">
-          Poucos clientes, contato direto com quem constrói e espaço real para
-          participar da evolução do produto.
-        </p>
+        <h2>Seja um dos <span class="grad-text">primeiros clientes</span> da Hifera.</h2>
       </div>
 
-      <div class="beneficios">
-        <article class="reveal" data-delay="1">
-          <h3>Preço de fundador</h3>
-          <p>Condição de entrada mantida durante o contrato.</p>
+      <div class="prim-grid">
+        <article class="prim-card reveal" data-delay="1">
+          <span class="prim-n" aria-hidden="true">01</span>
+          <h3>Preço de fundador, travado</h3>
+          <p>
+            A mensalidade combinada na entrada não muda enquanto o contrato durar,
+            mesmo depois que a tabela subir. Vale para solução pronta e para sob medida.
+          </p>
         </article>
-        <article class="reveal" data-delay="2">
-          <h3>Roadmap próximo</h3>
-          <p>As necessidades dos primeiros clientes ajudam a orientar a evolução.</p>
+
+        <article class="prim-card reveal" data-delay="2">
+          <span class="prim-n" aria-hidden="true">02</span>
+          <h3>Roadmap com a sua cara</h3>
+          <p>
+            O que você pedir entra na fila de desenvolvimento antes do resto.
+            Com poucos clientes, isso é promessa que dá pra cumprir, é justamente
+            por isso que ela tem prazo de validade.
+          </p>
         </article>
-        <article class="reveal" data-delay="3">
-          <h3>Contato direto</h3>
-          <p>Suporte com quem desenvolve a solução.</p>
+
+        <article class="prim-card reveal" data-delay="3">
+          <span class="prim-n" aria-hidden="true">03</span>
+          <h3>Suporte direto com quem constrói</h3>
+          <p>
+            Sem camada de atendimento, sem ticket que some. Você fala com as duas
+            pessoas que escreveram o sistema, e elas atendem em até 24h úteis.
+          </p>
+        </article>
+
+        <article class="prim-card reveal" data-delay="4">
+          <span class="prim-n" aria-hidden="true">04</span>
+          <h3>Saída sem multa</h3>
+          <p>
+            Se não servir, você leva seus dados exportados e vai embora sem taxa.
+            Cliente preso por contrato não é referência, é refém.
+          </p>
         </article>
       </div>
 
-      <div class="primeiros-pe reveal" data-delay="3">
+      <!-- A página de segurança é a munição de quem está desconfiado, e é
+           aqui que a desconfiança aparece — não escondida atrás de um item
+           de menu. -->
+      <div class="prim-seg reveal" data-delay="4">
+        <div class="prim-seg-txt">
+          <h3>Confiar a operação da empresa a duas pessoas exige mais que boa conversa.</h3>
+          <p>
+            Escrevemos por extenso como os dados são guardados, quem acessa o quê,
+            o que acontece se a Hifera sumir amanhã e o que ainda não está pronto.
+          </p>
+        </div>
+        <a href="seguranca.html" class="btn btn-ghost">
+          Ler como tratamos segurança
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="prim-pe reveal" data-delay="4">
         <a href="#contato" class="btn btn-primary">
-          Quero conversar
+          Quero conversar com a Hifera
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
       </div>
