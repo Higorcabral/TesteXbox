@@ -4,8 +4,16 @@
     { "route": "/scripts/*", "statusCode": 404 },
     { "route": "/deploy/*",  "statusCode": 404 }
   ],
-  "responseOverrides": {
-    "404": { "rewrite": "/index.html", "statusCode": 404 }
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": [
+      "/assets/*",
+      "/js/*",
+      "/apps/*",
+      "/projetos/*",
+      "/v2/*",
+      "/*.{css,js,json,txt,xml,webp,png,jpg,jpeg,gif,svg,ico,woff,woff2,ttf,otf,eot,map,webmanifest}"
+    ]
   },
   "globalHeaders": {
     "X-Content-Type-Options": "nosniff",
@@ -13,5 +21,12 @@
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "Strict-Transport-Security": "max-age=31536000; includeSubDomains"
   },
-  "mimeTypes": { ".webp": "image/webp", ".svg": "image/svg+xml" }
+  "mimeTypes": {
+    ".webp": "image/webp",
+    ".svg": "image/svg+xml",
+    ".css": "text/css",
+    ".js":  "application/javascript",
+    ".json": "application/json",
+    ".webmanifest": "application/manifest+json"
+  }
 }
