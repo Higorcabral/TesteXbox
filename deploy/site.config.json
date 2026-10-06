@@ -2,7 +2,9 @@
   "$schema": "https://json.schemastore.org/staticwebapp.config.json",
   "routes": [
     { "route": "/scripts/*", "statusCode": 404 },
-    { "route": "/deploy/*",  "statusCode": 404 }
+    { "route": "/deploy/*",  "statusCode": 404 },
+    { "route": "/modulos/*", "statusCode": 404 },
+    { "route": "/portal/*",  "statusCode": 404 }
   ],
   "navigationFallback": {
     "rewrite": "/index.html",
