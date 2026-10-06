@@ -36,12 +36,13 @@
 <link rel="apple-touch-icon" href="assets/logo/HiferaIcon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- As três fotos dos sintomas vêm do Unsplash. São lazy, mas o
+     preconnect reduz o round-trip quando a seção entra em viewport. -->
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
 <!-- Só os cinco pesos que o CSS usa, e só Poppins. O Instrument Serif
-     era baixado em toda visita e não aparecia em regra nenhuma. Não há
-     mais preconnect para images.unsplash.com: a página não usa nenhuma
-     foto de banco. -->
+     era baixado em toda visita e não aparecia em regra nenhuma. -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=31">
+<link rel="stylesheet" href="style.css?v=32">
 <meta name="robots" content="noai, noimageai">
 
 <!-- Dados estruturados. Só o que a página realmente afirma — nada de
@@ -153,9 +154,22 @@
       <div class="hero-produto">
         <figure class="janela">
           <div class="janela-barra" aria-hidden="true"><i></i><i></i><i></i></div>
-          <img src="assets/produto-ledger.webp"
-               alt="Painel do Controle Financeiro da Hifera: saldo do mês, gastos, parcelas e cartões."
-               width="1600" height="977" loading="eager" decoding="async" fetchpriority="high">
+          <!-- Fila indiana: cada slide entra pela direita e cobre o anterior.
+               A ordem (Ledger → CRM → Manicure) é a mesma dos destaques
+               mais abaixo, para quem rolar reconhecer o que já viu em cima.
+               O driver fica no bloco de script no fim do arquivo. -->
+          <div class="janela-pilha" data-janela-pilha
+               aria-roledescription="carrossel" aria-label="Produtos Hifera em destaque">
+            <img class="pilha-slide is-active" src="assets/produto-ledger.webp"
+                 alt="Painel do Controle Financeiro da Hifera: saldo do mês, gastos, parcelas e cartões."
+                 width="1600" height="977" loading="eager" decoding="async" fetchpriority="high">
+            <img class="pilha-slide" src="assets/thumbs/crm.webp"
+                 alt="CRM da Hifera: pipeline comercial com follow-up e relatórios de vendas."
+                 width="1200" height="750" loading="lazy" decoding="async">
+            <img class="pilha-slide" src="assets/thumbs/mani.webp"
+                 alt="Agenda online do projeto Manicure: horários e lembretes automáticos."
+                 width="1200" height="750" loading="lazy" decoding="async">
+          </div>
         </figure>
       </div>
 
@@ -178,14 +192,26 @@
 
       <ul class="sintomas">
         <li class="reveal" data-delay="1">
+          <figure class="sintoma-foto">
+            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&auto=format&q=75"
+                 alt="" width="900" height="675" loading="lazy" decoding="async">
+          </figure>
           <h3>Planilhas demais</h3>
           <p>Informação espalhada em vários lugares.</p>
         </li>
         <li class="reveal" data-delay="2">
+          <figure class="sintoma-foto">
+            <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=900&auto=format&q=75"
+                 alt="" width="900" height="675" loading="lazy" decoding="async">
+          </figure>
           <h3>Tarefas repetitivas</h3>
           <p>Horas gastas em atividades que poderiam ser automáticas.</p>
         </li>
         <li class="reveal" data-delay="3">
+          <figure class="sintoma-foto">
+            <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=900&auto=format&q=75"
+                 alt="" width="900" height="675" loading="lazy" decoding="async">
+          </figure>
           <h3>Processos improvisados</h3>
           <p>Operação dependendo de pessoas para lembrar o que o sistema poderia fazer.</p>
         </li>
@@ -783,6 +809,40 @@ document.querySelectorAll('a[href^="#"]').forEach(function (a) {
       slides.forEach(function (s, i) { s.classList.toggle('is-active', i === prox); });
     });
   }, 3500);
+})();
+
+/* Fila indiana da hero: cada slide entra pela direita e cobre o
+   anterior. O z-index da ativa é bumpado por aqui — a animação CSS
+   sozinha não garantiria que a MAIS NOVA ficasse por cima, porque
+   com z-index igual quem vence é a ordem no DOM. Força-restart via
+   remove/reflow/add para a animação disparar mesmo quando a classe
+   já estava presente no slide (caso raro de ciclo longo). */
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var pilhas = document.querySelectorAll('[data-janela-pilha]');
+  if (!pilhas.length) return;
+
+  var contador = 10;
+  pilhas.forEach(function (pilha) {
+    var slides = pilha.querySelectorAll('.pilha-slide');
+    if (slides.length <= 1) return;
+    var atual = 0;
+    for (var i = 0; i < slides.length; i++) {
+      if (slides[i].classList.contains('is-active')) { atual = i; break; }
+    }
+    slides[atual].style.zIndex = String(++contador);
+
+    setInterval(function () {
+      var prox = (atual + 1) % slides.length;
+      var alvo = slides[prox];
+      slides.forEach(function (s) { s.classList.remove('is-active'); });
+      /* reflow para reiniciar o keyframe */
+      void alvo.offsetWidth;
+      alvo.classList.add('is-active');
+      alvo.style.zIndex = String(++contador);
+      atual = prox;
+    }, 4200);
+  });
 })();
 </script>
 
