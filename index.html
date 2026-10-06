@@ -42,7 +42,7 @@
 <!-- Só os cinco pesos que o CSS usa, e só Poppins. O Instrument Serif
      era baixado em toda visita e não aparecia em regra nenhuma. -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=34">
+<link rel="stylesheet" href="style.css?v=35">
 <meta name="robots" content="noai, noimageai">
 
 <!-- Dados estruturados. Só o que a página realmente afirma — nada de
@@ -283,7 +283,7 @@
         </div>
         <div class="fp-content">
           <h3>Controle Financeiro</h3>
-          <p>Onde o dinheiro entra, sai e fica preso — num painel só.</p>
+          <p>Onde o dinheiro entra, sai e fica preso, num painel só.</p>
           <ul class="fp-list">
             <li>Fluxo financeiro</li>
             <li>Contas a pagar e receber</li>
@@ -419,9 +419,14 @@
 
       <div class="quem-grade">
         <article class="pessoa reveal" data-delay="1">
-          <img src="assets/equipe/higor.webp" alt="Higor Cabral"
-               style="--zoom:1.7;--sobe:11%" width="96" height="96" loading="lazy" decoding="async">
-          <div>
+          <!-- O wrapper .pessoa-foto existe para clipar o transform:scale
+               da imagem. Sem ele, o zoom estourava a caixa de 96px e a
+               foto invadia a coluna do texto. -->
+          <div class="pessoa-foto" style="--zoom:1.7;--sobe:11%">
+            <img src="assets/equipe/higor.webp" alt="Higor Cabral"
+                 width="192" height="192" loading="lazy" decoding="async">
+          </div>
+          <div class="pessoa-corpo">
             <h3>Higor</h3>
             <span class="pessoa-papel">Co-fundador · Engenharia da Computação</span>
             <p>TI corporativa, automação, integrações e sistemas. É quem conecta o que já existe na empresa ao que precisa passar a funcionar sozinho.</p>
@@ -429,9 +434,11 @@
         </article>
 
         <article class="pessoa reveal" data-delay="2">
-          <img src="assets/equipe/fernanda.webp" alt="Fernanda Rodrigues"
-               style="--foco:14%;--zoom:1.3;--sobe:3%;--lado:-5%" width="96" height="96" loading="lazy" decoding="async">
-          <div>
+          <div class="pessoa-foto" style="--foco:14%;--zoom:1.3;--sobe:3%;--lado:-5%">
+            <img src="assets/equipe/fernanda.webp" alt="Fernanda Rodrigues"
+                 width="192" height="192" loading="lazy" decoding="async">
+          </div>
+          <div class="pessoa-corpo">
             <h3>Fernanda</h3>
             <span class="pessoa-papel">Co-fundadora · Engenharia da Computação</span>
             <p>Dados, riscos, controles, segurança e operação. É quem olha para o sistema procurando onde ele falha antes de o cliente encontrar.</p>
@@ -464,9 +471,9 @@
           <span class="prim-n" aria-hidden="true">01</span>
           <h3>Preço transparente</h3>
           <p>
-            Você sabe o que vai pagar antes de assinar — condição definida pelo
-            escopo acordado, sem taxa escondida nem cobrança surpresa durante o
-            ciclo contratado.
+            Você sabe o que vai pagar antes de assinar. A condição é definida
+            pelo escopo acordado, sem taxa escondida nem cobrança surpresa
+            durante o ciclo contratado.
           </p>
         </article>
 
@@ -493,8 +500,8 @@
           <span class="prim-n" aria-hidden="true">04</span>
           <h3>Seus dados, sempre seus</h3>
           <p>
-            Exportamos tudo o que é seu — contratos, cadastros, histórico —
-            em formato aberto a qualquer momento. Sem lock-in técnico, sem
+            Exportamos tudo o que é seu (contratos, cadastros, histórico) em
+            formato aberto a qualquer momento. Sem lock-in técnico, sem
             dependência de fornecedor pra ter acesso ao que já é da empresa.
           </p>
         </article>
@@ -555,7 +562,7 @@
         </details>
         <details class="faq-item" name="faq">
           <summary><span>E se precisar de algo específico?</span><span class="faq-icon" aria-hidden="true"></span></summary>
-          <div class="faq-a">Aí é sob medida. Se você já usa uma solução pronta, os dados vão junto — não se recomeça do zero.</div>
+          <div class="faq-a">Aí é sob medida. Se você já usa uma solução pronta, os dados vão junto: não se recomeça do zero.</div>
         </details>
         <details class="faq-item" name="faq">
           <summary><span>Como funciona o pagamento?</span><span class="faq-icon" aria-hidden="true"></span></summary>

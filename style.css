@@ -455,7 +455,8 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
   font-weight: 600;
   letter-spacing: -0.02em;
 }
-@media (max-width: 760px) { .sintomas { grid-template-columns: 1fr; gap: 26px; } }
+@media (max-width: 960px) { .sintomas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px)  { .sintomas { grid-template-columns: 1fr; gap: 26px; } }
 
 /* =================================================================
    FRENTES — o que fazemos
@@ -481,7 +482,8 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
 }
 .frente h3 { font-size: 19px; margin-bottom: 10px; }
 .frente p { font-size: 14.5px; color: var(--text-mid); max-width: 32ch; }
-@media (max-width: 760px) {
+@media (max-width: 960px) { .frentes-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) {
   .frentes-grade { grid-template-columns: 1fr; gap: 28px; }
   .frente p { max-width: none; }
 }
@@ -622,33 +624,63 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
   font-weight: 600;
   letter-spacing: -0.02em;
 }
-@media (max-width: 760px) {
+@media (max-width: 960px) { .passos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) {
   .passos { grid-template-columns: 1fr; gap: 28px; }
   .passos p { max-width: none; }
 }
 
 /* =================================================================
    QUEM — o que cada um traz, não o currículo
+   Foto do tamanho da linha do título (96px) alinhada ao topo do bloco
+   de texto, para a dupla ler como UM cartão em vez de ícone + parágrafo
+   desconectados.
    ================================================================= */
 .quem { padding: var(--secao) 0; border-top: 1px solid var(--line); }
-.quem-grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 4vw, 56px); }
-.pessoa { display: flex; gap: 20px; align-items: flex-start; }
-/* As variáveis de enquadramento vêm do HTML: cada foto tem o próprio
-   recorte, e guardá-lo no atributo evita uma classe por pessoa. */
-.pessoa img {
-  width: 72px; height: 72px;
+.quem-grade {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 56px);
+}
+.pessoa { display: flex; gap: 22px; align-items: flex-start; }
+.pessoa-corpo { min-width: 0; flex: 1; }
+
+/* Wrapper fixo que clipa o transform:scale da foto. As variáveis de
+   enquadramento (--zoom, --sobe, --lado, --foco) vêm do HTML: cada
+   foto tem o próprio recorte, e guardá-lo no atributo evita criar uma
+   classe por pessoa. Sem o wrapper, scale(1.7) estouraria a caixa e a
+   foto invadia a coluna do texto ao lado. */
+.pessoa-foto {
+  width: 96px;
+  height: 96px;
   flex-shrink: 0;
   border-radius: 50%;
-  object-fit: cover;
-  object-position: calc(50% + var(--lado, 0%)) calc(var(--foco, 50%) - var(--sobe, 0%));
-  transform: scale(var(--zoom, 1));
+  overflow: hidden;
   border: 1px solid var(--line-strong);
   background: var(--bg-3);
 }
-.pessoa h3 { font-size: 19px; }
+.pessoa-foto img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: calc(50% + var(--lado, 0%)) calc(var(--foco, 50%) - var(--sobe, 0%));
+  transform: scale(var(--zoom, 1));
+}
+.pessoa h3 { font-size: 19px; letter-spacing: -0.02em; }
 .pessoa-papel { display: block; margin: 4px 0 10px; font-size: 12.5px; color: var(--cyan); }
-.pessoa p { font-size: 14.5px; color: var(--text-mid); }
-@media (max-width: 760px) { .quem-grade { grid-template-columns: 1fr; gap: 32px; } }
+.pessoa p { font-size: 14.5px; color: var(--text-mid); max-width: 40ch; }
+
+@media (max-width: 980px) {
+  .pessoa p { max-width: none; }
+}
+@media (max-width: 760px) {
+  .quem-grade { grid-template-columns: 1fr; gap: 36px; }
+}
+@media (max-width: 480px) {
+  .pessoa { gap: 16px; }
+  .pessoa-foto { width: 80px; height: 80px; }
+}
 
 /* =================================================================
    COMPROMISSOS — quatro promessas que valem para qualquer cliente
