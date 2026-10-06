@@ -187,9 +187,13 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
 }
 .nav-brand { display: inline-flex; align-items: center; gap: 4px; overflow: hidden; flex-shrink: 0; margin-right: auto; }
 /* O PNG da logo tem margem embutida; as negativas cropam sem recortar
-   o arquivo. */
+   o arquivo. O max-width:none derruba a regra global `img{max-width:100%}`
+   — sem isso, quando o span do nome é escondido no mobile, a largura do
+   pai colapsa junto com a da imagem e a logo fica achatada (48×78 em
+   vez de 78×78). */
 .nav-brand img {
-  height: 78px; width: auto;
+  height: 78px; width: 78px;
+  max-width: none;
   margin: -16px -22px -16px -8px;
   transform: translateY(3px);
   flex-shrink: 0;
