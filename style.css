@@ -651,7 +651,7 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
 @media (max-width: 760px) { .quem-grade { grid-template-columns: 1fr; gap: 32px; } }
 
 /* =================================================================
-   PRIMEIROS CLIENTES — quatro compromissos de quem entra agora
+   COMPROMISSOS — quatro promessas que valem para qualquer cliente
    Grade de dois por linha; o número grande atrás do texto dá ritmo
    sem virar decoração que compete com a leitura.
    ================================================================= */
@@ -703,7 +703,7 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
   max-width: 46ch;
 }
 
-/* Ponte para a página de segurança, dentro de "Primeiros clientes".
+/* Ponte para a página de segurança, dentro dos "Compromissos".
    A desconfiança aparece aqui, não escondida atrás de um item de menu. */
 .prim-seg {
   display: flex;
