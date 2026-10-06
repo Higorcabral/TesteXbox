@@ -664,14 +664,16 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
   height: 100%;
   display: block;
   object-fit: cover;
-  /* object-position movia o conteúdo DENTRO da caixa, mas quando a foto
-     tem o mesmo aspecto da caixa (quadrado em quadrado) ele não produz
-     nada: o cover já preenche sem sobrar. O enquadramento tem que vir
-     do transform-origin: ele define o ponto que fica parado durante o
-     scale. Semântica das variáveis: --sobe positivo = rosto SOBE no
-     círculo (origin desce, scale afasta o conteúdo para cima); --lado
-     positivo = conteúdo vai para a direita. Vale para foto quadrada e
-     retangular. */
+  /* Duas pernas distintas no enquadramento:
+     1) object-position + --foco cuida do CROP de aspect-mismatch
+        (foto retrato cabendo num círculo quadrado — sem isso o cover
+        corta igualmente em cima e em baixo, decapitando quem tem
+        cabelo no topo da foto).
+     2) transform-origin + --sobe cuida do ZOOM ANCHOR (ponto que
+        fica parado durante o scale). Positivo sobe o rosto no
+        círculo; negativo abaixa. Vale pra quadrada e pra retrato.
+     --lado move para o lado em ambos. --zoom controla a aproximação. */
+  object-position: calc(50% + var(--lado, 0%)) var(--foco, 50%);
   transform-origin: calc(50% + var(--lado, 0%)) calc(50% + var(--sobe, 0%));
   transform: scale(var(--zoom, 1));
 }
