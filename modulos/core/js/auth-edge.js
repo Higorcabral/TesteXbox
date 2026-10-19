@@ -21,8 +21,16 @@ window.HiferaAdmin = window.HiferaAdmin || {};
 window.HIFERA_AUTH_ESPERA = (function () {
   'use strict';
 
+  /* "higor.cavalcante@hifera.com.br" -> "Higor Cavalcante" */
+  function nomeDoEmail(email) {
+    var local = String(email || '').split('@')[0];
+    return local.split(/[._-]+/).filter(Boolean).map(function (p) {
+      return p.charAt(0).toUpperCase() + p.slice(1).toLowerCase();
+    }).join(' ');
+  }
+
   function iniciais(nome, email) {
-    var base = (nome || email || '').trim();
+    var base = (nome || nomeDoEmail(email) || '').trim();
     if (!base) return '?';
     var partes = base.split(/[\s@._-]+/).filter(Boolean);
     if (!partes.length) return '?';
@@ -67,7 +75,7 @@ window.HIFERA_AUTH_ESPERA = (function () {
     }
 
     return {
-      nome: nome || email,
+      nome: nome || nomeDoEmail(email) || email,
       email: email,
       cargo: '',
       iniciais: iniciais(nome, email),

@@ -90,10 +90,12 @@ HiferaAdmin.ProjectsController = (function () {
         (projetado > 0
           ? '<span>forecast <strong>+' + Fmt.moeda(projetado) + '</strong></span>'
           : '') +
-        '<span class="' + (acima ? 'is-pos' : 'is-neg') + '">' +
-          (acima ? '▲ ' : '▼ ') + Fmt.pct(Math.abs(totais.pctMeta - 100), 0) +
-          (acima ? ' acima' : ' abaixo') +
-        '</span>';
+        (totais.meta > 0
+          ? '<span class="' + (acima ? 'is-pos' : 'is-neg') + '">' +
+              (acima ? '▲ ' : '▼ ') + Fmt.pct(Math.abs(totais.pctMeta - 100), 0) +
+              (acima ? ' acima' : ' abaixo') +
+            '</span>'
+          : '<span>sem meta definida</span>');
     }
   }
 

@@ -2602,3 +2602,47 @@ td small, .li-txt small { font-size: var(--fs-xs); }
 /* Botão de tema com o mesmo tamanho dos outros controles */
 #btnTema { width: var(--ctl-h); height: var(--ctl-h); }
 #btnTema svg { width: 18px; height: 18px; }
+
+/* =================================================================
+   CORREÇÕES DE ESPAÇAMENTO (estado vazio e blocos soltos)
+   ================================================================= */
+
+/* Faixa de filtros — .filtros não tinha regra nenhuma e os controles
+   ficavam colados na borda do cartão */
+.filtros, .barra-filtros {
+  display: flex; align-items: center; gap: var(--gap-2, 12px); flex-wrap: wrap;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(var(--on),0.014);
+}
+.filtros select, .barra-filtros select {
+  background: var(--bg-3); color: var(--text);
+  border: 1px solid var(--line); border-radius: 10px;
+  min-height: var(--ctl-h); padding-inline: var(--ctl-px);
+  font: inherit; font-size: var(--fs-md);
+  cursor: pointer; max-width: 100%;
+}
+.filtros select:focus, .barra-filtros select:focus { outline: none; border-color: rgba(93,224,230,0.45); }
+
+/* Busca: a caixa é o .busca; o input dentro dela não tem moldura própria */
+.busca { min-height: var(--ctl-h); padding: 0 var(--ctl-px); }
+.busca input { min-height: 0; padding: 0; border: 0; border-radius: 0; background: none; }
+.filtros--chamados .busca { flex: 1 1 320px; max-width: 520px; }
+.contador { align-self: center; }
+
+/* Cartão lateral (Saúde da carteira): tudo que não é cabeçalho
+   respeita o mesmo recuo de 22px do cabeçalho */
+.card--lado > .saude-barra   { margin: 18px 22px 12px; }
+.card--lado > .saude-legenda { padding: 0 22px 18px; }
+.card--lado > .clientes      { padding: 6px 22px 18px; }
+.card--lado > .rep-vazio     { padding: 10px 22px 18px; }
+.card--lado > .carteira-pe   { margin: 0 22px; padding: 16px 0 18px; }
+.card--lado > .card-head--interno { margin-top: 4px; }
+
+/* Mensagens de "nada aqui": mesmo recuo do cabeçalho do cartão */
+li.vazio, p.vazio { padding: 18px 22px; font-size: var(--fs-md); line-height: 1.5; list-style: none; }
+td.vazio { padding: 28px 22px; text-align: center; font-size: var(--fs-md); }
+
+/* Bolinha de legenda que faltava (Em risco) */
+.tl-chip--red { background: var(--red-ink); }
+.tl-chip--indigo { background: var(--indigo-ink); }
