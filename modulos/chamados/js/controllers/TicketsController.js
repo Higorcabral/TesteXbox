@@ -128,14 +128,6 @@ HiferaAdmin.TicketsController = (function () {
     toast('Chamados exportados.', 'ok');
   }
 
-  function restaurar() {
-    if (!window.confirm('Restaurar os chamados de exemplo?\n\nTudo que você registrou neste navegador será substituído.')) return;
-    M.restaurarSeed();
-    Audit.registrar('restaurar', 'Chamados', 'Restaurou os chamados de exemplo.');
-    renderTudo();
-    toast('Chamados de exemplo restaurados.');
-  }
-
   /* --- Boot ----------------------------------------------------------- */
   function montarTopo() {
     var u = Auth.getUser();
@@ -184,7 +176,6 @@ HiferaAdmin.TicketsController = (function () {
     var mapa = {
       btnNovoChamado: novo,
       btnExportarChamados: exportar,
-      btnRestaurarChamados: restaurar,
       btnLog: function () { HiferaAdmin.AuditView.abrir(); }
     };
     Object.keys(mapa).forEach(function (id) {

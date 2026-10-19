@@ -325,14 +325,6 @@ HiferaAdmin.ProjectsController = (function () {
     leitor.readAsText(arquivo);
   }
 
-  function restaurar() {
-    if (!window.confirm('Restaurar os dados de exemplo?\n\nTudo que você cadastrou neste navegador será substituído.')) return;
-    Model.restaurarSeed();
-    Audit.registrar('restaurar', 'Base de projetos', 'Restaurou os dados de exemplo.');
-    renderTudo();
-    toast('Dados de exemplo restaurados.');
-  }
-
   /* --- Boot ------------------------------------------------------------ */
   function montarTopo() {
     var u = Auth.getUser();
@@ -385,7 +377,6 @@ HiferaAdmin.ProjectsController = (function () {
     var mapa = {
       btnNovo: novo,
       btnExportar: exportar,
-      btnRestaurar: restaurar,
       btnPublicar: publicarSite,
       btnLog: function () { LogVista.abrir(); }
     };
