@@ -42,7 +42,7 @@
 <!-- Só os cinco pesos que o CSS usa, e só Poppins. O Instrument Serif
      era baixado em toda visita e não aparecia em regra nenhuma. -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=46">
+<link rel="stylesheet" href="style.css?v=48">
 <meta name="robots" content="noai, noimageai">
 
 <!-- Dados estruturados. Só o que a página realmente afirma — nada de
@@ -190,27 +190,29 @@
                produto principal (a captura real do Controle Financeiro). -->
           <figure class="janela janela-ghost janela-ghost-b" aria-hidden="true">
             <div class="janela-barra"><i></i><i></i><i></i></div>
-            <img src="assets/thumbs/crm.webp" alt="" width="1200" height="750" loading="lazy" decoding="async">
+            <img src="assets/mockup/crm.webp" alt="" width="1200" height="750" loading="lazy" decoding="async">
           </figure>
           <figure class="janela janela-ghost janela-ghost-a" aria-hidden="true">
             <div class="janela-barra"><i></i><i></i><i></i></div>
-            <img src="assets/thumbs/stoq.webp" alt="" width="1200" height="750" loading="lazy" decoding="async">
+            <img src="assets/mockup/estoque.webp" alt="" width="1200" height="750" loading="lazy" decoding="async">
           </figure>
 
           <figure class="janela janela-main">
             <div class="janela-barra" aria-hidden="true"><i></i><i></i><i></i></div>
-            <!-- Fila indiana: cada slide entra pela direita e cobre o anterior. -->
+            <!-- Fila indiana: cada slide entra pela direita e cobre o anterior.
+                 Cinco produtos reais, na ordem das legendas do carrossel. -->
             <div class="janela-pilha" data-janela-pilha
                  aria-roledescription="carrossel" aria-label="Produtos Hifera em destaque">
-              <img class="pilha-slide is-active" src="assets/produto-ledger.webp"
-                   alt="Painel do Controle Financeiro da Hifera: saldo do mês, gastos, parcelas e cartões."
-                   width="1600" height="977" loading="eager" decoding="async" fetchpriority="high">
-              <img class="pilha-slide" src="assets/thumbs/crm.webp"
-                   alt="CRM da Hifera: pipeline comercial com follow-up e relatórios de vendas."
-                   width="1200" height="750" loading="lazy" decoding="async">
-              <img class="pilha-slide" src="assets/thumbs/mani.webp"
-                   alt="Agenda online do projeto Manicure: horários e lembretes automáticos."
-                   width="1200" height="750" loading="lazy" decoding="async">
+              <img class="pilha-slide is-active" src="assets/mockup/ledger.webp"
+                   alt="Controle Financeiro da Hifera." width="1600" height="977" loading="eager" decoding="async" fetchpriority="high">
+              <img class="pilha-slide" src="assets/mockup/crm.webp"
+                   alt="CRM comercial da Hifera." width="1200" height="750" loading="lazy" decoding="async">
+              <img class="pilha-slide" src="assets/mockup/estoque.webp"
+                   alt="Controle de estoque da Hifera." width="1200" height="750" loading="lazy" decoding="async">
+              <img class="pilha-slide" src="assets/mockup/oficina.webp"
+                   alt="Oficina mecânica da Hifera." width="1200" height="750" loading="lazy" decoding="async">
+              <img class="pilha-slide" src="assets/mockup/agendamento.webp"
+                   alt="Agendamento online da Hifera." width="1200" height="750" loading="lazy" decoding="async">
             </div>
           </figure>
 
@@ -238,7 +240,7 @@
         <!-- Legenda + pontos do carrossel: muda junto com o slide (driver). -->
         <div class="hero-carrossel" aria-hidden="true">
           <p class="hero-cap" data-hero-cap><strong>Financeiro</strong> · dinheiro à vista, num painel só</p>
-          <div class="hero-dots" data-hero-dots><i class="is-on"></i><i></i><i></i></div>
+          <div class="hero-dots" data-hero-dots><i class="is-on"></i><i></i><i></i><i></i><i></i></div>
         </div>
       </div>
 
@@ -350,8 +352,8 @@
         <p class="lead" data-i18n="jornada.lead">Quatro etapas. Qualquer desafio.</p>
       </div>
 
-      <div class="arco reveal" style="--arc: clamp(64px, 10vw, 140px)">
-        <svg class="arco-linha" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
+      <div class="arco reveal">
+        <svg class="arco-linha" viewBox="0 0 1000 420" preserveAspectRatio="none" aria-hidden="true">
           <defs>
             <linearGradient id="arcg" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0" stop-color="#004aad"/>
@@ -361,14 +363,14 @@
               <stop offset="1" stop-color="#004aad"/>
             </linearGradient>
           </defs>
-          <path class="arc-glow" d="M 120 225 Q 500 -25 880 225"/>
-          <path class="arc-base" d="M 120 225 Q 500 -25 880 225"/>
-          <path class="arc-line" d="M 120 225 Q 500 -25 880 225"/>
-          <circle class="arc-ponto" cx="120" cy="225" r="5"/>
-          <circle class="arc-ponto" cx="880" cy="225" r="5"/>
+          <path class="arc-glow" d="M 80 250 A 700 700 0 0 1 920 250"/>
+          <path class="arc-base" d="M 80 250 A 700 700 0 0 1 920 250"/>
+          <path class="arc-line" d="M 80 250 A 700 700 0 0 1 920 250"/>
+          <circle class="arc-ponto" cx="80" cy="250" r="5"/>
+          <circle class="arc-ponto" cx="920" cy="250" r="5"/>
         </svg>
 
-        <div class="etapa">
+        <div class="etapa etapa--baixo" style="--x:14%;--y:50%">
           <span class="etapa-no" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M11 8.5v5M8.5 11h5"/></svg>
           </span>
@@ -382,7 +384,7 @@
           </div>
         </div>
 
-        <div class="etapa">
+        <div class="etapa etapa--alto" style="--x:38%;--y:28.6%">
           <span class="etapa-no" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8 9l-4 3 4 3"/><path d="M16 9l4 3-4 3"/><path d="M13.5 7l-3 10"/></svg>
           </span>
@@ -396,7 +398,7 @@
           </div>
         </div>
 
-        <div class="etapa">
+        <div class="etapa etapa--alto" style="--x:62%;--y:28.6%">
           <span class="etapa-no" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9.5 14.5l5-5"/><path d="M11 6l1.2-1.2a4 4 0 0 1 5.7 5.7L17 12"/><path d="M13 18l-1.2 1.2a4 4 0 0 1-5.7-5.7L7 12"/></svg>
           </span>
@@ -410,7 +412,7 @@
           </div>
         </div>
 
-        <div class="etapa">
+        <div class="etapa etapa--baixo" style="--x:86%;--y:50%">
           <span class="etapa-no" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17l5-5 4 4 8-8"/><path d="M15 8h6v6"/></svg>
           </span>
@@ -638,7 +640,7 @@
 
       <article class="feature-product reveal">
         <div class="fp-media">
-          <img src="assets/produto-ledger.webp"
+          <img src="assets/mockup/ledger.webp"
                alt="Controle Financeiro da Hifera: dinheiro livre no mês, gastos, parcelas e faturas de cartão."
                width="1600" height="977" loading="lazy" decoding="async">
         </div>
@@ -667,7 +669,7 @@
         <a href="projetos/Projeto-CRM/" target="_blank" rel="noopener" class="proj-card reveal" data-delay="1">
           <div class="proj-media">
             <div class="carousel" data-carousel>
-              <img class="slide is-active" src="assets/thumbs/crm.webp" alt="" width="760" height="428" loading="lazy" decoding="async">
+              <img class="slide is-active" src="assets/mockup/crm.webp" alt="" width="760" height="428" loading="lazy" decoding="async">
             </div>
           </div>
           <div class="proj-body">
@@ -681,7 +683,7 @@
         <a href="projetos/Projeto-Mani/" target="_blank" rel="noopener" class="proj-card reveal" data-delay="2">
           <div class="proj-media">
             <div class="carousel" data-carousel>
-              <img class="slide is-active" src="assets/thumbs/mani.webp" alt="" width="760" height="428" loading="lazy" decoding="async">
+              <img class="slide is-active" src="assets/mockup/agendamento.webp" alt="" width="760" height="428" loading="lazy" decoding="async">
             </div>
           </div>
           <div class="proj-body">
@@ -695,7 +697,7 @@
         <a href="projetos/Projeto-Mecan/" target="_blank" rel="noopener" class="proj-card reveal" data-delay="3">
           <div class="proj-media">
             <div class="carousel" data-carousel>
-              <img class="slide is-active" src="assets/thumbs/mecan.webp" alt="" width="760" height="428" loading="lazy" decoding="async">
+              <img class="slide is-active" src="assets/mockup/oficina.webp" alt="" width="760" height="428" loading="lazy" decoding="async">
             </div>
           </div>
           <div class="proj-body">
@@ -709,7 +711,7 @@
         <a href="projetos/Projeto-Stoq/" target="_blank" rel="noopener" class="proj-card reveal" data-delay="4">
           <div class="proj-media">
             <div class="carousel" data-carousel>
-              <img class="slide is-active" src="assets/thumbs/stoq.webp" alt="" width="760" height="428" loading="lazy" decoding="async">
+              <img class="slide is-active" src="assets/mockup/estoque.webp" alt="" width="760" height="428" loading="lazy" decoding="async">
             </div>
           </div>
           <div class="proj-body">
@@ -746,8 +748,8 @@
       <div class="prim-split">
 
         <figure class="prim-foto reveal">
-          <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=820&auto=format&q=70"
-               alt="" loading="lazy" decoding="async" onerror="this.remove()">
+          <img src="assets/mockup/compromissos.webp"
+               alt="" width="1122" height="1402" loading="lazy" decoding="async">
           <figcaption class="prim-foto-cap">
             <span class="eyebrow" data-i18n="prim.eyebrow">Compromissos</span>
             <span class="prim-foto-t"><span data-i18n="prim.fotoA">Não vendemos ferramenta.</span> <span class="grad-text" data-i18n="prim.fotoB">Resolvemos problema.</span></span>
@@ -817,9 +819,9 @@
 
       <div class="quem-grade">
         <article class="pessoa-card reveal" data-delay="1">
-          <div class="pessoa-card-foto">
-            <img src="assets/equipe/higor.webp" alt="Higor Cabral"
-                 width="192" height="192" loading="lazy" decoding="async" style="--zoom:1.25;--sobe:-8%">
+          <div class="pessoa-card-foto pessoa-card-foto--marca">
+            <img src="assets/mockup/higor.webp" alt="Higor Cabral"
+                 width="1000" height="1000" loading="lazy" decoding="async">
           </div>
           <div class="pessoa-card-txt">
             <span class="pessoa-papel" data-i18n="quem.higorPapel">Cofundador · Eng. da Computação</span>
@@ -829,9 +831,9 @@
         </article>
 
         <article class="pessoa-card reveal" data-delay="2">
-          <div class="pessoa-card-foto">
-            <img src="assets/equipe/fernanda.webp" alt="Fernanda Rodrigues"
-                 width="192" height="192" loading="lazy" decoding="async" style="--zoom:1.22;--foco:0%;--lado:-4%">
+          <div class="pessoa-card-foto pessoa-card-foto--marca">
+            <img src="assets/mockup/fernanda.webp" alt="Fernanda Rodrigues"
+                 width="1000" height="1000" loading="lazy" decoding="async">
           </div>
           <div class="pessoa-card-txt">
             <span class="pessoa-papel" data-i18n="quem.fePapel">Cofundadora · Eng. da Computação</span>
@@ -868,7 +870,7 @@
         <a href="#blog" class="post-feat reveal">
           <div class="post-media">
             <span class="post-tag" data-i18n="blog.fTag">Opinião</span>
-            <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=900&auto=format&q=70" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+            <img src="assets/mockup/agendamento.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()">
           </div>
           <div class="post-body">
             <div class="post-meta-top"><span class="post-data">14 out 2026</span><span class="post-min">6 min</span></div>
@@ -885,7 +887,7 @@
           <a href="#blog" class="post-card post-sec reveal" data-delay="1">
             <div class="post-media">
               <span class="post-tag" data-i18n="blog.s1tag">Opinião</span>
-              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&q=70" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+              <img src="assets/mockup/blog-opiniao.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()">
             </div>
             <div class="post-body">
               <div class="post-meta-top"><span class="post-data">02 out 2026</span><span class="post-min">6 min</span></div>
@@ -896,7 +898,7 @@
           <a href="#blog" class="post-card post-sec reveal" data-delay="2">
             <div class="post-media">
               <span class="post-tag" data-i18n="blog.sTag">Dados</span>
-              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&q=70" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+              <img src="assets/mockup/estoque.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()">
             </div>
             <div class="post-body">
               <div class="post-meta-top"><span class="post-data">17 set 2026</span><span class="post-min">7 min</span></div>
@@ -911,7 +913,7 @@
         <a href="#blog" class="post-card reveal" data-delay="1">
           <div class="post-media">
             <span class="post-tag" data-i18n="blog.c1tag">Automação</span>
-            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&auto=format&q=70" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+            <img src="assets/mockup/blog-automacao.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()">
           </div>
           <div class="post-body">
             <div class="post-meta-top"><span class="post-data">11 ago 2026</span><span class="post-min">5 min</span></div>
@@ -924,7 +926,7 @@
         <a href="#blog" class="post-card reveal" data-delay="2">
           <div class="post-media">
             <span class="post-tag" data-i18n="blog.c2tag">Aplicativos</span>
-            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&auto=format&q=70" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+            <img src="assets/mockup/oficina.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()">
           </div>
           <div class="post-body">
             <div class="post-meta-top"><span class="post-data">23 jul 2026</span><span class="post-min">6 min</span></div>
@@ -937,7 +939,7 @@
         <a href="#blog" class="post-card reveal" data-delay="3">
           <div class="post-media">
             <span class="post-tag" data-i18n="blog.c3tag">Operação</span>
-            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&auto=format&q=70" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+            <img src="assets/mockup/blog-operacao.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()">
           </div>
           <div class="post-body">
             <div class="post-meta-top"><span class="post-data">19 jun 2026</span><span class="post-min">5 min</span></div>
@@ -950,7 +952,7 @@
         <a href="#blog" class="post-card reveal" data-delay="4">
           <div class="post-media">
             <span class="post-tag" data-i18n="blog.c4tag">Segurança</span>
-            <img src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=800&auto=format&q=70" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+            <img src="assets/mockup/blog-seguranca.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()">
           </div>
           <div class="post-body">
             <div class="post-meta-top"><span class="post-data">28 mai 2026</span><span class="post-min">6 min</span></div>
@@ -1356,6 +1358,8 @@ document.querySelectorAll('a[href^="#"]').forEach(function (a) {
   var caps = [
     { tag: 'Financeiro',  txt: 'dinheiro à vista, num painel só' },
     { tag: 'Comercial',   txt: 'pipeline, follow-up e relatórios' },
+    { tag: 'Estoque',     txt: 'código de barras e curva ABC' },
+    { tag: 'Oficina',     txt: 'ordem de serviço e orçamentos' },
     { tag: 'Agendamento', txt: 'agenda online e lembretes' }
   ];
   var capEl = document.querySelector('[data-hero-cap]');
