@@ -42,7 +42,7 @@
 <!-- Só os cinco pesos que o CSS usa, e só Poppins. O Instrument Serif
      era baixado em toda visita e não aparecia em regra nenhuma. -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=39">
+<link rel="stylesheet" href="style.css?v=42">
 <meta name="robots" content="noai, noimageai">
 
 <!-- Dados estruturados. Só o que a página realmente afirma — nada de
@@ -105,15 +105,44 @@
       <img src="assets/logo/HiferaIcon.png" alt="Hifera Company">
       <span>
         <strong>HIFERA <span class="grad-text">COMPANY</span></strong>
-        <small>Sistemas e automação</small>
+        <small data-i18n="nav.tagline">Sistemas e automação</small>
       </span>
     </a>
     <ul class="nav-links" id="nav-menu">
-      <li><a href="#como-fazemos">Como funciona</a></li>
-      <li><a href="#solucoes">Soluções</a></li>
-      <li><a href="#fundadores">Quem somos</a></li>
+      <li><a href="#como-fazemos" data-i18n="nav.metodo">Método</a></li>
+      <li><a href="#servicos" data-i18n="nav.servicos">Serviços</a></li>
+      <li><a href="#diferenciais" data-i18n="nav.diferenciais">Diferenciais</a></li>
+      <li><a href="#fundadores" data-i18n="nav.quem">Quem somos</a></li>
+      <li><a href="#blog" data-i18n="nav.blog">Conteúdos</a></li>
     </ul>
-    <a href="#contato" class="nav-cta">Vamos conversar <span aria-hidden="true">→</span></a>
+
+    <!-- Seletor de idioma. A bandeira/sigla do botão é espelhada da opção
+         ativa pelo js/i18n.js; a escolha fica salva no navegador. -->
+    <div class="lang" id="lang">
+      <button type="button" class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-label="Idioma / Language">
+        <span class="lang-bandeira" id="langFlag" aria-hidden="true">
+          <svg viewBox="0 0 28 20"><rect width="28" height="20" fill="#009b3a"/><polygon points="14,2.5 25.5,10 14,17.5 2.5,10" fill="#ffdf00"/><circle cx="14" cy="10" r="4" fill="#002776"/></svg>
+        </span>
+        <span id="langCode">PT</span>
+        <svg class="lang-seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="lang-menu" id="langMenu" role="menu" aria-label="Idiomas">
+        <button type="button" class="lang-opt is-ativo" data-lang="pt" data-code="PT" role="menuitem">
+          <span class="lang-bandeira" aria-hidden="true"><svg viewBox="0 0 28 20"><rect width="28" height="20" fill="#009b3a"/><polygon points="14,2.5 25.5,10 14,17.5 2.5,10" fill="#ffdf00"/><circle cx="14" cy="10" r="4" fill="#002776"/></svg></span>
+          <span>Português</span>
+        </button>
+        <button type="button" class="lang-opt" data-lang="en" data-code="EN" role="menuitem">
+          <span class="lang-bandeira" aria-hidden="true"><svg viewBox="0 0 28 20"><rect width="28" height="20" fill="#012169"/><path d="M0,0 L28,20 M28,0 L0,20" stroke="#fff" stroke-width="4"/><path d="M0,0 L28,20 M28,0 L0,20" stroke="#C8102E" stroke-width="2"/><rect x="11.5" width="5" height="20" fill="#fff"/><rect y="7.5" width="28" height="5" fill="#fff"/><rect x="12.75" width="2.5" height="20" fill="#C8102E"/><rect y="8.75" width="28" height="2.5" fill="#C8102E"/></svg></span>
+          <span>English</span>
+        </button>
+        <button type="button" class="lang-opt" data-lang="de" data-code="DE" role="menuitem">
+          <span class="lang-bandeira" aria-hidden="true"><svg viewBox="0 0 28 20"><rect width="28" height="6.67" fill="#000"/><rect y="6.67" width="28" height="6.67" fill="#dd0000"/><rect y="13.34" width="28" height="6.66" fill="#ffce00"/></svg></span>
+          <span>Deutsch</span>
+        </button>
+      </div>
+    </div>
+
+    <a href="#contato" class="nav-cta"><span data-i18n="nav.cta">Vamos conversar</span> <span aria-hidden="true">→</span></a>
     <button type="button" class="nav-toggle" id="navToggle"
             aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu">
       <span class="nav-toggle-bars" aria-hidden="true"></span>
@@ -130,51 +159,129 @@
        existe software rodando, não um escritório genérico.
        ============================================================ -->
   <header class="hero">
+    <div class="hero-arco" aria-hidden="true"></div>
     <div class="container hero-grade">
 
       <div class="hero-txt">
-        <span class="eyebrow">Automação para operações reais</span>
         <h1>
-          Menos trabalho manual.<br>
-          <span class="grad-text">Mais operação funcionando.</span>
+          <span data-i18n="hero.h1a">Transformamos desafios</span><br>
+          <span class="grad-text" data-i18n="hero.h1b">em soluções digitais.</span>
         </h1>
-        <p class="hero-sub">
-          Criamos sistemas, automações e ferramentas sob medida para transformar
-          processos repetitivos em fluxos simples de usar.
+        <p class="hero-tagline">
+          <span data-i18n="hero.taglineA">A gente cria</span>
+          <span class="grad-text" data-i18n="hero.taglineB">aplicativos</span>
+        </p>
+        <p class="hero-sub" data-i18n="hero.sub">
+          Entendemos a dor da sua empresa e entregamos a solução certa, do site ao
+          sistema completo, para qualquer porte e qualquer setor.
         </p>
         <div class="acoes">
-          <a href="#solucoes" class="btn btn-primary">
-            Conhecer soluções
+          <a href="#servicos" class="btn btn-primary">
+            <span data-i18n="hero.ctaPrimary">Conhecer soluções</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </a>
-          <a href="#contato" class="btn btn-ghost">Falar com a Hifera</a>
+          <a href="#contato" class="btn btn-ghost" data-i18n="hero.ctaGhost">Falar com a Hifera</a>
         </div>
       </div>
 
       <div class="hero-produto">
-        <figure class="janela">
-          <div class="janela-barra" aria-hidden="true"><i></i><i></i><i></i></div>
-          <!-- Fila indiana: cada slide entra pela direita e cobre o anterior.
-               A ordem (Ledger → CRM → Manicure) é a mesma dos destaques
-               mais abaixo, para quem rolar reconhecer o que já viu em cima.
-               O driver fica no bloco de script no fim do arquivo. -->
-          <div class="janela-pilha" data-janela-pilha
-               aria-roledescription="carrossel" aria-label="Produtos Hifera em destaque">
-            <img class="pilha-slide is-active" src="assets/produto-ledger.webp"
-                 alt="Painel do Controle Financeiro da Hifera: saldo do mês, gastos, parcelas e cartões."
-                 width="1600" height="977" loading="eager" decoding="async" fetchpriority="high">
-            <img class="pilha-slide" src="assets/thumbs/crm.webp"
-                 alt="CRM da Hifera: pipeline comercial com follow-up e relatórios de vendas."
-                 width="1200" height="750" loading="lazy" decoding="async">
-            <img class="pilha-slide" src="assets/thumbs/mani.webp"
-                 alt="Agenda online do projeto Manicure: horários e lembretes automáticos."
-                 width="1200" height="750" loading="lazy" decoding="async">
+        <div class="hero-stack">
+          <!-- Painéis de apoio, atrás e deslocados, dando profundidade ao
+               produto principal (a captura real do Controle Financeiro). -->
+          <figure class="janela janela-ghost janela-ghost-b" aria-hidden="true">
+            <div class="janela-barra"><i></i><i></i><i></i></div>
+            <img src="assets/thumbs/crm.webp" alt="" width="1200" height="750" loading="lazy" decoding="async">
+          </figure>
+          <figure class="janela janela-ghost janela-ghost-a" aria-hidden="true">
+            <div class="janela-barra"><i></i><i></i><i></i></div>
+            <img src="assets/thumbs/stoq.webp" alt="" width="1200" height="750" loading="lazy" decoding="async">
+          </figure>
+
+          <figure class="janela janela-main">
+            <div class="janela-barra" aria-hidden="true"><i></i><i></i><i></i></div>
+            <!-- Fila indiana: cada slide entra pela direita e cobre o anterior. -->
+            <div class="janela-pilha" data-janela-pilha
+                 aria-roledescription="carrossel" aria-label="Produtos Hifera em destaque">
+              <img class="pilha-slide is-active" src="assets/produto-ledger.webp"
+                   alt="Painel do Controle Financeiro da Hifera: saldo do mês, gastos, parcelas e cartões."
+                   width="1600" height="977" loading="eager" decoding="async" fetchpriority="high">
+              <img class="pilha-slide" src="assets/thumbs/crm.webp"
+                   alt="CRM da Hifera: pipeline comercial com follow-up e relatórios de vendas."
+                   width="1200" height="750" loading="lazy" decoding="async">
+              <img class="pilha-slide" src="assets/thumbs/mani.webp"
+                   alt="Agenda online do projeto Manicure: horários e lembretes automáticos."
+                   width="1200" height="750" loading="lazy" decoding="async">
+            </div>
+          </figure>
+
+          <!-- Badges flutuantes: provas vivas do que o produto faz. -->
+          <div class="hero-badge hero-badge-1">
+            <span class="hero-badge-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h11l-3-3M20 17H9l3 3"/></svg>
+            </span>
+            <div class="hero-badge-txt">
+              <strong data-i18n="hero.badge1t">Integração sincronizada</strong>
+              <small data-i18n="hero.badge1s">Pedidos do ERP → estoque</small>
+            </div>
           </div>
-        </figure>
+          <div class="hero-badge hero-badge-2">
+            <span class="hero-badge-ico hero-badge-ico-ok" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>
+            </span>
+            <div class="hero-badge-txt">
+              <strong data-i18n="hero.badge2t">Automação ativa</strong>
+              <small data-i18n="hero.badge2s">Conciliação diária · rodou às 06:00</small>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
   </header>
+
+  <!-- ============================================================
+       PARCEIROS DIGITAIS — as ferramentas que a Hifera usa no dia a
+       dia, passando num marquee (inspirado na faixa de logos da Saask).
+       Ainda não temos parceiros comerciais; estes são os "parceiros
+       digitais": a stack com que construímos e operamos.
+       O trilho é duplicado para o loop ser contínuo; a 2ª cópia é
+       aria-hidden para o leitor de tela não ler duas vezes.
+       ============================================================ -->
+  <section class="parceiros" aria-label="Parceiros digitais">
+    <p class="parceiros-titulo" data-i18n="parceiros.titulo">Construído e operado com parceiros digitais de confiança</p>
+    <div class="marquee">
+      <div class="marquee-track">
+        <span class="marca"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="9" height="9" fill="#F25022"/><rect x="13" y="2" width="9" height="9" fill="#7FBA00"/><rect x="2" y="13" width="9" height="9" fill="#00A4EF"/><rect x="13" y="13" width="9" height="9" fill="#FFB900"/></svg>Microsoft</span>
+        <span class="marca"><img src="assets/tec/azure.svg" alt="" aria-hidden="true">Azure</span>
+        <span class="marca"><img src="assets/tec/azure-devops.svg" alt="" aria-hidden="true">Azure DevOps</span>
+        <span class="marca"><img src="assets/tec/entra.svg" alt="" aria-hidden="true">Microsoft Entra ID</span>
+        <span class="marca"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="#5de0e6"/></svg>Microsoft 365</span>
+        <span class="marca"><svg viewBox="0 0 24 24" fill="none" stroke="#e6e6e6" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="6" r="2.4"/><circle cx="6" cy="18" r="2.4"/><circle cx="18" cy="8" r="2.4"/><path d="M6 8.4v7.2M18 10.4c0 4-6 2.6-6 6.6"/></svg>GitHub</span>
+        <span class="marca"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="12" width="4" height="9" rx="1" fill="#F2C811"/><rect x="10" y="7" width="4" height="14" rx="1" fill="#F2C811"/><rect x="17" y="3" width="4" height="18" rx="1" fill="#F2C811"/></svg>Power BI</span>
+        <span class="marca"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="#5de0e6"/></svg>Power Automate</span>
+        <span class="marca"><svg viewBox="0 0 24 24" fill="none" stroke="#5de0e6" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>Copilot</span>
+        <span class="marca"><svg viewBox="0 0 24 24" fill="none" stroke="#D97757" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 3v6M12 15v6M3 12h6M15 12h6M6 6l4 4M14 14l4 4M18 6l-4 4M10 14l-4 4"/></svg>Claude</span>
+        <span class="marca"><img src="assets/tec/supabase.svg" alt="" aria-hidden="true">Supabase</span>
+        <span class="marca"><img src="assets/tec/postgresql.svg" alt="" aria-hidden="true">PostgreSQL</span>
+        <span class="marca"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="#5de0e6"/></svg>SharePoint</span>
+      </div>
+      <div class="marquee-track" aria-hidden="true">
+        <span class="marca"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="9" height="9" fill="#F25022"/><rect x="13" y="2" width="9" height="9" fill="#7FBA00"/><rect x="2" y="13" width="9" height="9" fill="#00A4EF"/><rect x="13" y="13" width="9" height="9" fill="#FFB900"/></svg>Microsoft</span>
+        <span class="marca"><img src="assets/tec/azure.svg" alt="">Azure</span>
+        <span class="marca"><img src="assets/tec/azure-devops.svg" alt="">Azure DevOps</span>
+        <span class="marca"><img src="assets/tec/entra.svg" alt="">Microsoft Entra ID</span>
+        <span class="marca"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="#5de0e6"/></svg>Microsoft 365</span>
+        <span class="marca"><svg viewBox="0 0 24 24" fill="none" stroke="#e6e6e6" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="2.4"/><circle cx="6" cy="18" r="2.4"/><circle cx="18" cy="8" r="2.4"/><path d="M6 8.4v7.2M18 10.4c0 4-6 2.6-6 6.6"/></svg>GitHub</span>
+        <span class="marca"><svg viewBox="0 0 24 24"><rect x="3" y="12" width="4" height="9" rx="1" fill="#F2C811"/><rect x="10" y="7" width="4" height="14" rx="1" fill="#F2C811"/><rect x="17" y="3" width="4" height="18" rx="1" fill="#F2C811"/></svg>Power BI</span>
+        <span class="marca"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="#5de0e6"/></svg>Power Automate</span>
+        <span class="marca"><svg viewBox="0 0 24 24" fill="none" stroke="#5de0e6" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>Copilot</span>
+        <span class="marca"><svg viewBox="0 0 24 24" fill="none" stroke="#D97757" stroke-width="2.2" stroke-linecap="round"><path d="M12 3v6M12 15v6M3 12h6M15 12h6M6 6l4 4M14 14l4 4M18 6l-4 4M10 14l-4 4"/></svg>Claude</span>
+        <span class="marca"><img src="assets/tec/supabase.svg" alt="">Supabase</span>
+        <span class="marca"><img src="assets/tec/postgresql.svg" alt="">PostgreSQL</span>
+        <span class="marca"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="#5de0e6"/></svg>SharePoint</span>
+      </div>
+    </div>
+  </section>
 
   <!-- ============================================================
        PROBLEMA — por que a Hifera existe. Uma tese, três sintomas.
@@ -183,72 +290,214 @@
   <section id="manifesto" class="tese">
     <div class="container">
 
-      <div class="tese-topo reveal">
-        <h2>Sua empresa não precisa de <span class="grad-text">mais uma ferramenta.</span></h2>
-        <p class="lead">
-          Precisa parar de fazer manualmente aquilo que já poderia acontecer sozinho.
+      <div class="tese-topo tese-topo--centro reveal">
+        <span class="eyebrow" data-i18n="tese.eyebrow">O ponto de partida</span>
+        <h2><span data-i18n="tese.h2a">O futuro do seu negócio</span> <span class="grad-text" data-i18n="tese.h2b">começa com a tecnologia certa.</span></h2>
+        <p class="lead" data-i18n="tese.lead">
+          Os sinais de que a tecnologia parou de ajudar e virou um peso na operação.
         </p>
       </div>
 
-      <ul class="sintomas">
-        <li class="reveal" data-delay="1">
-          <figure class="sintoma-foto">
-            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&auto=format&q=75"
-                 alt="" width="900" height="675" loading="lazy" decoding="async">
-          </figure>
-          <h3>Planilhas demais</h3>
-          <p>Informação espalhada em vários lugares.</p>
+      <ul class="sintomas sintomas--4">
+        <li class="sintoma reveal" data-delay="1">
+          <span class="sintoma-n" aria-hidden="true">01</span>
+          <span class="sintoma-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+          </span>
+          <h3 data-i18n="tese.s1t">Tudo no manual</h3>
+          <p data-i18n="tese.s1p">Planilhas, copia e cola e conferência na mão. Horas por semana no que o sistema faria sozinho.</p>
         </li>
-        <li class="reveal" data-delay="2">
-          <figure class="sintoma-foto">
-            <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=900&auto=format&q=75"
-                 alt="" width="900" height="675" loading="lazy" decoding="async">
-          </figure>
-          <h3>Tarefas repetitivas</h3>
-          <p>Horas gastas em atividades que poderiam ser automáticas.</p>
+        <li class="sintoma reveal" data-delay="2">
+          <span class="sintoma-n" aria-hidden="true">02</span>
+          <span class="sintoma-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.5 14.5l5-5"/><path d="M11 6l1.2-1.2a4 4 0 0 1 5.7 5.7L17 12"/><path d="M13 18l-1.2 1.2a4 4 0 0 1-5.7-5.7L7 12"/></svg>
+          </span>
+          <h3 data-i18n="tese.s2t">Sistemas que não conversam</h3>
+          <p data-i18n="tese.s2p">Cada área com uma ferramenta diferente e nenhuma delas falando com a outra.</p>
         </li>
-        <li class="reveal" data-delay="3">
-          <figure class="sintoma-foto">
-            <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=900&auto=format&q=75"
-                 alt="" width="900" height="675" loading="lazy" decoding="async">
-          </figure>
-          <h3>Processos improvisados</h3>
-          <p>Operação dependendo de pessoas para lembrar o que o sistema poderia fazer.</p>
+        <li class="sintoma reveal" data-delay="3">
+          <span class="sintoma-n" aria-hidden="true">03</span>
+          <span class="sintoma-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+          </span>
+          <h3 data-i18n="tese.s3t">Digital que não vende</h3>
+          <p data-i18n="tese.s3p">Site desatualizado, nenhum app e o cliente sem um canal digital para comprar.</p>
+        </li>
+        <li class="sintoma reveal" data-delay="4">
+          <span class="sintoma-n" aria-hidden="true">04</span>
+          <span class="sintoma-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5M4 19h16"/><rect x="7.5" y="12" width="2.6" height="5"/><rect x="12" y="9" width="2.6" height="8"/><rect x="16.5" y="14" width="2.6" height="3"/></svg>
+          </span>
+          <h3 data-i18n="tese.s4t">Decisão no escuro</h3>
+          <p data-i18n="tese.s4p">Relatório que leva dias para sair e número em que ninguém confia na hora de decidir.</p>
         </li>
       </ul>
-
-      <p class="tese-fecho reveal" data-delay="3">É aí que a Hifera entra.</p>
 
     </div>
   </section>
 
   <!-- ============================================================
-       O QUE FAZEMOS — três frentes, sem subdividir em dezenas de
-       serviços. Quem precisa de detalhe entra em contato.
+       DIFERENCIAIS — por que a Hifera. Quatro painéis: tempo manual
+       caindo, operação visível num lugar só, a stack e o progresso real
+       de um projeto. Os números/gráficos são ilustrativos.
        ============================================================ -->
-  <section id="solucoes" class="frentes">
+  <section id="diferenciais" class="diferenciais t-ink">
+    <div class="container">
+
+      <div class="secao-topo secao-topo--centro reveal">
+        <span class="eyebrow" data-i18n="dif.eyebrow">Diferenciais</span>
+        <h2><span data-i18n="dif.h2a">Tecnologia inteligente. Soluções sob medida.</span> <span class="grad-text" data-i18n="dif.h2b">Resultados reais.</span></h2>
+        <p class="lead" data-i18n="dif.lead">Por que somos a escolha certa para resolver a tecnologia da sua empresa?</p>
+      </div>
+
+      <div class="dif-grade">
+
+        <!-- Painel 1: horas manuais caindo -->
+        <article class="dif-card reveal" data-delay="1">
+          <h3 data-i18n="dif.p1t">Horas manuais caindo a cada entrega.</h3>
+          <div class="dif-chart" aria-hidden="true">
+            <svg viewBox="0 0 400 180" preserveAspectRatio="none">
+              <line class="dif-grid" x1="0" y1="45" x2="400" y2="45"/>
+              <line class="dif-grid" x1="0" y1="90" x2="400" y2="90"/>
+              <line class="dif-grid" x1="0" y1="135" x2="400" y2="135"/>
+              <polygon class="dif-area" points="0,40 70,46 140,44 210,96 280,120 340,150 400,158 400,180 0,180"/>
+              <polyline class="dif-line" points="0,40 70,46 140,44 210,96 280,120 340,150 400,158"/>
+              <circle class="dif-dot" cx="140" cy="44" r="4"/>
+              <circle class="dif-dot" cx="280" cy="120" r="4"/>
+              <circle class="dif-dot" cx="400" cy="158" r="4"/>
+            </svg>
+            <span class="dif-chip">
+              <span class="dif-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4.5 13.5H11l-1 8.5 8.5-11.5H12l1-8.5z"/></svg></span>
+              <span><strong data-i18n="dif.chip1t">Etapa automatizada</strong><small data-i18n="dif.chip1s">Lançamento de notas fiscais</small></span>
+            </span>
+          </div>
+        </article>
+
+        <!-- Painel 2: operação visível (feed) -->
+        <article class="dif-card reveal" data-delay="2">
+          <h3 data-i18n="dif.p2t">Tudo o que roda na sua operação, visível num lugar só.</h3>
+          <ul class="dif-feed">
+            <li>
+              <span class="dif-feed-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4.5 13.5H11l-1 8.5 8.5-11.5H12l1-8.5z"/></svg></span>
+              <div><span class="dif-feed-tag" data-i18n="dif.f1tag">Automação</span><p data-i18n="dif.f1p">Conciliação bancária executada sem intervenção</p></div>
+              <time>06:00</time>
+            </li>
+            <li>
+              <span class="dif-feed-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h11l-3-3M20 17H9l3 3"/></svg></span>
+              <div><span class="dif-feed-tag" data-i18n="dif.f2tag">Integração</span><p data-i18n="dif.f2p">Pedidos do ERP sincronizados com o estoque</p></div>
+              <time>08:23</time>
+            </li>
+            <li>
+              <span class="dif-feed-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 19h16"/><rect x="7" y="11" width="3" height="6" fill="currentColor" stroke="none"/><rect x="12" y="8" width="3" height="9" fill="currentColor" stroke="none"/><rect x="17" y="13" width="3" height="4" fill="currentColor" stroke="none"/></svg></span>
+              <div><span class="dif-feed-tag" data-i18n="dif.f3tag">Dados</span><p data-i18n="dif.f3p">Painel do Power BI atualizado com o fechamento</p></div>
+              <time>09:10</time>
+            </li>
+            <li>
+              <span class="dif-feed-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 3v6c0 5-3.5 8-8 11-4.5-3-8-6-8-11V5z"/></svg></span>
+              <div><span class="dif-feed-tag" data-i18n="dif.f4tag">Segurança</span><p data-i18n="dif.f4p">Acesso de ex-colaborador revogado em todos os sistemas</p></div>
+              <time>11:42</time>
+            </li>
+          </ul>
+        </article>
+
+        <!-- Painel 3: a stack -->
+        <article class="dif-card reveal" data-delay="1">
+          <h3 data-i18n="dif.p3t">A stack que empresas sérias usam, no seu negócio.</h3>
+          <div class="dif-stack">
+            <span class="dif-tec"><img src="assets/tec/azure.svg" alt="" aria-hidden="true">Azure</span>
+            <span class="dif-tec"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="12" width="4" height="9" rx="1" fill="#F2C811"/><rect x="10" y="7" width="4" height="14" rx="1" fill="#F2C811"/><rect x="17" y="3" width="4" height="18" rx="1" fill="#F2C811"/></svg>Power BI</span>
+            <span class="dif-tec"><img src="assets/tec/entra.svg" alt="" aria-hidden="true">Entra ID</span>
+            <span class="dif-tec"><svg viewBox="0 0 24 24" fill="none" stroke="#e6e6e6" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="6" r="2.4"/><circle cx="6" cy="18" r="2.4"/><circle cx="18" cy="8" r="2.4"/><path d="M6 8.4v7.2M18 10.4c0 4-6 2.6-6 6.6"/></svg>GitHub</span>
+            <span class="dif-tec"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="9" height="9" fill="#F25022"/><rect x="13" y="2" width="9" height="9" fill="#7FBA00"/><rect x="2" y="13" width="9" height="9" fill="#00A4EF"/><rect x="13" y="13" width="9" height="9" fill="#FFB900"/></svg>Microsoft 365</span>
+            <span class="dif-tec"><img src="assets/tec/azure-devops.svg" alt="" aria-hidden="true">Azure DevOps</span>
+            <span class="dif-tec"><svg viewBox="0 0 24 24" fill="none" stroke="#5de0e6" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M8 12h8M12 8v8"/></svg>Power Automate</span>
+            <span class="dif-tec"><img src="assets/tec/postgresql.svg" alt="" aria-hidden="true">PostgreSQL</span>
+            <span class="dif-tec"><img src="assets/tec/supabase.svg" alt="" aria-hidden="true">Supabase</span>
+            <span class="dif-tec"><svg viewBox="0 0 24 24" fill="none" stroke="#5de0e6" stroke-width="2" aria-hidden="true"><path d="M12 3c-3 0-5 1.5-5 4v3h5"/><path d="M12 21c3 0 5-1.5 5-4v-3h-5"/><path d="M7 10h10v4H7z"/></svg>Python</span>
+            <span class="dif-tec"><svg viewBox="0 0 24 24" fill="none" stroke="#5de0e6" stroke-width="2" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3 3 7 3s7-1.3 7-3V6"/><path d="M5 12c0 1.7 3 3 7 3s7-1.3 7-3"/></svg>BigQuery</span>
+            <span class="dif-tec"><svg viewBox="0 0 24 24" fill="none" stroke="#5de0e6" stroke-width="1.8" aria-hidden="true"><rect x="3" y="10" width="4" height="4"/><rect x="8" y="10" width="4" height="4"/><rect x="13" y="10" width="4" height="4"/><rect x="8" y="6" width="4" height="4"/><path d="M3 14c0 3 2 5 6 5 7 0 10-4 11-8 1 1 2 1 3 0"/></svg>Docker</span>
+          </div>
+        </article>
+
+        <!-- Painel 4: progresso do projeto -->
+        <article class="dif-card reveal" data-delay="2">
+          <div class="dif-prog-topo">
+            <div>
+              <span class="dif-prog-rot" data-i18n="dif.p4rot">Meu projeto · entrega</span>
+              <strong class="dif-prog-pct">68%</strong>
+            </div>
+          </div>
+          <div class="dif-prog-bar" aria-hidden="true"><i style="width:68%"></i></div>
+          <ul class="dif-prog-lista">
+            <li><span data-i18n="dif.prog1">Diagnóstico do processo</span><span class="dif-badge dif-badge-ok" data-i18n="dif.statOk">Concluído</span></li>
+            <li><span data-i18n="dif.prog2">Cadastro automatizado</span><span class="dif-badge dif-badge-ok" data-i18n="dif.statOk">Concluído</span></li>
+            <li><span data-i18n="dif.prog3">Integração com ERP</span><span class="dif-badge dif-badge-run" data-i18n="dif.statRun">Em execução</span></li>
+            <li><span data-i18n="dif.prog4">Painel no Power BI</span><span class="dif-badge dif-badge-next" data-i18n="dif.statNext">Previsto</span></li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SERVIÇOS — do site ao sistema completo. Seis frentes.
+       ============================================================ -->
+  <section id="servicos" class="servicos">
     <div class="container">
 
       <div class="secao-topo reveal">
-        <span class="eyebrow">O que fazemos</span>
-        <h2>Da tarefa repetitiva ao <span class="grad-text">sistema funcionando.</span></h2>
+        <span class="eyebrow" data-i18n="serv.eyebrow">Serviços</span>
+        <h2><span data-i18n="serv.h2a">Do site ao sistema completo.</span> <span class="grad-text" data-i18n="serv.h2b">A gente faz tudo.</span></h2>
       </div>
 
-      <div class="frentes-grade">
-        <article class="frente reveal" data-delay="1">
-          <span class="frente-n" aria-hidden="true">01</span>
-          <h3>Automação de processos</h3>
-          <p>Eliminamos etapas manuais e conectamos as partes do processo.</p>
+      <div class="serv-grade">
+        <article class="serv-card reveal" data-delay="1">
+          <span class="serv-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></span>
+          <span class="serv-n" aria-hidden="true">01</span>
+          <h3 data-i18n="serv.s1t">Sistemas sob medida</h3>
+          <p data-i18n="serv.s1p">ERPs, CRMs, sistemas de gestão e portais feitos para o seu processo, não o contrário.</p>
+          <div class="serv-tags"><span data-i18n="serv.s1a">Gestão</span><span data-i18n="serv.s1b">ERP / CRM</span><span data-i18n="serv.s1c">Portais</span></div>
         </article>
-        <article class="frente reveal" data-delay="2">
-          <span class="frente-n" aria-hidden="true">02</span>
-          <h3>Sistemas sob medida</h3>
-          <p>Construímos ferramentas adaptadas à operação real da empresa.</p>
+
+        <article class="serv-card reveal" data-delay="2">
+          <span class="serv-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></span>
+          <span class="serv-n" aria-hidden="true">02</span>
+          <h3 data-i18n="serv.s2t">Softwares e SaaS</h3>
+          <p data-i18n="serv.s2p">Produtos digitais completos, do protótipo validado ao lançamento e à evolução contínua.</p>
+          <div class="serv-tags"><span data-i18n="serv.s2a">MVP</span><span data-i18n="serv.s2b">SaaS</span><span data-i18n="serv.s2c">Multiusuário</span></div>
         </article>
-        <article class="frente reveal" data-delay="3">
-          <span class="frente-n" aria-hidden="true">03</span>
-          <h3>Soluções prontas</h3>
-          <p>Produtos simples para problemas que não precisam começar do zero.</p>
+
+        <article class="serv-card reveal" data-delay="3">
+          <span class="serv-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span>
+          <span class="serv-n" aria-hidden="true">03</span>
+          <h3 data-i18n="serv.s3t">Aplicativos</h3>
+          <p data-i18n="serv.s3p">Apps web e mobile para a sua equipe em campo e para os seus clientes.</p>
+          <div class="serv-tags"><span data-i18n="serv.s3a">Android / iOS</span><span data-i18n="serv.s3b">Web app</span><span data-i18n="serv.s3c">PWA</span></div>
+        </article>
+
+        <article class="serv-card reveal" data-delay="1">
+          <span class="serv-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span>
+          <span class="serv-n" aria-hidden="true">04</span>
+          <h3 data-i18n="serv.s4t">Sites e landing pages</h3>
+          <p data-i18n="serv.s4p">Sites rápidos e bem posicionados, com formulários ligados direto ao seu comercial.</p>
+          <div class="serv-tags"><span data-i18n="serv.s4a">Institucional</span><span data-i18n="serv.s4b">Landing page</span><span data-i18n="serv.s4c">SEO</span></div>
+        </article>
+
+        <article class="serv-card reveal" data-delay="2">
+          <span class="serv-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M13 2L4.5 13.5H11l-1 8.5 8.5-11.5H12l1-8.5z"/></svg></span>
+          <span class="serv-n" aria-hidden="true">05</span>
+          <h3 data-i18n="serv.s5t">Automação de processos</h3>
+          <p data-i18n="serv.s5p">Tarefas repetitivas rodando sozinhas e sistemas conversando entre si, sem copia e cola.</p>
+          <div class="serv-tags"><span data-i18n="serv.s5a">Power Automate</span><span data-i18n="serv.s5b">Integrações</span><span data-i18n="serv.s5c">Robôs</span></div>
+        </article>
+
+        <article class="serv-card reveal" data-delay="3">
+          <span class="serv-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3a9 9 0 1 0 9 9h-9z"/><path d="M12 3v9h9a9 9 0 0 0-9-9z"/></svg></span>
+          <span class="serv-n" aria-hidden="true">06</span>
+          <h3 data-i18n="serv.s6t">Dashboards e BI</h3>
+          <p data-i18n="serv.s6p">Painéis no Power BI com dado confiável, atualizados sozinhos, para decidir com o número certo.</p>
+          <div class="serv-tags"><span data-i18n="serv.s6a">Power BI</span><span data-i18n="serv.s6b">KPIs</span><span data-i18n="serv.s6c">Relatórios</span></div>
         </article>
       </div>
 
@@ -267,9 +516,9 @@
     <div class="container">
 
       <div class="secao-topo reveal">
-        <span class="eyebrow">Produto</span>
-        <h2>Algumas coisas <span class="grad-text">já estão funcionando.</span></h2>
-        <p class="lead">
+        <span class="eyebrow" data-i18n="produtos.eyebrow">Produto</span>
+        <h2><span data-i18n="produtos.h2a">Algumas coisas</span> <span class="grad-text" data-i18n="produtos.h2b">já estão funcionando.</span></h2>
+        <p class="lead" data-i18n="produtos.lead">
           Não são mockups. São sistemas navegáveis que construímos para testar
           ideias e resolver problemas reais.
         </p>
@@ -282,21 +531,21 @@
                width="1600" height="977" loading="lazy" decoding="async">
         </div>
         <div class="fp-content">
-          <h3>Controle Financeiro</h3>
-          <p>Onde o dinheiro entra, sai e fica preso, num painel só.</p>
+          <h3 data-i18n="produtos.prodTitulo">Controle Financeiro</h3>
+          <p data-i18n="produtos.prodDesc">Onde o dinheiro entra, sai e fica preso, num painel só.</p>
           <ul class="fp-list">
-            <li>Fluxo financeiro</li>
-            <li>Contas a pagar e receber</li>
-            <li>Categorias</li>
-            <li>Parcelamentos</li>
-            <li>Importação de Excel</li>
+            <li data-i18n="produtos.f1">Fluxo financeiro</li>
+            <li data-i18n="produtos.f2">Contas a pagar e receber</li>
+            <li data-i18n="produtos.f3">Categorias</li>
+            <li data-i18n="produtos.f4">Parcelamentos</li>
+            <li data-i18n="produtos.f5">Importação de Excel</li>
           </ul>
           <div class="fp-cta">
             <a href="apps/ledger/" target="_blank" rel="noopener" class="btn btn-primary">
-              Experimentar
+              <span data-i18n="produtos.experimentar">Experimentar</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
             </a>
-            <span class="fp-price">A partir de R$&nbsp;397/mês</span>
+            <span class="fp-price" data-i18n="produtos.preco">A partir de R$&nbsp;397/mês</span>
           </div>
         </div>
       </article>
@@ -310,10 +559,10 @@
             </div>
           </div>
           <div class="proj-body">
-            <span class="proj-meta">Comercial</span>
+            <span class="proj-meta" data-i18n="produtos.crmMeta">Comercial</span>
             <h3>CRM</h3>
-            <p>Pipeline, follow-up e relatórios de vendas.</p>
-            <span class="proj-cta">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            <p data-i18n="produtos.crmDesc">Pipeline, follow-up e relatórios de vendas.</p>
+            <span class="proj-cta" data-i18n="produtos.vercaso">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
           </div>
         </a>
 
@@ -324,10 +573,10 @@
             </div>
           </div>
           <div class="proj-body">
-            <span class="proj-meta">Agendamento</span>
+            <span class="proj-meta" data-i18n="produtos.maniMeta">Agendamento</span>
             <h3>Manicure</h3>
-            <p>Agenda online e lembretes automáticos.</p>
-            <span class="proj-cta">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            <p data-i18n="produtos.maniDesc">Agenda online e lembretes automáticos.</p>
+            <span class="proj-cta" data-i18n="produtos.vercaso">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
           </div>
         </a>
 
@@ -338,10 +587,10 @@
             </div>
           </div>
           <div class="proj-body">
-            <span class="proj-meta">Oficina</span>
+            <span class="proj-meta" data-i18n="produtos.mecanMeta">Oficina</span>
             <h3>Mecânica</h3>
-            <p>Ordem de serviço digital e orçamentos.</p>
-            <span class="proj-cta">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            <p data-i18n="produtos.mecanDesc">Ordem de serviço digital e orçamentos.</p>
+            <span class="proj-cta" data-i18n="produtos.vercaso">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
           </div>
         </a>
 
@@ -352,10 +601,10 @@
             </div>
           </div>
           <div class="proj-body">
-            <span class="proj-meta">Estoque</span>
+            <span class="proj-meta" data-i18n="produtos.stoqMeta">Estoque</span>
             <h3>Estoque</h3>
-            <p>Código de barras, mínimo e curva ABC.</p>
-            <span class="proj-cta">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            <p data-i18n="produtos.stoqDesc">Código de barras, mínimo e curva ABC.</p>
+            <span class="proj-cta" data-i18n="produtos.vercaso">Ver caso <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
           </div>
         </a>
 
@@ -364,7 +613,7 @@
       <!-- Dito uma vez, em letra pequena: são demonstrações com dados
            inventados, não case de cliente. Omitir isso seria deixar a
            página sugerir uma carteira que ainda não existe. -->
-      <p class="nota reveal">
+      <p class="nota reveal" data-i18n="produtos.nota">
         Os quatro projetos acima são demonstrações navegáveis, com dados fictícios.
       </p>
 
@@ -374,33 +623,78 @@
   <!-- ============================================================
        COMO TRABALHAMOS — três passos numa linha, sem bloco de texto.
        ============================================================ -->
-  <section id="como-fazemos" class="processo">
+  <section id="como-fazemos" class="jornada t-ink">
     <div class="container">
 
       <div class="secao-topo reveal">
-        <span class="eyebrow">Como funciona</span>
-        <h2>Três passos. <span class="grad-text">Nenhuma enrolação.</span></h2>
+        <span class="eyebrow" data-i18n="jornada.eyebrow">Método</span>
+        <h2><span data-i18n="jornada.h2a">Onde outros enxergam problemas,</span> <span class="grad-text" data-i18n="jornada.h2b">nós criamos soluções.</span></h2>
+        <p class="lead" data-i18n="jornada.lead">Quatro etapas. Qualquer desafio.</p>
       </div>
 
-      <ol class="passos">
-        <li class="reveal" data-delay="1">
-          <span class="passo-n">01</span>
-          <h3>Entendemos</h3>
-          <p>15 minutos para entender o processo real.</p>
-        </li>
-        <li class="reveal" data-delay="2">
-          <span class="passo-n">02</span>
-          <h3>Construímos</h3>
-          <p>Entregamos em partes úteis, não meses depois.</p>
-        </li>
-        <li class="reveal" data-delay="3">
-          <span class="passo-n">03</span>
-          <h3>Evoluímos</h3>
-          <p>O sistema acompanha a operação.</p>
-        </li>
-      </ol>
+      <div class="arco reveal" style="--arc: clamp(64px, 10vw, 140px)">
+        <svg class="arco-linha" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M 120 225 Q 500 -25 880 225" />
+        </svg>
 
-      <p class="processo-fecho reveal" data-delay="3">Conversa antes de código.</p>
+        <div class="etapa">
+          <span class="etapa-no" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M11 8.5v5M8.5 11h5"/></svg>
+          </span>
+          <div class="etapa-corpo">
+            <h3 data-i18n="jornada.e1t">Diagnóstico</h3>
+            <ul>
+              <li data-i18n="jornada.e1a">Entendemos a dor real;</li>
+              <li data-i18n="jornada.e1b">Mapeamos o processo;</li>
+              <li data-i18n="jornada.e1c">Definimos a solução.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="etapa">
+          <span class="etapa-no" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8 9l-4 3 4 3"/><path d="M16 9l4 3-4 3"/><path d="M13.5 7l-3 10"/></svg>
+          </span>
+          <div class="etapa-corpo">
+            <h3 data-i18n="jornada.e2t">Desenvolvimento</h3>
+            <ul>
+              <li data-i18n="jornada.e2a">App, site, sistema ou BI;</li>
+              <li data-i18n="jornada.e2b">Entregas em partes;</li>
+              <li data-i18n="jornada.e2c">Você usa antes do fim.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="etapa">
+          <span class="etapa-no" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9.5 14.5l5-5"/><path d="M11 6l1.2-1.2a4 4 0 0 1 5.7 5.7L17 12"/><path d="M13 18l-1.2 1.2a4 4 0 0 1-5.7-5.7L7 12"/></svg>
+          </span>
+          <div class="etapa-corpo">
+            <h3 data-i18n="jornada.e3t">Integração</h3>
+            <ul>
+              <li data-i18n="jornada.e3a">Conecta ao que você usa;</li>
+              <li data-i18n="jornada.e3b">Dados migrados;</li>
+              <li data-i18n="jornada.e3c">Equipe treinada.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="etapa">
+          <span class="etapa-no" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17l5-5 4 4 8-8"/><path d="M15 8h6v6"/></svg>
+          </span>
+          <div class="etapa-corpo">
+            <h3 data-i18n="jornada.e4t">Evolução</h3>
+            <ul>
+              <li data-i18n="jornada.e4a">Suporte direto;</li>
+              <li data-i18n="jornada.e4b">Melhoria contínua;</li>
+              <li data-i18n="jornada.e4c">Roadmap do seu lado.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <p class="jornada-fecho reveal" data-i18n="jornada.fecho">Conversa antes de código.</p>
 
     </div>
   </section>
@@ -413,35 +707,32 @@
     <div class="container">
 
       <div class="secao-topo reveal">
-        <span class="eyebrow">Quem somos</span>
-        <h2>Dois engenheiros. Uma obsessão: <span class="grad-text">simplificar operação.</span></h2>
+        <span class="eyebrow" data-i18n="quem.eyebrow">Quem somos</span>
+        <h2><span data-i18n="quem.h2a">Dois engenheiros. Uma obsessão:</span> <span class="grad-text" data-i18n="quem.h2b">simplificar operação.</span></h2>
       </div>
 
       <div class="quem-grade">
-        <article class="pessoa reveal" data-delay="1">
-          <!-- O wrapper .pessoa-foto existe para clipar o transform:scale
-               da imagem. Sem ele, o zoom estourava a caixa de 96px e a
-               foto invadia a coluna do texto. -->
-          <div class="pessoa-foto" style="--zoom:1.3;--sobe:-10%">
+        <article class="pessoa-card reveal" data-delay="1">
+          <div class="pessoa-card-foto">
             <img src="assets/equipe/higor.webp" alt="Higor Cabral"
-                 width="192" height="192" loading="lazy" decoding="async">
+                 width="192" height="192" loading="lazy" decoding="async" style="--zoom:1.25;--sobe:-8%">
           </div>
-          <div class="pessoa-corpo">
-            <h3>Higor</h3>
-            <span class="pessoa-papel">Co-fundador · Engenharia da Computação</span>
-            <p>TI corporativa, automação, integrações e sistemas. É quem conecta o que já existe na empresa ao que precisa passar a funcionar sozinho.</p>
+          <div class="pessoa-card-txt">
+            <span class="pessoa-papel" data-i18n="quem.higorPapel">Cofundador · Eng. da Computação</span>
+            <h3>Higor Cabral</h3>
+            <p data-i18n="quem.higorBio">TI corporativa, automação, integrações e sistemas. É quem conecta o que já existe na empresa ao que precisa passar a funcionar sozinho.</p>
           </div>
         </article>
 
-        <article class="pessoa reveal" data-delay="2">
-          <div class="pessoa-foto" style="--zoom:1.3;--sobe:0%;--foco:0%;--lado:-5%">
+        <article class="pessoa-card reveal" data-delay="2">
+          <div class="pessoa-card-foto">
             <img src="assets/equipe/fernanda.webp" alt="Fernanda Rodrigues"
-                 width="192" height="192" loading="lazy" decoding="async">
+                 width="192" height="192" loading="lazy" decoding="async" style="--zoom:1.22;--foco:0%;--lado:-4%">
           </div>
-          <div class="pessoa-corpo">
-            <h3>Fernanda</h3>
-            <span class="pessoa-papel">Co-fundadora · Engenharia da Computação</span>
-            <p>Dados, riscos, controles, segurança e operação. É quem olha para o sistema procurando onde ele falha antes de o cliente encontrar.</p>
+          <div class="pessoa-card-txt">
+            <span class="pessoa-papel" data-i18n="quem.fePapel">Cofundadora · Eng. da Computação</span>
+            <h3>Fernanda Rodrigues</h3>
+            <p data-i18n="quem.feBio">Dados, riscos, controles, segurança e operação. É quem olha para o sistema procurando onde ele falha antes de o cliente encontrar.</p>
           </div>
         </article>
       </div>
@@ -460,76 +751,165 @@
        ============================================================ -->
   <section id="primeiros" class="primeiros">
     <div class="container">
+      <div class="prim-split">
 
-      <div class="secao-topo reveal">
-        <span class="eyebrow">Compromissos</span>
-        <h2>O que você pode <span class="grad-text">esperar da Hifera.</span></h2>
-      </div>
+        <figure class="prim-foto reveal">
+          <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=820&auto=format&q=70"
+               alt="" loading="lazy" decoding="async" onerror="this.remove()">
+          <figcaption class="prim-foto-cap">
+            <span class="eyebrow" data-i18n="prim.eyebrow">Compromissos</span>
+            <span class="prim-foto-t"><span data-i18n="prim.fotoA">Não vendemos ferramenta.</span> <span class="grad-text" data-i18n="prim.fotoB">Resolvemos problema.</span></span>
+          </figcaption>
+        </figure>
 
-      <div class="prim-grid">
-        <article class="prim-card reveal" data-delay="1">
-          <span class="prim-n" aria-hidden="true">01</span>
-          <h3>Preço transparente</h3>
-          <p>
-            Você sabe o que vai pagar antes de assinar. A condição é definida
-            pelo escopo acordado, sem taxa escondida nem cobrança surpresa
-            durante o ciclo contratado.
-          </p>
-        </article>
+        <div class="prim-lista reveal" data-delay="1">
+          <article class="prim-item">
+            <span class="prim-n" aria-hidden="true">01</span>
+            <div class="prim-item-txt">
+              <h3 data-i18n="prim.c1t">Preço transparente</h3>
+              <p data-i18n="prim.c1p">Você sabe o que vai pagar antes de assinar. A condição é o escopo acordado, sem taxa escondida.</p>
+            </div>
+          </article>
+          <article class="prim-item">
+            <span class="prim-n" aria-hidden="true">02</span>
+            <div class="prim-item-txt">
+              <h3 data-i18n="prim.c2t">Roadmap do seu lado</h3>
+              <p data-i18n="prim.c2p">O que você pede entra na fila junto com o roteiro do produto, ordenado por impacto real na sua operação.</p>
+            </div>
+          </article>
+          <article class="prim-item">
+            <span class="prim-n" aria-hidden="true">03</span>
+            <div class="prim-item-txt">
+              <h3 data-i18n="prim.c3t">Suporte direto com quem constrói</h3>
+              <p data-i18n="prim.c3p">Sem camada de atendimento. Você fala com quem escreveu o sistema e tem resposta em até 24h úteis.</p>
+            </div>
+          </article>
+          <article class="prim-item">
+            <span class="prim-n" aria-hidden="true">04</span>
+            <div class="prim-item-txt">
+              <h3 data-i18n="prim.c4t">Seus dados, sempre seus</h3>
+              <p data-i18n="prim.c4p">Exportamos tudo o que é seu em formato aberto, a qualquer momento. Sem lock-in.</p>
+            </div>
+          </article>
 
-        <article class="prim-card reveal" data-delay="2">
-          <span class="prim-n" aria-hidden="true">02</span>
-          <h3>Roadmap do seu lado</h3>
-          <p>
-            O que você pede entra na fila de desenvolvimento junto com o
-            roteiro do produto. A ordem é definida por impacto real na sua
-            operação, não por quem gritou mais alto.
-          </p>
-        </article>
-
-        <article class="prim-card reveal" data-delay="3">
-          <span class="prim-n" aria-hidden="true">03</span>
-          <h3>Suporte direto com quem constrói</h3>
-          <p>
-            Sem camada de atendimento, sem ticket que some. Você fala com quem
-            escreveu o sistema e tem resposta em até 24h úteis.
-          </p>
-        </article>
-
-        <article class="prim-card reveal" data-delay="4">
-          <span class="prim-n" aria-hidden="true">04</span>
-          <h3>Seus dados, sempre seus</h3>
-          <p>
-            Exportamos tudo o que é seu (contratos, cadastros, histórico) em
-            formato aberto a qualquer momento. Sem lock-in técnico, sem
-            dependência de fornecedor pra ter acesso ao que já é da empresa.
-          </p>
-        </article>
-      </div>
-
-      <!-- A página de segurança é a munição de quem está desconfiado, e é
-           aqui que a desconfiança aparece — não escondida atrás de um item
-           de menu. -->
-      <div class="prim-seg reveal" data-delay="4">
-        <div class="prim-seg-txt">
-          <h3>Confiar a operação da empresa a um fornecedor exige mais que boa conversa.</h3>
-          <p>
-            Escrevemos por extenso como os dados são guardados, quem acessa o quê,
-            o que acontece em caso de descontinuidade e o que ainda está em evolução.
-          </p>
+          <div class="prim-seg">
+            <span class="prim-seg-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l8 3v6c0 5-3.5 8-8 11-4.5-3-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>
+            </span>
+            <div class="prim-seg-txt">
+              <p data-i18n="prim.segP">Escrevemos por extenso como os dados são guardados, quem acessa o quê e o que acontece em caso de descontinuidade.</p>
+              <a href="seguranca.html" class="prim-seg-link">
+                <span data-i18n="prim.segBtn">Ler sobre segurança</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
         </div>
-        <a href="seguranca.html" class="btn btn-ghost">
-          Ler como tratamos segurança
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BLOG / CONTEÚDOS — simulação de uma trilha de publicações do
+       último ano (inspirado na seção de blog da Saask). Os posts são
+       demonstrativos; quando houver páginas reais, cada card aponta
+       para o artigo. As datas sobem de nov/2025 a out/2026.
+       ============================================================ -->
+  <section id="blog" class="blog">
+    <div class="container">
+
+      <div class="blog-topo">
+        <div class="secao-topo reveal" style="margin-bottom:0">
+          <span class="eyebrow" data-i18n="blog.eyebrow">Conteúdos</span>
+          <h2><span data-i18n="blog.h2a">Ideias que viram</span> <span class="grad-text" data-i18n="blog.h2b">solução.</span></h2>
+        </div>
+        <a href="#blog" class="btn btn-ghost reveal" data-delay="1">
+          <span data-i18n="blog.todosTop">Ver todos os artigos</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
       </div>
 
-      <div class="prim-pe reveal" data-delay="4">
-        <a href="#contato" class="btn btn-primary">
-          Quero conversar com a Hifera
+      <div class="blog-destaque">
+        <a href="#blog" class="post-feat reveal">
+          <div class="post-media">
+            <span class="post-tag" data-i18n="blog.fTag">Opinião</span>
+            <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=900&auto=format&q=70" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+          </div>
+          <div class="post-body">
+            <div class="post-meta-top"><span class="post-data">14 out 2026</span><span class="post-min">6 min</span></div>
+            <h3 data-i18n="blog.fT">Site bonito não vende sozinho: o que faz um site trazer cliente</h3>
+            <p data-i18n="blog.fX">Velocidade, clareza e um caminho curto até o contato valem mais que animação.</p>
+            <div class="post-foot">
+              <span class="post-autor">Higor Cabral</span>
+              <span class="post-mais" data-i18n="blog.ler">Ler artigo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </div>
+          </div>
+        </a>
+
+        <a href="#blog" class="post-card post-sec reveal" data-delay="1">
+          <div class="post-media">
+            <span class="post-tag" data-i18n="blog.sTag">Dados</span>
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&q=70" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+          </div>
+          <div class="post-body">
+            <div class="post-meta-top"><span class="post-data">17 set 2026</span><span class="post-min">7 min</span></div>
+            <h3 data-i18n="blog.sT">Power BI sem dado confiável é só um gráfico bonito</h3>
+            <div class="post-foot"><span class="post-autor">Fernanda Rodrigues</span></div>
+          </div>
+        </a>
+      </div>
+
+      <div class="blog-grid blog-grid--3">
+        <a href="#blog" class="post-card reveal" data-delay="1">
+          <div class="post-media">
+            <span class="post-tag" data-i18n="blog.c1tag">Automação</span>
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&auto=format&q=70" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+          </div>
+          <div class="post-body">
+            <div class="post-meta-top"><span class="post-data">11 ago 2026</span><span class="post-min">5 min</span></div>
+            <h3 data-i18n="blog.c1t">Automatize uma etapa primeiro: o método do menor passo</h3>
+            <p data-i18n="blog.c1x">Começar pequeno, ver funcionando e só então decidir o resto.</p>
+            <span class="post-mais" data-i18n="blog.ler">Ler artigo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </div>
+        </a>
+
+        <a href="#blog" class="post-card reveal" data-delay="2">
+          <div class="post-media">
+            <span class="post-tag" data-i18n="blog.c2tag">Aplicativos</span>
+            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&auto=format&q=70" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+          </div>
+          <div class="post-body">
+            <div class="post-meta-top"><span class="post-data">23 jul 2026</span><span class="post-min">6 min</span></div>
+            <h3 data-i18n="blog.c2t">App ou sistema web? Como decidir o que sua empresa precisa</h3>
+            <p data-i18n="blog.c2x">Nem todo problema pede um app na loja. Um guia prático para escolher certo.</p>
+            <span class="post-mais" data-i18n="blog.ler">Ler artigo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </div>
+        </a>
+
+        <a href="#blog" class="post-card reveal" data-delay="3">
+          <div class="post-media">
+            <span class="post-tag" data-i18n="blog.c3tag">Operação</span>
+            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&auto=format&q=70" alt="" loading="lazy" decoding="async" onerror="this.remove()">
+          </div>
+          <div class="post-body">
+            <div class="post-meta-top"><span class="post-data">19 jun 2026</span><span class="post-min">5 min</span></div>
+            <h3 data-i18n="blog.c3t">A planilha não é a vilã — virar sistema sozinha é</h3>
+            <p data-i18n="blog.c3x">Quando a planilha vira o sistema da empresa, cada ajuste vira risco.</p>
+            <span class="post-mais" data-i18n="blog.ler">Ler artigo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+          </div>
+        </a>
+      </div>
+
+      <div class="blog-pe reveal">
+        <a href="#blog" class="btn btn-primary">
+          <span data-i18n="blog.verTodos">Ver todos os artigos</span>
+          <span class="blog-count">· 12</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
       </div>
+
+      <p class="nota nota--centro reveal" data-i18n="blog.nota">Conteúdos demonstrativos para esta prévia — em breve, artigos completos.</p>
 
     </div>
   </section>
@@ -542,32 +922,40 @@
   <section id="faq" class="faq-section">
     <div class="container">
 
-      <div class="secao-topo reveal">
-        <span class="eyebrow">Dúvidas</span>
-        <h2>Antes de <span class="grad-text">perguntar.</span></h2>
+      <div class="faq-split">
+      <div class="faq-aside reveal">
+        <span class="eyebrow" data-i18n="faq.eyebrow">Dúvidas</span>
+        <h2><span data-i18n="faq.h2a">Antes de</span> <span class="grad-text" data-i18n="faq.h2b">perguntar.</span></h2>
+        <p class="lead" data-i18n="faq.sub">As dúvidas que mais aparecem na primeira conversa.</p>
+        <p class="faq-mail"><a href="mailto:comercial@hifera.com.br">comercial@hifera.com.br</a></p>
       </div>
 
       <div class="faq-list reveal" data-delay="1">
         <details class="faq-item" name="faq">
-          <summary><span>Quanto tempo leva para ficar pronto?</span><span class="faq-icon" aria-hidden="true"></span></summary>
-          <div class="faq-a">Solução pronta: 3 a 7 dias úteis. Sob medida: 3 a 8 semanas, divididas em entregas que você já usa antes do fim.</div>
+          <summary><span data-i18n="faq.q0">Vocês atendem qualquer tipo de empresa?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+          <div class="faq-a" data-i18n="faq.a0">Sim. Atendemos de autônomo e pequeno negócio a empresas estruturadas — o que muda é o escopo, não o cuidado com a entrega.</div>
         </details>
         <details class="faq-item" name="faq">
-          <summary><span>Preciso entender de tecnologia?</span><span class="faq-icon" aria-hidden="true"></span></summary>
-          <div class="faq-a">Não. Se você usa planilha, você usa. Treinamento entra na implantação.</div>
+          <summary><span data-i18n="faq.q1">Quanto tempo leva para ficar pronto?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+          <div class="faq-a" data-i18n="faq.a1">Solução pronta: 3 a 7 dias úteis. Sob medida: 3 a 8 semanas, divididas em entregas que você já usa antes do fim.</div>
         </details>
         <details class="faq-item" name="faq">
-          <summary><span>Posso começar pequeno?</span><span class="faq-icon" aria-hidden="true"></span></summary>
-          <div class="faq-a">Pode, e é o que costumamos sugerir: automatizar uma etapa, ver funcionando, depois decidir o resto.</div>
+          <summary><span data-i18n="faq.q2">Preciso entender de tecnologia?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+          <div class="faq-a" data-i18n="faq.a2">Não. Se você usa planilha, você usa. Treinamento entra na implantação.</div>
         </details>
         <details class="faq-item" name="faq">
-          <summary><span>E se precisar de algo específico?</span><span class="faq-icon" aria-hidden="true"></span></summary>
-          <div class="faq-a">Aí é sob medida. Se você já usa uma solução pronta, os dados vão junto: não se recomeça do zero.</div>
+          <summary><span data-i18n="faq.q3">Posso começar pequeno?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+          <div class="faq-a" data-i18n="faq.a3">Pode, e é o que costumamos sugerir: automatizar uma etapa, ver funcionando, depois decidir o resto.</div>
         </details>
         <details class="faq-item" name="faq">
-          <summary><span>Como funciona o pagamento?</span><span class="faq-icon" aria-hidden="true"></span></summary>
-          <div class="faq-a">Mensalidade fixa, com ciclo e condições de encerramento definidos em contrato. Soluções prontas começam em R$ 197/mês; o Controle Financeiro, que é o produto mais amplo, em R$ 397/mês. Sob medida tem setup + mensalidade de suporte.</div>
+          <summary><span data-i18n="faq.q4">E se precisar de algo específico?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+          <div class="faq-a" data-i18n="faq.a4">Aí é sob medida. Se você já usa uma solução pronta, os dados vão junto: não se recomeça do zero.</div>
         </details>
+        <details class="faq-item" name="faq">
+          <summary><span data-i18n="faq.q5">Como funciona o pagamento?</span><span class="faq-icon" aria-hidden="true"></span></summary>
+          <div class="faq-a" data-i18n="faq.a5">Mensalidade fixa, com ciclo e condições de encerramento definidos em contrato. Soluções prontas começam em R$ 197/mês; o Controle Financeiro, que é o produto mais amplo, em R$ 397/mês. Sob medida tem setup + mensalidade de suporte.</div>
+        </details>
+      </div>
       </div>
 
     </div>
@@ -584,8 +972,8 @@
       <div class="fim-grade">
 
         <div class="fim-txt reveal">
-          <h2>Tem alguma coisa na sua operação que <span class="grad-text">não deveria mais ser manual?</span></h2>
-          <p>Conta pra gente o que acontece hoje. A primeira conversa é gratuita.</p>
+          <h2><span data-i18n="fim.h2a">Sua ideia merece mais do que código.</span> <span class="grad-text" data-i18n="fim.h2b">Merece uma solução.</span></h2>
+          <p data-i18n="fim.p">Conta pra gente o problema, não a solução. A primeira conversa é gratuita.</p>
           <p class="fim-mail">
             <a href="mailto:comercial@hifera.com.br">comercial@hifera.com.br</a>
             <a class="cta-alt-zap" data-canal="whatsapp" href="#" target="_blank" rel="noopener" hidden>WhatsApp</a>
@@ -595,34 +983,35 @@
         <div class="conversa-box reveal" data-delay="1">
           <form class="cta-form" id="form-contato" novalidate>
             <div class="campo">
-              <label for="f-nome">Nome</label>
+              <label for="f-nome" data-i18n="fim.labelNome">Nome</label>
               <input type="text" id="f-nome" name="nome" autocomplete="name"
                      required aria-required="true" aria-describedby="e-nome">
               <p class="campo-erro" id="e-nome" hidden></p>
             </div>
             <div class="campo">
-              <label for="f-retorno">E-mail ou WhatsApp</label>
+              <label for="f-retorno" data-i18n="fim.labelRetorno">E-mail ou WhatsApp</label>
               <input type="text" id="f-retorno" name="retorno" autocomplete="email"
                      inputmode="email" required aria-required="true" aria-describedby="e-retorno">
               <p class="campo-erro" id="e-retorno" hidden></p>
             </div>
             <div class="campo">
-              <label for="f-recado">O que está travando hoje</label>
+              <label for="f-recado" data-i18n="fim.labelRecado">O que está travando hoje</label>
               <textarea id="f-recado" name="recado" rows="3" required aria-required="true"
                         aria-describedby="e-recado"
+                        data-i18n-ph="fim.placeholder"
                         placeholder="Ex.: controlamos pedidos numa planilha e perdemos tempo atualizando."></textarea>
               <p class="campo-erro" id="e-recado" hidden></p>
             </div>
 
             <button type="submit" class="btn btn-primary" data-enviar>
-              <span data-rotulo>Vamos conversar</span>
+              <span data-rotulo data-i18n="fim.enviar">Vamos conversar</span>
               <svg class="btn-seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
               <span class="btn-spinner" aria-hidden="true"></span>
             </button>
 
             <span class="form-destino" data-destino></span>
             <p class="form-aviso" data-aviso role="status" aria-live="polite"></p>
-            <p class="form-lgpd">Seus dados serão usados apenas para responder você.</p>
+            <p class="form-lgpd" data-i18n="fim.lgpd">Seus dados serão usados apenas para responder você.</p>
           </form>
 
           <!-- Só aparece quando um servidor de verdade aceitar o envio.
@@ -631,9 +1020,9 @@
             <div class="form-ok-icone" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>
             </div>
-            <h3>Recebemos sua mensagem.</h3>
-            <p>Vamos ler com calma e responder em até 24h úteis.</p>
-            <button type="button" class="btn btn-ghost" data-voltar>Voltar para o site</button>
+            <h3 data-i18n="fim.okT">Recebemos sua mensagem.</h3>
+            <p data-i18n="fim.okP">Vamos ler com calma e responder em até 24h úteis.</p>
+            <button type="button" class="btn btn-ghost" data-voltar data-i18n="fim.voltar">Voltar para o site</button>
           </div>
         </div>
 
@@ -644,26 +1033,52 @@
 </main>
 
 <footer class="footer">
-  <div class="container footer-inner">
+  <div class="container footer-top">
     <div class="footer-marca">
-      <strong>HIFERA <span class="grad-text">COMPANY</span></strong>
-      <p>Tecnologia feita por quem vive operação real.</p>
-    </div>
-    <nav class="footer-links" aria-label="Rodapé">
-      <a href="#solucoes">Soluções</a>
-      <a href="#como-fazemos">Como fazemos</a>
-      <a href="#fundadores">Quem somos</a>
-      <a href="seguranca.html">Segurança</a>
-      <a href="#contato">Contato</a>
-    </nav>
-    <div class="footer-pe">
-      <a href="mailto:comercial@hifera.com.br">comercial@hifera.com.br</a>
-      <span>© 2026</span>
+      <a href="#top" class="footer-logo">
+        <img src="assets/logo/HiferaIcon.png" alt="" aria-hidden="true">
+        <strong>HIFERA <span class="grad-text">COMPANY</span></strong>
+      </a>
+      <p data-i18n="footer.tagline">Tecnologia feita por quem vive operação real.</p>
       <!-- Entram sozinhos quando forem configurados em js/contato.js -->
       <a data-canal="whatsapp" href="#" target="_blank" rel="noopener" hidden>WhatsApp</a>
       <div class="footer-redes" data-redes hidden></div>
     </div>
+
+    <nav class="footer-col" aria-label="Navegação">
+      <h4 data-i18n="footer.navTit">Navegação</h4>
+      <a href="#como-fazemos" data-i18n="footer.metodo">Método</a>
+      <a href="#servicos" data-i18n="footer.servicos">Serviços</a>
+      <a href="#diferenciais" data-i18n="footer.diferenciais">Diferenciais</a>
+      <a href="#fundadores" data-i18n="footer.quem">Quem somos</a>
+      <a href="#blog" data-i18n="footer.blog">Conteúdos</a>
+    </nav>
+
+    <nav class="footer-col" aria-label="Serviços">
+      <h4 data-i18n="footer.servTit">Serviços</h4>
+      <a href="#servicos" data-i18n="serv.s1t">Sistemas sob medida</a>
+      <a href="#servicos" data-i18n="serv.s2t">Softwares e SaaS</a>
+      <a href="#servicos" data-i18n="serv.s3t">Aplicativos</a>
+      <a href="#servicos" data-i18n="serv.s4t">Sites e landing pages</a>
+      <a href="#servicos" data-i18n="serv.s5t">Automação de processos</a>
+      <a href="#servicos" data-i18n="serv.s6t">Dashboards e BI</a>
+    </nav>
+
+    <nav class="footer-col" aria-label="Empresa">
+      <h4 data-i18n="footer.empTit">Empresa</h4>
+      <a href="seguranca.html" data-i18n="footer.seg">Segurança</a>
+      <a href="portal/" data-i18n="footer.portal">Portal do cliente</a>
+      <a href="apps/ledger/" data-i18n="footer.ledger">Ledger</a>
+      <a href="#contato" data-i18n="footer.contato">Contato</a>
+    </nav>
   </div>
+
+  <div class="container footer-base">
+    <span>© 2026 Hifera Company. <span data-i18n="footer.direitos">Todos os direitos reservados.</span></span>
+    <a href="https://www.hifera.com.br/">hifera.com.br</a>
+  </div>
+
+  <div class="footer-dagua" aria-hidden="true">HIFERA</div>
 </footer>
 
 <!-- Vitrine: lista publicada pelo painel (/modulos/admin → Publicar).
@@ -674,6 +1089,10 @@
 <!-- Canais de contato. Ponto único onde WhatsApp, redes sociais e o
      destino do formulário são configurados. -->
 <script src="js/contato.js?v=3"></script>
+
+<!-- Tradução PT/EN/DE do botão de idioma. Captura o PT do HTML e aplica
+     EN/DE do dicionário; a escolha fica salva no navegador. -->
+<script src="js/i18n.js?v=2"></script>
 
 <script>
 /* ==============================================================

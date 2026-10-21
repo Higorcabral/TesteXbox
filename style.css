@@ -22,6 +22,15 @@
      o fundo escuro; esta rampa mantém a identidade e fica em 7:1. */
   --grad-text:     linear-gradient(135deg, #5de0e6 0%, #4d9fe8 100%);
 
+  /* Azul-marinho profundo da marca, usado para dar "ritmo de cor" entre
+     seções sem sair da paleta (o dinamismo que gostamos na Nubank, mas
+     em ciano→azul, não em roxo). */
+  --ink:           #061a33;   /* azul bem escuro, base de faixa-destaque */
+  --ink-2:         #04284f;
+  --grad-soft:     linear-gradient(160deg, rgba(0,74,173,0.14), rgba(93,224,230,0.05));
+  --glow-cyan:     rgba(93, 224, 230, 0.26);
+  --glow-blue:     rgba(0, 74, 173, 0.30);
+
   --ease-spring:   cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
 
@@ -313,18 +322,61 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
   position: relative;
   overflow: hidden;
 }
-/* Um brilho difuso atrás do produto, só. Substitui o parallax, a grade
-   e os três radiais que a versão anterior empilhava. */
+/* Aurora dupla: um brilho ciano (a marca) encontrando um violeta (a cor
+   de apoio nova). Os dois flutuam devagar — o movimento é o que dá a
+   sensação de "página viva" pedida, sem pesar. Inspiração direta no arco
+   luminoso da Saask e nos glows ambientes da Hook. */
 .hero::before {
   content: '';
   position: absolute;
-  top: -10%; right: -15%;
-  width: 70%; aspect-ratio: 1;
-  background: radial-gradient(circle, rgba(0, 74, 173, 0.28), transparent 62%);
+  top: -12%; right: -14%;
+  width: 72%; aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(93, 224, 230, 0.26), rgba(0, 74, 173, 0.14) 45%, transparent 66%);
   pointer-events: none;
   z-index: 0;
+  animation: aurora-a 16s ease-in-out infinite alternate;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -28%; left: -18%;
+  width: 66%; aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(0, 74, 173, 0.34), rgba(0, 74, 173, 0.12) 46%, transparent 68%);
+  pointer-events: none;
+  z-index: 0;
+  animation: aurora-b 20s ease-in-out infinite alternate;
+}
+@keyframes aurora-a {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(-5%, 5%, 0) scale(1.12); }
+}
+@keyframes aurora-b {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(6%, -4%, 0) scale(1.15); }
+}
+/* O arco de horizonte — a assinatura visual da Saask/Hook. Uma linha de
+   luz curva no topo do hero, feita só com gradientes. */
+.hero-arco {
+  position: absolute;
+  top: calc(var(--nav-h) - 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150%;
+  aspect-ratio: 2 / 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(60% 90% at 50% 100%, rgba(93, 224, 230, 0.22), transparent 70%);
+  box-shadow: inset 0 2px 44px -6px rgba(0, 74, 173, 0.55);
+  border-top: 1px solid rgba(93, 224, 230, 0.26);
+  pointer-events: none;
+  z-index: 0;
+  mask: linear-gradient(to bottom, #000 0%, transparent 42%);
+  -webkit-mask: linear-gradient(to bottom, #000 0%, transparent 42%);
 }
 .hero > .container { position: relative; z-index: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .hero::before, .hero::after { animation: none; }
+}
 .hero-grade {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
@@ -1183,4 +1235,719 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
 .preloader-bar::before,
 .scroll-line::after {
   background-origin: border-box;
+}
+
+/* =====================================================================
+   RITMO DE COR DENTRO DA PALETA  (dark + ciano, estilo Saask)
+   ---------------------------------------------------------------------
+   Em vez de branco/roxo (fora da identidade), o dinamismo que gostamos
+   na Nubank vem de VARIAR O TOM dentro da própria paleta: preto, um
+   azul-marinho profundo e brilhos de ciano/azul. A marca não muda.
+   ===================================================================== */
+
+/* Headline viva: o span em gradiente do hero desliza em ciano→azul→ciano,
+   dentro da identidade. */
+.hero h1 .grad-text {
+  background: linear-gradient(100deg, #5de0e6 0%, #4d9fe8 40%, #5de0e6 80%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: desliza 9s linear infinite;
+}
+@keyframes desliza { to { background-position: 220% center; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero h1 .grad-text { animation: none; }
+}
+
+/* Vidro fosco (glassmorphism) com tom da marca — para cartões de
+   destaque sobre faixas escuras. */
+.glass {
+  background: rgba(93, 224, 230, 0.05);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(93, 224, 230, 0.18);
+}
+
+/* Faixa-destaque azul-marinho: o "momento de cor" da página, sem sair do
+   ciano/azul. Usada na jornada em meia-lua e no marquee de parceiros. */
+section.t-ink {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 150% at 50% 0%, rgba(0, 74, 173, 0.22), transparent 55%),
+    linear-gradient(180deg, #06101f 0%, #04284f 100%);
+  border-top: 1px solid var(--line);
+}
+section.t-ink > .container { position: relative; z-index: 1; }
+
+/* =====================================================================
+   PARCEIROS DIGITAIS — marquee (as logos passando, como na Saask)
+   ---------------------------------------------------------------------
+   Ferramentas que a Hifera usa no dia a dia, apresentadas como
+   "parceiros digitais". Trilho duplicado + translateX até -50%: o ponto
+   de emenda cai exatamente no fim da 1ª cópia, então o loop é contínuo.
+   ===================================================================== */
+.parceiros {
+  padding: clamp(40px, 6vw, 64px) 0;
+  border-top: 1px solid var(--line);
+  background: var(--bg-2);
+  overflow: hidden;
+}
+.parceiros-titulo {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.marquee {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  /* desfoque suave nas duas pontas, para o logo "entrar/sair" em vez de
+     cortar seco na borda da tela */
+  -webkit-mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: clamp(40px, 6vw, 76px);
+  padding-right: clamp(40px, 6vw, 76px);
+  animation: marquee 42s linear infinite;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(-100%); } }
+
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  color: var(--text-mid);
+  opacity: 0.72;
+  transition: opacity 240ms var(--ease-out), color 240ms;
+}
+.marca:hover { opacity: 1; color: var(--text); }
+.marca svg, .marca img { width: 24px; height: 24px; flex-shrink: 0; }
+.marca small {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-dim);
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; flex-wrap: wrap; justify-content: center; }
+}
+
+/* =====================================================================
+   JORNADA EM MEIA-LUA  (o arco da Saask, na paleta Hifera)
+   ---------------------------------------------------------------------
+   Quatro etapas sobre um arco. No desktop cada etapa é deslocada no
+   eixo Y para desenhar a meia-lua (as pontas embaixo, o meio no alto) e
+   uma curva SVG liga os nós por trás. No mobile vira lista de cartões.
+   ===================================================================== */
+.jornada { padding: var(--secao) 0; }
+.jornada .secao-topo { max-width: 52ch; margin-inline: auto; text-align: center; }
+.jornada .secao-topo .lead { margin-inline: auto; }
+
+.arco {
+  position: relative;
+  margin-top: clamp(40px, 6vw, 72px);
+  padding-top: var(--arc, 120px);   /* espaço para os nós do meio, que sobem */
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 32px);
+  align-items: start;
+}
+/* A curva que liga os nós. Fica atrás, desenhada por um SVG que ocupa
+   todo o arco. */
+.arco-linha {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 0;
+}
+.arco-linha path {
+  fill: none;
+  stroke: rgba(93, 224, 230, 0.28);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 7;
+}
+.etapa {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 6px;
+}
+/* O deslocamento que faz a meia-lua: pontas embaixo, meio no alto (as
+   duas colunas internas sobem; as externas ficam na base). O 1º filho do
+   .arco é o SVG da linha, por isso as etapas são nth-child 2 a 5. */
+.arco .etapa:nth-child(2) { transform: translateY(0); }
+.arco .etapa:nth-child(3) { transform: translateY(calc(-1 * var(--arc, 120px))); }
+.arco .etapa:nth-child(4) { transform: translateY(calc(-1 * var(--arc, 120px))); }
+.arco .etapa:nth-child(5) { transform: translateY(0); }
+
+.etapa-no {
+  position: relative;
+  width: 76px; height: 76px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  color: var(--cyan);
+  background: radial-gradient(circle at 50% 40%, rgba(93, 224, 230, 0.14), rgba(10,10,11,0.6) 70%);
+  border: 1px solid rgba(93, 224, 230, 0.45);
+  box-shadow: 0 0 0 6px rgba(93, 224, 230, 0.06), 0 0 34px -6px rgba(93, 224, 230, 0.5);
+}
+.etapa-no svg { width: 32px; height: 32px; }
+.etapa h3 { font-size: 16px; letter-spacing: 0.01em; margin-bottom: 14px; text-transform: uppercase; }
+.etapa ul { display: grid; gap: 8px; text-align: left; }
+.etapa li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 13.5px;
+  color: var(--text-mid);
+  line-height: 1.45;
+}
+.etapa li::before {
+  content: '';
+  position: absolute; left: 0; top: 6px;
+  width: 11px; height: 6px;
+  border-left: 2px solid var(--cyan);
+  border-bottom: 2px solid var(--cyan);
+  transform: rotate(-45deg);
+}
+.jornada-cta { display: flex; justify-content: center; margin-top: clamp(48px, 7vw, 88px); }
+.jornada-fecho {
+  margin-top: clamp(48px, 7vw, 88px);
+  text-align: center;
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+/* Mobile: desmonta o arco e vira cartões empilhados, como a Saask faz. */
+@media (max-width: 900px) {
+  .arco { grid-template-columns: 1fr; gap: 16px; }
+  .arco-linha { display: none; }
+  .arco .etapa {
+    transform: none !important;
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    gap: 18px;
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--bg-3);
+  }
+  .etapa-no { margin-bottom: 0; width: 60px; height: 60px; flex-shrink: 0; }
+  .etapa-no svg { width: 26px; height: 26px; }
+  .etapa-corpo { min-width: 0; }
+  .etapa h3 { margin-bottom: 10px; }
+}
+
+/* =====================================================================
+   BLOG — conteúdos (grade de cards, formato Saask)
+   ===================================================================== */
+.blog { padding: var(--secao) 0; background: var(--bg-2); border-top: 1px solid var(--line); }
+.blog-topo { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: clamp(36px, 5vw, 56px); }
+.blog-topo .secao-topo { margin-bottom: 0; }
+.blog-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.post-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 300ms var(--ease-out), transform 300ms var(--ease-spring), box-shadow 300ms;
+}
+.post-card:hover {
+  border-color: rgba(93, 224, 230, 0.35);
+  transform: translateY(-4px);
+  box-shadow: 0 26px 54px -30px rgba(0, 0, 0, 0.9);
+}
+.post-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  /* Fundo de marca por baixo: se a foto do Unsplash não carregar, o card
+     ainda fica com cara de intencional em vez de buraco cinza. */
+  background:
+    radial-gradient(120% 120% at 20% 10%, rgba(93,224,230,0.18), transparent 60%),
+    linear-gradient(140deg, #0e1a2b, #0a0a0b);
+  border-bottom: 1px solid var(--line);
+}
+.post-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms var(--ease-out); }
+.post-card:hover .post-media img { transform: scale(1.05); }
+.post-tag {
+  position: absolute; top: 12px; left: 12px;
+  padding: 5px 11px;
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #e9feff;
+  background: rgba(10, 16, 22, 0.72);
+  border: 1px solid rgba(93, 224, 230, 0.4);
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+}
+.post-body { padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.post-data { font-size: 12px; color: var(--text-dim); }
+.post-body h3 { font-size: 17px; line-height: 1.3; letter-spacing: -0.01em; }
+.post-body p { font-size: 13.5px; color: var(--text-mid); line-height: 1.55; flex: 1; }
+.post-mais {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 4px;
+  font-size: 13px; font-weight: 500; color: var(--cyan);
+}
+.post-mais svg { width: 14px; height: 14px; transition: transform 220ms var(--ease-spring); }
+.post-card:hover .post-mais svg { transform: translateX(3px); }
+@media (max-width: 920px) { .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .blog-grid { grid-template-columns: 1fr; } }
+
+/* =====================================================================
+   SELETOR DE IDIOMA  (PT / EN / DE)
+   ===================================================================== */
+.lang { position: relative; flex-shrink: 0; }
+.lang-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font-size: 13px; font-weight: 500;
+  transition: background 200ms, border-color 200ms;
+}
+.lang-btn:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255,255,255,0.3); }
+.lang-bandeira { width: 20px; height: 14px; border-radius: 3px; overflow: hidden; display: block; box-shadow: 0 0 0 1px rgba(255,255,255,0.12); }
+.lang-seta { width: 12px; height: 12px; transition: transform 240ms var(--ease-spring); opacity: 0.7; }
+.lang.is-open .lang-seta { transform: rotate(180deg); }
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 170px;
+  padding: 7px;
+  background: rgba(14, 14, 16, 0.96);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  box-shadow: 0 24px 50px -20px rgba(0,0,0,0.85);
+  display: grid;
+  gap: 2px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 200ms var(--ease-out), transform 240ms var(--ease-spring), visibility 200ms;
+  z-index: 120;
+}
+.lang.is-open .lang-menu { opacity: 1; visibility: visible; transform: none; }
+.lang-opt {
+  display: flex; align-items: center; gap: 11px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 9px;
+  font-size: 14px;
+  color: var(--text-mid);
+  text-align: left;
+  transition: background 180ms, color 180ms;
+}
+.lang-opt:hover { background: rgba(255,255,255,0.06); color: var(--text); }
+.lang-opt.is-ativo { color: var(--text); background: rgba(93,224,230,0.08); }
+.lang-opt .lang-bandeira { width: 22px; height: 15px; }
+/* No mobile, o seletor entra na gaveta, antes do CTA. */
+@media (max-width: 859.98px) {
+  .lang { order: 3; }
+}
+
+/* =====================================================================
+   HERO v2 — tagline, pilha de janelas em camadas e badges flutuantes
+   (a versão sofisticada do mockup). O produto principal continua sendo a
+   captura real; os painéis-fantasma atrás só dão profundidade.
+   ===================================================================== */
+.hero-tagline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 .4ch;
+  margin: 6px 0 20px;
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.hero-stack { position: relative; }
+/* O painel principal manda no tamanho do bloco; os fantasmas são
+   absolutos, então não empurram o layout. */
+.janela-main { position: relative; z-index: 3; }
+.janela-ghost {
+  position: absolute;
+  width: 78%;
+  z-index: 1;
+  opacity: 0.55;
+  filter: saturate(0.85) brightness(0.8);
+  box-shadow: 0 30px 60px -36px rgba(0, 0, 0, 0.9);
+}
+.janela-ghost img { width: 100%; display: block; }
+.janela-ghost-a { top: 14%; right: -10%; transform: rotate(3deg); z-index: 2; }
+.janela-ghost-b { top: -12%; left: -9%; transform: rotate(-4deg); }
+@media (max-width: 900px) { .janela-ghost { display: none; } }
+
+/* Badges: pílulas de vidro que flutuam de leve sobre o produto. */
+.hero-badge {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 15px;
+  border-radius: 14px;
+  background: rgba(14, 18, 24, 0.72);
+  border: 1px solid rgba(93, 224, 230, 0.22);
+  box-shadow: 0 20px 44px -22px rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+}
+.hero-badge-1 { top: 18%; right: -6%; animation: flutua 6s ease-in-out infinite; }
+.hero-badge-2 { bottom: 12%; left: -8%; animation: flutua 7s ease-in-out infinite reverse; }
+@keyframes flutua {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-9px); }
+}
+.hero-badge-ico {
+  display: grid; place-items: center;
+  width: 34px; height: 34px; flex-shrink: 0;
+  border-radius: 10px;
+  color: var(--cyan);
+  background: rgba(93, 224, 230, 0.1);
+  border: 1px solid rgba(93, 224, 230, 0.26);
+}
+.hero-badge-ico svg { width: 18px; height: 18px; }
+.hero-badge-ico-ok { color: #34d399; background: rgba(52, 211, 153, 0.12); border-color: rgba(52, 211, 153, 0.3); }
+.hero-badge-txt strong { display: block; font-size: 13px; font-weight: 600; letter-spacing: -0.01em; }
+.hero-badge-txt small { display: block; font-size: 11.5px; color: var(--text-mid); margin-top: 1px; }
+@media (max-width: 1040px) {
+  .hero-badge-1 { right: 0; }
+  .hero-badge-2 { left: 0; }
+}
+@media (max-width: 560px) {
+  .hero-badge { padding: 9px 12px; }
+  .hero-badge-txt small { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-badge-1, .hero-badge-2 { animation: none; }
+}
+
+/* =====================================================================
+   SINTOMAS — agora cartões com ícone (saiu a foto que não tinha ficado
+   boa). `.sintomas .sintoma` tem especificidade de sobra para derrubar o
+   border-top/padding-top da regra antiga `.sintomas li`.
+   ===================================================================== */
+.sintomas .sintoma {
+  padding: 30px 28px;
+  border: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--bg-3);
+  transition: border-color 320ms var(--ease-out), transform 320ms var(--ease-spring), box-shadow 320ms;
+}
+.sintomas .sintoma:hover {
+  border-color: rgba(93, 224, 230, 0.32);
+  transform: translateY(-4px);
+  box-shadow: 0 24px 50px -30px rgba(0, 0, 0, 0.9);
+}
+.sintoma-ico {
+  display: grid; place-items: center;
+  width: 54px; height: 54px;
+  margin-bottom: 20px;
+  border-radius: 14px;
+  color: var(--cyan);
+  background: rgba(93, 224, 230, 0.08);
+  border: 1px solid rgba(93, 224, 230, 0.24);
+  box-shadow: 0 0 26px -8px rgba(93, 224, 230, 0.4);
+}
+.sintoma-ico svg { width: 26px; height: 26px; }
+.sintomas .sintoma h3 { font-size: 18px; margin-bottom: 8px; }
+.sintomas .sintoma p { font-size: 14.5px; color: var(--text-mid); }
+
+/* Variante de 4 cards + topo centralizado (o bloco "O futuro do seu
+   negócio começa com a tecnologia certa"). */
+.tese-topo--centro { max-width: 60ch; margin-inline: auto; text-align: center; }
+.tese-topo--centro .lead { margin-inline: auto; }
+.sintomas--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1040px) { .sintomas--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px)  { .sintomas--4 { grid-template-columns: 1fr; } }
+.sintomas .sintoma { position: relative; }
+.sintoma-n {
+  position: absolute;
+  top: 24px; right: 26px;
+  font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
+  color: var(--text-dim); opacity: 0.55;
+}
+
+/* =====================================================================
+   DIFERENCIAIS — quatro painéis (gráfico, feed, stack, progresso)
+   ===================================================================== */
+.diferenciais { padding: var(--secao) 0; }
+.dif-grade {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: clamp(40px, 5vw, 64px);
+}
+@media (max-width: 860px) { .dif-grade { grid-template-columns: 1fr; } }
+.dif-card {
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.dif-card h3 { font-size: clamp(18px, 2vw, 22px); letter-spacing: -0.02em; margin-bottom: 22px; }
+
+/* Gráfico de horas caindo */
+.dif-chart { position: relative; }
+.dif-chart svg { width: 100%; height: 180px; display: block; overflow: visible; }
+.dif-grid { stroke: rgba(255, 255, 255, 0.07); stroke-width: 1; }
+.dif-line { fill: none; stroke: var(--cyan); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; filter: drop-shadow(0 0 8px rgba(93,224,230,0.5)); }
+.dif-area { fill: rgba(93, 224, 230, 0.12); }
+.dif-dot { fill: var(--cyan); stroke: #06101f; stroke-width: 2; }
+.dif-chip {
+  position: absolute; top: 2px; left: 42%;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 9px 13px;
+  border-radius: 12px;
+  background: rgba(14, 18, 24, 0.86);
+  border: 1px solid rgba(93, 224, 230, 0.22);
+  box-shadow: 0 14px 30px -16px rgba(0,0,0,0.9);
+}
+.dif-chip-ico { display: grid; place-items: center; width: 28px; height: 28px; flex-shrink: 0; border-radius: 8px; color: var(--cyan); background: rgba(93,224,230,0.12); }
+.dif-chip-ico svg { width: 15px; height: 15px; }
+.dif-chip strong { display: block; font-size: 12.5px; }
+.dif-chip small { display: block; font-size: 11px; color: var(--text-mid); }
+
+/* Feed de operação */
+.dif-feed { display: grid; gap: 10px; }
+.dif-feed li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 15px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.02);
+}
+.dif-feed-ico { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; color: var(--cyan); background: rgba(93,224,230,0.1); border: 1px solid rgba(93,224,230,0.2); }
+.dif-feed-ico svg { width: 17px; height: 17px; }
+.dif-feed-tag { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 2px; }
+.dif-feed li p { font-size: 13px; color: var(--text); line-height: 1.35; }
+.dif-feed time { font-size: 12px; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+
+/* Stack de tecnologia */
+.dif-stack { display: flex; flex-wrap: wrap; gap: 10px; }
+.dif-tec {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 13px;
+  font-size: 13.5px; font-weight: 500;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.03);
+  transition: border-color 220ms, transform 220ms var(--ease-spring);
+}
+.dif-tec:hover { border-color: rgba(93,224,230,0.35); transform: translateY(-2px); }
+.dif-tec img, .dif-tec svg { width: 18px; height: 18px; }
+
+/* Progresso do projeto */
+.dif-prog-topo { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+.dif-prog-rot { font-size: 13px; color: var(--text-mid); }
+.dif-prog-pct { font-size: 26px; font-weight: 700; margin-left: 10px; background: var(--grad-text); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+.dif-prog-bar { height: 8px; border-radius: 999px; background: rgba(255,255,255,0.08); overflow: hidden; margin-bottom: 22px; }
+.dif-prog-bar i { display: block; height: 100%; border-radius: 999px; background: var(--grad); }
+.dif-prog-lista { display: grid; gap: 2px; }
+.dif-prog-lista li { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 13px 2px; font-size: 14.5px; border-top: 1px solid var(--line); }
+.dif-prog-lista li:first-child { border-top: none; }
+.dif-badge { font-size: 11.5px; font-weight: 600; padding: 4px 11px; border-radius: 999px; white-space: nowrap; }
+.dif-badge-ok { color: #34d399; background: rgba(52,211,153,0.12); border: 1px solid rgba(52,211,153,0.3); }
+.dif-badge-run { color: var(--cyan); background: rgba(93,224,230,0.12); border: 1px solid rgba(93,224,230,0.3); }
+.dif-badge-next { color: var(--text-dim); background: rgba(255,255,255,0.05); border: 1px solid var(--line); }
+
+/* =====================================================================
+   SERVIÇOS — seis cards
+   ===================================================================== */
+.servicos { padding: var(--secao) 0; border-top: 1px solid var(--line); }
+.serv-grade { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 920px) { .serv-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 580px)  { .serv-grade { grid-template-columns: 1fr; } }
+.serv-card {
+  position: relative;
+  overflow: hidden;
+  padding: 30px 28px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--bg-3);
+  transition: border-color 320ms var(--ease-out), transform 320ms var(--ease-spring), box-shadow 320ms;
+}
+.serv-card:hover { border-color: rgba(93,224,230,0.32); transform: translateY(-4px); box-shadow: 0 26px 54px -30px rgba(0,0,0,0.9); }
+.serv-ico { display: grid; place-items: center; width: 52px; height: 52px; margin-bottom: 22px; border-radius: 14px; color: var(--cyan); background: rgba(93,224,230,0.08); border: 1px solid rgba(93,224,230,0.24); box-shadow: 0 0 26px -8px rgba(93,224,230,0.4); }
+.serv-ico svg { width: 26px; height: 26px; }
+.serv-n { position: absolute; top: 26px; right: 28px; font-size: 44px; font-weight: 800; line-height: 1; letter-spacing: -0.05em; color: rgba(255,255,255,0.05); pointer-events: none; }
+.serv-card h3 { font-size: 20px; letter-spacing: -0.02em; margin-bottom: 10px; }
+.serv-card > p { font-size: 14.5px; color: var(--text-mid); line-height: 1.55; margin-bottom: 20px; }
+.serv-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.serv-tags span { padding: 6px 12px; font-size: 12px; color: var(--text-mid); border: 1px solid var(--line); border-radius: 999px; }
+
+/* =====================================================================
+   COMPROMISSOS v2 — foto lateral + lista numerada + ponte de segurança
+   ===================================================================== */
+.prim-split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: stretch;
+}
+@media (max-width: 920px) { .prim-split { grid-template-columns: 1fr; } }
+.prim-foto {
+  position: relative; margin: 0; min-height: 440px;
+  border-radius: 24px; overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background: linear-gradient(160deg, #0e2340, #0a0a0b);
+}
+.prim-foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.82; }
+.prim-foto::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5,8,14,0.1) 25%, rgba(5,8,14,0.94)); }
+.prim-foto-cap { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: clamp(24px, 3vw, 34px); }
+.prim-foto-t { display: block; margin-top: 12px; font-size: clamp(24px, 3vw, 34px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+@media (max-width: 920px) { .prim-foto { min-height: 300px; } }
+
+.prim-lista { display: flex; flex-direction: column; }
+.prim-item { display: grid; grid-template-columns: auto 1fr; gap: 18px; padding: 20px 0; border-top: 1px solid var(--line); }
+.prim-item:first-child { border-top: none; padding-top: 0; }
+.prim-item .prim-n {
+  position: static;
+  font-size: 20px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;
+  background: var(--grad-text); -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+}
+.prim-item-txt h3 { font-size: 18px; margin-bottom: 6px; }
+.prim-item-txt p { font-size: 14px; color: var(--text-mid); line-height: 1.55; }
+
+.prim-lista .prim-seg {
+  display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start;
+  margin-top: 22px; padding: 22px;
+  border: 1px solid var(--line); border-radius: 16px; background: var(--bg-3);
+}
+.prim-seg-ico { display: grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0; border-radius: 12px; color: var(--cyan); background: rgba(93,224,230,0.1); border: 1px solid rgba(93,224,230,0.24); }
+.prim-seg-ico svg { width: 22px; height: 22px; }
+.prim-lista .prim-seg-txt p { font-size: 13.5px; color: var(--text-mid); line-height: 1.55; margin-bottom: 12px; }
+.prim-seg-link { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 500; color: var(--cyan); }
+.prim-seg-link svg { width: 15px; height: 15px; transition: transform 220ms var(--ease-spring); }
+.prim-seg-link:hover svg { transform: translateX(3px); }
+
+/* =====================================================================
+   QUEM SOMOS v2 — cards com foto maior e brilho azul atrás
+   ===================================================================== */
+.pessoa-card {
+  display: grid; grid-template-columns: 150px 1fr; gap: 24px; align-items: center;
+  padding: 24px;
+  border: 1px solid var(--line); border-radius: 22px; background: var(--bg-3);
+  transition: border-color 320ms var(--ease-out), transform 320ms var(--ease-spring);
+}
+.pessoa-card:hover { border-color: rgba(93,224,230,0.3); transform: translateY(-4px); }
+@media (max-width: 480px) { .pessoa-card { grid-template-columns: 1fr; text-align: center; } }
+.pessoa-card-foto {
+  position: relative; aspect-ratio: 3 / 4; border-radius: 16px; overflow: hidden;
+  background: radial-gradient(circle at 50% 28%, rgba(0,74,173,0.55), #0a0a0b 72%);
+  border: 1px solid var(--line-strong);
+}
+.pessoa-card-foto img {
+  width: 100%; height: 100%; object-fit: cover;
+  object-position: calc(50% + var(--lado, 0%)) var(--foco, 50%);
+  transform-origin: calc(50% + var(--lado, 0%)) calc(50% + var(--sobe, 0%));
+  transform: scale(var(--zoom, 1));
+}
+.pessoa-card-txt .pessoa-papel { display: block; margin: 0 0 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cyan); }
+.pessoa-card-txt h3 { font-size: clamp(22px, 2.4vw, 28px); letter-spacing: -0.02em; margin-bottom: 12px; }
+.pessoa-card-txt p { font-size: 14.5px; color: var(--text-mid); line-height: 1.6; max-width: 46ch; }
+
+/* =====================================================================
+   BLOG v2 — destaque + secundário + 3 cards, com autor/data/leitura
+   ===================================================================== */
+.blog-destaque { display: grid; grid-template-columns: 1.7fr 1fr; gap: 22px; margin-bottom: 22px; }
+@media (max-width: 920px) { .blog-destaque { grid-template-columns: 1fr; } }
+.post-feat {
+  display: grid; grid-template-columns: 1fr 1fr;
+  background: var(--bg-3); border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
+  transition: border-color 300ms var(--ease-out), transform 300ms var(--ease-spring), box-shadow 300ms;
+}
+.post-feat:hover { border-color: rgba(93,224,230,0.35); transform: translateY(-4px); box-shadow: 0 26px 54px -30px rgba(0,0,0,0.9); }
+.post-feat .post-media { border-bottom: none; aspect-ratio: auto; height: 100%; min-height: 280px; }
+.post-feat .post-body { position: relative; z-index: 1; background: var(--bg-3); padding: 28px; justify-content: center; }
+.post-feat h3 { font-size: clamp(20px, 2.2vw, 26px); line-height: 1.25; }
+.post-feat .post-body > p { font-size: 14.5px; }
+@media (max-width: 560px) {
+  .post-feat { grid-template-columns: 1fr; }
+  .post-feat .post-media { order: -1; aspect-ratio: 16 / 9; min-height: 0; }
+}
+.post-meta-top { display: flex; align-items: center; font-size: 12px; color: var(--text-dim); }
+.post-min { position: relative; margin-left: 14px; padding-left: 14px; }
+.post-min::before { content: ''; position: absolute; left: 0; top: 50%; width: 4px; height: 4px; margin-top: -2px; border-radius: 50%; background: currentColor; opacity: 0.6; }
+.post-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px; }
+.post-autor { font-size: 13px; font-weight: 500; color: var(--text); }
+.blog-pe { display: flex; justify-content: center; margin-top: clamp(32px, 4vw, 52px); }
+.blog-count { opacity: 0.75; }
+.nota--centro { text-align: center; margin-top: 18px; }
+
+/* =====================================================================
+   FAQ v2 — duas colunas (aside + acordeão)
+   ===================================================================== */
+.faq-split { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
+@media (max-width: 860px) { .faq-split { grid-template-columns: 1fr; gap: 28px; } }
+.faq-aside h2 { font-size: clamp(28px, 3.6vw, 44px); margin-top: 10px; }
+.faq-aside .lead { margin-top: 16px; }
+.faq-mail { margin-top: 22px; }
+.faq-mail a { font-size: 14.5px; color: var(--text-mid); border-bottom: 1px solid var(--line-strong); transition: color 200ms, border-color 200ms; }
+.faq-mail a:hover { color: var(--cyan); border-color: var(--cyan); }
+.faq-split .faq-list { max-width: none; }
+
+/* =====================================================================
+   RODAPÉ v2 — três colunas + marca d'água
+   ===================================================================== */
+.footer { position: relative; overflow: hidden; padding: clamp(56px, 7vw, 88px) 0 40px; border-top: 1px solid var(--line); }
+.footer-top { display: grid; grid-template-columns: 1.7fr 1fr 1fr 1fr; gap: clamp(28px, 4vw, 52px); position: relative; z-index: 1; }
+@media (max-width: 860px) { .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; } .footer-marca { grid-column: 1 / -1; } }
+.footer-logo { display: inline-flex; align-items: center; gap: 4px; }
+.footer-logo img { height: 56px; width: 56px; max-width: none; margin: -10px -14px -10px -6px; }
+.footer-logo strong { font-size: 15px; letter-spacing: 0.06em; }
+.footer-marca > p { margin-top: 12px; font-size: 13.5px; color: var(--text-mid); max-width: 32ch; }
+.footer-col h4 { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 16px; }
+.footer-col a { display: block; padding: 5px 0; font-size: 14px; color: var(--text-mid); transition: color 200ms var(--ease-out); }
+.footer-col a:hover { color: var(--cyan); }
+.footer-base {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px;
+  margin-top: clamp(40px, 5vw, 64px); padding-top: 24px; border-top: 1px solid var(--line);
+  position: relative; z-index: 1; font-size: 13px; color: var(--text-dim);
+}
+.footer-base a { color: var(--text-mid); transition: color 200ms; }
+.footer-base a:hover { color: var(--cyan); }
+.footer-dagua {
+  position: absolute; left: 50%; bottom: -3vw; transform: translateX(-50%);
+  font-size: clamp(90px, 20vw, 260px); font-weight: 800; line-height: 1; letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.022); pointer-events: none; z-index: 0; white-space: nowrap;
 }
