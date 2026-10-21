@@ -2098,3 +2098,15 @@ body { position: relative; }
 .blog-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 @media (max-width: 1040px) { .blog-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px)  { .blog-grid--4 { grid-template-columns: 1fr; } }
+
+/* Hero: legenda + pontos do carrossel do produto. */
+.hero-carrossel { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 18px; padding: 0 4px; }
+.hero-cap { font-size: 13px; color: var(--text-mid); }
+.hero-cap strong { color: var(--text); font-weight: 600; }
+.hero-dots { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+.hero-dots i { width: 6px; height: 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.2); transition: width 320ms var(--ease-out), background 320ms; }
+.hero-dots i.is-on { width: 22px; background: var(--grad); }
+@media (max-width: 900px) { .hero-carrossel { display: none; } }
+
+/* Pontos luminosos nas pontas do arco do Método. */
+.arc-ponto { fill: var(--cyan); filter: drop-shadow(0 0 6px rgba(93, 224, 230, 0.9)); }
