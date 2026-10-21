@@ -42,7 +42,7 @@
 <!-- Só os cinco pesos que o CSS usa, e só Poppins. O Instrument Serif
      era baixado em toda visita e não aparecia em regra nenhuma. -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=42">
+<link rel="stylesheet" href="style.css?v=43">
 <meta name="robots" content="noai, noimageai">
 
 <!-- Dados estruturados. Só o que a página realmente afirma — nada de
@@ -118,28 +118,19 @@
 
     <!-- Seletor de idioma. A bandeira/sigla do botão é espelhada da opção
          ativa pelo js/i18n.js; a escolha fica salva no navegador. -->
-    <div class="lang" id="lang">
-      <button type="button" class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-label="Idioma / Language">
-        <span class="lang-bandeira" id="langFlag" aria-hidden="true">
-          <svg viewBox="0 0 28 20"><rect width="28" height="20" fill="#009b3a"/><polygon points="14,2.5 25.5,10 14,17.5 2.5,10" fill="#ffdf00"/><circle cx="14" cy="10" r="4" fill="#002776"/></svg>
-        </span>
-        <span id="langCode">PT</span>
-        <svg class="lang-seta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    <div class="lang-seg" id="lang" role="group" aria-label="Idioma / Language">
+      <button type="button" class="lang-opt is-ativo" data-lang="pt" data-code="PT" aria-label="Português">
+        <span class="lang-bandeira" aria-hidden="true"><svg viewBox="0 0 28 20"><rect width="28" height="20" fill="#009b3a"/><polygon points="14,2.5 25.5,10 14,17.5 2.5,10" fill="#ffdf00"/><circle cx="14" cy="10" r="4" fill="#002776"/></svg></span>
+        <span class="lang-sig">PT</span>
       </button>
-      <div class="lang-menu" id="langMenu" role="menu" aria-label="Idiomas">
-        <button type="button" class="lang-opt is-ativo" data-lang="pt" data-code="PT" role="menuitem">
-          <span class="lang-bandeira" aria-hidden="true"><svg viewBox="0 0 28 20"><rect width="28" height="20" fill="#009b3a"/><polygon points="14,2.5 25.5,10 14,17.5 2.5,10" fill="#ffdf00"/><circle cx="14" cy="10" r="4" fill="#002776"/></svg></span>
-          <span>Português</span>
-        </button>
-        <button type="button" class="lang-opt" data-lang="en" data-code="EN" role="menuitem">
-          <span class="lang-bandeira" aria-hidden="true"><svg viewBox="0 0 28 20"><rect width="28" height="20" fill="#012169"/><path d="M0,0 L28,20 M28,0 L0,20" stroke="#fff" stroke-width="4"/><path d="M0,0 L28,20 M28,0 L0,20" stroke="#C8102E" stroke-width="2"/><rect x="11.5" width="5" height="20" fill="#fff"/><rect y="7.5" width="28" height="5" fill="#fff"/><rect x="12.75" width="2.5" height="20" fill="#C8102E"/><rect y="8.75" width="28" height="2.5" fill="#C8102E"/></svg></span>
-          <span>English</span>
-        </button>
-        <button type="button" class="lang-opt" data-lang="de" data-code="DE" role="menuitem">
-          <span class="lang-bandeira" aria-hidden="true"><svg viewBox="0 0 28 20"><rect width="28" height="6.67" fill="#000"/><rect y="6.67" width="28" height="6.67" fill="#dd0000"/><rect y="13.34" width="28" height="6.66" fill="#ffce00"/></svg></span>
-          <span>Deutsch</span>
-        </button>
-      </div>
+      <button type="button" class="lang-opt" data-lang="en" data-code="EN" aria-label="English">
+        <span class="lang-bandeira" aria-hidden="true"><svg viewBox="0 0 28 20"><rect width="28" height="20" fill="#012169"/><path d="M0,0 L28,20 M28,0 L0,20" stroke="#fff" stroke-width="4"/><path d="M0,0 L28,20 M28,0 L0,20" stroke="#C8102E" stroke-width="2"/><rect x="11.5" width="5" height="20" fill="#fff"/><rect y="7.5" width="28" height="5" fill="#fff"/><rect x="12.75" width="2.5" height="20" fill="#C8102E"/><rect y="8.75" width="28" height="2.5" fill="#C8102E"/></svg></span>
+        <span class="lang-sig">EN</span>
+      </button>
+      <button type="button" class="lang-opt" data-lang="de" data-code="DE" aria-label="Deutsch">
+        <span class="lang-bandeira" aria-hidden="true"><svg viewBox="0 0 28 20"><rect width="28" height="6.67" fill="#000"/><rect y="6.67" width="28" height="6.67" fill="#dd0000"/><rect y="13.34" width="28" height="6.66" fill="#ffce00"/></svg></span>
+        <span class="lang-sig">DE</span>
+      </button>
     </div>
 
     <a href="#contato" class="nav-cta"><span data-i18n="nav.cta">Vamos conversar</span> <span aria-hidden="true">→</span></a>
@@ -337,6 +328,85 @@
   </section>
 
   <!-- ============================================================
+       COMO TRABALHAMOS — três passos numa linha, sem bloco de texto.
+       ============================================================ -->
+  <section id="como-fazemos" class="jornada t-ink">
+    <div class="container">
+
+      <div class="secao-topo reveal">
+        <span class="eyebrow" data-i18n="jornada.eyebrow">Método</span>
+        <h2><span data-i18n="jornada.h2a">Onde outros enxergam problemas,</span> <span class="grad-text" data-i18n="jornada.h2b">nós criamos soluções.</span></h2>
+        <p class="lead" data-i18n="jornada.lead">Quatro etapas. Qualquer desafio.</p>
+      </div>
+
+      <div class="arco reveal" style="--arc: clamp(64px, 10vw, 140px)">
+        <svg class="arco-linha" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M 120 225 Q 500 -25 880 225" />
+        </svg>
+
+        <div class="etapa">
+          <span class="etapa-no" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M11 8.5v5M8.5 11h5"/></svg>
+          </span>
+          <div class="etapa-corpo">
+            <h3 data-i18n="jornada.e1t">Diagnóstico</h3>
+            <ul>
+              <li data-i18n="jornada.e1a">Entendemos a dor real;</li>
+              <li data-i18n="jornada.e1b">Mapeamos o processo;</li>
+              <li data-i18n="jornada.e1c">Definimos a solução.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="etapa">
+          <span class="etapa-no" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8 9l-4 3 4 3"/><path d="M16 9l4 3-4 3"/><path d="M13.5 7l-3 10"/></svg>
+          </span>
+          <div class="etapa-corpo">
+            <h3 data-i18n="jornada.e2t">Desenvolvimento</h3>
+            <ul>
+              <li data-i18n="jornada.e2a">App, site, sistema ou BI;</li>
+              <li data-i18n="jornada.e2b">Entregas em partes;</li>
+              <li data-i18n="jornada.e2c">Você usa antes do fim.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="etapa">
+          <span class="etapa-no" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9.5 14.5l5-5"/><path d="M11 6l1.2-1.2a4 4 0 0 1 5.7 5.7L17 12"/><path d="M13 18l-1.2 1.2a4 4 0 0 1-5.7-5.7L7 12"/></svg>
+          </span>
+          <div class="etapa-corpo">
+            <h3 data-i18n="jornada.e3t">Integração</h3>
+            <ul>
+              <li data-i18n="jornada.e3a">Conecta ao que você usa;</li>
+              <li data-i18n="jornada.e3b">Dados migrados;</li>
+              <li data-i18n="jornada.e3c">Equipe treinada.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="etapa">
+          <span class="etapa-no" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17l5-5 4 4 8-8"/><path d="M15 8h6v6"/></svg>
+          </span>
+          <div class="etapa-corpo">
+            <h3 data-i18n="jornada.e4t">Evolução</h3>
+            <ul>
+              <li data-i18n="jornada.e4a">Suporte direto;</li>
+              <li data-i18n="jornada.e4b">Melhoria contínua;</li>
+              <li data-i18n="jornada.e4c">Roadmap do seu lado.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <p class="jornada-fecho reveal" data-i18n="jornada.fecho">Conversa antes de código.</p>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
        DIFERENCIAIS — por que a Hifera. Quatro painéis: tempo manual
        caindo, operação visível num lugar só, a stack e o progresso real
        de um projeto. Os números/gráficos são ilustrativos.
@@ -402,7 +472,7 @@
 
         <!-- Painel 3: a stack -->
         <article class="dif-card reveal" data-delay="1">
-          <h3 data-i18n="dif.p3t">A stack que empresas sérias usam, no seu negócio.</h3>
+          <h3 data-i18n="dif.p3t">Stack de mercado, não gambiarra.</h3>
           <div class="dif-stack">
             <span class="dif-tec"><img src="assets/tec/azure.svg" alt="" aria-hidden="true">Azure</span>
             <span class="dif-tec"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="12" width="4" height="9" rx="1" fill="#F2C811"/><rect x="10" y="7" width="4" height="14" rx="1" fill="#F2C811"/><rect x="17" y="3" width="4" height="18" rx="1" fill="#F2C811"/></svg>Power BI</span>
@@ -421,13 +491,14 @@
 
         <!-- Painel 4: progresso do projeto -->
         <article class="dif-card reveal" data-delay="2">
+          <h3 data-i18n="dif.p4t">Você acompanha cada entrega, sem precisar perguntar.</h3>
           <div class="dif-prog-topo">
             <div>
               <span class="dif-prog-rot" data-i18n="dif.p4rot">Meu projeto · entrega</span>
               <strong class="dif-prog-pct">68%</strong>
             </div>
           </div>
-          <div class="dif-prog-bar" aria-hidden="true"><i style="width:68%"></i></div>
+          <div class="dif-prog-bar" aria-hidden="true"><i></i></div>
           <ul class="dif-prog-lista">
             <li><span data-i18n="dif.prog1">Diagnóstico do processo</span><span class="dif-badge dif-badge-ok" data-i18n="dif.statOk">Concluído</span></li>
             <li><span data-i18n="dif.prog2">Cadastro automatizado</span><span class="dif-badge dif-badge-ok" data-i18n="dif.statOk">Concluído</span></li>
@@ -621,126 +692,6 @@
   </section>
 
   <!-- ============================================================
-       COMO TRABALHAMOS — três passos numa linha, sem bloco de texto.
-       ============================================================ -->
-  <section id="como-fazemos" class="jornada t-ink">
-    <div class="container">
-
-      <div class="secao-topo reveal">
-        <span class="eyebrow" data-i18n="jornada.eyebrow">Método</span>
-        <h2><span data-i18n="jornada.h2a">Onde outros enxergam problemas,</span> <span class="grad-text" data-i18n="jornada.h2b">nós criamos soluções.</span></h2>
-        <p class="lead" data-i18n="jornada.lead">Quatro etapas. Qualquer desafio.</p>
-      </div>
-
-      <div class="arco reveal" style="--arc: clamp(64px, 10vw, 140px)">
-        <svg class="arco-linha" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M 120 225 Q 500 -25 880 225" />
-        </svg>
-
-        <div class="etapa">
-          <span class="etapa-no" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M11 8.5v5M8.5 11h5"/></svg>
-          </span>
-          <div class="etapa-corpo">
-            <h3 data-i18n="jornada.e1t">Diagnóstico</h3>
-            <ul>
-              <li data-i18n="jornada.e1a">Entendemos a dor real;</li>
-              <li data-i18n="jornada.e1b">Mapeamos o processo;</li>
-              <li data-i18n="jornada.e1c">Definimos a solução.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="etapa">
-          <span class="etapa-no" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8 9l-4 3 4 3"/><path d="M16 9l4 3-4 3"/><path d="M13.5 7l-3 10"/></svg>
-          </span>
-          <div class="etapa-corpo">
-            <h3 data-i18n="jornada.e2t">Desenvolvimento</h3>
-            <ul>
-              <li data-i18n="jornada.e2a">App, site, sistema ou BI;</li>
-              <li data-i18n="jornada.e2b">Entregas em partes;</li>
-              <li data-i18n="jornada.e2c">Você usa antes do fim.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="etapa">
-          <span class="etapa-no" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9.5 14.5l5-5"/><path d="M11 6l1.2-1.2a4 4 0 0 1 5.7 5.7L17 12"/><path d="M13 18l-1.2 1.2a4 4 0 0 1-5.7-5.7L7 12"/></svg>
-          </span>
-          <div class="etapa-corpo">
-            <h3 data-i18n="jornada.e3t">Integração</h3>
-            <ul>
-              <li data-i18n="jornada.e3a">Conecta ao que você usa;</li>
-              <li data-i18n="jornada.e3b">Dados migrados;</li>
-              <li data-i18n="jornada.e3c">Equipe treinada.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="etapa">
-          <span class="etapa-no" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17l5-5 4 4 8-8"/><path d="M15 8h6v6"/></svg>
-          </span>
-          <div class="etapa-corpo">
-            <h3 data-i18n="jornada.e4t">Evolução</h3>
-            <ul>
-              <li data-i18n="jornada.e4a">Suporte direto;</li>
-              <li data-i18n="jornada.e4b">Melhoria contínua;</li>
-              <li data-i18n="jornada.e4c">Roadmap do seu lado.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <p class="jornada-fecho reveal" data-i18n="jornada.fecho">Conversa antes de código.</p>
-
-    </div>
-  </section>
-
-  <!-- ============================================================
-       QUEM ESTÁ POR TRÁS — o que cada um traz para a Hifera, não o
-       currículo de cada um.
-       ============================================================ -->
-  <section id="fundadores" class="quem">
-    <div class="container">
-
-      <div class="secao-topo reveal">
-        <span class="eyebrow" data-i18n="quem.eyebrow">Quem somos</span>
-        <h2><span data-i18n="quem.h2a">Dois engenheiros. Uma obsessão:</span> <span class="grad-text" data-i18n="quem.h2b">simplificar operação.</span></h2>
-      </div>
-
-      <div class="quem-grade">
-        <article class="pessoa-card reveal" data-delay="1">
-          <div class="pessoa-card-foto">
-            <img src="assets/equipe/higor.webp" alt="Higor Cabral"
-                 width="192" height="192" loading="lazy" decoding="async" style="--zoom:1.25;--sobe:-8%">
-          </div>
-          <div class="pessoa-card-txt">
-            <span class="pessoa-papel" data-i18n="quem.higorPapel">Cofundador · Eng. da Computação</span>
-            <h3>Higor Cabral</h3>
-            <p data-i18n="quem.higorBio">TI corporativa, automação, integrações e sistemas. É quem conecta o que já existe na empresa ao que precisa passar a funcionar sozinho.</p>
-          </div>
-        </article>
-
-        <article class="pessoa-card reveal" data-delay="2">
-          <div class="pessoa-card-foto">
-            <img src="assets/equipe/fernanda.webp" alt="Fernanda Rodrigues"
-                 width="192" height="192" loading="lazy" decoding="async" style="--zoom:1.22;--foco:0%;--lado:-4%">
-          </div>
-          <div class="pessoa-card-txt">
-            <span class="pessoa-papel" data-i18n="quem.fePapel">Cofundadora · Eng. da Computação</span>
-            <h3>Fernanda Rodrigues</h3>
-            <p data-i18n="quem.feBio">Dados, riscos, controles, segurança e operação. É quem olha para o sistema procurando onde ele falha antes de o cliente encontrar.</p>
-          </div>
-        </article>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ============================================================
        COMPROMISSOS
        Quatro promessas que valem para qualquer cliente da Hifera —
        nada que dependa de ser "o primeiro" ou que amarre a empresa a
@@ -763,6 +714,7 @@
         </figure>
 
         <div class="prim-lista reveal" data-delay="1">
+          <h2 class="prim-lista-h"><span data-i18n="prim.h2a">O que você pode</span> <span class="grad-text" data-i18n="prim.h2b">esperar da Hifera.</span></h2>
           <article class="prim-item">
             <span class="prim-n" aria-hidden="true">01</span>
             <div class="prim-item-txt">
@@ -807,6 +759,47 @@
         </div>
 
       </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       QUEM ESTÁ POR TRÁS — o que cada um traz para a Hifera, não o
+       currículo de cada um.
+       ============================================================ -->
+  <section id="fundadores" class="quem">
+    <div class="container">
+
+      <div class="secao-topo reveal">
+        <span class="eyebrow" data-i18n="quem.eyebrow">Quem somos</span>
+        <h2><span data-i18n="quem.h2a">Dois engenheiros. Uma obsessão:</span> <span class="grad-text" data-i18n="quem.h2b">resolver.</span></h2>
+      </div>
+
+      <div class="quem-grade">
+        <article class="pessoa-card reveal" data-delay="1">
+          <div class="pessoa-card-foto">
+            <img src="assets/equipe/higor.webp" alt="Higor Cabral"
+                 width="192" height="192" loading="lazy" decoding="async" style="--zoom:1.25;--sobe:-8%">
+          </div>
+          <div class="pessoa-card-txt">
+            <span class="pessoa-papel" data-i18n="quem.higorPapel">Cofundador · Eng. da Computação</span>
+            <h3>Higor Cabral</h3>
+            <p data-i18n="quem.higorBio">TI corporativa, automação, integrações e sistemas. É quem conecta o que já existe na empresa ao que precisa passar a funcionar sozinho.</p>
+          </div>
+        </article>
+
+        <article class="pessoa-card reveal" data-delay="2">
+          <div class="pessoa-card-foto">
+            <img src="assets/equipe/fernanda.webp" alt="Fernanda Rodrigues"
+                 width="192" height="192" loading="lazy" decoding="async" style="--zoom:1.22;--foco:0%;--lado:-4%">
+          </div>
+          <div class="pessoa-card-txt">
+            <span class="pessoa-papel" data-i18n="quem.fePapel">Cofundadora · Eng. da Computação</span>
+            <h3>Fernanda Rodrigues</h3>
+            <p data-i18n="quem.feBio">Dados, riscos, controles, segurança e operação. É quem olha para o sistema procurando onde ele falha antes de o cliente encontrar.</p>
+          </div>
+        </article>
+      </div>
+
     </div>
   </section>
 
@@ -1092,7 +1085,7 @@
 
 <!-- Tradução PT/EN/DE do botão de idioma. Captura o PT do HTML e aplica
      EN/DE do dicionário; a escolha fica salva no navegador. -->
-<script src="js/i18n.js?v=2"></script>
+<script src="js/i18n.js?v=3"></script>
 
 <script>
 /* ==============================================================

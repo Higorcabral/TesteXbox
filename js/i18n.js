@@ -87,7 +87,8 @@
       'dif.f3p': 'Power BI dashboard updated with the closing',
       'dif.f4tag': 'Security',
       'dif.f4p': "Former employee's access revoked across all systems",
-      'dif.p3t': 'The stack serious companies use, in your business.',
+      'dif.p3t': 'Market-grade stack, no hacks.',
+      'dif.p4t': 'You follow every delivery, without having to ask.',
       'dif.p4rot': 'My project · delivery',
       'dif.prog1': 'Process diagnosis',
       'dif.prog2': 'Automated records',
@@ -145,7 +146,7 @@
 
       'quem.eyebrow': 'About us',
       'quem.h2a': 'Two engineers. One obsession:',
-      'quem.h2b': 'simplifying operations.',
+      'quem.h2b': 'to solve.',
       'quem.higorPapel': 'Co-founder · Computer Engineering',
       'quem.higorBio': 'Corporate IT, automation, integrations and systems. He connects what already exists in the company to what needs to start running on its own.',
       'quem.fePapel': 'Co-founder · Computer Engineering',
@@ -307,7 +308,8 @@
       'dif.f3p': 'Power-BI-Dashboard mit dem Abschluss aktualisiert',
       'dif.f4tag': 'Sicherheit',
       'dif.f4p': 'Zugang eines Ex-Mitarbeiters in allen Systemen entzogen',
-      'dif.p3t': 'Der Stack, den seriöse Unternehmen nutzen, in Ihrem Betrieb.',
+      'dif.p3t': 'Markttauglicher Stack, keine Bastellösung.',
+      'dif.p4t': 'Sie verfolgen jede Lieferung, ohne nachfragen zu müssen.',
       'dif.p4rot': 'Mein Projekt · Lieferung',
       'dif.prog1': 'Prozessdiagnose',
       'dif.prog2': 'Automatisierte Stammdaten',
@@ -365,7 +367,7 @@
 
       'quem.eyebrow': 'Über uns',
       'quem.h2a': 'Zwei Ingenieure. Eine Obsession:',
-      'quem.h2b': 'Abläufe vereinfachen.',
+      'quem.h2b': 'lösen.',
       'quem.higorPapel': 'Mitgründer · Technische Informatik',
       'quem.higorBio': 'Unternehmens-IT, Automatisierung, Integrationen und Systeme. Er verbindet das Bestehende im Unternehmen mit dem, was von allein laufen soll.',
       'quem.fePapel': 'Mitgründerin · Technische Informatik',
@@ -539,16 +541,12 @@
     apply(saved);
 
     var wrap = document.getElementById('lang');
-    var btn = document.getElementById('langBtn');
-    if (!wrap || !btn) return;
+    var btn = document.getElementById('langBtn'); // existe só no modo dropdown
 
-    function close() { wrap.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); }
+    function close() { if (wrap) wrap.classList.remove('is-open'); if (btn) btn.setAttribute('aria-expanded', 'false'); }
 
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var open = wrap.classList.toggle('is-open');
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
+    // Clique em cada opção troca o idioma — vale tanto no seletor
+    // segmentado (3 bandeiras) quanto no dropdown.
     var opts = document.querySelectorAll('.lang-opt');
     for (var i = 0; i < opts.length; i++) {
       opts[i].addEventListener('click', function () {
@@ -556,8 +554,17 @@
         close();
       });
     }
-    document.addEventListener('click', function (e) { if (!wrap.contains(e.target)) close(); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+
+    // Comportamento de dropdown só quando o botão existe.
+    if (btn && wrap) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = wrap.classList.toggle('is-open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      document.addEventListener('click', function (e) { if (!wrap.contains(e.target)) close(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

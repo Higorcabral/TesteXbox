@@ -1575,6 +1575,32 @@ section.t-ink > .container { position: relative; z-index: 1; }
   .lang { order: 3; }
 }
 
+/* --- Seletor de idioma SEGMENTADO (3 bandeiras visíveis, como o mockup) --- */
+.lang-seg {
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 4px; flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.04);
+}
+.lang-seg .lang-opt {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: var(--text-mid);
+  font-size: 12.5px; font-weight: 600; letter-spacing: 0.02em;
+  transition: background 180ms var(--ease-out), color 180ms;
+}
+.lang-seg .lang-opt:hover { color: var(--text); background: rgba(255, 255, 255, 0.05); }
+.lang-seg .lang-opt.is-ativo { color: var(--text); background: rgba(93, 224, 230, 0.14); box-shadow: inset 0 0 0 1px rgba(93, 224, 230, 0.3); }
+.lang-seg .lang-bandeira { width: 20px; height: 14px; border-radius: 3px; overflow: hidden; display: block; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12); }
+.lang-seg .lang-bandeira svg { width: 100%; height: 100%; display: block; }
+@media (max-width: 520px) {
+  .lang-seg { gap: 2px; padding: 3px; }
+  .lang-seg .lang-opt { padding: 6px; }
+  .lang-seg .lang-sig { display: none; }
+}
+
 /* =====================================================================
    HERO v2 — tagline, pilha de janelas em camadas e badges flutuantes
    (a versão sofisticada do mockup). O produto principal continua sendo a
@@ -1837,6 +1863,7 @@ section.t-ink > .container { position: relative; z-index: 1; }
 @media (max-width: 920px) { .prim-foto { min-height: 300px; } }
 
 .prim-lista { display: flex; flex-direction: column; }
+.prim-lista-h { font-size: clamp(26px, 3.3vw, 42px); letter-spacing: -0.03em; line-height: 1.1; margin-bottom: clamp(22px, 3vw, 34px); }
 .prim-item { display: grid; grid-template-columns: auto 1fr; gap: 18px; padding: 20px 0; border-top: 1px solid var(--line); }
 .prim-item:first-child { border-top: none; padding-top: 0; }
 .prim-item .prim-n {
@@ -1950,4 +1977,36 @@ section.t-ink > .container { position: relative; z-index: 1; }
   position: absolute; left: 50%; bottom: -3vw; transform: translateX(-50%);
   font-size: clamp(90px, 20vw, 260px); font-weight: 800; line-height: 1; letter-spacing: 0.02em;
   color: rgba(255, 255, 255, 0.022); pointer-events: none; z-index: 0; white-space: nowrap;
+}
+
+/* =====================================================================
+   ANIMAÇÕES DE ENTRADA (como o mockup): linhas SVG desenhando, barra de
+   progresso preenchendo e zoom nas imagens — disparadas ao revelar.
+   ===================================================================== */
+/* Linha do arco do Método: vira sólida e "desenha" ao entrar. */
+.arco-linha path { stroke-dasharray: 1200; stroke-dashoffset: 1200; }
+.arco.reveal.is-visible .arco-linha path { animation: draw 1.8s var(--ease-out) 0.2s forwards; }
+
+/* Linha do gráfico de horas (Diferenciais) também desenha. */
+.dif-line { stroke-dasharray: 760; stroke-dashoffset: 760; }
+.dif-card.reveal.is-visible .dif-line { animation: draw 1.6s var(--ease-out) 0.25s forwards; }
+
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* Barra de progresso do projeto preenche de 0 a 68%. */
+.dif-prog-bar i { width: 68%; }
+.dif-card.reveal.is-visible .dif-prog-bar i { animation: fillw 1.3s var(--ease-out) 0.3s both; }
+@keyframes fillw { from { width: 0; } to { width: 68%; } }
+
+/* Zoom suave nas fotos de card ao revelar (post e serviços). */
+.post-card.reveal .post-media img,
+.post-feat.reveal .post-media img { transform: scale(1.06); transition: transform 1.2s var(--ease-out); }
+.post-card.reveal.is-visible .post-media img,
+.post-feat.reveal.is-visible .post-media img { transform: scale(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .arco-linha path { stroke-dashoffset: 0 !important; animation: none !important; }
+  .dif-line { stroke-dashoffset: 0 !important; animation: none !important; }
+  .dif-prog-bar i { width: 68% !important; animation: none !important; }
+  .post-card.reveal .post-media img, .post-feat.reveal .post-media img { transform: none !important; }
 }
