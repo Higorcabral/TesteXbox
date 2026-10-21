@@ -42,7 +42,7 @@
 <!-- Só os cinco pesos que o CSS usa, e só Poppins. O Instrument Serif
      era baixado em toda visita e não aparecia em regra nenhuma. -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=43">
+<link rel="stylesheet" href="style.css?v=44">
 <meta name="robots" content="noai, noimageai">
 
 <!-- Dados estruturados. Só o que a página realmente afirma — nada de
@@ -92,6 +92,14 @@
 </script>
 </head>
 <body>
+
+<!-- Fundo global: preto + aura cônica girando + grade + brilho de horizonte.
+     É daqui que vem a cor azul/ciano ambiente (não de faixas nas seções). -->
+<div class="fundo" aria-hidden="true">
+  <div class="fundo-aura"></div>
+  <div class="fundo-grid"></div>
+  <div class="fundo-horizon"></div>
+</div>
 
 <div class="preloader" id="preloader">
   <div class="preloader-bar"></div>
@@ -330,7 +338,7 @@
   <!-- ============================================================
        COMO TRABALHAMOS — três passos numa linha, sem bloco de texto.
        ============================================================ -->
-  <section id="como-fazemos" class="jornada t-ink">
+  <section id="como-fazemos" class="jornada">
     <div class="container">
 
       <div class="secao-topo reveal">
@@ -341,7 +349,18 @@
 
       <div class="arco reveal" style="--arc: clamp(64px, 10vw, 140px)">
         <svg class="arco-linha" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M 120 225 Q 500 -25 880 225" />
+          <defs>
+            <linearGradient id="arcg" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#004aad"/>
+              <stop offset="0.15" stop-color="#1b6fd8"/>
+              <stop offset="0.5" stop-color="#5de0e6"/>
+              <stop offset="0.85" stop-color="#1b6fd8"/>
+              <stop offset="1" stop-color="#004aad"/>
+            </linearGradient>
+          </defs>
+          <path class="arc-glow" d="M 120 225 Q 500 -25 880 225"/>
+          <path class="arc-base" d="M 120 225 Q 500 -25 880 225"/>
+          <path class="arc-line" d="M 120 225 Q 500 -25 880 225"/>
         </svg>
 
         <div class="etapa">
@@ -411,7 +430,7 @@
        caindo, operação visível num lugar só, a stack e o progresso real
        de um projeto. Os números/gráficos são ilustrativos.
        ============================================================ -->
-  <section id="diferenciais" class="diferenciais t-ink">
+  <section id="diferenciais" class="diferenciais">
     <div class="container">
 
       <div class="secao-topo secao-topo--centro reveal">
