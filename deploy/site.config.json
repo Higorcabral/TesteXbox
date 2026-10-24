@@ -4,7 +4,10 @@
     { "route": "/scripts/*", "statusCode": 404 },
     { "route": "/deploy/*",  "statusCode": 404 },
     { "route": "/modulos/*", "statusCode": 404 },
-    { "route": "/portal/*",  "statusCode": 404 }
+    { "route": "/portal/*",  "statusCode": 404 },
+    { "route": "/vendor/*", "headers": { "cache-control": "public, max-age=31536000, immutable" } },
+    { "route": "/assets/*", "headers": { "cache-control": "public, max-age=604800" } },
+    { "route": "/js/*",     "headers": { "cache-control": "public, max-age=86400" } }
   ],
   "navigationFallback": {
     "rewrite": "/index.html",
@@ -22,7 +25,8 @@
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "SAMEORIGIN",
     "Referrer-Policy": "strict-origin-when-cross-origin",
-    "Strict-Transport-Security": "max-age=31536000; includeSubDomains"
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=()"
   },
   "mimeTypes": {
     ".webp": "image/webp",
