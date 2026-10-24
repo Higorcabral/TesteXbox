@@ -12,19 +12,6 @@
   "responseOverrides": {
     "404": { "rewrite": "/404.html", "statusCode": 404 }
   },
-  "navigationFallback": {
-    "rewrite": "/404.html",
-    "exclude": [
-      "/assets/*",
-      "/_next/*",
-      "/js/*",
-      "/apps/*",
-      "/projetos/*",
-      "/api/*",
-      "/v2/*",
-      "/*.{css,js,json,txt,xml,webp,png,jpg,jpeg,gif,svg,ico,woff,woff2,ttf,otf,eot,map,webmanifest}"
-    ]
-  },
   "globalHeaders": {
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "SAMEORIGIN",
