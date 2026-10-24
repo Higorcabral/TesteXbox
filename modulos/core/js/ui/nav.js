@@ -31,7 +31,7 @@ HiferaAdmin.Nav = (function () {
       icone: '<path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/>' },
     { id: 'financeiro', href: 'admin/financeiro.html', rotulo: 'Financeiro',
       icone: '<path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>' },
-    { id: 'ledger',    href: 'admin/ledger/',   rotulo: 'Finanças pessoais',
+    { id: 'ledger',    href: 'admin/ledger/',   rotulo: 'Caixa da Hifera',
       icone: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M7 15h4M7 7h2"/>' },
 
     { grupo: 'Relacionamento' },
