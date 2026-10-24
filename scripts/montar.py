@@ -126,7 +126,10 @@ def injetar_auth_borda(html):
 def montar_site():
     d = os.path.join(DIST, 'site')
     limpar(d)
-    for item in ('index.html', 'seguranca.html', 'style.css', 'robots.txt',
+    # A home é um export estático do Next (index.html + bundle _next/);
+    # style.css fica por causa do seguranca.html, que ainda é página à parte.
+    for item in ('index.html', '404.html', 'favicon.ico', '_next',
+                 'seguranca.html', 'style.css', 'robots.txt',
                  'sitemap.xml', 'assets', 'js', 'projetos', 'apps', 'v2'):
         copiar(item, d)
     config('site', d)
