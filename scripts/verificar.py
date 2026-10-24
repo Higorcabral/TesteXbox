@@ -133,6 +133,10 @@ def verificar_links():
         nonlocal total
         if ref.startswith(IGNORAR_PREFIXO):
             return
+        # A home é um export de ferramenta de design: src/href com
+        # {{placeholder}} são preenchidos em runtime, não são links no disco.
+        if '{{' in ref:
+            return
         total += 1
         rel_origem = os.path.relpath(origem, RAIZ)
         alvo = caminho_no_disco(origem, ref)

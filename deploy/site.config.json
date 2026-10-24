@@ -10,7 +10,7 @@
     "rewrite": "/index.html",
     "exclude": [
       "/assets/*",
-      "/_next/*",
+      "/vendor/*",
       "/js/*",
       "/apps/*",
       "/projetos/*",
