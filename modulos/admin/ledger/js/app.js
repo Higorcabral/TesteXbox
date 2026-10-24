@@ -17,8 +17,10 @@ import { initTopupModal, closeTopupModal } from './modals/topup.js';
 
 // ====== INIT ======
 
-// Na primeira visita, carrega dados de demo pra você ver o app funcionando
-initState(true);
+// Agora assíncrono: espera o backend (ou cache local) devolver o estado
+// antes de pintar a UI, para não começar vazio por cima do estado real
+// e nem gravar demo em cima do que já existia na nuvem.
+await initState(true);
 
 // Inicializar todos os modais
 initToast();

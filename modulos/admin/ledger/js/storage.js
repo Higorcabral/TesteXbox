@@ -75,8 +75,48 @@ export const demoState = () => ({
   ]
 });
 
-/** Carrega do localStorage. Se nada gravado, retorna null. */
-export function loadState() {
+/* -------------------------------------------------------------
+   Backend compartilhado (Caixa da Hifera)
+   -------------------------------------------------------------
+   Em produção o estado vive no Supabase, lido/escrito via Function
+   do admin (/api/finance). O localStorage vira cache local:
+     · leitura instantânea para a UI continuar síncrona;
+     · fallback quando o endpoint não responde (modo offline).
+   Em localhost (sem Function) tudo cai no localStorage, como no
+   demo original.
+----------------------------------------------------------------- */
+const BACKEND_URL = '/api/finance';
+function temBackend() {
+  const h = location.hostname;
+  return !(h === 'localhost' || h === '127.0.0.1' || h.endsWith('.localhost') || h.endsWith('.test'));
+}
+
+/** Carrega do backend (quando disponível) ou do cache local.
+    Grava no cache o que vier do backend, para a UI já abrir rápido
+    na próxima vez e aguentar queda temporária de rede. */
+export async function loadState() {
+  if (temBackend()) {
+    try {
+      const r = await fetch(BACKEND_URL, {
+        credentials: 'include',
+        headers: { 'accept': 'application/json' },
+        cache: 'no-store'
+      });
+      if (r.ok) {
+        const corpo = await r.json();
+        const data = corpo && corpo.data;
+        if (data && typeof data === 'object' && data.version) {
+          try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (_) { /* quota */ }
+          return data;
+        }
+        // Linha existe mas vazia: deixa cair no cache local se houver.
+      } else {
+        console.warn('[Caixa] backend respondeu', r.status, '— caindo no cache local');
+      }
+    } catch (e) {
+      console.warn('[Caixa] sem rede com o backend — caindo no cache local', e && e.message);
+    }
+  }
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
@@ -91,26 +131,57 @@ export function loadState() {
   }
 }
 
-/** Salva estado no localStorage com indicador visual */
+/* Debounce do upload para o backend: várias mutações em sequência
+   (cadastrar e salvar uma transação toca várias chaves) viram um
+   único PUT com o estado consolidado. */
+let subirTimer = null;
+let subindo = false;
+async function subirAoBackend(state) {
+  if (!temBackend()) return;
+  if (subindo) return; // o próximo saveState vai disparar de novo
+  subindo = true;
+  try {
+    const r = await fetch(BACKEND_URL, {
+      method: 'PUT',
+      credentials: 'include',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ data: state })
+    });
+    if (r.ok) showSaveIndicator('Salvo na nuvem');
+    else { console.warn('[Caixa] PUT /api/finance', r.status); showSaveIndicator('Salvo local'); }
+  } catch (e) {
+    console.warn('[Caixa] PUT /api/finance falhou', e && e.message);
+    showSaveIndicator('Salvo local');
+  } finally {
+    subindo = false;
+  }
+}
+
+/** Salva estado no cache local (síncrono) e dispara o upload para o
+    backend com debounce de 1,5s. */
 export function saveState(state) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     showSaveIndicator();
-    return true;
   } catch (err) {
     console.error('Erro ao salvar:', err);
     alert('Erro ao salvar os dados. Verifique se há espaço disponível no navegador.');
     return false;
   }
+  if (temBackend()) {
+    clearTimeout(subirTimer);
+    subirTimer = setTimeout(() => subirAoBackend(state), 1500);
+  }
+  return true;
 }
 
-/** Mostra o indicador "Salvo" por 1.2s */
+/** Mostra o indicador "Salvo" / "Salvo na nuvem" por 1.2s */
 let saveTimer = null;
-function showSaveIndicator() {
+function showSaveIndicator(texto) {
   const el = document.getElementById('saveIndicator');
   if (!el) return;
   el.classList.add('active');
-  el.textContent = 'Salvo';
+  el.textContent = texto || 'Salvo';
   clearTimeout(saveTimer);
   saveTimer = setTimeout(() => el.classList.remove('active'), 1200);
 }
