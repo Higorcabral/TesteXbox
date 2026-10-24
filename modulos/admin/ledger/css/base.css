@@ -1,0 +1,108 @@
+/* ============================================================
+   base.css — variables, reset, typography
+   ============================================================ */
+
+:root {
+  /* Backgrounds em camadas (vibrancy layering do macOS) */
+  --bg-base: #1c1c1e;
+  --bg-window: #2c2c2e;
+  --bg-elev-1: #3a3a3c;
+  --bg-elev-2: #48484a;
+  --bg-sidebar: rgba(30, 30, 32, 0.72);
+  --bg-card: rgba(44, 44, 46, 0.72);
+  --bg-card-solid: #2c2c2e;
+  --bg-input: rgba(118, 118, 128, 0.24);
+  --bg-segmented: rgba(118, 118, 128, 0.24);
+
+  /* Separadores translúcidos (padrão iOS) */
+  --separator: rgba(84, 84, 88, 0.36);
+  --separator-opaque: #38383a;
+  --hairline: rgba(255, 255, 255, 0.06);
+
+  /* Hierarquia de texto */
+  --text: rgba(255, 255, 255, 0.92);
+  --text-secondary: rgba(235, 235, 245, 0.60);
+  --text-tertiary: rgba(235, 235, 245, 0.30);
+  --text-quaternary: rgba(235, 235, 245, 0.18);
+
+  /* Cores sistema Apple (dark mode) */
+  --sys-blue:   #0a84ff;
+  --sys-green:  #30d158;
+  --sys-red:    #ff453a;
+  --sys-orange: #ff9f0a;
+  --sys-yellow: #ffd60a;
+  --sys-pink:   #ff375f;
+  --sys-purple: #bf5af2;
+  --sys-teal:   #64d2ff;
+  --sys-indigo: #5e5ce6;
+  --sys-mint:   #63e6e2;
+  --sys-cyan:   #64d2ff;
+  --sys-brown:  #ac8e68;
+  --sys-gray:   #98989d;
+
+  /* Fontes: SF stack nativa */
+  --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'SF Mono', ui-monospace, 'Menlo', 'Monaco', 'Consolas', monospace;
+
+  /* Border radius */
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-xl: 18px;
+  --r-full: 9999px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg-base);
+  color: var(--text);
+  font-family: var(--font-system);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  letter-spacing: -0.01em;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(10, 132, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(191, 90, 242, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 30% at 50% 50%, rgba(48, 209, 88, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body > * { position: relative; z-index: 1; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--r-full);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
