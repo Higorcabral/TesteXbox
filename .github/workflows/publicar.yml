@@ -90,7 +90,9 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: upload
           app_location: dist/${{ matrix.app }}
-          api_location: ${{ matrix.api }}
+          # api_location é relativo à raiz do repositório (não ao app_location),
+          # então apontamos para dentro de dist/<app>/ se o app tem api.
+          api_location: ${{ matrix.api && format('dist/{0}/{1}', matrix.app, matrix.api) || '' }}
           output_location: ''
           skip_app_build: true          # já está montado; não há build a fazer
 
