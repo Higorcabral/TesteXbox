@@ -1,0 +1,45 @@
+/* ============================================================
+   mobile.css — responsive breakpoints
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0;
+    width: 260px;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    z-index: 200;
+    height: 100vh;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+  }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 150;
+  }
+  .sidebar-overlay.active { display: block; }
+  .mobile-header { display: flex; }
+  .main { padding: 24px 20px 120px; }
+  .page-title { font-size: 26px; }
+  .balance-value { font-size: 42px; }
+  .balance-grid { grid-template-columns: 1fr; gap: 24px; }
+  .balance-breakdown { border-left: none; border-top: 0.5px solid var(--separator); padding-left: 0; padding-top: 20px; }
+  .mini-stats { grid-template-columns: 1fr 1fr; }
+  .sub-summary { grid-template-columns: 1fr; }
+  .cards-grid, .invoice-cards, .two-col, .forecast-grid { grid-template-columns: 1fr; }
+  .inst-card { grid-template-columns: 1fr; gap: 14px; }
+  .inst-progress { width: 100%; }
+  .inst-amounts { text-align: left; }
+  .sub-card { grid-template-columns: 44px 1fr auto; gap: 14px; }
+  .sub-next, .sub-actions { display: none; }
+  .fab { bottom: 20px; right: 20px; padding: 0 18px; }
+  .tx-table th:nth-child(4), .tx-table td:nth-child(4) { display: none; }
+  .color-grid { grid-template-columns: repeat(6, 1fr); }
+  .toast { right: 20px; left: 20px; bottom: 88px; min-width: auto; }
+  .save-indicator { top: 70px; right: 16px; }
+}
