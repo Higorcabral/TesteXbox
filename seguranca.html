@@ -214,5 +214,11 @@
   }, { passive: true });
 })();
 </script>
+
+<!-- Coleta do site: consentimento (LGPD) antes de medir; tracking só roda
+     após o "aceitar". Sem chaves em js/site-config.js, nada sai do navegador. -->
+<script src="js/site-config.js?v=1"></script>
+<script src="js/consentimento.js?v=1"></script>
+<script src="js/tracking.js?v=1"></script>
 </body>
 </html>

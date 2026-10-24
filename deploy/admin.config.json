@@ -42,6 +42,12 @@
       "statusCode": 302
     },
     {
+      "route": "/api/*",
+      "allowedRoles": [
+        "hifera"
+      ]
+    },
+    {
       "route": "/*",
       "allowedRoles": [
         "hifera"

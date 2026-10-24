@@ -162,6 +162,13 @@ def montar_admin():
     shutil.copytree(os.path.join(RAIZ, 'assets', 'logo'),
                     os.path.join(d, 'assets', 'logo'), dirs_exist_ok=True)
 
+    # A Function /api só existe no admin: é ela que lê os leads e o
+    # comportamento do site no Supabase com a chave de serviço, do lado
+    # do servidor. O workflow publica esta pasta com api_location: api.
+    api_src = os.path.join(RAIZ, 'api')
+    if os.path.isdir(api_src):
+        shutil.copytree(api_src, os.path.join(d, 'api'), dirs_exist_ok=True)
+
     # Cada página subiu um nível (modulos/admin/ virou /admin/), então o
     # caminho até assets/ encurta em um. O login, que estava em modulos/,
     # foi para a raiz e passa a referenciar assets/ sem prefixo nenhum.
