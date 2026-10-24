@@ -13,9 +13,11 @@ const subscribers = [];
 export const subscribe = (fn) => { subscribers.push(fn); };
 const notify = () => subscribers.forEach(fn => fn());
 
-/** Inicializa o estado: carrega do localStorage ou usa demo/empty */
-export function initState(useDemo = false) {
-  const stored = loadState();
+/** Inicializa o estado: carrega do backend/cache ou usa demo/empty.
+    Agora assíncrono — espera a resposta de /api/finance antes de
+    pintar a UI, para não começar demo em cima do estado real. */
+export async function initState(useDemo = false) {
+  const stored = await loadState();
   if (stored) {
     state = stored;
   } else {
