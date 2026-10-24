@@ -120,6 +120,11 @@ HiferaAdmin.SiteAnalyticsModel = (function () {
 
   /* =================================================================
      Carga
+     -----------------------------------------------------------------
+     Em produção o estado da fonte é honesto: 'api' quando o backend
+     respondeu (mesmo que vazio) e 'erro' quando a Function falhou. O
+     seed só pinta a tela em localhost — produção nunca mostra dado
+     fictício, porque ter mock no painel induz a decisão errada.
      ================================================================= */
   function carregar() {
     /* Localhost nunca tem a Function: nem tenta, vai de seed. */
@@ -128,25 +133,35 @@ HiferaAdmin.SiteAnalyticsModel = (function () {
       return Promise.resolve(dados);
     }
 
-    return fetch(API, { credentials: 'include', headers: { 'Accept': 'application/json' } })
-      .then(function (r) { if (!r.ok) throw new Error('api ' + r.status); return r.json(); })
+    return fetch(API, { credentials: 'include', cache: 'no-store',
+                        headers: { 'Accept': 'application/json' } })
+      .then(function (r) {
+        if (!r.ok) { var e = new Error('api ' + r.status); e.http = r.status; throw e; }
+        return r.json();
+      })
       .then(function (j) {
         dados = {
           leads:   Array.isArray(j.leads) ? j.leads : [],
           eventos: Array.isArray(j.eventos) ? j.eventos : [],
           fonte:   'api'
         };
+        /* Reset de resquício de dado mockado guardado em versões
+           anteriores — a partir desta versão nunca mais gravamos seed
+           em produção. */
+        try { Store.gravar(CHAVE_SEED, null); } catch (_) { /* ignore */ }
         return dados;
       })
-      .catch(function () {
-        /* Function ainda não publicada, ou fora do ar: não deixa a tela
-           em branco — mostra a amostra e se identifica como protótipo. */
-        dados = seed();
+      .catch(function (err) {
+        /* Em produção não mostramos amostra — a tela fica vazia com
+           aviso de erro. "Amostra plausível" cheira a dado real e já
+           causou confusão (PR fix dos leads mockados). */
+        dados = { leads: [], eventos: [], fonte: 'erro', erro: (err && err.http) || 'rede' };
         return dados;
       });
   }
 
   function fonte() { return dados.fonte; }
+  function detalheErro() { return dados.erro || null; }
 
   /* =================================================================
      Leads — derivações
@@ -293,6 +308,7 @@ HiferaAdmin.SiteAnalyticsModel = (function () {
     ORIGENS: ORIGENS,
     carregar: carregar,
     fonte: fonte,
+    detalheErro: detalheErro,
     leads: leads,
     resumoLeads: resumoLeads,
     resumoEventos: resumoEventos,

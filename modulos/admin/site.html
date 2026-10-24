@@ -48,6 +48,12 @@ window.HIFERA_PATHS = {
     background: rgba(127,127,140,.18); overflow: hidden; }
   .barra-mini > i { display: block; height: 100%; border-radius: 999px;
     background: linear-gradient(90deg, #5de0e6, #2ea9cf); }
+  /* Fonte "api" não aparece — "protótipo" sinaliza amostra, "erro"
+     avisa falha na Function com cor de alerta. */
+  .aviso-erro { padding: 10px 14px; border-radius: 10px;
+    background: rgba(248,113,113,.08); border: 1px solid rgba(248,113,113,.28);
+    color: var(--text); font-size: var(--fs-sm); }
+  .aviso-erro strong { color: var(--red); display: block; margin-bottom: 4px; }
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 </style>
@@ -151,9 +157,9 @@ window.HIFERA_PATHS = {
 <script src="../core/js/controllers/ThemeController.js?v=11"></script>
 <script src="../core/js/controllers/AuthController.js?v=11"></script>
 <script src="../core/js/ui/shell.js?v=11"></script>
-<script src="../core/js/models/SiteAnalyticsModel.js?v=1"></script>
-<script src="js/views/SiteChartView.js?v=1"></script>
-<script src="js/controllers/SiteController.js?v=1"></script>
+<script src="../core/js/models/SiteAnalyticsModel.js?v=2"></script>
+<script src="js/views/SiteChartView.js?v=2"></script>
+<script src="js/controllers/SiteController.js?v=2"></script>
 <script src="js/boot-site.js?v=1"></script>
 </body>
 </html>

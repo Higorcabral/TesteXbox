@@ -146,14 +146,35 @@ HiferaAdmin.SiteController = (function () {
     }).join('');
   }
 
-  /* --- Nota de fonte: deixa claro quando é amostra ---------------- */
+  /* --- Nota de fonte: honesta sobre amostra / erro ----------------
+     Nunca usamos innerHTML com dados externos: o detalhe do erro é
+     número HTTP ou a string literal 'rede', mas por reflexo usamos
+     DOM API segura. */
   function pintarFonte() {
     var p = el('fonteNota');
     if (!p) return;
-    if (M.fonte() === 'protótipo') {
-      p.innerHTML = 'Quem pediu contato pelo formulário de hifera.com.br. ' +
-        '<strong>Dados de exemplo</strong> — a coleta real liga com o deploy ' +
-        '(ver supabase/site-analytics.sql e js/site-config.js).';
+    p.textContent = '';
+    p.classList.remove('aviso-erro');
+    var fonte = M.fonte();
+    if (fonte === 'protótipo') {
+      p.appendChild(document.createTextNode(
+        'Quem pediu contato pelo formulário de hifera.com.br. '));
+      var em = document.createElement('strong');
+      em.textContent = 'Dados de exemplo';
+      p.appendChild(em);
+      p.appendChild(document.createTextNode(' (local, sem Function).'));
+    } else if (fonte === 'erro') {
+      p.classList.add('aviso-erro');
+      var st = document.createElement('strong');
+      st.textContent = 'Não consegui ler /api/site-analytics (' +
+        String(M.detalheErro() || '').slice(0, 40) + ').';
+      p.appendChild(st);
+      p.appendChild(document.createTextNode(
+        ' Verifique SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY nas App ' +
+        'Settings do SWA do admin, e se a conta logada tem o papel ' +
+        '"hifera".'));
+    } else if (fonte === 'api') {
+      p.textContent = 'Quem pediu contato pelo formulário de hifera.com.br.';
     }
   }
 
