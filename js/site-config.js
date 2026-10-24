@@ -27,8 +27,13 @@
    ================================================================= */
 window.HIFERA_SITE_CONFIG = {
   supabase: {
-    url: '',
-    anonKey: ''
+    // Projeto "hifera" (eswccbwgosgsfjabfjtv, sa-east-1).
+    // A anon key é feita pra viver no navegador: por RLS no banco,
+    // ela só consegue INSERIR em site_leads e site_events — jamais
+    // ler. A service role (que ignora RLS) só vive nas App Settings
+    // do SWA do admin, nunca neste arquivo.
+    url: 'https://eswccbwgosgsfjabfjtv.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVzd2NjYndnb3Nnc2ZqYWJmanR2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI4MDMyNzksImV4cCI6MjEwODM3OTI3OX0.3RHtzWuGM5M6am7lQO5jaePd1TvHusiVdShu6Ye5JeU'
   }
 };
 
