@@ -126,10 +126,11 @@ def injetar_auth_borda(html):
 def montar_site():
     d = os.path.join(DIST, 'site')
     limpar(d)
-    # A home é um export estático do Next (index.html + bundle _next/ +
-    # 404.html + favicon.ico). style.css fica por causa do seguranca.html,
-    # que ainda é página à parte.
-    for item in ('index.html', '404.html', 'favicon.ico', '_next',
+    # A home é o export de design (Main.dc.html + support.js + vendor/
+    # react; assets em hash dentro de assets/). style.css fica por causa
+    # do seguranca.html, que ainda é página à parte. 404.html é a página
+    # de erro servida pelo responseOverrides do SWA.
+    for item in ('index.html', '404.html', 'support.js', 'vendor',
                  'seguranca.html', 'style.css', 'robots.txt',
                  'sitemap.xml', 'assets', 'js', 'projetos', 'apps', 'v2'):
         copiar(item, d)
