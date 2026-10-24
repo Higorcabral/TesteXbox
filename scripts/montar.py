@@ -126,13 +126,18 @@ def injetar_auth_borda(html):
 def montar_site():
     d = os.path.join(DIST, 'site')
     limpar(d)
-    # A home é o export do mockup de design (index.html + support.js +
-    # vendor/ react; os assets em hash ficam dentro de assets/). style.css
-    # fica por causa do seguranca.html, que ainda é página à parte.
-    for item in ('index.html', 'support.js', 'vendor',
+    # A home é um export estático do Next (index.html + bundle _next/ +
+    # 404.html + favicon.ico). style.css fica por causa do seguranca.html,
+    # que ainda é página à parte.
+    for item in ('index.html', '404.html', 'favicon.ico', '_next',
                  'seguranca.html', 'style.css', 'robots.txt',
                  'sitemap.xml', 'assets', 'js', 'projetos', 'apps', 'v2'):
         copiar(item, d)
+    # api-site/ (Azure Function do formulário) vira dist/site/api/ — é
+    # a convenção que o workflow aponta como api_location do SWA.
+    api_src = os.path.join(RAIZ, 'api-site')
+    if os.path.isdir(api_src):
+        shutil.copytree(api_src, os.path.join(d, 'api'), dirs_exist_ok=True)
     config('site', d)
     return d
 

@@ -1,0 +1,8 @@
+{
+  "name": "hifera-site-api",
+  "version": "1.0.0",
+  "description": "Azure Functions do app site (www.hifera.com.br).",
+  "private": true,
+  "main": "contato/index.js",
+  "engines": { "node": ">=20" }
+}
