@@ -49,10 +49,15 @@ jobs:
             # Segredo do GitHub não pode ser lido de volta — reusar o nome
             # evita ter que gerar o token de novo no portal do Azure.
             segredo: AZURE_STATIC_WEB_APPS_API_TOKEN_PROUD_MOSS_07D5E630F
+            # Function do /api/contato: o montar.py copia api-site/ para
+            # dist/site/api/, e o SWA deploya isso como managed function.
+            api: 'api'
           - app: admin
             segredo: AZURE_SWA_TOKEN_ADMIN
+            api: 'api'
           - app: clientes
             segredo: AZURE_SWA_TOKEN_CLIENTES
+            api: ''
     steps:
       - uses: actions/checkout@v4
 
@@ -85,10 +90,9 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: upload
           app_location: dist/${{ matrix.app }}
-          api_location: ''
+          api_location: ${{ matrix.api }}
           output_location: ''
           skip_app_build: true          # já está montado; não há build a fazer
-          skip_api_build: true
 
   fechar_pr:
     name: Fechar ambiente de PR (${{ matrix.app }})
