@@ -1,0 +1,7 @@
+{
+  "name": "hifera-admin-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Functions do admin da Hifera. Hoje só site-analytics: lê os leads e eventos do site no Supabase com a chave de serviço, do lado do servidor.",
+  "engines": { "node": ">=18" }
+}

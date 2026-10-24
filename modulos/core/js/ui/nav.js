@@ -35,6 +35,8 @@ HiferaAdmin.Nav = (function () {
     { grupo: 'Relacionamento' },
     { id: 'clientes',  href: 'admin/clientes.html', rotulo: 'Clientes &amp; Leads',
       icone: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/>' },
+    { id: 'site',      href: 'admin/site.html', rotulo: 'Site oficial',
+      icone: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/>' },
     { id: 'conteudo',  href: 'admin/conteudo.html', rotulo: 'Conteúdo do site',
       icone: '<path d="M4 5h16v14H4z"/><path d="M4 9h16M9 9v10"/>' }
   ];
