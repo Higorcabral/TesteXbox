@@ -125,6 +125,28 @@ def caixa_confere(caminho):
 # ---------------------------------------------------------------------
 # Verificação 1 — referências quebradas (offline)
 # ---------------------------------------------------------------------
+def rotas_virtuais():
+    """Rotas que não têm arquivo no disco mas são válidas por causa de
+    rewrite/redirect no staticwebapp.config.json de cada app. Sem isso
+    o checador reprovaria referências a /projetos/crm/ etc."""
+    import json, glob
+    rotas = set()
+    for cfg in glob.glob(os.path.join(RAIZ, 'deploy', '*.config.json')):
+        try:
+            d = json.load(open(cfg))
+            for r in d.get('routes', []):
+                if r.get('rewrite') or r.get('redirect'):
+                    rota = (r.get('route') or '').rstrip('*')
+                    if rota:
+                        rotas.add(rota.rstrip('/'))
+                        rotas.add(rota.rstrip('/') + '/')
+        except Exception:
+            pass
+    return rotas
+
+ROTAS_VIRTUAIS = rotas_virtuais()
+
+
 def verificar_links():
     problemas = []
     total = 0
@@ -136,6 +158,11 @@ def verificar_links():
         # A home é um export de ferramenta de design: src/href com
         # {{placeholder}} são preenchidos em runtime, não são links no disco.
         if '{{' in ref:
+            return
+        # Rotas resolvidas por rewrite/redirect do SWA (ver deploy/*.config.json)
+        # não têm arquivo correspondente — não reprovar.
+        ref_norm = ref.split('?')[0].split('#')[0]
+        if ref_norm in ROTAS_VIRTUAIS:
             return
         total += 1
         rel_origem = os.path.relpath(origem, RAIZ)

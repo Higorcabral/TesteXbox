@@ -1,12 +1,11 @@
-# Hifera Company — hifera.com
-# Conteúdo proprietário. Buscadores tradicionais são bem-vindos;
-# crawlers usados para coleta de dados de treinamento de IA, não.
+# Hifera Company — hifera.com.br
+# Conteúdo proprietário. Busca é bem-vinda; coleta para TREINO de IA, não.
+# Diferença intencional: busca que indexa e cita (ex.: OAI-SearchBot do
+# ChatGPT, PerplexityBot) ajuda a pessoa a nos achar; crawlers de treino
+# (ex.: GPTBot, ClaudeBot, Google-Extended) alimentam o modelo e saem.
 
-# --- Crawlers de IA / coleta para treinamento ---
+# --- Crawlers de TREINO de IA (bloqueados) ---
 User-agent: GPTBot
-Disallow: /
-
-User-agent: OAI-SearchBot
 Disallow: /
 
 User-agent: ChatGPT-User
@@ -30,9 +29,6 @@ Disallow: /
 User-agent: Bytespider
 Disallow: /
 
-User-agent: PerplexityBot
-Disallow: /
-
 User-agent: Applebot-Extended
 Disallow: /
 
@@ -51,7 +47,7 @@ Disallow: /
 User-agent: Omgilibot
 Disallow: /
 
-# --- Demais robôs, incluindo Google e Bing ---
+# --- Demais robôs: Google, Bing, DuckDuckGo, OAI-SearchBot, Perplexity ---
 User-agent: *
 Allow: /
 

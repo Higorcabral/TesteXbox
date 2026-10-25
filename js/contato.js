@@ -69,7 +69,7 @@ window.HiferaContato = (function () {
     email: 'comercial@hifera.com.br',
 
     /* DDI + DDD + número, só dígitos. Vazio = canal desligado. */
-    whatsapp: '',
+    whatsapp: '5511963958097',
     whatsappSaudacao: 'Olá! Vim pelo site da Hifera e queria conversar sobre um processo que dá trabalho aqui.',
 
     /* URL completa ou string vazia. Vazio = não aparece no rodapé. */
