@@ -1350,7 +1350,7 @@ class Component extends DCLogic {
     const rot = t.rot.concat([t.rot[0]]);
     const commits = t.commits.map((c, i) => ({ ...c, n: "0" + (i + 1) }));
     const dImg = [B.crm, B.mani, B.mecan, B.stoq];
-    const dHref = ["https://www.hifera.com.br/projetos/Projeto-CRM/","https://www.hifera.com.br/projetos/Projeto-Mani/","https://www.hifera.com.br/projetos/Projeto-Mecan/","https://www.hifera.com.br/projetos/Projeto-Stoq/"];
+    const dHref = ["https://www.hifera.com.br/projetos/crm/","https://www.hifera.com.br/projetos/manicure/","https://www.hifera.com.br/projetos/mecanica/","https://www.hifera.com.br/projetos/estoque/"];
     const demos = t.demos.map((d, i) => ({ ...d, img: dImg[i], href: dHref[i] }));
     const people = [
       { ...t.people[0], n: "Higor Cabral", img: "./assets/f9f11c2a6de1da6e689ac5c33c1c5e46.webp", pos: "62% 50%" },

@@ -31,10 +31,10 @@ HiferaWebSite/                 raiz do repositório = raiz do GitHub Pages
 │
 ├── ── DEMOS / PRODUTOS ──────────────────────────────────────────
 ├── projetos/               Demos navegáveis, cada uma auto-contida
-│   ├── Projeto-CRM/          Pipeline comercial
-│   ├── Projeto-Mani/         Agenda para estúdio de manicure
-│   ├── Projeto-Mecan/        Ordem de serviço para oficina
-│   └── Projeto-Stoq/         Controle de estoque
+│   ├── crm/          Pipeline comercial
+│   ├── manicure/         Agenda para estúdio de manicure
+│   ├── mecanica/        Ordem de serviço para oficina
+│   └── estoque/         Controle de estoque
 │
 ├── apps/
 │   └── ledger/             Controle Financeiro — demo ao vivo do produto
@@ -105,7 +105,7 @@ Três coisas que valem lembrar antes de mexer:
 
 1. **Editar no painel muda a home só na sua máquina.** Para publicar de
    verdade: *Publicar* → substituir `js/vitrine-dados.js` → commitar.
-2. **Os `link:` dos projetos são relativos à raiz do site** (`projetos/Projeto-CRM/`),
+2. **Os `link:` dos projetos são relativos à raiz do site** (`projetos/crm/`),
    não à pasta do painel. Quem faz a tradução é `Fmt.urlDoSite()`.
 3. **A vitrine tem fallback triplo**: `localStorage` → `vitrine-dados.js` →
    HTML estático da `index.html`. Nenhum dos três pode sair de sincronia sem

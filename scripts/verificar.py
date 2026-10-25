@@ -32,8 +32,8 @@ APPS = {
         'base': 'https://www.hifera.com.br',
         'ok': ['/', '/seguranca.html', '/robots.txt', '/style.css',
                '/js/vitrine.js', '/js/demo.js',
-               '/projetos/Projeto-CRM/', '/projetos/Projeto-Mani/',
-               '/projetos/Projeto-Mecan/', '/projetos/Projeto-Stoq/',
+               '/projetos/crm/', '/projetos/manicure/',
+               '/projetos/mecanica/', '/projetos/estoque/',
                '/apps/ledger/', '/v2/'],
         # A área interna saiu daqui: se voltar a responder, é vazamento.
         'ausente': ['/modulos/', '/modulos/admin/', '/portal/', '/scripts/montar.py'],
