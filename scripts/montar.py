@@ -131,8 +131,9 @@ def montar_site():
     # do seguranca.html, que ainda é página à parte. 404.html é a página
     # de erro servida pelo responseOverrides do SWA.
     for item in ('index.html', '404.html', 'support.js', 'vendor',
-                 'seguranca.html', 'style.css', 'robots.txt',
-                 'sitemap.xml', 'assets', 'js', 'projetos', 'apps', 'v2'):
+                 'seguranca.html', 'privacidade.html', 'style.css',
+                 'robots.txt', 'sitemap.xml', 'assets', 'js',
+                 'projetos', 'apps', 'v2', 'blog'):
         copiar(item, d)
     # api-site/ (Azure Function do formulário) vira dist/site/api/ — é
     # a convenção que o workflow aponta como api_location do SWA.

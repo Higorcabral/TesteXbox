@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Política de Privacidade — Hifera Company</title>
+<meta name="description" content="Como a Hifera Company trata dados pessoais no site, no formulário de contato e na medição anônima de comportamento. LGPD, retenção e direitos do titular.">
+<meta name="theme-color" content="#0a0a0b">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.hifera.com.br/privacidade.html">
+<link rel="icon" type="image/png" href="/assets/logo/HiferaIcon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0a0a0b; --text:#f2f2f4; --dim:#a1a1aa; --cyan:#5de0e6; --grad: linear-gradient(135deg,#5de0e6 0%, #004aad 100%); }
+  html, body { margin:0; background:var(--bg); color:var(--text); font: 400 17px/1.65 Poppins, system-ui, sans-serif; }
+  a { color:var(--cyan); }
+  header.topo { display:flex; align-items:center; gap:12px; padding:16px 24px; border-bottom:1px solid rgba(255,255,255,.08); }
+  header.topo img { width:28px; height:28px; }
+  header.topo .marca { font: 700 14px Poppins; letter-spacing:.14em; background:linear-gradient(135deg,#5de0e6,#4d9fe8); -webkit-background-clip:text; background-clip:text; color:transparent; text-transform:uppercase; }
+  .wrap { max-width:760px; margin:0 auto; padding:48px 24px 80px; }
+  h1 { font: 700 clamp(32px,5vw,46px) Poppins; letter-spacing:-.02em; margin:0 0 10px; }
+  h2 { font: 600 22px Poppins; margin:36px 0 10px; letter-spacing:-.01em; }
+  h3 { font: 600 17px Poppins; margin:22px 0 6px; }
+  p, li { color:#e8e8ee; margin:0 0 14px; }
+  ul { padding-left:22px; }
+  .meta { color:var(--dim); font-size:14px; margin-bottom:30px; }
+  .box { padding:20px 22px; border-radius:14px; background:rgba(93,224,230,.06); border:1px solid rgba(93,224,230,.2); margin:28px 0; }
+</style>
+</head>
+<body>
+<header class="topo">
+  <a href="/" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit">
+    <img src="/assets/logo/HiferaIcon.png" alt="Hifera Company">
+    <span class="marca">HIFERA COMPANY</span>
+  </a>
+  <span style="margin-left:auto"><a href="/">← voltar ao site</a></span>
+</header>
+<main class="wrap">
+  <h1>Política de Privacidade</h1>
+  <p class="meta">Última atualização: 25 de outubro de 2026</p>
+
+  <p>
+    Esta política explica como a <strong>Hifera Company</strong>
+    (CNPJ a divulgar; <a href="mailto:comercial@hifera.com.br">comercial@hifera.com.br</a>) trata dados pessoais
+    quando você visita <strong>www.hifera.com.br</strong>, usa o
+    formulário de contato ou navega pelo site. Está escrita em linguagem
+    direta porque dado pessoal é assunto sério, não cláusula escondida.
+  </p>
+
+  <h2>1. O que coletamos</h2>
+
+  <h3>Quando você preenche o formulário</h3>
+  <p>
+    O formulário na página inicial pede <strong>nome</strong>,
+    <strong>e-mail ou WhatsApp</strong> e <strong>uma mensagem livre</strong>.
+    Esses dados são enviados para o nosso endpoint próprio
+    (<code>/api/contato</code>) e, em paralelo, gravados em uma tabela
+    privada no Supabase. Não há cookies, não há anúncios, não há revenda.
+    Base legal: <em>consentimento</em> — você preencheu de propósito,
+    para ser respondido.
+  </p>
+
+  <h3>Quando você só navega</h3>
+  <p>
+    Se você aceitar o aviso no banner, medimos de forma anônima:
+  </p>
+  <ul>
+    <li>Páginas acessadas (ex.: <code>/</code>, <code>/#servicos</code>);</li>
+    <li>Cliques em botões marcados (ex.: "Vamos conversar");</li>
+    <li>Até onde a página rolou (25%, 50%, 75%, 100%);</li>
+    <li>Tempo visível na página.</li>
+  </ul>
+  <p>
+    Cada visita recebe um identificador aleatório que vive só na sessão
+    (fica no seu navegador, expira em 30 min de inatividade). <strong>Não
+    guardamos IP, nome, e-mail ou qualquer coisa que ligue esses eventos
+    a você.</strong> Base legal: <em>consentimento</em>, dado no banner.
+    "Só essenciais" bloqueia toda a medição.
+  </p>
+
+  <div class="box">
+    <strong>Do Not Track</strong> — se o seu navegador envia o cabeçalho
+    DNT, nem perguntamos: o banner não aparece e nada é medido. Para
+    desligar depois, limpe os cookies/dados do site e refuse quando o
+    banner reaparecer.
+  </div>
+
+  <h2>2. Por quanto tempo guardamos</h2>
+  <ul>
+    <li><strong>Leads do formulário</strong>: até fecharmos o atendimento ou até você pedir a exclusão. Depois de 24 meses sem contato, apagamos de ofício.</li>
+    <li><strong>Eventos de navegação</strong>: 180 dias. Depois disso são agregados em números por mês e os registros brutos são apagados.</li>
+    <li><strong>Logs técnicos</strong> da Function do contato (Azure Application Insights): 30 dias.</li>
+  </ul>
+
+  <h2>3. Quem acessa esses dados</h2>
+  <p>
+    Internamente: os dois cofundadores da Hifera, com SSO Microsoft e o
+    papel <code>hifera</code> no Static Web App do admin. Externamente,
+    só os processadores que operam a infraestrutura:
+  </p>
+  <ul>
+    <li><strong>Microsoft Azure</strong> (hospedagem do site, Function do contato, autenticação do admin) — São Paulo, Brasil.</li>
+    <li><strong>Supabase</strong> (banco de dados) — São Paulo, Brasil.</li>
+    <li><strong>GitHub</strong> (código-fonte do site) — Estados Unidos.</li>
+  </ul>
+  <p>
+    Nenhum terceiro recebe seus dados para fins comerciais. Não há
+    transferência internacional de dado pessoal para fora dos
+    processadores acima.
+  </p>
+
+  <h2>4. Seus direitos (LGPD)</h2>
+  <p>
+    A qualquer momento você pode escrever para
+    <a href="mailto:comercial@hifera.com.br">comercial@hifera.com.br</a> para pedir:
+  </p>
+  <ul>
+    <li><strong>Confirmação</strong> de que tratamos ou não dado seu;</li>
+    <li><strong>Acesso</strong> a tudo que temos sobre você;</li>
+    <li><strong>Correção</strong> de dado incorreto;</li>
+    <li><strong>Eliminação</strong> do que coletamos (incluindo os eventos anônimos ligados a uma sessão específica, se você conseguir informá-la);</li>
+    <li><strong>Portabilidade</strong> em formato aberto (JSON);</li>
+    <li><strong>Revogação do consentimento</strong>, sem precisar justificar.</li>
+  </ul>
+  <p>
+    Respondemos em até <strong>15 dias úteis</strong>. Se o pedido vier
+    acompanhado de prova de identidade, o prazo pode ser menor.
+  </p>
+
+  <h2>5. Cookies e armazenamento local</h2>
+  <p>
+    O site <strong>não usa cookies de rastreamento</strong>. Usamos apenas
+    <code>sessionStorage</code> e <code>localStorage</code> no seu próprio
+    navegador para três coisas:
+  </p>
+  <ul>
+    <li><code>hifera.site.consentimento.v1</code>: lembra a sua escolha no banner;</li>
+    <li><code>hifera.site.sessao.v1</code>: o identificador aleatório da sessão enquanto você está no site;</li>
+    <li><code>hifera_lang</code>: o idioma do site se você trocar.</li>
+  </ul>
+  <p>
+    Nada disso nos é enviado. Limpar os dados do site no navegador apaga
+    tudo e devolve o banner no próximo acesso.
+  </p>
+
+  <h2>6. Segurança</h2>
+  <p>
+    Explicamos a arquitetura de segurança do site, do admin e das
+    integrações em <a href="/seguranca.html">/seguranca.html</a>: HTTPS obrigatório, service role apenas
+    no servidor, RLS fechado para anon no banco, autenticação Microsoft
+    para a área interna.
+  </p>
+
+  <h2>7. Mudanças nesta política</h2>
+  <p>
+    Qualquer alteração relevante é publicada aqui com nova data no topo.
+    Se a alteração ampliar os dados coletados ou os destinatários,
+    pedimos o seu consentimento de novo no próximo acesso.
+  </p>
+
+  <h2>8. Contato</h2>
+  <p>
+    <a href="mailto:comercial@hifera.com.br">comercial@hifera.com.br</a> — este endereço serve também como canal
+    com o encarregado pelo tratamento de dados (DPO) enquanto a Hifera
+    não tiver pessoa dedicada.
+  </p>
+</main>
+</body>
+</html>
