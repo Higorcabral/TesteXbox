@@ -44,7 +44,7 @@ window.HIFERA_PROJETOS = [
     "segmento": "Comercial",
     "ordem": 1,
     "descricao": "Pipeline, follow-up e relatórios de vendas.",
-    "link": "projetos/Projeto-CRM/",
+    "link": "projetos/crm/",
     "novaAba": true,
     "imagens": [
       {
@@ -62,7 +62,7 @@ window.HIFERA_PROJETOS = [
     "segmento": "Agendamento",
     "ordem": 2,
     "descricao": "Agenda online e lembretes automáticos.",
-    "link": "projetos/Projeto-Mani/",
+    "link": "projetos/manicure/",
     "novaAba": true,
     "imagens": [
       {
@@ -80,7 +80,7 @@ window.HIFERA_PROJETOS = [
     "segmento": "Oficina",
     "ordem": 3,
     "descricao": "Ordem de serviço digital e orçamentos.",
-    "link": "projetos/Projeto-Mecan/",
+    "link": "projetos/mecanica/",
     "novaAba": true,
     "imagens": [
       {
@@ -102,7 +102,7 @@ window.HIFERA_PROJETOS = [
     "segmento": "Estoque",
     "ordem": 4,
     "descricao": "Código de barras, mínimo e curva ABC.",
-    "link": "projetos/Projeto-Stoq/",
+    "link": "projetos/estoque/",
     "novaAba": true,
     "imagens": [
       {

@@ -81,7 +81,7 @@ HiferaAdmin.Fmt = (function () {
   }
 
   /* Os caminhos dos projetos são gravados relativos à RAIZ do site
-     ('projetos/Projeto-CRM/'), mas o painel roda em /modulos/<algo>/.
+     ('projetos/crm/'), mas o painel roda em /modulos/<algo>/.
      Reapontamos na hora de exibir, usando o prefixo que a própria
      página declarou em HIFERA_PATHS.site. */
   function assetAdmin(src) {

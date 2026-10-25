@@ -9,7 +9,7 @@
 
      <script src="../../js/demo.js"
              data-raiz="../../"
-             data-projeto="Projeto-CRM"
+             data-projeto="crm"
              data-tela="Painel comercial"></script>
 
    · data-raiz    caminho até a raiz do site (obrigatório para logo e links)
