@@ -1521,11 +1521,17 @@ class Component extends DCLogic {
   var SLUGS = {"A planilha não é a vilã — virar sistema sozinha é": "a-planilha-nao-e-a-vila-virar-sistema-sozinha-e", "App ou sistema web? Como decidir o que sua empresa precisa": "app-ou-sistema-web-como-decidir-o-que-sua-empresa-precisa", "Automatize uma etapa primeiro: o método do menor passo": "automatize-uma-etapa-primeiro-o-metodo-do-menor-passo", "Como saber se é hora de trocar o sistema que você usa": "como-saber-se-e-hora-de-trocar-o-sistema-que-voce-usa", "Dashboard não é relatório: o que um painel precisa responder": "dashboard-nao-e-relatorio-o-que-um-painel-precisa-responder", "Do protótipo ao sistema: entregar em partes que já se usa": "do-prototipo-ao-sistema-entregar-em-partes-que-ja-se-usa", "Integração que não quebra: conecte o que a empresa já usa": "integracao-que-nao-quebra-conecte-o-que-a-empresa-ja-usa", "Por que “mais uma ferramenta” quase nunca resolve": "por-que-mais-uma-ferramenta-quase-nunca-resolve", "Power BI sem dado confiável é só um gráfico bonito": "power-bi-sem-dado-confiavel-e-so-um-grafico-bonito", "Quanto custa o processo manual que ninguém mede": "quanto-custa-o-processo-manual-que-ninguem-mede", "Segurança básica que toda empresa pequena deveria ter": "seguranca-basica-que-toda-empresa-pequena-deveria-ter", "Site bonito não vende sozinho: o que faz um site trazer cliente": "site-bonito-nao-vende-sozinho-o-que-faz-um-site-trazer-cliente"};
 
   function converterImgs() {
-    document.querySelectorAll('img[data-ssrc]').forEach(function (i) {
-      var v = i.getAttribute('data-ssrc');
+    /* O support.js do mockup renomeia nossos atributos custom
+       prefixando-os com "data-s"; então o template inicial escreveu
+       data-ssrc="..." e, depois do render, o DOM passa a ter
+       data-sdata-ssrc="...". Olhamos nos dois nomes. */
+    var sel = 'img[data-ssrc], img[data-sdata-ssrc]';
+    document.querySelectorAll(sel).forEach(function (i) {
+      var v = i.getAttribute('data-ssrc') || i.getAttribute('data-sdata-ssrc');
       if (v && v.indexOf('{{') < 0) {
-        i.setAttribute('src', v);
+        if (i.getAttribute('src') !== v) i.setAttribute('src', v);
         i.removeAttribute('data-ssrc');
+        i.removeAttribute('data-sdata-ssrc');
       }
     });
   }
@@ -1581,7 +1587,7 @@ class Component extends DCLogic {
   });
   mo.observe(document.body, {
     subtree: true, childList: true,
-    attributes: true, attributeFilter: ['data-ssrc']
+    attributes: true, attributeFilter: ['data-ssrc', 'data-sdata-ssrc']
   });
 })();
 </script>
