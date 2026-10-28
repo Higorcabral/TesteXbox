@@ -338,7 +338,7 @@ button.card{font:inherit;color:inherit;text-align:left;cursor:pointer;padding:0;
 <sc-for list="{{screens}}" as="sc" hint-placeholder-count="5">
 <div class="win float" style="{{sc.style}}">
 <div class="winbar"><i></i><i></i><i></i><span class="mono" style="margin-left: 10px; font-size: 10px; color: #71717a">{{sc.url}}</span></div>
-<img src="{{sc.img}}" alt="{{sc.name}}">
+<img data-sdata-ssrc="{{sc.img}}" alt="{{sc.name}}">
 </div>
 </sc-for>
 <div class="chipf float" style="left: -2%; bottom: 30px; transform: translateZ(120px); animation-delay: -3s">
@@ -367,7 +367,7 @@ button.card{font:inherit;color:inherit;text-align:left;cursor:pointer;padding:0;
 <div class="mqt">
 <sc-for list="{{stack}}" as="s" hint-placeholder-count="14">
 <div class="tec">
-<sc-if value="{{s.hasImg}}" hint-placeholder-val="{{true}}"><img src="{{s.img}}" alt=""></sc-if>
+<sc-if value="{{s.hasImg}}" hint-placeholder-val="{{true}}"><img data-sdata-ssrc="{{s.img}}" alt=""></sc-if>
 <sc-if value="{{s.g1}}" hint-placeholder-val="{{false}}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="3.5"></rect><rect x="3" y="14" width="7" height="7" rx="3.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect></svg></sc-if>
 <sc-if value="{{s.g2}}" hint-placeholder-val="{{false}}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" aria-hidden="true"><path d="M5 21V12M10 21V8M15 21V4M20 21v-6"></path></svg></sc-if>
 <sc-if value="{{s.g3}}" hint-placeholder-val="{{false}}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" aria-hidden="true"><path d="M3 7h10l-3-3M21 17H11l3 3"></path><circle cx="18" cy="7" r="3"></circle><circle cx="6" cy="17" r="3"></circle></svg></sc-if>
@@ -510,7 +510,7 @@ button.card{font:inherit;color:inherit;text-align:left;cursor:pointer;padding:0;
 <p style="font-size: 15px; color: #a1a1aa; margin: 10px 0 0; line-height: 1.6; max-width: 440px">{{t.c3s}}</p>
 <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px">
 <sc-for list="{{chips}}" as="c" hint-placeholder-count="8">
-<span class="tchip" style="animation-delay: {{c.delay}}"><img src="{{c.img}}" alt="">{{c.name}}</span>
+<span class="tchip" style="animation-delay: {{c.delay}}"><img data-sdata-ssrc="{{c.img}}" alt="">{{c.name}}</span>
 </sc-for>
 </div>
 </div>
@@ -583,7 +583,7 @@ button.card{font:inherit;color:inherit;text-align:left;cursor:pointer;padding:0;
 <div class="two" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 20px">
 <sc-for list="{{demos}}" as="dm" hint-placeholder-count="4">
 <a class="card rv" href="{{dm.href}}" style="padding: 14px 14px 26px; display: flex; flex-direction: column">
-<div class="shot" style="aspect-ratio: 16/10; position: relative"><img src="{{dm.img}}" alt="{{dm.t}}"><span class="tag" style="position: absolute; left: 14px; top: 14px">{{t.demoTag}}</span></div>
+<div class="shot" style="aspect-ratio: 16/10; position: relative"><img data-sdata-ssrc="{{dm.img}}" alt="{{dm.t}}"><span class="tag" style="position: absolute; left: 14px; top: 14px">{{t.demoTag}}</span></div>
 <div style="padding: 20px 12px 0; display: flex; justify-content: space-between; align-items: flex-end; gap: 16px">
 <span><span class="mono" style="display: block; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--acc)">{{dm.k}}</span><span class="disp" style="display: block; font-weight: 600; font-size: 21px; color: #fff; margin-top: 6px">{{dm.t}}</span><span style="display: block; font-size: 15px; line-height: 1.55; color: #a1a1aa; margin-top: 6px">{{dm.d}}</span></span>
 <span class="lnk" style="flex: none">{{t.demoCta}} <span class="arr" aria-hidden="true">→</span></span>
@@ -638,7 +638,7 @@ button.card{font:inherit;color:inherit;text-align:left;cursor:pointer;padding:0;
 <div class="two" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 52px">
 <sc-for list="{{people}}" as="pp" hint-placeholder-count="2">
 <div class="card team teamc rv" style="padding: 14px; display: grid; grid-template-columns: minmax(0, 200px) 1fr; gap: 24px; align-items: stretch">
-<div style="border-radius: 14px; overflow: hidden; aspect-ratio: 4/5; border: 1px solid rgba(93,224,230,.2); box-shadow: 0 20px 50px -20px rgba(0,74,173,.7)"><img src="{{pp.img}}" alt="{{pp.n}}" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: {{pp.pos}}"></div>
+<div style="border-radius: 14px; overflow: hidden; aspect-ratio: 4/5; border: 1px solid rgba(93,224,230,.2); box-shadow: 0 20px 50px -20px rgba(0,74,173,.7)"><img data-sdata-ssrc="{{pp.img}}" alt="{{pp.n}}" style="display: block; width: 100%; height: 100%; object-fit: cover; object-position: {{pp.pos}}"></div>
 <div style="padding: 12px 14px 12px 0; display: flex; flex-direction: column">
 <span class="mono" style="font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--acc)">{{pp.r}}</span>
 <h3 class="disp" style="font-weight: 600; font-size: 26px; color: #fff; margin: 10px 0 0; letter-spacing: -.02em">{{pp.n}}</h3>
@@ -663,7 +663,7 @@ button.card{font:inherit;color:inherit;text-align:left;cursor:pointer;padding:0;
 <div class="blogTop" style="display: grid; grid-template-columns: 1.55fr 1fr; gap: 20px; margin-top: 48px">
 <button class="card post rv" type="button" onClick="{{feat.open}}" style="display: flex; flex-direction: column; min-height: 520px">
 <span class="cov" style="position: relative; display: block; flex: 1; width: 100%; min-height: 300px; overflow: hidden">
-<img src="{{feat.img}}" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover">
+<img data-sdata-ssrc="{{feat.img}}" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover">
 <span style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,74,173,.18) 0%, rgba(10,10,11,0) 30%, rgba(10,10,11,.96))"></span>
 <span class="tag" style="position: absolute; left: 24px; top: 24px">{{feat.cat}}</span>
 <span style="position: absolute; left: 28px; right: 28px; bottom: 26px; display: block">
@@ -681,7 +681,7 @@ button.card{font:inherit;color:inherit;text-align:left;cursor:pointer;padding:0;
 <sc-for list="{{side}}" as="po" hint-placeholder-count="2">
 <button class="card post rv" type="button" onClick="{{po.open}}" style="display: flex; flex-direction: column; flex: 1">
 <span class="cov" style="position: relative; display: block; width: 100%; height: 140px; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,.06)">
-<img src="{{po.img}}" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; opacity: .55">
+<img data-sdata-ssrc="{{po.img}}" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; opacity: .55">
 <span style="position: absolute; inset: 0; background: linear-gradient(120deg, rgba(0,74,173,.55), rgba(10,10,11,.6))"></span>
 <span class="tag" style="position: absolute; left: 18px; top: 16px">{{po.cat}}</span>
 </span>
@@ -699,7 +699,7 @@ button.card{font:inherit;color:inherit;text-align:left;cursor:pointer;padding:0;
 <sc-for list="{{rest}}" as="po" hint-placeholder-count="4">
 <button class="card post rv" type="button" onClick="{{po.open}}" style="display: flex; flex-direction: column">
 <span class="cov" style="position: relative; display: block; width: 100%; height: 150px; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,.06)">
-<img src="{{po.img}}" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; opacity: .5">
+<img data-sdata-ssrc="{{po.img}}" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; opacity: .5">
 <span style="position: absolute; inset: 0; background: linear-gradient(140deg, rgba(10,10,11,.4), rgba(0,74,173,.5))"></span>
 <span class="tag" style="position: absolute; left: 16px; top: 14px">{{po.cat}}</span>
 </span>
@@ -798,7 +798,7 @@ button.card{font:inherit;color:inherit;text-align:left;cursor:pointer;padding:0;
 <sc-for list="{{archive}}" as="po" hint-placeholder-count="6">
 <button class="card post" type="button" onClick="{{po.open}}" style="display: flex; flex-direction: column">
 <span class="cov" style="position: relative; display: block; width: 100%; height: 170px; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,.06)">
-<img src="{{po.img}}" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; opacity: .6">
+<img data-sdata-ssrc="{{po.img}}" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; opacity: .6">
 <span style="position: absolute; inset: 0; background: linear-gradient(140deg, rgba(10,10,11,.35), rgba(0,74,173,.45))"></span>
 <span class="tag" style="position: absolute; left: 16px; top: 14px">{{po.cat}}</span>
 </span>
@@ -833,7 +833,7 @@ button.card{font:inherit;color:inherit;text-align:left;cursor:pointer;padding:0;
 <div style="display: flex; align-items: center; gap: 14px; margin-top: 30px; padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,.08)">
 <span><span style="display: block; font-weight: 600; font-size: 15px; color: #fff">{{op.author}}</span><span class="mono" style="display: block; font-size: 12px; color: #a1a1aa; margin-top: 3px">{{op.date}} · {{op.min}} {{t.rdRead}}</span></span>
 </div>
-<div style="margin-top: 34px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); aspect-ratio: 16/8; position: relative"><img src="{{op.img}}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block"><span style="position: absolute; inset: 0; background: linear-gradient(160deg, rgba(0,74,173,.25), transparent 50%)"></span></div>
+<div style="margin-top: 34px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); aspect-ratio: 16/8; position: relative"><img data-sdata-ssrc="{{op.img}}" alt="" style="width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block"><span style="position: absolute; inset: 0; background: linear-gradient(160deg, rgba(0,74,173,.25), transparent 50%)"></span></div>
 <sc-if value="{{notPt}}" hint-placeholder-val="{{false}}"><p class="mono" style="margin: 28px 0 0; font-size: 13px; color: var(--acc)">{{t.rdLang}}</p></sc-if>
 <div class="art" style="margin-top: 36px">
 <sc-for list="{{op.body}}" as="b" hint-placeholder-count="6">
@@ -855,7 +855,7 @@ button.card{font:inherit;color:inherit;text-align:left;cursor:pointer;padding:0;
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px">
 <sc-for list="{{more}}" as="po" hint-placeholder-count="3">
 <button class="card post" type="button" onClick="{{po.open}}" style="display: flex; flex-direction: column">
-<span class="cov" style="position: relative; display: block; width: 100%; height: 130px; overflow: hidden"><img src="{{po.img}}" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; opacity: .5"><span style="position: absolute; inset: 0; background: linear-gradient(140deg, rgba(10,10,11,.4), rgba(0,74,173,.5))"></span><span class="tag" style="position: absolute; left: 14px; top: 12px">{{po.cat}}</span></span>
+<span class="cov" style="position: relative; display: block; width: 100%; height: 130px; overflow: hidden"><img data-sdata-ssrc="{{po.img}}" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; opacity: .5"><span style="position: absolute; inset: 0; background: linear-gradient(140deg, rgba(10,10,11,.4), rgba(0,74,173,.5))"></span><span class="tag" style="position: absolute; left: 14px; top: 12px">{{po.cat}}</span></span>
 <span style="padding: 18px; display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 12px; color: #a1a1aa">{{po.date}}</span><span class="disp pt" style="font-weight: 600; font-size: 16px; line-height: 1.35; color: #fff">{{po.title}}</span></span>
 </button>
 </sc-for>
@@ -1302,8 +1302,8 @@ class Component extends DCLogic {
     // hero carousel
     const scr = [
       {img:B.ledger,url:"hifera.com.br/apps/ledger"},{img:B.crm,url:"hifera.com.br/projetos/crm"},
-      {img:B.stoq,url:"hifera.com.br/projetos/estoque"},{img:B.mecan,url:"hifera.com.br/projetos/oficina"},
-      {img:B.mani,url:"hifera.com.br/projetos/agenda"}];
+      {img:B.stoq,url:"hifera.com.br/projetos/estoque"},{img:B.mecan,url:"hifera.com.br/projetos/mecanica"},
+      {img:B.mani,url:"hifera.com.br/projetos/manicure"}];
     const SL = [
       "left: 12%; top: 160px; width: 88%; transform: translateZ(30px); opacity: 1; z-index: 4; filter: none",
       "left: -4%; top: 70px; width: 66%; transform: translateZ(-90px); opacity: .78; z-index: 3; filter: brightness(.8)",
@@ -1507,5 +1507,83 @@ class Component extends DCLogic {
 <p><a href="/privacidade.html">Política de Privacidade</a> · <a href="/seguranca.html">Segurança</a></p>
 </section>
 </noscript>
+<!-- Hifera post-render -->
+<script>
+/* Pós-render do mockup — não altera visual nem animações.
+   (1) data-ssrc → src quando o template é preenchido (elimina os ~9
+       404 do preload contra "{{...}}").
+   (2) <button class="card post"> → navegação para /blog/<slug>.html.
+   (3) aria-label no <h1> do hero (os spans animados são inline-block
+       e colavam palavras no screen reader; agora eles ficam
+       aria-hidden e o h1 traz o texto corrido). */
+(function () {
+  'use strict';
+  var SLUGS = {"A planilha não é a vilã — virar sistema sozinha é": "a-planilha-nao-e-a-vila-virar-sistema-sozinha-e", "App ou sistema web? Como decidir o que sua empresa precisa": "app-ou-sistema-web-como-decidir-o-que-sua-empresa-precisa", "Automatize uma etapa primeiro: o método do menor passo": "automatize-uma-etapa-primeiro-o-metodo-do-menor-passo", "Como saber se é hora de trocar o sistema que você usa": "como-saber-se-e-hora-de-trocar-o-sistema-que-voce-usa", "Dashboard não é relatório: o que um painel precisa responder": "dashboard-nao-e-relatorio-o-que-um-painel-precisa-responder", "Do protótipo ao sistema: entregar em partes que já se usa": "do-prototipo-ao-sistema-entregar-em-partes-que-ja-se-usa", "Integração que não quebra: conecte o que a empresa já usa": "integracao-que-nao-quebra-conecte-o-que-a-empresa-ja-usa", "Por que “mais uma ferramenta” quase nunca resolve": "por-que-mais-uma-ferramenta-quase-nunca-resolve", "Power BI sem dado confiável é só um gráfico bonito": "power-bi-sem-dado-confiavel-e-so-um-grafico-bonito", "Quanto custa o processo manual que ninguém mede": "quanto-custa-o-processo-manual-que-ninguem-mede", "Segurança básica que toda empresa pequena deveria ter": "seguranca-basica-que-toda-empresa-pequena-deveria-ter", "Site bonito não vende sozinho: o que faz um site trazer cliente": "site-bonito-nao-vende-sozinho-o-que-faz-um-site-trazer-cliente"};
+
+  function converterImgs() {
+    document.querySelectorAll('img[data-ssrc]').forEach(function (i) {
+      var v = i.getAttribute('data-ssrc');
+      if (v && v.indexOf('{{') < 0) {
+        i.setAttribute('src', v);
+        i.removeAttribute('data-ssrc');
+      }
+    });
+  }
+
+  function ligarCardsBlog() {
+    document.querySelectorAll('button.card.post').forEach(function (btn) {
+      if (btn.dataset.hiferaLinked) return;
+      var titleEl = btn.querySelector('.disp.pt');
+      if (!titleEl) return;
+      var title = (titleEl.textContent || '').trim();
+      if (!title || title.indexOf('{{') >= 0) return;
+      var slug = SLUGS[title];
+      if (!slug) return;
+      btn.dataset.hiferaLinked = '1';
+      btn.setAttribute('role', 'link');
+      btn.setAttribute('data-href', '/blog/' + slug + '.html');
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        window.location.href = '/blog/' + slug + '.html';
+      }, true);
+    });
+  }
+
+  function heroAriaLabel() {
+    var h1 = document.querySelector('.hero h1');
+    if (!h1) return;
+    /* Os spans animados são inline-block e textContent os concatena
+       sem espaço, resultando em "Transformamosdesafios...". Juntamos
+       o texto das folhas (spans sem span filho) com espaço simples
+       para o leitor de tela ler como "Transformamos desafios...". */
+    var folhas = Array.prototype.filter.call(h1.querySelectorAll('span'),
+      function (s) { return !s.querySelector('span'); });
+    if (!folhas.length) return;
+    var texto = folhas.map(function (s) {
+      return (s.textContent || '').replace(/[\s ]+/g, ' ').trim();
+    }).filter(Boolean).join(' ').replace(/\s+([,.;:!?])/g, '$1');
+    if (!texto || texto.indexOf('{{') >= 0) return;
+    if (h1.getAttribute('aria-label') === texto) return;
+    h1.setAttribute('aria-label', texto);
+    h1.querySelectorAll('span').forEach(function (s) { s.setAttribute('aria-hidden', 'true'); });
+  }
+
+  function aplicar() { converterImgs(); ligarCardsBlog(); heroAriaLabel(); }
+
+  if (document.readyState !== 'loading') aplicar();
+  else document.addEventListener('DOMContentLoaded', aplicar);
+
+  var pend = 0;
+  var mo = new MutationObserver(function () {
+    if (pend) return;
+    pend = requestAnimationFrame(function () { pend = 0; aplicar(); });
+  });
+  mo.observe(document.body, {
+    subtree: true, childList: true,
+    attributes: true, attributeFilter: ['data-ssrc']
+  });
+})();
+</script>
 </body>
 </html>
