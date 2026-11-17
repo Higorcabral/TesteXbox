@@ -278,6 +278,108 @@ button.card{font:inherit;color:inherit;text-align:left;cursor:pointer;padding:0;
 }
 @media (max-width:560px){.navin{grid-template-columns:auto 1fr}.navin .btn-sm{min-width:0;padding:0 14px}.lang{width:auto}.stage{height:320px}.chipf{display:none}.teamc{grid-template-columns:1fr !important}}
 @media (prefers-reduced-motion: reduce){.hf *,.hf *::before,.hf *::after{animation:none !important;transition:none !important}.word,.rise,.evt{opacity:1;transform:none;filter:none}.arcdraw,.chartline{stroke-dashoffset:0}}
+
+/* ================================================================
+   CELULAR (≤ 760 px)
+   O export do mockup foi feito para desktop: estilos inline com grades
+   fixas. Aqui, só para tela pequena:
+   1. grades com coluna mínima maior que a tela deixam de vazar
+   2. grupos de cards viram carrossel horizontal (deslizar), o que corta
+      a rolagem vertical de ~23 mil px para menos da metade
+   3. as animações presas à rolagem são desligadas — no celular elas
+      deixavam conteúdo invisível (e, dentro de um carrossel, a "visão"
+      passa a ser o carrossel, sumindo com os cards da direita)
+   ================================================================ */
+@media (max-width:760px){
+ /* 3 · conteúdo sempre visível */
+ .rv,.zoomin,.bigword,.evt,.barfill,.par img{animation:none !important;opacity:1 !important;transform:none !important;filter:none !important}
+ .arcdraw,.chartline{animation:none !important;stroke-dashoffset:0 !important}
+ .card:hover{transform:none}
+
+ /* ritmo vertical mais curto */
+ .hf section:not(.hero):not(:has(.mq)){padding-top:64px !important;padding-bottom:64px !important}
+ #contato{padding-top:24px !important}
+ .wrap{padding:0 20px}
+ .sub{font-size:16px;line-height:1.6;margin-top:12px}
+ .h2{font-size:clamp(28px,8vw,34px)}
+
+ /* topo: logo + idiomas cabem; o CTA do topo sai (o hero já tem dois) */
+ .navbar{top:10px;padding:0 12px}
+ .navin{grid-template-columns:auto 1fr !important;gap:8px;padding:6px 6px 6px 12px}
+ .navin .btn-sm{display:none !important}
+ .navin > div:last-child > div{padding:2px !important}
+ .lang{width:auto !important;min-height:36px;padding:0 7px}
+ .lang span{display:none}
+
+ /* hero */
+ .hero{padding:40px 0 72px !important}
+ .heroGrid{gap:28px !important}
+ .heroGrid .btn{width:100%}
+ .heroGrid .rise > .btn + .btn{margin-top:0}
+ .stage{height:300px !important;margin-top:4px}
+ .tilt{transform:scale(.78) rotateY(-10deg) rotateX(6deg) !important;transform-origin:50% 0}
+ .stage:hover .tilt{transform:scale(.78) rotateY(-10deg) rotateX(6deg) !important}
+
+ /* 1 · grades que vazavam (coluna mínima > largura útil) */
+ #solucoes .card[style*="minmax(340px"]{grid-template-columns:1fr !important}
+ #solucoes .card[style*="minmax(340px"] > div:first-child{padding:26px 22px !important}
+ #solucoes .card[style*="minmax(340px"] > div:last-child{padding:0 16px 20px !important}
+ #contato .card{grid-template-columns:1fr !important;gap:28px !important;padding:26px 20px !important}
+
+ /* 2 · carrosséis horizontais */
+ .hf section:not([id]) > .wrap > div:has(> .card),
+ #metodo .mstep,
+ #diferenciais .two,
+ #solucoes .wrap > div:has(> .card.rv):not(.card),
+ #blog .blogTop,
+ #blog .wrap > div:has(> .post):not(.blogTop){
+  display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important;
+  grid-template-columns:none !important;gap:12px !important;
+  overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;
+  margin-left:-20px !important;margin-right:-20px !important;padding:6px 20px 18px !important;scroll-padding:0 20px;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ .hf section:not([id]) > .wrap > div:has(> .card)::-webkit-scrollbar,#metodo .mstep::-webkit-scrollbar,#diferenciais .two::-webkit-scrollbar,
+ #solucoes .wrap > div:has(> .card.rv)::-webkit-scrollbar,#blog .blogTop::-webkit-scrollbar,#blog .wrap > div:has(> .post)::-webkit-scrollbar{display:none}
+ .hf section:not([id]) > .wrap > div:has(> .card) > *,
+ #metodo .mstep > *,
+ #diferenciais .two > *,
+ #solucoes .wrap > div:has(> .card.rv):not(.card) > *,
+ #blog .blogTop .post,
+ #blog .wrap > div:has(> .post):not(.blogTop) > *{flex:0 0 84% !important;max-width:340px;min-width:0;scroll-snap-align:start;margin:0 !important}
+ #blog .blogTop > div{display:contents !important}
+ #blog .blogTop .post{height:auto !important}
+ #diferenciais .two{align-items:flex-start}
+ #diferenciais .two > .card{height:auto !important;min-height:0 !important;padding:24px !important}
+ /* botão do método fica fora do carrossel, logo abaixo */
+ #metodo .mstep > .btn{flex:0 0 auto !important;align-self:center}
+ .hf section:not([id]) > .wrap > div:has(> .card) > .card{padding:24px !important}
+
+ /* compromissos: a foto vira faixa, a lista fica compacta */
+ #compromissos .par{height:260px !important;min-height:0 !important}
+ #compromissos .wrap.two{gap:28px !important}
+ #compromissos .wrap.two > div:last-child > div > div{padding:16px 0 !important;grid-template-columns:44px 1fr !important}
+
+ /* fundadores: foto ao lado do texto */
+ #fundadores .two{gap:14px !important}
+ .teamc{grid-template-columns:116px 1fr !important;gap:16px !important;align-items:start;padding:12px !important}
+ .teamc > div:first-child{height:156px !important;border-radius:14px;overflow:hidden}
+ .teamc > div:first-child img{width:100%;height:100%;object-fit:cover;object-position:top}
+ .teamc > div:last-child{padding:4px 4px 4px 0 !important}
+
+ /* faq e rodapé */
+ .faq summary{padding:18px 0;font-size:17px}
+ footer{padding-top:48px !important}
+ footer > .wrap:first-child{gap:32px !important}
+ footer > .wrap:first-child > div:first-child img{max-width:150px}
+ footer > .wrap:first-child > div:last-child{display:grid !important;grid-template-columns:1fr 1fr;gap:28px 20px !important}
+ .flink{line-height:2;font-size:14px}
+
+ /* aviso de cookies (js/consentimento.js) mais baixo: cobria ~150 px da tela */
+ body .consent-bar{left:10px;right:10px;bottom:10px;padding:12px 14px;gap:10px;font-size:12.5px;line-height:1.4;border-radius:14px}
+ body .consent-bar p{flex:1 1 100%}
+ body .consent-bar .consent-acoes{flex:1 1 100%;gap:8px}
+ body .consent-bar button{flex:1;padding:8px 12px}
+}
 </style>
 </helmet>
 
